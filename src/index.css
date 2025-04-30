@@ -1,0 +1,39 @@
+@import "tailwindcss";
+
+@theme {
+  --font-display: "Satoshi", "sans-serif";
+  --breakpoint-3xl: 1920px;
+
+  --color-ap-off-white-blue: oklch(0.97 0.0045 258.32);
+  --color-ap-off-white: oklch(1 0.0011 197.14);
+  --color-ap-blue: oklch(0.62 0.1852 266.79);
+  --color-ap-dark-blue: oklch(0.32 0.0507 261.01);
+  --color-ap-dark-blue-v2: oklch(0.21 0.0039 286.06);
+  --color-ap-grey: oklch(0.67 0.0163 260.72);
+  --color-ap-light-grey: oklch(0.97 0.0029 264.54);
+
+  --ease-fluid: cubic-bezier(0.3, 0, 0, 1);
+  --ease-snappy: cubic-bezier(0.2, 0, 0, 1);
+}
+
+:root {
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+}
+
+@media (prefers-color-scheme: light) {
+}
