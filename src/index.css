@@ -11,7 +11,7 @@
   --color-ap-dark-blue-v2: oklch(0.21 0.0039 286.06);
   --color-ap-grey: oklch(0.67 0.0163 260.72);
   --color-ap-light-grey: oklch(0.97 0.0029 264.54);
-
+  --color-ap-bg: oklch(0.96 0.0059 239.82);
   --ease-fluid: cubic-bezier(0.3, 0, 0, 1);
   --ease-snappy: cubic-bezier(0.2, 0, 0, 1);
 }
@@ -19,6 +19,7 @@
 :root {
   line-height: 1.5;
   font-weight: 400;
+  color: var(--color-ap-grey);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
