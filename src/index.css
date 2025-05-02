@@ -29,6 +29,10 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+body {
+  background-image: url("./assets/dotted_background.png");
+}
+
 html,
 body,
 #root {
