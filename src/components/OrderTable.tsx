@@ -1,36 +1,52 @@
+// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { PulloverOrder } from "../types/order";
+// import { faArrowDown } from "@fortawesome/free-solid-svg-icons";
 // import { DropdownButton } from "./dropdownButton";
 
+//TODO Hide Overlay when reach bottom of div by scrolling
 export const OrderTable: React.FC<{ orders: PulloverOrder[] }> = ({
   orders,
 }) => (
-  <table className="flex flex-col">
-    <thead className="w-full">
-      <tr className="flex *:border-r">
-        <th className="flex-1/12">ID</th>
-        <th className="flex-1/12">Status</th>
-        <th className="flex-3/12">Schule</th>
-        <th className="flex-2/12">Motto</th>
-        <th className="flex-2/12">Deadline</th>
-        <th className="flex-3/12">Land</th>
-      </tr>
-    </thead>
-    <tbody>
-      {orders.map((order) => (
-        <tr
-          key={`order-${orders.indexOf(order)}`}
-          className="flex  *:border-r "
-        >
-          <td className="flex-1/12">1</td>
-          <td className="flex-2/12">Designen</td>
-          <td className="flex-3/12">{order.school_name}</td>
-          <td className="flex-2/12">{order.motto}</td>
-          <td className="flex-2/12">{order.deadline.toLocaleDateString()}</td>
-          <td className="flex-3/12">{order.destination_country}</td>
+  <div className="relative h-160">
+    <div className="absolute bottom-0 w-full h-30 bg-gradient-to-b from-0% to-ap-medium-grey-half-opacity pointer-events-none rounded-xl">
+      {/* <div className="flex w-full h-full flex-col justify-end font-semibold pb-2">
+        <p>
+          Weiter Scrollen <FontAwesomeIcon icon={faArrowDown} />
+        </p>
+      </div> */}
+    </div>
+    <table className="flex flex-col h-160">
+      <thead className="w-full">
+        <tr className="flex items-center *:border-gray-300 *:py-2 bg-ap-blue text-white rounded-t-md text-lg *:text-left *:pl-4">
+          <th className="flex-1/12 border-r-2">ID</th>
+          <th className="flex-2/12  border-r-2">Status</th>
+          <th className="flex-3/12  border-r-2">Schule</th>
+          <th className="flex-2/12  border-r-2">Motto</th>
+          <th className="flex-2/12  border-r-2">Deadline</th>
+          <th className="flex-3/12">Land</th>
         </tr>
-      ))}
-    </tbody>
-  </table>
+      </thead>
+      {/* //scrollbar-thin scrollbar-thumb-rounded scrollbar-thumb-gray-400
+      scrollbar-track-gray-100 */}
+      <tbody className="overflow-y-scroll rounded-b-xl">
+        {orders.map((order) => (
+          <tr
+            key={`order-${orders.indexOf(order)}`}
+            className="flex *:border-b-2 *:border-ap-medium-grey border-x-2 border-ap-medium-grey *:flex *:justify-start *:px-3 *:py-2 bg-gray-100"
+          >
+            <td className="w-1/12 border-r-2">1</td>
+            <td className="w-2/12 border-r-2">Designen</td>
+            <td className="w-3/12 border-r-2">{order.school_name}</td>
+            <td className="w-2/12 border-r-2">{order.motto}</td>
+            <td className="w-2/12 border-r-2">
+              {order.deadline.toLocaleDateString()}
+            </td>
+            <td className="w-3/12">{order.destination_country}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
 );
 
 {
