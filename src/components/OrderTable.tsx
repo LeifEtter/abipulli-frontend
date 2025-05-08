@@ -1,5 +1,7 @@
 // import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { PulloverOrder } from "../types/order";
+import { faBolt } from "@fortawesome/free-solid-svg-icons";
 // import { faArrowDown } from "@fortawesome/free-solid-svg-icons";
 // import { DropdownButton } from "./dropdownButton";
 
@@ -32,7 +34,7 @@ export const OrderTable: React.FC<{ orders: PulloverOrder[] }> = ({
         {orders.map((order) => (
           <tr
             key={`order-${orders.indexOf(order)}`}
-            className="flex *:border-b-2 *:border-ap-medium-grey border-x-2 border-ap-medium-grey *:flex *:justify-start *:px-3 *:py-2 bg-gray-100"
+            className="group flex *:border-b-2 *:border-ap-medium-grey border-x-2 border-ap-medium-grey *:flex *:justify-start *:px-3 *:py-2 bg-gray-100 cursor-pointer"
           >
             <td className="w-1/12 border-r-2">1</td>
             <td className="w-2/12 border-r-2">Designen</td>
@@ -41,7 +43,18 @@ export const OrderTable: React.FC<{ orders: PulloverOrder[] }> = ({
             <td className="w-2/12 border-r-2">
               {order.deadline.toLocaleDateString()}
             </td>
-            <td className="w-3/12">{order.destination_country}</td>
+            <td className="w-3/12 justify-between">
+              {order.destination_country}
+              <div className="flex-auto"></div>
+              <div className="hidden group-hover:flex flex-col justify-center items-center">
+                <FontAwesomeIcon
+                  icon={faBolt}
+                  className="text-yellow-600"
+                  width={10}
+                />
+                <p className="h-2 text-xs font-semibold">Aktion</p>
+              </div>
+            </td>
           </tr>
         ))}
       </tbody>
