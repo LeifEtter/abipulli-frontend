@@ -17,13 +17,13 @@
   --ease-snappy: cubic-bezier(0.2, 0, 0, 1);
 
   --shadow-ap-special-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-  --color-ap-medium-grey-half-opacity: oklch(0.32 0.0507 261.01 / 30%);
+  --color-ap-medium-grey-half-opacity: oklch(0.32 0.0507 261.01 / 20%);
 }
 
 :root {
   line-height: 1.5;
   font-weight: 400;
-  color: var(--color-ap-grey);
+  color: var(--color-ap-dark-blue);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
