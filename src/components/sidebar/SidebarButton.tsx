@@ -1,19 +1,25 @@
 import { IconDefinition } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Link, useRouterState } from "@tanstack/react-router";
 
 export const SidebarButton: React.FC<{
+  route: string;
   text: string;
   icon: IconDefinition;
   selected?: boolean;
-}> = ({ text, icon, selected = false }) => {
+}> = ({ text, route, icon }) => {
+  const state = useRouterState();
   return (
-    <button
-      className={`w-10/12 min-w-40 gap-1 flex flex-row items-center px-2 py-2 rounded-4xl hover:cursor-pointer ${
-        selected ? "bg-ap-dark-blue-v2 text-white" : ""
+    <Link
+      to={route}
+      className={`gap-2 flex flex-row items-center px-3 py-2 rounded-4xl hover:cursor-pointer ${
+        state.location.pathname == route ? "bg-ap-dark-blue-v2 text-white" : ""
       }`}
     >
-      <FontAwesomeIcon icon={icon} size={"lg"} className="w-1/4" />
-      <a className="w-3/4 text-md flex justify-start font-semibold">{text}</a>
-    </button>
+      <FontAwesomeIcon icon={icon} size={"lg"} width={25} />
+      <p className="hidden md:flex text-md justify-start font-semibold">
+        {text}
+      </p>
+    </Link>
   );
 };
