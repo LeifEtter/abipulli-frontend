@@ -7,14 +7,25 @@ export const SidebarButton: React.FC<{
   text: string;
   icon: IconDefinition;
   selected?: boolean;
-}> = ({ text, route, icon }) => {
+  activated?: boolean;
+}> = ({ text, route, icon, activated }) => {
   const state = useRouterState();
-  return (
+  const buttonSelected = state.location.pathname == route;
+
+  return buttonSelected ? (
     <Link
       to={route}
-      className={`gap-2 flex flex-row items-center px-3 py-2 rounded-4xl hover:cursor-pointer ${
-        state.location.pathname == route ? "bg-ap-dark-blue-v2 text-white" : ""
-      }`}
+      className={`gap-2 flex flex-row items-center px-3 py-2 rounded-4xl  ${activated ? "hover:cursor-pointer" : "hover:cursor-not-allowed bg-gray-300 text-gray-200"}`}
+    >
+      <FontAwesomeIcon icon={icon} size={"lg"} width={25} />
+      <p className="hidden md:flex text-md justify-start font-semibold">
+        {text}
+      </p>
+    </Link>
+  ) : (
+    <Link
+      to={route}
+      className={`gap-2 flex flex-row items-center px-3 py-2 rounded-4xl  ${activated ? "hover:cursor-pointer" : "hover:cursor-not-allowed bg-gray-300 text-gray-200"}`}
     >
       <FontAwesomeIcon icon={icon} size={"lg"} width={25} />
       <p className="hidden md:flex text-md justify-start font-semibold">
