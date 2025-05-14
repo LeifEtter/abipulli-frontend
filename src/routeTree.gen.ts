@@ -10,104 +10,149 @@
 
 // Import Routes
 
-import { Route as rootRoute } from "./routes/__root";
-import { Route as TestingImport } from "./routes/testing";
-import { Route as OrdersImport } from "./routes/orders";
-import { Route as HomeImport } from "./routes/home";
+import { Route as rootRoute } from './routes/__root'
+import { Route as TestingImport } from './routes/testing'
+import { Route as LoginImport } from './routes/login'
+import { Route as AuthImport } from './routes/_auth'
+import { Route as IndexImport } from './routes/index'
+import { Route as AuthOrdersImport } from './routes/_auth.orders'
 
 // Create/Update Routes
 
 const TestingRoute = TestingImport.update({
-  id: "/testing",
-  path: "/testing",
+  id: '/testing',
+  path: '/testing',
   getParentRoute: () => rootRoute,
-} as any);
+} as any)
 
-const OrdersRoute = OrdersImport.update({
-  id: "/orders",
-  path: "/orders",
+const LoginRoute = LoginImport.update({
+  id: '/login',
+  path: '/login',
   getParentRoute: () => rootRoute,
-} as any);
+} as any)
 
-const HomeRoute = HomeImport.update({
-  id: "/home",
-  path: "/home",
+const AuthRoute = AuthImport.update({
+  id: '/_auth',
   getParentRoute: () => rootRoute,
-} as any);
+} as any)
+
+const IndexRoute = IndexImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const AuthOrdersRoute = AuthOrdersImport.update({
+  id: '/orders',
+  path: '/orders',
+  getParentRoute: () => AuthRoute,
+} as any)
 
 // Populate the FileRoutesByPath interface
 
-declare module "@tanstack/react-router" {
+declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    "/home": {
-      id: "/home";
-      path: "/home";
-      fullPath: "/home";
-      preLoaderRoute: typeof HomeImport;
-      parentRoute: typeof rootRoute;
-    };
-    "/orders": {
-      id: "/orders";
-      path: "/orders";
-      fullPath: "/orders";
-      preLoaderRoute: typeof OrdersImport;
-      parentRoute: typeof rootRoute;
-    };
-    "/testing": {
-      id: "/testing";
-      path: "/testing";
-      fullPath: "/testing";
-      preLoaderRoute: typeof TestingImport;
-      parentRoute: typeof rootRoute;
-    };
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/_auth': {
+      id: '/_auth'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof AuthImport
+      parentRoute: typeof rootRoute
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginImport
+      parentRoute: typeof rootRoute
+    }
+    '/testing': {
+      id: '/testing'
+      path: '/testing'
+      fullPath: '/testing'
+      preLoaderRoute: typeof TestingImport
+      parentRoute: typeof rootRoute
+    }
+    '/_auth/orders': {
+      id: '/_auth/orders'
+      path: '/orders'
+      fullPath: '/orders'
+      preLoaderRoute: typeof AuthOrdersImport
+      parentRoute: typeof AuthImport
+    }
   }
 }
 
 // Create and export the route tree
 
+interface AuthRouteChildren {
+  AuthOrdersRoute: typeof AuthOrdersRoute
+}
+
+const AuthRouteChildren: AuthRouteChildren = {
+  AuthOrdersRoute: AuthOrdersRoute,
+}
+
+const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
+
 export interface FileRoutesByFullPath {
-  "/home": typeof HomeRoute;
-  "/orders": typeof OrdersRoute;
-  "/testing": typeof TestingRoute;
+  '/': typeof IndexRoute
+  '': typeof AuthRouteWithChildren
+  '/login': typeof LoginRoute
+  '/testing': typeof TestingRoute
+  '/orders': typeof AuthOrdersRoute
 }
 
 export interface FileRoutesByTo {
-  "/home": typeof HomeRoute;
-  "/orders": typeof OrdersRoute;
-  "/testing": typeof TestingRoute;
+  '/': typeof IndexRoute
+  '': typeof AuthRouteWithChildren
+  '/login': typeof LoginRoute
+  '/testing': typeof TestingRoute
+  '/orders': typeof AuthOrdersRoute
 }
 
 export interface FileRoutesById {
-  __root__: typeof rootRoute;
-  "/home": typeof HomeRoute;
-  "/orders": typeof OrdersRoute;
-  "/testing": typeof TestingRoute;
+  __root__: typeof rootRoute
+  '/': typeof IndexRoute
+  '/_auth': typeof AuthRouteWithChildren
+  '/login': typeof LoginRoute
+  '/testing': typeof TestingRoute
+  '/_auth/orders': typeof AuthOrdersRoute
 }
 
 export interface FileRouteTypes {
-  fileRoutesByFullPath: FileRoutesByFullPath;
-  fullPaths: "/home" | "/orders" | "/testing";
-  fileRoutesByTo: FileRoutesByTo;
-  to: "/home" | "/orders" | "/testing";
-  id: "__root__" | "/home" | "/orders" | "/testing";
-  fileRoutesById: FileRoutesById;
+  fileRoutesByFullPath: FileRoutesByFullPath
+  fullPaths: '/' | '' | '/login' | '/testing' | '/orders'
+  fileRoutesByTo: FileRoutesByTo
+  to: '/' | '' | '/login' | '/testing' | '/orders'
+  id: '__root__' | '/' | '/_auth' | '/login' | '/testing' | '/_auth/orders'
+  fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
-  HomeRoute: typeof HomeRoute;
-  OrdersRoute: typeof OrdersRoute;
-  TestingRoute: typeof TestingRoute;
+  IndexRoute: typeof IndexRoute
+  AuthRoute: typeof AuthRouteWithChildren
+  LoginRoute: typeof LoginRoute
+  TestingRoute: typeof TestingRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
-  HomeRoute: HomeRoute,
-  OrdersRoute: OrdersRoute,
+  IndexRoute: IndexRoute,
+  AuthRoute: AuthRouteWithChildren,
+  LoginRoute: LoginRoute,
   TestingRoute: TestingRoute,
-};
+}
 
 export const routeTree = rootRoute
   ._addFileChildren(rootRouteChildren)
-  ._addFileTypes<FileRouteTypes>();
+  ._addFileTypes<FileRouteTypes>()
 
 /* ROUTE_MANIFEST_START
 {
@@ -115,19 +160,30 @@ export const routeTree = rootRoute
     "__root__": {
       "filePath": "__root.tsx",
       "children": [
-        "/home",
-        "/orders",
+        "/",
+        "/_auth",
+        "/login",
         "/testing"
       ]
     },
-    "/home": {
-      "filePath": "home.tsx"
+    "/": {
+      "filePath": "index.tsx"
     },
-    "/orders": {
-      "filePath": "orders.tsx"
+    "/_auth": {
+      "filePath": "_auth.tsx",
+      "children": [
+        "/_auth/orders"
+      ]
+    },
+    "/login": {
+      "filePath": "login.tsx"
     },
     "/testing": {
       "filePath": "testing.tsx"
+    },
+    "/_auth/orders": {
+      "filePath": "_auth.orders.tsx",
+      "parent": "/_auth"
     }
   }
 }
