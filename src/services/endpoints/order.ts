@@ -1,9 +1,5 @@
 import { api } from "../api";
-
-export interface Order {
-  id: string;
-  // Add other order properties
-}
+import { Order, OrderResponse, UsersResponse } from "abipulli-types";
 
 export const ordersApi = {
   // Get all orders
@@ -19,14 +15,14 @@ export const ordersApi = {
   },
 
   // Create a new order
-  create: async (orderData: Omit<Order, "id">) => {
+  create: async (orderData: Omit<UsersResponse, "id">) => {
     const response = await api.post<Order>("/order", orderData);
     return response.data;
   },
 
   // Update an order
-  update: async (id: string, orderData: Partial<Order>) => {
-    const response = await api.put<Order>(`/order/${id}`, orderData);
+  update: async (id: string, orderData: Partial<OrderResponse>) => {
+    const response = await api.put<OrderResponse>(`/order/${id}`, orderData);
     return response.data;
   },
 
