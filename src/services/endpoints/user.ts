@@ -1,11 +1,5 @@
+import { User, UsersResponse } from "abipulli-types";
 import { api } from "../api";
-
-export interface User {
-  id?: string;
-  email: string;
-  password: string;
-  // Add other User properties
-}
 
 export const UsersApi = {
   // Get all Users
