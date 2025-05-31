@@ -26,6 +26,16 @@ export const UsersApi = {
     return response.data;
   },
 
+  login: async (UserData: Omit<User, "id">): Promise<number> => {
+    const response = await api.post<{ userId: number }>(
+      "/user/login",
+      UserData
+    );
+    console.log(response);
+    console.log(response.data);
+    return response.data.userId;
+  },
+
   // Update an User
   update: async (id: string, UserData: Partial<User>) => {
     const response = await api.put<User>(`/user/${id}`, UserData);
