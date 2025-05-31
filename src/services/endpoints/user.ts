@@ -10,7 +10,7 @@ export const UsersApi = {
   },
   // Get all Users
   getAll: async () => {
-    const response = await api.get<User[]>("/user");
+    const response = await api.get<UsersResponse[]>("/user");
     return response.data;
   },
 
@@ -21,7 +21,7 @@ export const UsersApi = {
   },
 
   // Create a new User
-  create: async (UserData: Omit<User, "id">) => {
+  register: async (UserData: Omit<User, "id">) => {
     const response = await api.post<User>("/user", UserData);
     return response.data;
   },
