@@ -2,6 +2,12 @@ import { User, UsersResponse } from "abipulli-types";
 import { api } from "../api";
 
 export const UsersApi = {
+  retrieveUserId: async (): Promise<number | null> => {
+    const response = await api.get<{ userId: number }>(
+      "/user/checkAuthentication"
+    );
+    return response.data.userId;
+  },
   // Get all Users
   getAll: async () => {
     const response = await api.get<User[]>("/user");
