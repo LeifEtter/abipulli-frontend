@@ -1,12 +1,3 @@
-import { createContext, useCallback, useState } from "react";
-import { User } from "../services/endpoints/user";
-
-export interface AuthContextType {
-  user: Partial<User> | null;
-  login: (user: Partial<User>) => Promise<void>;
-}
-
-export const AuthContext = createContext<AuthContextType | null>(null);
 
 interface AuthProviderProps {
   children: React.ReactNode;
