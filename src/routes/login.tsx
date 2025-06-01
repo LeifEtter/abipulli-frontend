@@ -1,7 +1,8 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { User } from "../services/endpoints/user";
+import { UsersApi } from "../services/endpoints/user";
 import { useState } from "react";
 import { useAuth } from "../hooks/useAuth";
+import { UserLoginParams } from "abipulli-types";
 
 export const Route = createFileRoute("/login")({
   component: RouteComponent,
@@ -15,10 +16,12 @@ function RouteComponent() {
   const [password, setPassword] = useState("");
 
   const login = async () => {
-    const newUser: Partial<User> = {
+    const newUser: Omit<UserLoginParams, "id"> = {
       email: email,
       password: password,
     };
+    const authResult = await UsersApi.login(newUser);
+    console.log(authResult);
     await auth!.login(newUser);
     return navigate({ to: "/orders" });
   };
