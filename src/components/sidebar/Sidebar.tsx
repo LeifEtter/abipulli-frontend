@@ -1,60 +1,43 @@
-import {
-  faFlaskVial,
-  faGear,
-  faHome,
-  faTruckFast,
-  faUser,
-  faUserCog,
-} from "@fortawesome/free-solid-svg-icons";
+import { Link } from "@tanstack/react-router";
 import { SidebarButton } from "./SidebarButton";
+import {
+  faCircleQuestion,
+  faInfo,
+  faMessage,
+  faPenRuler,
+  faPoll,
+  faSliders,
+  faUser,
+} from "@fortawesome/free-solid-svg-icons";
+import { Spacer } from "../Misc/Spacer";
 
-interface SidebarProps {
-  isLoggedIn: boolean;
-}
-
-export const Sidebar: React.FC<SidebarProps> = ({ isLoggedIn }) => (
-  <aside className="flex flex-col py-8 px-5 border-r-gray-200 border-r-2 h-full w-full">
-    <h1 className="font-bold text-xl pb-8 flex flex-row justify-center">
-      <span>Nav</span>
-      <span className="md:block hidden">igation</span>
-    </h1>
-    <nav className="flex flex-col gap-2 items-start">
-      <SidebarButton
-        route="/home"
-        text="Home"
-        icon={faHome}
-        activated={isLoggedIn}
-      />
-      <SidebarButton
-        route="/orders"
-        text="Bestellungen"
-        icon={faTruckFast}
-        activated={isLoggedIn}
-      />
-      <SidebarButton route="/users" text="Benutzer" icon={faUser} />
-      <SidebarButton
-        route="/testing"
-        text="Testing"
-        icon={faFlaskVial}
-        activated={isLoggedIn}
-      />
-
-      <SidebarButton
-        route="/settings"
-        text="Settings"
-        icon={faGear}
-        activated={isLoggedIn}
-      />
-      <SidebarButton
-        route="/profile"
-        text="Dein Profil"
-        icon={faUserCog}
-        activated={isLoggedIn}
-      />
-    </nav>
-  </aside>
+const SidebarDivider: React.FC = () => (
+  <div className="w-10/12 border-2 border-ap-new-light-gray-greenish opacity-50 my-3" />
 );
 
-{
-  /* <div className="h-1 w-full bg-ap-bg mt-16 mb-2"></div> */
-}
+export const LeftSideBar: React.FC = () => (
+  <div className="bg-ap-new-green border-ap-new-gray border-2 flex flex-col min-w-16 w-2/12 max-w-26 items-center py-3">
+    <Link to="/">
+      <h2 className="font-semibold text-xl">
+        Abi
+        <br />
+        pulli
+      </h2>
+    </Link>
+    <SidebarDivider />
+    <div className="flex flex-col items-center gap-5 mt-5">
+      <SidebarButton icon={faInfo} route="/" />
+      <SidebarButton icon={faSliders} route="/" />
+      <SidebarButton icon={faPenRuler} route="/" />
+      <SidebarButton icon={faPoll} route="/" />
+    </div>
+    <Spacer />
+    <SidebarDivider />
+    <div className="flex flex-col gap-6">
+      <SidebarButton icon={faMessage} route="/" />
+      <SidebarButton icon={faCircleQuestion} route="/" />
+    </div>
+    <SidebarDivider />
+    <SidebarButton icon={faUser} route="/" />
+  </div>
+);
