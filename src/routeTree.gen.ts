@@ -13,10 +13,11 @@
 import { Route as rootRoute } from './routes/__root'
 import { Route as TestingImport } from './routes/testing'
 import { Route as LoginImport } from './routes/login'
-import { Route as AuthImport } from './routes/_auth'
+import { Route as AuthRouteImport } from './routes/_auth/route'
+import { Route as AdminRouteImport } from './routes/_admin/route'
 import { Route as IndexImport } from './routes/index'
-import { Route as AuthOrdersImport } from './routes/_auth.orders'
-import { Route as AuthDesignerImport } from './routes/_auth.designer'
+import { Route as AuthDesignerImport } from './routes/_auth/designer'
+import { Route as AdminOrdersImport } from './routes/_admin/orders'
 
 // Create/Update Routes
 
@@ -32,8 +33,13 @@ const LoginRoute = LoginImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const AuthRoute = AuthImport.update({
+const AuthRouteRoute = AuthRouteImport.update({
   id: '/_auth',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const AdminRouteRoute = AdminRouteImport.update({
+  id: '/_admin',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -43,16 +49,16 @@ const IndexRoute = IndexImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const AuthOrdersRoute = AuthOrdersImport.update({
-  id: '/orders',
-  path: '/orders',
-  getParentRoute: () => AuthRoute,
-} as any)
-
 const AuthDesignerRoute = AuthDesignerImport.update({
   id: '/designer',
   path: '/designer',
-  getParentRoute: () => AuthRoute,
+  getParentRoute: () => AuthRouteRoute,
+} as any)
+
+const AdminOrdersRoute = AdminOrdersImport.update({
+  id: '/orders',
+  path: '/orders',
+  getParentRoute: () => AdminRouteRoute,
 } as any)
 
 // Populate the FileRoutesByPath interface
@@ -66,11 +72,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexImport
       parentRoute: typeof rootRoute
     }
+    '/_admin': {
+      id: '/_admin'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof AdminRouteImport
+      parentRoute: typeof rootRoute
+    }
     '/_auth': {
       id: '/_auth'
       path: ''
       fullPath: ''
-      preLoaderRoute: typeof AuthImport
+      preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRoute
     }
     '/login': {
@@ -87,91 +100,107 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TestingImport
       parentRoute: typeof rootRoute
     }
+    '/_admin/orders': {
+      id: '/_admin/orders'
+      path: '/orders'
+      fullPath: '/orders'
+      preLoaderRoute: typeof AdminOrdersImport
+      parentRoute: typeof AdminRouteImport
+    }
     '/_auth/designer': {
       id: '/_auth/designer'
       path: '/designer'
       fullPath: '/designer'
       preLoaderRoute: typeof AuthDesignerImport
-      parentRoute: typeof AuthImport
-    }
-    '/_auth/orders': {
-      id: '/_auth/orders'
-      path: '/orders'
-      fullPath: '/orders'
-      preLoaderRoute: typeof AuthOrdersImport
-      parentRoute: typeof AuthImport
+      parentRoute: typeof AuthRouteImport
     }
   }
 }
 
 // Create and export the route tree
 
-interface AuthRouteChildren {
+interface AdminRouteRouteChildren {
+  AdminOrdersRoute: typeof AdminOrdersRoute
+}
+
+const AdminRouteRouteChildren: AdminRouteRouteChildren = {
+  AdminOrdersRoute: AdminOrdersRoute,
+}
+
+const AdminRouteRouteWithChildren = AdminRouteRoute._addFileChildren(
+  AdminRouteRouteChildren,
+)
+
+interface AuthRouteRouteChildren {
   AuthDesignerRoute: typeof AuthDesignerRoute
-  AuthOrdersRoute: typeof AuthOrdersRoute
 }
 
-const AuthRouteChildren: AuthRouteChildren = {
+const AuthRouteRouteChildren: AuthRouteRouteChildren = {
   AuthDesignerRoute: AuthDesignerRoute,
-  AuthOrdersRoute: AuthOrdersRoute,
 }
 
-const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
+const AuthRouteRouteWithChildren = AuthRouteRoute._addFileChildren(
+  AuthRouteRouteChildren,
+)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '': typeof AuthRouteWithChildren
+  '': typeof AuthRouteRouteWithChildren
   '/login': typeof LoginRoute
   '/testing': typeof TestingRoute
+  '/orders': typeof AdminOrdersRoute
   '/designer': typeof AuthDesignerRoute
-  '/orders': typeof AuthOrdersRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '': typeof AuthRouteWithChildren
+  '': typeof AuthRouteRouteWithChildren
   '/login': typeof LoginRoute
   '/testing': typeof TestingRoute
+  '/orders': typeof AdminOrdersRoute
   '/designer': typeof AuthDesignerRoute
-  '/orders': typeof AuthOrdersRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
-  '/_auth': typeof AuthRouteWithChildren
+  '/_admin': typeof AdminRouteRouteWithChildren
+  '/_auth': typeof AuthRouteRouteWithChildren
   '/login': typeof LoginRoute
   '/testing': typeof TestingRoute
+  '/_admin/orders': typeof AdminOrdersRoute
   '/_auth/designer': typeof AuthDesignerRoute
-  '/_auth/orders': typeof AuthOrdersRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '' | '/login' | '/testing' | '/designer' | '/orders'
+  fullPaths: '/' | '' | '/login' | '/testing' | '/orders' | '/designer'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '' | '/login' | '/testing' | '/designer' | '/orders'
+  to: '/' | '' | '/login' | '/testing' | '/orders' | '/designer'
   id:
     | '__root__'
     | '/'
+    | '/_admin'
     | '/_auth'
     | '/login'
     | '/testing'
+    | '/_admin/orders'
     | '/_auth/designer'
-    | '/_auth/orders'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  AuthRoute: typeof AuthRouteWithChildren
+  AdminRouteRoute: typeof AdminRouteRouteWithChildren
+  AuthRouteRoute: typeof AuthRouteRouteWithChildren
   LoginRoute: typeof LoginRoute
   TestingRoute: typeof TestingRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  AuthRoute: AuthRouteWithChildren,
+  AdminRouteRoute: AdminRouteRouteWithChildren,
+  AuthRouteRoute: AuthRouteRouteWithChildren,
   LoginRoute: LoginRoute,
   TestingRoute: TestingRoute,
 }
@@ -187,6 +216,7 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
+        "/_admin",
         "/_auth",
         "/login",
         "/testing"
@@ -195,11 +225,16 @@ export const routeTree = rootRoute
     "/": {
       "filePath": "index.tsx"
     },
-    "/_auth": {
-      "filePath": "_auth.tsx",
+    "/_admin": {
+      "filePath": "_admin/route.tsx",
       "children": [
-        "/_auth/designer",
-        "/_auth/orders"
+        "/_admin/orders"
+      ]
+    },
+    "/_auth": {
+      "filePath": "_auth/route.tsx",
+      "children": [
+        "/_auth/designer"
       ]
     },
     "/login": {
@@ -208,12 +243,12 @@ export const routeTree = rootRoute
     "/testing": {
       "filePath": "testing.tsx"
     },
-    "/_auth/designer": {
-      "filePath": "_auth.designer.tsx",
-      "parent": "/_auth"
+    "/_admin/orders": {
+      "filePath": "_admin/orders.tsx",
+      "parent": "/_admin"
     },
-    "/_auth/orders": {
-      "filePath": "_auth.orders.tsx",
+    "/_auth/designer": {
+      "filePath": "_auth/designer.tsx",
       "parent": "/_auth"
     }
   }
