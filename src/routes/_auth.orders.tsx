@@ -1,17 +1,23 @@
-import { createFileRoute, redirect } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { genXOrders } from "../utilities/exampleData";
 import { OrderTable } from "../components/OrderTable";
+import { useAuth } from "src/hooks/useAuth";
 
 export const Route = createFileRoute("/_auth/orders")({
-  beforeLoad: ({ context, location }) => {
-    if (!context.auth.user) {
-      throw redirect({ to: "/login", search: location.href });
-    }
-  },
   component: RouteComponent,
 });
 
 function RouteComponent() {
+  const { user, isLoading, error } = useAuth();
+  const navigate = useNavigate();
+  if (isLoading) {
+    return <p>Loading</p>;
+  }
+
+  if (!isLoading && error != null) {
+    navigate({ to: "/login", search: window.location.href });
+  }
+
   return (
     <div>
       <div className="bg-ap-off-white rounded-4xl text-center flex-5/6 p-10">
