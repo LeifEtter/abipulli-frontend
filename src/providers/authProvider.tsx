@@ -28,7 +28,7 @@ export const AuthProvider = ({ children }: AuthProviderProps): ReactElement => {
   const checkAuth = async () => {
     try {
       const res: UserCheckAuthResult = await UsersApi.retrieveUserId();
-      setAuthState({ isLoading: false, error: null, user: res });
+      setAuthState({ isLoading: false, error: null, user: { id: res.id } });
     } catch (error) {
       console.log(error);
       setAuthState({
