@@ -5,6 +5,12 @@ export const Route = createFileRoute("/_auth")({
   component: RouteComponent,
 });
 
+const Spacer: React.FC = () => <div className="flex flex-grow"></div>;
+
+const Divider: React.FC = () => (
+  <div className="w-10/12 border-2 border-ap-new-light-gray-greenish opacity-50 my-3" />
+);
+
 function RouteComponent() {
   return (
     <div className="flex flex-col items-center justify-start pt-10 h-full w-full">
