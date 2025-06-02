@@ -14,6 +14,10 @@ function RouteComponent() {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [email, setEmail] = useState(import.meta.env.VITE_TEST_EMAIL ?? "");
+  const [password, setPassword] = useState(
+    import.meta.env.VITE_TEST_PASS ?? ""
+  );
 
   const login = async () => {
     const newUser: Omit<UserLoginParams, "id"> = {
@@ -33,11 +37,13 @@ function RouteComponent() {
         type="text"
         onChange={(e) => setEmail(e.target.value)}
         className="border"
+        defaultValue={import.meta.env.VITE_TEST_EMAIL}
       />
       <input
         type="text"
         onChange={(e) => setPassword(e.target.value)}
         className="border"
+        defaultValue={import.meta.env.VITE_TEST_PASS}
       />
       <button onClick={() => login()}>Login</button>
     </div>
