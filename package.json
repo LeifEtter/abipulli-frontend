@@ -21,8 +21,6 @@
     "axios": "^1.9.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "tailwindcss": "^4.1.4",
-    "abipulli-types": "^1.0.20"
     "tailwindcss": "^4.1.4"
   },
   "devDependencies": {
