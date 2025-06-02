@@ -25,7 +25,8 @@
     /* Paths */
     "baseUrl": ".",
     "paths": {
-      "abipulli-types": ["node_modules/abipulli-types"]
+      // "abipulli-types": ["node_modules/abipulli-types"],
+      "src/*": ["src/*"]
     }
   },
   "include": ["src"]
