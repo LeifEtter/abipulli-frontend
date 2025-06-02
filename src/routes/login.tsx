@@ -15,12 +15,12 @@ function RouteComponent() {
     import.meta.env.VITE_TEST_PASS ?? ""
   );
 
-  const submitLogin = async () => {
+  const submitLogin = async (isAdmin?: boolean) => {
     await login({ email, password });
     if (error) {
       console.log("Ooops:", error);
     }
-    return navigate({ to: "/orders" });
+    return navigate({ to: isAdmin ? "/orders" : "/designer" });
   };
 
   return (
@@ -39,6 +39,7 @@ function RouteComponent() {
         defaultValue={import.meta.env.VITE_TEST_PASS}
       />
       <button onClick={() => submitLogin()}>Login</button>
+      <button onClick={() => submitLogin(true)}>AdminLogin</button>
     </div>
   );
 }
