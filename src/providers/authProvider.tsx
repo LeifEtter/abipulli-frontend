@@ -12,7 +12,7 @@ interface AuthProviderProps {
   children: React.ReactNode;
 }
 
-interface AuthState {
+export interface AuthState {
   isLoading: boolean;
   user: Partial<User> | null;
   error: string | null;
