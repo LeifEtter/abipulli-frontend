@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Onest:wght@100..900&display=swap");
 @import "tailwindcss";
 
 @theme {
@@ -14,18 +15,20 @@
   --color-ap-medium-grey: oklch(0.96 0.0027 286.35);
 
   --color-ap-new-green: #c7e2be;
-  --color-ap-new-beige: #ded4c4;
-  --color-ap-new-dark-beige: #7e7c7c;
+  --color-ap-new-beige: #f0eae0;
+  --color-ap-new-dark-beige: #dfd6c9;
   --color-ap-new-gray: #7e7c7c;
   --color-ap-new-light-gray-beigish: #c0b8ac;
   --color-ap-new-light-gray-greenish: #a6b2a2;
   --color-ap-new-black: #1a1919;
-
+  --color-ap-gradient-blue: #3f5efb;
+  --color-ap-gradient-red: #fc466b;
   --color-ap-bg: oklch(0.96 0.0059 239.82);
   --ease-fluid: cubic-bezier(0.3, 0, 0, 1);
   --ease-snappy: cubic-bezier(0.2, 0, 0, 1);
 
   --shadow-ap-special-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  --shadow-ap-button: #1a1919 0px 10px 0px 0px;
   --color-ap-medium-grey-half-opacity: oklch(0.32 0.0507 261.01 / 20%);
 }
 
