@@ -1,9 +1,9 @@
-interface SingleColorOptionParams {
+interface ColorOptionParams {
   color: string;
   selected?: boolean;
 }
 
-export const SingleColorOption: React.FC<SingleColorOptionParams> = ({
+export const ColorOption: React.FC<ColorOptionParams> = ({
   color,
   selected,
 }) => (

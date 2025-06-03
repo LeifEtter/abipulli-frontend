@@ -1,12 +1,9 @@
-interface SingleViewOptionParams {
+interface ViewOptionParams {
   view: string;
   selected?: boolean;
 }
 
-export const SingleViewOption: React.FC<SingleViewOptionParams> = ({
-  view,
-  selected,
-}) => (
+export const ViewOption: React.FC<ViewOptionParams> = ({ view, selected }) => (
   <div className="flex flex-col items-center">
     <button
       id={`${view}-select`}

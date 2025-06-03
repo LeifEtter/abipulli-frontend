@@ -1,12 +1,14 @@
-interface SinglePulloverOptionParams {
+interface PulloverOptionParams {
   image: string;
   name: string;
   selected?: boolean;
 }
 
-export const SinglePulloverOption: React.FC<
-  SinglePulloverOptionParams
-> = async ({ image, selected, name }) => (
+export const PulloverOption: React.FC<PulloverOptionParams> = async ({
+  image,
+  selected,
+  name,
+}) => (
   <button
     className={`flex flex-col cursor-pointer items-center justify-center ${selected ? "bg-ap-new-green border-2" : ""} rounded-xl border-ap-new-gray w-20 h-20`}
   >
