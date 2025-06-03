@@ -7,7 +7,10 @@ export const Route = createFileRoute("/_auth")({
 
 function RouteComponent() {
   return (
-    <div className="flex h-full w-full bg-ap-new-beige">
+    <div
+      className="flex h-full w-full bg-ap-new-beige"
+      style={{ fontFamily: "Onest" }}
+    >
       <LeftSideBar />
       <div className="flex-5/6">
         <Outlet />
