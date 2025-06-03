@@ -3,106 +3,16 @@ import GreyFront from "src/assets/pullovers/grey-front.png";
 import CyanFront from "src/assets/pullovers/cyan-front.png";
 import SandFront from "src/assets/pullovers/sand-front.png";
 import { Spacer } from "src/components/Misc/Spacer";
+import { MediumLabel } from "src/components/Texts/MediumLabel";
+import { SingleDesignTab } from "src/components/Designer/SingleDesignTab";
+import { SingleViewOption } from "src/components/Designer/SingleViewOption";
+import { SingleImageCard } from "src/components/Designer/SingleImageCard";
+import { SingleColorOption } from "src/components/Designer/SingleColorOption";
+import { SinglePulloverOption } from "src/components/Designer/SinglePulloverOption";
 
 export const Route = createFileRoute("/_auth/designer")({
   component: RouteComponent,
 });
-
-interface SingleDesignTabParams {
-  image: string;
-  selected?: boolean;
-}
-
-const SingleDesignTab: React.FC<SingleDesignTabParams> = ({
-  image,
-  selected,
-}) => (
-  <button
-    className={`w-25 h-25 cursor-pointer border-2 border-ap-new-gray rounded-2xl flex items-center justify-center ${selected ? "bg-ap-new-green" : "bg-ap-new-dark-beige"}`}
-  >
-    <img src={image} className="h-11/12" alt="" />
-  </button>
-);
-
-interface SingleViewOptionParams {
-  view: string;
-  selected?: boolean;
-}
-
-const SingleViewOption: React.FC<SingleViewOptionParams> = ({
-  view,
-  selected,
-}) => (
-  <div className="flex flex-col items-center">
-    <button
-      id={`${view}-select`}
-      className={`w-15 h-15 cursor-pointer border-2 border-ap-new-gray rounded-lg ${selected ? "bg-ap-new-green" : "bg-ap-new-dark-beige"}`}
-    ></button>
-    <label htmlFor={`${view}-select`} className="text-md font-semibold">
-      {view}
-    </label>
-  </div>
-);
-
-interface SingleColorOptionParams {
-  color: string;
-  selected?: boolean;
-}
-
-const SingleColorOption: React.FC<SingleColorOptionParams> = ({
-  color,
-  selected,
-}) => (
-  <button
-    className={`rounded-3xl w-10 h-10 cursor-pointer border-2 border-ap-grey shadow-ap-special-shadow ${selected ? "" : ""}`}
-    style={{ backgroundColor: color }}
-  />
-);
-
-interface SinglePulloverOptionParams {
-  image: string;
-  name: string;
-  selected?: boolean;
-}
-
-const SinglePulloverOption: React.FC<SinglePulloverOptionParams> = async ({
-  image,
-  selected,
-  name,
-}) => (
-  <button
-    className={`flex flex-col cursor-pointer items-center justify-center ${selected ? "bg-ap-new-green border-2" : ""} rounded-xl border-ap-new-gray w-20 h-20`}
-  >
-    <img
-      id={`${name}-pullover-option`}
-      src={image}
-      className="h-8/12 object-contain"
-      alt={`${name}-pullover-option`}
-    />
-    <label
-      className="text-sm font-semibold"
-      htmlFor={`${name}-pullover-option`}
-    >
-      {name}
-    </label>
-  </button>
-);
-
-interface SingleImageCardParams {
-  image: string;
-}
-
-const SingleImageCard: React.FC<SingleImageCardParams> = () => (
-  <div className="border-2 rounded-md border-ap-new-gray aspect-square w-full h-full"></div>
-);
-
-interface MediumLabelParams {
-  text: string;
-}
-
-const MediumLabel: React.FC<MediumLabelParams> = ({ text }) => (
-  <h2 className="text-xl font-semibold text-ap-new-black mb-2">{text}</h2>
-);
 
 function RouteComponent() {
   return (
