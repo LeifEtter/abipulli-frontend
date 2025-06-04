@@ -4,7 +4,7 @@ interface PulloverOptionParams {
   selected?: boolean;
 }
 
-export const PulloverOption: React.FC<PulloverOptionParams> = async ({
+export const PulloverOption: React.FC<PulloverOptionParams> = ({
   image,
   selected,
   name,
