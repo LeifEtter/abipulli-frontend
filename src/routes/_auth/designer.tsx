@@ -9,6 +9,9 @@ import { ViewOption } from "src/components/Designer/ViewOption";
 import { ImageCard } from "src/components/Designer/ImageCard";
 import { ColorOption } from "src/components/Designer/ColorOption";
 import { PulloverOption } from "src/components/Designer/PulloverOption";
+import { useEffect, useState } from "react";
+import { DesignsApi } from "src/services/endpoints/design";
+import { Design, Image, Pullover } from "abipulli-types";
 
 export const Route = createFileRoute("/_auth/designer")({
   component: RouteComponent,
@@ -77,7 +80,24 @@ function RouteComponent() {
       </div>
       <div className="px-4 pt-12 w-6/12">
         <div className="w-full h-10/12 border-2 rounded-2xl border-ap-new-gray bg-ap-new-dark-beige shadow-ap-special-shadow flex items-center justify-center">
-          <img src={SandFront} alt="" className="h-11/12 object-cover" />
+          {selectedDesign ? (
+            <div className="relative">
+              <img
+                src={selectedDesign.link}
+                alt=""
+                className="h-11/12 object-cover relative"
+              />
+              <img
+                className="absolute top-55 w-50 left-45"
+                src={getImageLinksForDesignImages(
+                  selectedDesign.design.images![0]
+                )}
+                alt=""
+              />
+            </div>
+          ) : (
+            <>Loading</>
+          )}
         </div>
         <div className="flex flex-row mt-4 gap-3">
           <ViewOption view="Vorne" selected={true} />
