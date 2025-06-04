@@ -93,10 +93,13 @@ function RouteComponent() {
                   src={selectedDesign!.link!}
                   width={designCanvasSize.width}
                 />
-                <DraggableImage
-                  src="https://nbg1.your-objectstorage.com/abipulli/undefined/users/29/ch"
-                  width={designCanvasSize.width / 2.5}
-                />
+                {selectedDesign.images!.map((image) => (
+                  <DraggableImage
+                    key={`design-image-${image.id}`}
+                    src={`${IMG_URL_DESIGN_IMAGE_UNDEFINED}/${image.userId}/${image.uuid}`}
+                    width={designCanvasSize.width / 2.5}
+                  />
+                ))}
               </Layer>
             </Stage>
           )}
