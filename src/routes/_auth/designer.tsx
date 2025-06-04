@@ -9,8 +9,7 @@ import { ImageCard } from "src/components/Designer/ImageCard";
 import { ColorOption } from "src/components/Designer/ColorOption";
 import { PulloverOption } from "src/components/Designer/PulloverOption";
 import { useEffect, useState } from "react";
-import { DesignsApi } from "src/services/endpoints/design";
-import { Design, Image, Pullover } from "abipulli-types";
+import { Design } from "abipulli-types";
 import { Layer, Stage } from "react-konva";
 import { DraggableImage } from "src/components/Designer/DraggableImage";
 import { useWindowWidth } from "@react-hook/window-size";
@@ -18,6 +17,7 @@ import {
   DesignCanvasSize,
   getDesignCanvasSize,
 } from "src/utilities/Design/calculateDesignWindow";
+import { useDesigns } from "src/hooks/useDesigns";
 
 export const Route = createFileRoute("/_auth/designer")({
   component: RouteComponent,
@@ -29,10 +29,20 @@ const IMG_URL_DESIGN_IMAGE_UNDEFINED = `${import.meta.env.VITE_BASE_IMAGE_URL}/u
 
 function RouteComponent() {
   const width = useWindowWidth();
+  const { designs, isLoading, error } = useDesigns(23);
+  const [selectedDesign, setSelectedDesign] = useState<Design | null>(null);
 
   useEffect(() => {
-    console.log(width);
-  }, [width]);
+    if (!selectedDesign && designs != null && !isLoading) {
+      setSelectedDesign(designs[0]);
+    }
+  }, [designs, isLoading, selectedDesign]);
+
+  const selectDesignById = (id: number) => {
+    const design: Design | null = designs.filter((e) => e.id == id)[0];
+    setSelectedDesign(design);
+    console.log(designs[0].images);
+  };
 
   const [designCanvasSize, setDesignCanvasSize] = useState<DesignCanvasSize>({
     width: 0,
