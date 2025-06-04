@@ -50,14 +50,11 @@ function RouteComponent() {
     <div className="flex flex-row h-full">
       <div className="flex flex-col items-center gap-2 mt-12 ml-8">
         <MediumLabel text="Designs" />
-        {designsWithImageLinks.map((e) => (
+        {designs.map((e) => (
           <DesignTab
-            key={`design-tab-${e.design.id}`}
-            onSelect={() => {
-              console.log("select new");
-              setSelectedDesign(e);
-            }}
-            image={e.link}
+            key={`design-tab-${e.id}`}
+            onSelect={() => selectDesignById(e.id)}
+            image={`${IMG_URL_PULLOVER_MODEL}/${e.preferredPullover!.image.uuid.toLocaleUpperCase()}.png`}
           />
         ))}
       </div>
