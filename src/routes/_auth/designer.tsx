@@ -1,7 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import GreyFront from "src/assets/pullovers/grey-front.png";
 import CyanFront from "src/assets/pullovers/cyan-front.png";
-import SandFront from "src/assets/pullovers/sand-front.png";
 import { Spacer } from "src/components/Misc/Spacer";
 import { MediumLabel } from "src/components/Texts/MediumLabel";
 import { DesignTab } from "src/components/Designer/DesignTab";
@@ -12,6 +11,13 @@ import { PulloverOption } from "src/components/Designer/PulloverOption";
 import { useEffect, useState } from "react";
 import { DesignsApi } from "src/services/endpoints/design";
 import { Design, Image, Pullover } from "abipulli-types";
+import { Layer, Stage } from "react-konva";
+import { DraggableImage } from "src/components/Designer/DraggableImage";
+import { useWindowWidth } from "@react-hook/window-size";
+import {
+  DesignCanvasSize,
+  getDesignCanvasSize,
+} from "src/utilities/Design/calculateDesignWindow";
 
 export const Route = createFileRoute("/_auth/designer")({
   component: RouteComponent,
@@ -72,7 +78,7 @@ function RouteComponent() {
       setSelectedDesign(designsWithImageLinks[0]);
       const d: DesignWithImageLink = designsWithImageLinks[0];
       const img: Image = d.design.images![0];
-      console.log(getImageLinksForDesignImages(img));
+      // console.log(getImageLinksForDesignImages(img));
     } catch (error) {
       console.log("Error", error);
     }
@@ -98,24 +104,31 @@ function RouteComponent() {
         ))}
       </div>
       <div className="px-4 pt-12 w-6/12">
-        <div className="w-full h-10/12 border-2 rounded-2xl border-ap-new-gray bg-ap-new-dark-beige shadow-ap-special-shadow flex items-center justify-center">
-          {selectedDesign ? (
-            <div className="relative">
-              <img
-                src={selectedDesign.link}
-                alt=""
-                className="h-11/12 object-cover relative"
-              />
-              <img
-                className="absolute top-55 w-50 left-45"
-                src={getImageLinksForDesignImages(
-                  selectedDesign.design.images![0]
-                )}
-                alt=""
-              />
-            </div>
+        <div
+          className="border-2 rounded-xl border-ap-new-gray bg-ap-new-dark-beige shadow-ap-special-shadow flex justify-center items-center overflow-hidden"
+          style={{
+            height: designCanvasSize.height,
+            width: designCanvasSize.width,
+          }}
+        >
+          {!selectedDesign ? (
+            <p>Loading</p>
           ) : (
-            <>Loading</>
+            <Stage
+              height={designCanvasSize.height}
+              width={designCanvasSize.width}
+            >
+              <Layer>
+                <DraggableImage
+                  src={selectedDesign!.link!}
+                  width={designCanvasSize.width}
+                />
+                <DraggableImage
+                  src="https://nbg1.your-objectstorage.com/abipulli/undefined/users/29/ch"
+                  width={designCanvasSize.width / 2.5}
+                />
+              </Layer>
+            </Stage>
           )}
         </div>
         <div className="flex flex-row mt-4 gap-3">
