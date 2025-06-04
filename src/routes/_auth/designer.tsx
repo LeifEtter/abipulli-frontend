@@ -75,7 +75,7 @@ function RouteComponent() {
             >
               <Layer>
                 <DraggableImage
-                  src={selectedDesign!.link!}
+                  src={`${IMG_URL_PULLOVER_MODEL}/${selectedDesign.preferredPullover!.image.uuid.toLocaleUpperCase()}.png`}
                   width={designCanvasSize.width}
                 />
                 {selectedDesign.images!.map((image) => (
