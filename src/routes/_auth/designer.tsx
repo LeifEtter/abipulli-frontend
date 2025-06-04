@@ -14,6 +14,17 @@ export const Route = createFileRoute("/_auth/designer")({
   component: RouteComponent,
 });
 
+const getImageLinksForPullovers = (pullover: Pullover): string => {
+  const newLink = `https://nbg1.your-objectstorage.com/abipulli/general/${pullover.image.uuid.toLocaleUpperCase()}.png`;
+  return newLink;
+};
+
+const getImageLinksForDesignImages = (image: Image): string => {
+  const dir: string | null = "undefined";
+  const newLink = `https://nbg1.your-objectstorage.com/abipulli/${dir ?? import.meta.env.MODE}/users/${image.userId}/${image.uuid}`;
+  return newLink;
+};
+
 function RouteComponent() {
   return (
     <div className="flex flex-row h-full">
