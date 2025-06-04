@@ -23,21 +23,9 @@ export const Route = createFileRoute("/_auth/designer")({
   component: RouteComponent,
 });
 
-const getImageLinksForPullovers = (pullover: Pullover): string => {
-  const newLink = `https://nbg1.your-objectstorage.com/abipulli/general/${pullover.image.uuid.toLocaleUpperCase()}.png`;
-  return newLink;
-};
-
-const getImageLinksForDesignImages = (image: Image): string => {
-  const dir: string | null = "undefined";
-  const newLink = `https://nbg1.your-objectstorage.com/abipulli/${dir ?? import.meta.env.MODE}/users/${image.userId}/${image.uuid}`;
-  return newLink;
-};
-
-interface DesignWithImageLink {
-  design: Design;
-  link: string;
-}
+const IMG_URL_PULLOVER_MODEL = `${import.meta.env.VITE_BASE_IMAGE_URL}/general`;
+const IMG_URL_DESIGN_IMAGE = `${import.meta.env.VITE_BASE_IMAGE_URL}/${import.meta.env.MODE}/users`;
+const IMG_URL_DESIGN_IMAGE_UNDEFINED = `${import.meta.env.VITE_BASE_IMAGE_URL}/undefined/users`;
 
 function RouteComponent() {
   const width = useWindowWidth();
