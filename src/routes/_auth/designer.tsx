@@ -34,6 +34,24 @@ interface DesignWithImageLink {
 }
 
 function RouteComponent() {
+  const width = useWindowWidth();
+
+  useEffect(() => {
+    console.log(width);
+  }, [width]);
+
+  const [designCanvasSize, setDesignCanvasSize] = useState<DesignCanvasSize>({
+    width: 0,
+    height: 0,
+  });
+
+  useEffect(() => {
+    const newCanvasSize: DesignCanvasSize = getDesignCanvasSize({
+      windowWidth: width,
+    });
+    setDesignCanvasSize(newCanvasSize);
+  }, [width]);
+
   const [designsWithImageLinks, setDesignsWithImageLinks] = useState<
     DesignWithImageLink[]
   >([]);
