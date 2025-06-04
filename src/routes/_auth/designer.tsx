@@ -31,6 +31,12 @@ interface DesignWithImageLink {
 }
 
 function RouteComponent() {
+  const [designsWithImageLinks, setDesignsWithImageLinks] = useState<
+    DesignWithImageLink[]
+  >([]);
+
+  const [selectedDesign, setSelectedDesign] =
+    useState<DesignWithImageLink | null>(null);
   return (
     <div className="flex flex-row h-full">
       <div className="flex flex-col items-center gap-2 mt-12 ml-8">
