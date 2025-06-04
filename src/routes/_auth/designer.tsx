@@ -1,7 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import GreyFront from "src/assets/pullovers/grey-front.png";
 import CyanFront from "src/assets/pullovers/cyan-front.png";
-import SandFront from "src/assets/pullovers/sand-front.png";
 import { Spacer } from "src/components/Misc/Spacer";
 import { MediumLabel } from "src/components/Texts/MediumLabel";
 import { DesignTab } from "src/components/Designer/DesignTab";
@@ -9,23 +8,96 @@ import { ViewOption } from "src/components/Designer/ViewOption";
 import { ImageCard } from "src/components/Designer/ImageCard";
 import { ColorOption } from "src/components/Designer/ColorOption";
 import { PulloverOption } from "src/components/Designer/PulloverOption";
+import { useEffect, useState } from "react";
+import { Design } from "abipulli-types";
+import { Layer, Stage } from "react-konva";
+import { DraggableImage } from "src/components/Designer/DraggableImage";
+import { useWindowWidth } from "@react-hook/window-size";
+import {
+  DesignCanvasSize,
+  getDesignCanvasSize,
+} from "src/utilities/Design/calculateDesignWindow";
+import { useDesigns } from "src/hooks/useDesigns";
 
 export const Route = createFileRoute("/_auth/designer")({
   component: RouteComponent,
 });
 
+const IMG_URL_PULLOVER_MODEL = `${import.meta.env.VITE_BASE_IMAGE_URL}/general`;
+const IMG_URL_DESIGN_IMAGE = `${import.meta.env.VITE_BASE_IMAGE_URL}/${import.meta.env.MODE}/users`;
+const IMG_URL_DESIGN_IMAGE_UNDEFINED = `${import.meta.env.VITE_BASE_IMAGE_URL}/undefined/users`;
+
 function RouteComponent() {
+  const width = useWindowWidth();
+  const { designs, isLoading, error } = useDesigns(23);
+  const [selectedDesign, setSelectedDesign] = useState<Design | null>(null);
+
+  useEffect(() => {
+    if (!selectedDesign && designs != null && !isLoading) {
+      setSelectedDesign(designs[0]);
+    }
+  }, [designs, isLoading, selectedDesign]);
+
+  const selectDesignById = (id: number) => {
+    const design: Design | null = designs.filter((e) => e.id == id)[0];
+    setSelectedDesign(design);
+    console.log(designs[0].images);
+  };
+
+  const [designCanvasSize, setDesignCanvasSize] = useState<DesignCanvasSize>({
+    width: 0,
+    height: 0,
+  });
+
+  useEffect(() => {
+    const newCanvasSize: DesignCanvasSize = getDesignCanvasSize({
+      windowWidth: width,
+    });
+    setDesignCanvasSize(newCanvasSize);
+  }, [width]);
+
   return (
     <div className="flex flex-row h-full">
       <div className="flex flex-col items-center gap-2 mt-12 ml-8">
         <MediumLabel text="Designs" />
-        <DesignTab image={GreyFront} />
-        <DesignTab image={CyanFront} />
-        <DesignTab image={SandFront} selected={true} />
+        {designs.map((e) => (
+          <DesignTab
+            key={`design-tab-${e.id}`}
+            onSelect={() => selectDesignById(e.id)}
+            image={`${IMG_URL_PULLOVER_MODEL}/${e.preferredPullover!.image.uuid.toLocaleUpperCase()}.png`}
+          />
+        ))}
       </div>
-      <div className="px-4 pt-12 w-6/12">
-        <div className="w-full h-10/12 border-2 rounded-2xl border-ap-new-gray bg-ap-new-dark-beige shadow-ap-special-shadow flex items-center justify-center">
-          <img src={SandFront} alt="" className="h-11/12 object-cover" />
+      <div className="px-4 pt-12">
+        <div
+          className="border-2 rounded-xl border-ap-new-gray bg-ap-new-dark-beige shadow-ap-special-shadow flex justify-center items-center overflow-hidden"
+          style={{
+            height: designCanvasSize.height,
+            width: designCanvasSize.width,
+          }}
+        >
+          {!selectedDesign ? (
+            <p>Loading</p>
+          ) : (
+            <Stage
+              height={designCanvasSize.height}
+              width={designCanvasSize.width}
+            >
+              <Layer>
+                <DraggableImage
+                  src={`${IMG_URL_PULLOVER_MODEL}/${selectedDesign.preferredPullover!.image.uuid.toLocaleUpperCase()}.png`}
+                  width={designCanvasSize.width}
+                />
+                {selectedDesign.images!.map((image) => (
+                  <DraggableImage
+                    key={`design-image-${image.id}`}
+                    src={`${IMG_URL_DESIGN_IMAGE_UNDEFINED}/${image.userId}/${image.uuid}`}
+                    width={designCanvasSize.width / 2.5}
+                  />
+                ))}
+              </Layer>
+            </Stage>
+          )}
         </div>
         <div className="flex flex-row mt-4 gap-3">
           <ViewOption view="Vorne" selected={true} />
