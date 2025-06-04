@@ -65,9 +65,15 @@ function RouteComponent() {
     <div className="flex flex-row h-full">
       <div className="flex flex-col items-center gap-2 mt-12 ml-8">
         <MediumLabel text="Designs" />
-        <DesignTab image={GreyFront} />
-        <DesignTab image={CyanFront} />
-        <DesignTab image={SandFront} selected={true} />
+        {designsWithImageLinks.map((e) => (
+          <DesignTab
+            onSelect={() => {
+              console.log("select new");
+              setSelectedDesign(e);
+            }}
+            image={e.link}
+          />
+        ))}
       </div>
       <div className="px-4 pt-12 w-6/12">
         <div className="w-full h-10/12 border-2 rounded-2xl border-ap-new-gray bg-ap-new-dark-beige shadow-ap-special-shadow flex items-center justify-center">
