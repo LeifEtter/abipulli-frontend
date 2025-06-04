@@ -1,4 +1,3 @@
-import { ImageConfig } from "konva/lib/shapes/Image";
 import { useEffect, useState } from "react";
 import { Image } from "react-konva";
 import useImage from "use-image";
