@@ -88,6 +88,7 @@ function RouteComponent() {
         <MediumLabel text="Designs" />
         {designsWithImageLinks.map((e) => (
           <DesignTab
+            key={`design-tab-${e.design.id}`}
             onSelect={() => {
               console.log("select new");
               setSelectedDesign(e);
