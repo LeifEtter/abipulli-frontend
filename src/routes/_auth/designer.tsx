@@ -58,36 +58,6 @@ function RouteComponent() {
     setDesignCanvasSize(newCanvasSize);
   }, [width]);
 
-  const [designsWithImageLinks, setDesignsWithImageLinks] = useState<
-    DesignWithImageLink[]
-  >([]);
-
-  const [selectedDesign, setSelectedDesign] =
-    useState<DesignWithImageLink | null>(null);
-
-  const getDesigns = async () => {
-    try {
-      const designs: Design[] = await DesignsApi.retrieveOrderDesigns(23);
-      const designsWithImageLinks: DesignWithImageLink[] = designs.map(
-        (design: Design) => ({
-          design: design,
-          link: getImageLinksForPullovers(design.preferredPullover!),
-        })
-      );
-      setDesignsWithImageLinks(designsWithImageLinks);
-      setSelectedDesign(designsWithImageLinks[0]);
-      const d: DesignWithImageLink = designsWithImageLinks[0];
-      const img: Image = d.design.images![0];
-      // console.log(getImageLinksForDesignImages(img));
-    } catch (error) {
-      console.log("Error", error);
-    }
-  };
-
-  useEffect(() => {
-    getDesigns();
-  }, []);
-
   return (
     <div className="flex flex-row h-full">
       <div className="flex flex-col items-center gap-2 mt-12 ml-8">
