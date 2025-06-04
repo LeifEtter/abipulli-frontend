@@ -25,6 +25,11 @@ const getImageLinksForDesignImages = (image: Image): string => {
   return newLink;
 };
 
+interface DesignWithImageLink {
+  design: Design;
+  link: string;
+}
+
 function RouteComponent() {
   return (
     <div className="flex flex-row h-full">
