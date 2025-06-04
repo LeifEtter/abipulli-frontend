@@ -61,7 +61,7 @@ function RouteComponent() {
           />
         ))}
       </div>
-      <div className="px-4 pt-12 w-6/12">
+      <div className="px-4 pt-12">
         <div
           className="border-2 rounded-xl border-ap-new-gray bg-ap-new-dark-beige shadow-ap-special-shadow flex justify-center items-center overflow-hidden"
           style={{
