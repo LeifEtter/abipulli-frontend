@@ -46,4 +46,26 @@ export const DesignsApi = {
       throw error;
     }
   },
+  addImageToDesign: async ({
+    designId,
+    imageId,
+    addImageToDesignParams,
+  }: {
+    designId: number;
+    imageId: number;
+    addImageToDesignParams: AddImageToDesignParams;
+  }): Promise<boolean> => {
+    try {
+      const res: AxiosResponse = await api.post(
+        `/design/${designId}/image/${imageId}`,
+        addImageToDesignParams
+      );
+      if (!res.data) throw "Something went wrong";
+      if (!(res.status == 201)) return false;
+      return true;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  },
 };
