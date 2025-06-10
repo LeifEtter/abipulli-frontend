@@ -13,57 +13,49 @@ interface AuthProviderProps {
 }
 
 export interface AuthState {
-  isLoading: boolean;
   user: Partial<User> | null;
   error: string | null;
+  isLoading: boolean;
 }
 
 export const AuthProvider = ({ children }: AuthProviderProps): ReactElement => {
-  const [authState, setAuthState] = useState<AuthState>({
-    isLoading: true,
-    error: null,
+  const [state, setState] = useState<AuthState>({
     user: null,
+    error: null,
+    isLoading: true,
   });
+
+  const setError = (error: string) => {
+    setState((prev) => ({ ...prev, error, isLoading: false }));
+  };
 
   const checkAuth = async () => {
     try {
-      const res: UserCheckAuthResult = await UsersApi.retrieveUserId();
-      setAuthState({ isLoading: false, error: null, user: { id: res.id } });
+      const { id } = await UsersApi.retrieveUserId();
+      setState({ user: { id }, error: null, isLoading: false });
     } catch (error) {
-      console.log(error);
-      setAuthState({
-        isLoading: false,
-        error: "Token could not be verified",
-        user: null,
-      });
+      setError("Authentication failed");
     }
   };
 
   const login = async (creds: UserLoginParams) => {
+    setState((prev) => ({ ...prev, isLoading: true, error: null }));
     try {
-      const res: UserLoginResult = await UsersApi.login(creds);
-      setAuthState({ isLoading: false, error: null, user: res });
+      const user = await UsersApi.login(creds);
+      setState({ user, error: null, isLoading: false });
+      return true;
     } catch (error) {
-      console.log(error);
-      setAuthState({
-        isLoading: false,
-        error: "Something went wrong during login",
-        user: null,
-      });
+      setError("Login failed");
+      return false;
     }
   };
 
   const logout = useCallback(async () => {
+    setState((prev) => ({ ...prev, isLoading: true, error: null }));
     try {
-      // User logout
-      setAuthState({ isLoading: false, error: null, user: null });
+      setState({ user: null, error: null, isLoading: false });
     } catch (error) {
-      console.log(error);
-      setAuthState((prev) => ({
-        ...prev,
-        isLoading: false,
-        error: "Something went wrong during logout",
-      }));
+      setError("Logout failed");
     }
   }, []);
 
@@ -72,7 +64,7 @@ export const AuthProvider = ({ children }: AuthProviderProps): ReactElement => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ ...authState, login, logout, checkAuth }}>
+    <AuthContext.Provider value={{ ...state, login, logout, checkAuth }}>
       {children}
     </AuthContext.Provider>
   );
