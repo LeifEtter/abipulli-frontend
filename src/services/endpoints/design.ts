@@ -1,4 +1,13 @@
-import { Design, DesignResponse, DesignsResponse } from "abipulli-types";
+import {
+  AddImageToDesignParams,
+  ApiResponse,
+  Design,
+  DesignResponse,
+  DesignsResponse,
+  ImagesForDesignResponse,
+  ImageWithPositionAndScale,
+  ManipulateImageInDesignParams,
+} from "abipulli-types";
 import { api } from "../api";
 import { ApiError } from "../ApiError";
 import { AxiosResponse } from "axios";
@@ -20,6 +29,20 @@ export const DesignsApi = {
       if (error instanceof ApiError) {
         console.log(error.info);
       }
+      throw error;
+    }
+  },
+  retrieveAllImagesForDesign: async (
+    designId: number
+  ): Promise<ImageWithPositionAndScale[]> => {
+    try {
+      const res: AxiosResponse = await api.get(`design/${designId}/image`);
+      const imageResponse: ImagesForDesignResponse = res.data;
+      if (!imageResponse.success) throw imageResponse.error;
+      const images: ImageWithPositionAndScale[] = imageResponse.data!.items;
+      return images;
+    } catch (error) {
+      console.log(error);
       throw error;
     }
   },
