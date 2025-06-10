@@ -26,5 +26,5 @@ export const useDesigns = (orderId: number) => {
     fetchDesigns();
   }, [orderId]);
 
-  return { designs, isLoading, error };
+  return { designs, designsAreLoading: isLoading, designsError: error };
 };
