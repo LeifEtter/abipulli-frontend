@@ -68,4 +68,25 @@ export const DesignsApi = {
       throw error;
     }
   },
+  manipulateImageInDesign: async ({
+    imageId,
+    designId,
+    manipulateImageParams,
+  }: {
+    imageId: number;
+    designId: number;
+    manipulateImageParams: ManipulateImageInDesignParams;
+  }) => {
+    try {
+      const res: AxiosResponse = await api.patch(
+        `/design/${designId}/image/${imageId}`,
+        manipulateImageParams
+      );
+      const manipulateImageRes: ApiResponse<object> = res.data;
+      if (!manipulateImageRes.success || !res.data)
+        throw manipulateImageRes.error;
+    } catch (error) {
+      console.log(error);
+    }
+  },
 };
