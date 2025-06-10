@@ -19,4 +19,18 @@ interface UploadImageCardParams {
   onClick: () => void;
 }
 
+export const UploadImageCard: React.FC<UploadImageCardParams> = ({
+  onClick,
+}) => (
+  <div
+    onClick={onClick}
+    className="cursor-pointer border-2 rounded-md border-ap-new-gray aspect-square w-full h-full flex justify-center items-center flex-col gap-2"
+  >
+    <div className="flex items-center gap-2">
+      <FontAwesomeIcon icon={faPlus} size={"1x"} />
+      <FontAwesomeIcon icon={faFileUpload} size={"2x"} />
+    </div>
+
+    <p className="text-medium text-center font-bold">Klicken zum Hochladen</p>
+  </div>
 );
