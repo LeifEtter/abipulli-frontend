@@ -5,6 +5,7 @@ import { routeTree } from "./routeTree.gen";
 import { createRouter, RouterProvider } from "@tanstack/react-router";
 import { useAuth } from "./hooks/useAuth";
 import { AuthProvider } from "./providers/authProvider";
+import { SnackbarProvider } from "./providers/snackbarProvider";
 
 export const router = createRouter({
   routeTree,
@@ -29,7 +30,9 @@ function InnerApp() {
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <AuthProvider>
-      <InnerApp />
+      <SnackbarProvider>
+        <InnerApp />
+      </SnackbarProvider>
     </AuthProvider>
   </StrictMode>
 );
