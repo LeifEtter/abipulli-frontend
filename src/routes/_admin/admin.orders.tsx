@@ -3,7 +3,7 @@ import { genXOrders } from "../../utilities/exampleData";
 import { OrderTable } from "../../components/OrderTable";
 import { useAuth } from "src/hooks/useAuth";
 
-export const Route = createFileRoute("/_admin/orders")({
+export const Route = createFileRoute("/_admin/admin/orders")({
   component: RouteComponent,
 });
 
