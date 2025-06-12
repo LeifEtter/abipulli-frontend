@@ -5,7 +5,6 @@ import {
   Design,
   DesignResponse,
   DesignsResponse,
-  Image,
   ImagesForDesignResponse,
   ImageWithPositionAndScale,
   ManipulateImageInDesignParams,
