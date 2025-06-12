@@ -93,4 +93,19 @@ export const DesignsApi = {
       console.log(error);
     }
   },
+  removeImageFromDesign: async (
+    image: ImageWithPositionAndScale,
+    designId: number
+  ) => {
+    try {
+      const res: AxiosResponse = await api.delete(
+        `/design/${designId}/image/${image.imageToDesignId}`
+      );
+      if (res.status == 200) {
+        console.log("success");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  },
 };
