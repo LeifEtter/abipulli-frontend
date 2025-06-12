@@ -40,6 +40,22 @@ export const useDesignImages = (designId?: number) => {
       });
     if (newImage) setDesignImages([...designImages, newImage]);
   };
+
+  const removeImageFromDesign = async (
+    image: ImageWithPositionAndScale,
+    designId: number
+  ) => {
+    try {
+      await DesignsApi.removeImageFromDesign(image, designId);
+      const newDesignImages = designImages.filter(
+        (e) => e.imageToDesignId != image.imageToDesignId
+      );
+      setDesignImages(newDesignImages);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const changeImagePosition = ({
     pos,
     imageId,
@@ -98,5 +114,6 @@ export const useDesignImages = (designId?: number) => {
     changeImagePosition,
     changeImageScale,
     addImageToDesign,
+    removeImageFromDesign,
   };
 };
