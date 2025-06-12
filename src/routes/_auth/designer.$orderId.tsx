@@ -70,6 +70,20 @@ function RouteComponent() {
 
   const { userImages, userImagesAreLoading, userImagesError } = useUserImages();
 
+  useEffect(() => {
+    if (userImagesError) {
+      showSnackbar({
+        message: "Es gab ein Problem beim laden deiner eigenen Bilder",
+        type: "error",
+      });
+    }
+    if (designImagesError) {
+      showSnackbar({
+        message: "Es gab ein Problem beim laden deiner erstellten designs",
+      });
+    }
+  }, [userImagesError, designImagesError, showSnackbar]);
+
   const uploadImageFiles = async () => {
     try {
       if (imageFiles.length == 0) {
