@@ -1,9 +1,11 @@
 import {
   AddImageToDesignParams,
+  AddImageToDesignResponse,
   ApiResponse,
   Design,
   DesignResponse,
   DesignsResponse,
+  Image,
   ImagesForDesignResponse,
   ImageWithPositionAndScale,
   ManipulateImageInDesignParams,
@@ -54,15 +56,17 @@ export const DesignsApi = {
     designId: number;
     imageId: number;
     addImageToDesignParams: AddImageToDesignParams;
-  }): Promise<boolean> => {
+  }): Promise<ImageWithPositionAndScale> => {
     try {
       const res: AxiosResponse = await api.post(
         `/design/${designId}/image/${imageId}`,
         addImageToDesignParams
       );
       if (!res.data) throw "Something went wrong";
-      if (!(res.status == 201)) return false;
-      return true;
+      if (!(res.status == 201)) throw "Couldn't add image";
+      const imageResponse: AddImageToDesignResponse = res.data;
+
+      return imageResponse.data!;
     } catch (error) {
       console.error(error);
       throw error;
