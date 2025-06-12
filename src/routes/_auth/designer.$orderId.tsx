@@ -9,8 +9,8 @@ import { ImageCard, UploadImageCard } from "src/components/Designer/ImageCard";
 import { ColorOption } from "src/components/Designer/ColorOption";
 import { PulloverOption } from "src/components/Designer/PulloverOption";
 import { useEffect, useState } from "react";
-import { Design, Image } from "abipulli-types";
-import { Layer, Stage } from "react-konva";
+import { Design, Image, ImageWithPositionAndScale } from "abipulli-types";
+import { Group, Layer, Rect, Stage } from "react-konva";
 import {
   ResizableImage,
   StaticImage,
@@ -294,27 +294,48 @@ function RouteComponent() {
                     }}
                   />
                   {designImages.map((image) => (
-                    <ResizableImage
-                      key={`design-image-${designImages.indexOf(image)}`}
-                      originalPos={{ x: 50, y: 50 }}
-                      originalSize={{
-                        width: image.width,
-                        height: image.height,
-                      }}
-                      canvasSize={designCanvasSize}
-                      originalScale={{ x: 1, y: 1 }}
-                      src={image.url}
-                      // pos={{ x: image.positionX!, y: image.positionY! }}
-                      // scale={{ x: image.scaleX!, y: image.scaleY! }}
-                      isSelected={image.id === selectedId}
-                      onSelect={() => selectImage(image.id)}
-                      onPositionChange={(pos: PositionType) => {
-                        changeImagePosition({ pos, imageId: image.id });
-                      }}
-                      onScaleChange={(scale: ScaleType) => {
-                        changeImageScale({ scale, imageId: image.id });
-                      }}
-                    />
+                    <Group>
+                      <ResizableImage
+                        key={`design-image-${designImages.indexOf(image)}`}
+                        originalPos={{ x: 50, y: 50 }}
+                        originalSize={{
+                          width: image.width,
+                          height: image.height,
+                        }}
+                        canvasSize={designCanvasSize}
+                        originalScale={{ x: image.scaleX!, y: image.scaleY! }}
+                        src={image.url}
+                        // pos={{ x: image.positionX!, y: image.positionY! }}
+                        // scale={{ x: image.scaleX!, y: image.scaleY! }}
+                        isSelected={
+                          selectedImage != null &&
+                          designImages.indexOf(image) ==
+                            designImages.indexOf(selectedImage)
+                        }
+                        onSelect={() => selectImage(image)}
+                        onPositionChange={(pos: PositionType) => {
+                          changeImagePosition({ pos, imageId: image.id });
+                        }}
+                        onScaleChange={(scale: ScaleType) => {
+                          changeImageScale({ scale, imageId: image.id });
+                        }}
+                      />
+                      <Rect
+                        fill={"red"}
+                        width={50}
+                        height={50}
+                        x={50}
+                        y={50}
+                        onClick={async () => {
+                          if (!selectedDesign)
+                            return showSnackbar({
+                              message: "Kein Design ausgewählt",
+                              type: "error",
+                            });
+                          await removeImageFromDesign(image, selectedDesign.id);
+                        }}
+                      />
+                    </Group>
                   ))}
                 </Layer>
               </Stage>
