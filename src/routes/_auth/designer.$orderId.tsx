@@ -61,7 +61,8 @@ function RouteComponent() {
     addImageToDesign,
     removeImageFromDesign,
   } = useDesignImages(selectedDesign?.id);
-  const [selectedId, selectImage] = useState<number | null>(null);
+  const [selectedImage, selectImage] =
+    useState<ImageWithPositionAndScale | null>(null);
   const [designCanvasSize, setDesignCanvasSize] = useState<DesignCanvasSize>({
     width: 0,
     height: 0,
