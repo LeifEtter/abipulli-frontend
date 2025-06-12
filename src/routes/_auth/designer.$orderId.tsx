@@ -58,6 +58,7 @@ function RouteComponent() {
     designImagesError,
     changeImagePosition,
     changeImageScale,
+    addImageToDesign,
   } = useDesignImages(selectedDesign?.id);
   const [selectedId, selectImage] = useState<number | null>(null);
   const [designCanvasSize, setDesignCanvasSize] = useState<DesignCanvasSize>({
@@ -123,37 +124,6 @@ function RouteComponent() {
           },
         });
       }
-    }
-  };
-
-  const handleImageAdding = async (image: Image) => {
-    if (!selectedDesign) {
-      return showSnackbar({
-        message: "Wähle ein Design aus bevor du ein Bild hinzufügst",
-      });
-    }
-    let scale: number;
-    const widthDiff = image.width - designCanvasSize.width * 0.5;
-    const heightDiff = image.height - designCanvasSize.height * 0.5;
-    if (widthDiff > heightDiff && widthDiff > 0) {
-      scale = (image.width / designCanvasSize.width) * 0.5;
-    } else if (heightDiff > 0) {
-      scale = (image.height / designCanvasSize.height) * 0.5;
-    } else {
-      scale = 1;
-    }
-    const result: boolean = await DesignsApi.addImageToDesign({
-      designId: selectedDesign.id,
-      imageId: image.id,
-      addImageToDesignParams: {
-        positionX: 0,
-        positionY: 0,
-        scaleX: scale,
-        scaleY: scale,
-      },
-    });
-    if (result) {
-      window.location.reload();
     }
   };
 
@@ -394,7 +364,19 @@ function RouteComponent() {
                   <ImageCard
                     key={`image-card-${image.id}`}
                     image={image.url}
-                    onClick={() => handleImageAdding(image)}
+                    onClick={() => {
+                      if (!selectedDesign) {
+                        return showSnackbar({
+                          message:
+                            "Wähle ein Design aus bevor du ein Bild hinzufügst",
+                        });
+                      }
+                      addImageToDesign(
+                        image,
+                        designCanvasSize,
+                        selectedDesign.id
+                      );
+                    }}
                   />
                 ))
               ) : (
