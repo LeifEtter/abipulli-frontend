@@ -272,13 +272,17 @@ function RouteComponent() {
       <div className="flex flex-row h-full">
         <div className="flex flex-col items-center gap-2 mt-12 ml-8">
           <MediumLabel text="Designs" />
-          {designs.map((e) => (
-            <DesignTab
-              key={`design-tab-${e.id}`}
-              onSelect={() => selectDesignById(e.id)}
-              image={e.preferredPullover!.image.url}
-            />
-          ))}
+          {!designsAreLoading ? (
+            designs.map((e) => (
+              <DesignTab
+                key={`design-tab-${e.id}`}
+                onSelect={() => selectDesignById(e.id)}
+                image={e.preferredPullover!.image.url}
+              />
+            ))
+          ) : (
+            <>Designs Laden</>
+          )}
         </div>
         <div className="px-4 pt-12">
           <div
@@ -396,7 +400,7 @@ function RouteComponent() {
           <div className="flex flex-col py-4 gap-2 items-center border-2 border-ap-new-gray rounded-xl border-ap bg-ap-new-dark-beige">
             <MediumLabel text="Bild Elemente" />
             <div className="w-11/12 grid grid-cols-2 xl:grid-cols-3 gap-4">
-              {userImages ? (
+              {!userImagesAreLoading ? (
                 userImages.map((image: Image) => (
                   <ImageCard
                     key={`image-card-${image.id}`}
@@ -417,7 +421,7 @@ function RouteComponent() {
                   />
                 ))
               ) : (
-                <></>
+                <>Bilder Laden</>
               )}
               <UploadImageCard onClick={() => setImageUploadPopupOpen(true)} />
             </div>
