@@ -135,10 +135,9 @@ function RouteComponent() {
   };
 
   useEffect(() => {
-    if (!selectedDesign && designs != null && !designsAreLoading) {
+    if (!selectedDesign && !designsAreLoading && !designsError)
       setSelectedDesign(designs[0]);
-    }
-  }, [designs, designsAreLoading, selectedDesign]);
+  }, [designs, designsAreLoading, selectedDesign, designsError]);
 
   useEffect(
     () => setDesignCanvasSize(getDesignCanvasSize({ windowWidth: width })),
