@@ -104,28 +104,6 @@ function RouteComponent() {
     }
   };
 
-  const getScaleForImage = ({
-    width,
-    height,
-  }: {
-    width: number;
-    height: number;
-  }): ScaleType => {
-    if (width > height && width > designCanvasSize.width) {
-      return {
-        x: designCanvasSize.width / width,
-        y: designCanvasSize.width / width,
-      };
-    } else if (height > width && height > designCanvasSize.height) {
-      return {
-        x: designCanvasSize.height / height,
-        y: designCanvasSize.height / height,
-      };
-    } else {
-      return { x: 1, y: 1 };
-    }
-  };
-
   const saveDesignAlterations = async () => {
     if (selectedDesign) {
       for (const designImage of designImages) {
