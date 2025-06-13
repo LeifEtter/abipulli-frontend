@@ -140,12 +140,10 @@ function RouteComponent() {
     }
   }, [designs, designsAreLoading, selectedDesign]);
 
-  useEffect(() => {
-    const newCanvasSize: DesignCanvasSize = getDesignCanvasSize({
-      windowWidth: width,
-    });
-    setDesignCanvasSize(newCanvasSize);
-  }, [width]);
+  useEffect(
+    () => setDesignCanvasSize(getDesignCanvasSize({ windowWidth: width })),
+    [width]
+  );
 
   return (
     <>
