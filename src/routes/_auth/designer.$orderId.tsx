@@ -311,50 +311,57 @@ function RouteComponent() {
                       checkDeselect(e);
                     }}
                   />
-                  {designImages.map((image) => (
-                    <Group>
-                      <ResizableImage
-                        key={`design-image-${designImages.indexOf(image)}`}
-                        originalPos={{ x: 50, y: 50 }}
-                        originalSize={{
-                          width: image.width,
-                          height: image.height,
-                        }}
-                        canvasSize={designCanvasSize}
-                        originalScale={{ x: image.scaleX!, y: image.scaleY! }}
-                        src={image.url}
-                        // pos={{ x: image.positionX!, y: image.positionY! }}
-                        // scale={{ x: image.scaleX!, y: image.scaleY! }}
-                        isSelected={
-                          selectedImage != null &&
-                          designImages.indexOf(image) ==
-                            designImages.indexOf(selectedImage)
-                        }
-                        onSelect={() => selectImage(image)}
-                        onPositionChange={(pos: PositionType) => {
-                          changeImagePosition({ pos, imageId: image.id });
-                        }}
-                        onScaleChange={(scale: ScaleType) => {
-                          changeImageScale({ scale, imageId: image.id });
-                        }}
-                      />
-                      <Rect
-                        fill={"red"}
-                        width={50}
-                        height={50}
-                        x={50}
-                        y={50}
-                        onClick={async () => {
-                          if (!selectedDesign)
-                            return showSnackbar({
-                              message: "Kein Design ausgewählt",
-                              type: "error",
-                            });
-                          await removeImageFromDesign(image, selectedDesign.id);
-                        }}
-                      />
-                    </Group>
-                  ))}
+                  {!designImagesAreLoading ? (
+                    designImages.map((image) => (
+                      <Group>
+                        <ResizableImage
+                          key={`design-image-${designImages.indexOf(image)}`}
+                          originalPos={{ x: 50, y: 50 }}
+                          originalSize={{
+                            width: image.width,
+                            height: image.height,
+                          }}
+                          canvasSize={designCanvasSize}
+                          originalScale={{ x: image.scaleX!, y: image.scaleY! }}
+                          src={image.url}
+                          // pos={{ x: image.positionX!, y: image.positionY! }}
+                          // scale={{ x: image.scaleX!, y: image.scaleY! }}
+                          isSelected={
+                            selectedImage != null &&
+                            designImages.indexOf(image) ==
+                              designImages.indexOf(selectedImage)
+                          }
+                          onSelect={() => selectImage(image)}
+                          onPositionChange={(pos: PositionType) => {
+                            changeImagePosition({ pos, imageId: image.id });
+                          }}
+                          onScaleChange={(scale: ScaleType) => {
+                            changeImageScale({ scale, imageId: image.id });
+                          }}
+                        />
+                        <Rect
+                          fill={"red"}
+                          width={50}
+                          height={50}
+                          x={50}
+                          y={50}
+                          onClick={async () => {
+                            if (!selectedDesign)
+                              return showSnackbar({
+                                message: "Kein Design ausgewählt",
+                                type: "error",
+                              });
+                            await removeImageFromDesign(
+                              image,
+                              selectedDesign.id
+                            );
+                          }}
+                        />
+                      </Group>
+                    ))
+                  ) : (
+                    <>Design Lädt</>
+                  )}
                 </Layer>
               </Stage>
             )}
