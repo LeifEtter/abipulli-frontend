@@ -16,12 +16,6 @@ export const router = createRouter({
   },
 });
 
-declare module "@tanstack/react-router" {
-  interface Register {
-    router: typeof router;
-  }
-}
-
 function InnerApp() {
   const auth = useAuth();
   return <RouterProvider router={router} context={{ auth }} />;
