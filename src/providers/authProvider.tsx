@@ -1,10 +1,5 @@
 import { useState, useEffect, ReactElement, useCallback } from "react";
-import {
-  User,
-  UserCheckAuthResult,
-  UserLoginParams,
-  UserLoginResult,
-} from "abipulli-types";
+import { User, UserLoginParams } from "abipulli-types";
 import { AuthContext } from "./authContext";
 import { UsersApi } from "src/services/endpoints/user";
 
@@ -29,15 +24,6 @@ export const AuthProvider = ({ children }: AuthProviderProps): ReactElement => {
     setState((prev) => ({ ...prev, error, isLoading: false }));
   };
 
-  const checkAuth = async () => {
-    try {
-      const { id } = await UsersApi.retrieveUserId();
-      setState({ user: { id }, error: null, isLoading: false });
-    } catch (error) {
-      setError("Authentication failed");
-    }
-  };
-
   const login = async (creds: UserLoginParams) => {
     setState((prev) => ({ ...prev, isLoading: true, error: null }));
     try {
@@ -60,11 +46,20 @@ export const AuthProvider = ({ children }: AuthProviderProps): ReactElement => {
   }, []);
 
   useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        const { id } = await UsersApi.retrieveUserId();
+        setState({ user: { id }, error: null, isLoading: false });
+      } catch (error) {
+        setError("Authentication failed");
+      }
+    };
+
     checkAuth();
   }, []);
 
   return (
-    <AuthContext.Provider value={{ ...state, login, logout, checkAuth }}>
+    <AuthContext.Provider value={{ ...state, login, logout }}>
       {children}
     </AuthContext.Provider>
   );

@@ -2,7 +2,6 @@ import { UserLoginParams } from "abipulli-types";
 import { createContext } from "react";
 import { AuthState } from "./authProvider";
 export interface AuthContextType extends AuthState {
-  checkAuth: () => Promise<void>;
   login: (creds: UserLoginParams) => Promise<boolean>;
   logout: () => Promise<void>;
 }
