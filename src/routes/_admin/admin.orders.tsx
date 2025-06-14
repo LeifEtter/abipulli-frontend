@@ -8,7 +8,7 @@ export const Route = createFileRoute("/_admin/admin/orders")({
 });
 
 function RouteComponent() {
-  const { user, isLoading, error } = useAuth();
+  const { isLoading, error } = useAuth();
   const navigate = useNavigate();
   if (isLoading) {
     return <p>Loading</p>;
