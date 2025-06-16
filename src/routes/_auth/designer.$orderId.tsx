@@ -108,7 +108,7 @@ function RouteComponent() {
     if (selectedDesign) {
       for (const designImage of designImages) {
         await DesignsApi.manipulateImageInDesign({
-          imageId: designImage.id,
+          imageToDesignId: designImage.imageToDesignId,
           designId: selectedDesign?.id,
           manipulateImageParams: {
             scaleX: designImage.scaleX,
