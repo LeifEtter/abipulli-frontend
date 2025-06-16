@@ -58,7 +58,6 @@ export const useDesignImages = (designId?: number) => {
     }
   };
 
-  const changeImagePosition = ({
   const getDesignImageIndex = (imageToDesignId: number): number | undefined => {
     const index: number = designImages.findIndex(
       (image) => image.imageToDesignId == imageToDesignId
@@ -70,11 +69,12 @@ export const useDesignImages = (designId?: number) => {
     return index;
   };
 
+  const changeImagePosition = async ({
     pos,
-    imageId,
+    imageToDesignId,
   }: {
     pos: PositionType;
-    imageId: number;
+    imageToDesignId: number;
   }) => {
     designImages[indexOfImage].positionX = Math.round(pos.x);
     designImages[indexOfImage].positionY = Math.round(pos.y);
