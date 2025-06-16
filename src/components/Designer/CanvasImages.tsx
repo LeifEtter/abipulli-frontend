@@ -132,12 +132,10 @@ export const ResizableImage = ({
         }}
         onTransformEnd={(_) => {
           if (!imageRef.current) return;
-          const node = imageRef.current;
-          const newScale: ScaleType = {
-            x: node.scaleX(),
-            y: node.scaleY(),
-          };
-          onScaleChange(newScale);
+          onScaleChange({
+            x: imageRef.current.scaleX(),
+            y: imageRef.current.scaleY(),
+          });
         }}
       />
       {isSelected && (
