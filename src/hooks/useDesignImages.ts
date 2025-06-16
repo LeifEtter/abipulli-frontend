@@ -77,6 +77,8 @@ export const useDesignImages = (designId?: number) => {
     designImages[indexOfImage].positionX = Math.round(pos.x);
     designImages[indexOfImage].positionY = Math.round(pos.y);
     const index: number | undefined = getDesignImageIndex(imageToDesignId);
+    if (index == undefined)
+      return showSnackbar({ message: "Bild Platzierung fehlgeschlagen" });
     setDesignImages(designImages);
   };
 
@@ -90,6 +92,9 @@ export const useDesignImages = (designId?: number) => {
     designImages[indexOfImage].scaleX = Math.round(scale.x);
     designImages[indexOfImage].scaleY = Math.round(scale.y);
     const index: number | undefined = getDesignImageIndex(imageToDesignId);
+    if (index == undefined)
+      return showSnackbar({ message: "Bild Skalierung Fehlgeschlagen" });
+
     setDesignImages(designImages);
   };
 
