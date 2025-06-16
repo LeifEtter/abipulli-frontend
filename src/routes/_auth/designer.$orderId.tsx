@@ -299,8 +299,6 @@ function RouteComponent() {
                           canvasSize={designCanvasSize}
                           originalScale={{ x: image.scaleX!, y: image.scaleY! }}
                           src={image.url}
-                          // pos={{ x: image.positionX!, y: image.positionY! }}
-                          // scale={{ x: image.scaleX!, y: image.scaleY! }}
                           isSelected={
                             selectedImage != null &&
                             designImages.indexOf(image) ==

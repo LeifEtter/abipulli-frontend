@@ -120,8 +120,6 @@ export const ResizableImage = ({
         width={viewData.size.width}
         height={viewData.size.height}
         scale={viewData.scale}
-        // x={viewData.pos.x}
-        // y={viewData.pos.y}
         x={50}
         y={50}
         draggable
@@ -133,10 +131,6 @@ export const ResizableImage = ({
           onPositionChange(newPosition);
         }}
         onTransformEnd={(_) => {
-          // transformer is changing scale of the node
-          // and NOT its width or height
-          // but in the store we have only width and height
-          // to match the data better we will reset scale on transform end
           if (!imageRef.current) return;
           const node = imageRef.current;
           const newScale: ScaleType = {
@@ -144,14 +138,6 @@ export const ResizableImage = ({
             y: node.scaleY(),
           };
           onScaleChange(newScale);
-          // node.scaleX(1);
-          // node.scaleY(1);
-          // onChange({
-          //   x: node.x(),
-          //   y: node.y(),
-          //   width: Math.max(5, node.width() * scaleX),
-          //   height: Math.max(5, node.height() * scaleY),
-          // });
         }}
       />
       {isSelected && (
