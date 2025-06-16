@@ -4,6 +4,7 @@ import { DesignsApi } from "src/services/endpoints/design";
 import { PositionType } from "src/types/canvas/positionType";
 import { ScaleType } from "src/types/canvas/scaleType";
 import { SizeType } from "src/types/canvas/sizeType";
+import { useSnackbar } from "./useSnackbar";
 
 export const useDesignImages = (designId?: number) => {
   const [designImages, setDesignImages] = useState<ImageWithPositionAndScale[]>(
@@ -11,6 +12,7 @@ export const useDesignImages = (designId?: number) => {
   );
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const showSnackbar = useSnackbar();
 
   const addImageToDesign = async (
     image: Image,
