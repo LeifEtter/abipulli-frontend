@@ -97,12 +97,7 @@ export const DesignsApi = {
     designId: number
   ) => {
     try {
-      const res: AxiosResponse = await api.delete(
-        `/design/${designId}/image/${image.imageToDesignId}`
-      );
-      if (res.status == 200) {
-        console.log("success");
-      }
+      await api.delete(`/design/${designId}/image/${image.imageToDesignId}`);
     } catch (error) {
       console.log(error);
     }
