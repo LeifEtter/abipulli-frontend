@@ -94,7 +94,6 @@ export const useDesignImages = (designId?: number) => {
         const images: ImageWithPositionAndScale[] =
           await DesignsApi.retrieveAllImagesForDesign(designId!);
         setDesignImages(images);
-        console.log(images);
         setIsLoading(false);
       } catch (error) {
         setDesignImages([]);
