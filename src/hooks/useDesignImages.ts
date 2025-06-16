@@ -76,12 +76,24 @@ export const useDesignImages = (designId?: number) => {
     pos: PositionType;
     imageToDesignId: number;
   }) => {
-    designImages[indexOfImage].positionX = Math.round(pos.x);
-    designImages[indexOfImage].positionY = Math.round(pos.y);
     const index: number | undefined = getDesignImageIndex(imageToDesignId);
     if (index == undefined)
       return showSnackbar({ message: "Bild Platzierung fehlgeschlagen" });
+    const newPos: PositionType = {
+      x: Math.round(pos.x),
+      y: Math.round(pos.y),
+    };
+    designImages[index].positionX = Math.round(pos.x);
+    designImages[index].positionY = Math.round(pos.y);
     setDesignImages(designImages);
+    await DesignsApi.manipulateImageInDesign({
+      imageToDesignId,
+      designId: designId!,
+      manipulateImageParams: {
+        positionX: newPos.x,
+        positionY: newPos.y,
+      },
+    });
   };
 
   const changeImageScale = ({
