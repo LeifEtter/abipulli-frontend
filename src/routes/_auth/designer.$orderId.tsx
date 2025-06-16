@@ -288,9 +288,10 @@ function RouteComponent() {
                   />
                   {!designImagesAreLoading ? (
                     designImages.map((image) => (
-                      <Group>
+                      <Group
+                        key={`design-image-${designImages.indexOf(image)}`}
+                      >
                         <ResizableImage
-                          key={`design-image-${designImages.indexOf(image)}`}
                           originalPos={{ x: 50, y: 50 }}
                           originalSize={{
                             width: image.width,
