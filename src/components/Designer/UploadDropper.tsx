@@ -27,13 +27,8 @@ export const ImageDropper = ({
     }}
     maxSize={maxImageSizeInMB * 1000000}
     maxFiles={maxImageAmount}
-    // onDrop={(acceptedFiles) => setImageFile(acceptedFiles[0])}
     onDrop={onDrop}
     onDropRejected={onDropRejected}
-    // onDropRejected={(rejections: FileRejection[]) => {
-    //   console.log(rejections);
-    //   showSnackbar({ message: "Wrong image format" });
-    // }}
   >
     {({ getRootProps, getInputProps }) => (
       <section className="border-dashed border-2 border-ap-new-gray rounded-2xl h-full w-full cursor-pointer">
