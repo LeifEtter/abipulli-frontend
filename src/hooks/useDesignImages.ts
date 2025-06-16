@@ -96,20 +96,28 @@ export const useDesignImages = (designId?: number) => {
     });
   };
 
-  const changeImageScale = ({
+  const changeImageScale = async ({
     scale,
-    imageId,
+    imageToDesignId,
   }: {
     scale: ScaleType;
-    imageId: number;
+    imageToDesignId: number;
   }) => {
-    designImages[indexOfImage].scaleX = Math.round(scale.x);
-    designImages[indexOfImage].scaleY = Math.round(scale.y);
     const index: number | undefined = getDesignImageIndex(imageToDesignId);
     if (index == undefined)
       return showSnackbar({ message: "Bild Skalierung Fehlgeschlagen" });
 
+    designImages[index].scaleX = scale.x;
+    designImages[index].scaleY = scale.y;
     setDesignImages(designImages);
+    await DesignsApi.manipulateImageInDesign({
+      imageToDesignId,
+      designId: designId!,
+      manipulateImageParams: {
+        scaleX: scale.x,
+        scaleY: scale.y,
+      },
+    });
   };
 
   useEffect(() => {
