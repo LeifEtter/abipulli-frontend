@@ -292,7 +292,10 @@ function RouteComponent() {
                         key={`design-image-${designImages.indexOf(image)}`}
                       >
                         <ResizableImage
-                          originalPos={{ x: 50, y: 50 }}
+                          originalPos={{
+                            x: image.positionX!,
+                            y: image.positionY!,
+                          }}
                           originalSize={{
                             width: image.width,
                             height: image.height,
