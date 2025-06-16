@@ -57,17 +57,26 @@ export const useDesignImages = (designId?: number) => {
   };
 
   const changeImagePosition = ({
+  const getDesignImageIndex = (imageToDesignId: number): number | undefined => {
+    const index: number = designImages.findIndex(
+      (image) => image.imageToDesignId == imageToDesignId
+    );
+
+    if (index < 0) {
+      return undefined;
+    }
+    return index;
+  };
+
     pos,
     imageId,
   }: {
     pos: PositionType;
     imageId: number;
   }) => {
-    const indexOfImage: number = designImages.findIndex(
-      (image) => image.id == imageId
-    );
     designImages[indexOfImage].positionX = Math.round(pos.x);
     designImages[indexOfImage].positionY = Math.round(pos.y);
+    const index: number | undefined = getDesignImageIndex(imageToDesignId);
     setDesignImages(designImages);
   };
 
@@ -78,11 +87,9 @@ export const useDesignImages = (designId?: number) => {
     scale: ScaleType;
     imageId: number;
   }) => {
-    const indexOfImage: number = designImages.findIndex(
-      (image) => image.id == imageId
-    );
     designImages[indexOfImage].scaleX = Math.round(scale.x);
     designImages[indexOfImage].scaleY = Math.round(scale.y);
+    const index: number | undefined = getDesignImageIndex(imageToDesignId);
     setDesignImages(designImages);
   };
 
