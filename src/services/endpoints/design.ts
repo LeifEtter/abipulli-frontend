@@ -27,9 +27,7 @@ export const DesignsApi = {
       if (!designRes.success || !res.data) throw designRes.error;
       return designRes.data!;
     } catch (error) {
-      if (error instanceof ApiError) {
-        console.log(error.info);
-      }
+      if (error instanceof ApiError) console.log(error.info);
       throw error;
     }
   },
@@ -72,17 +70,17 @@ export const DesignsApi = {
     }
   },
   manipulateImageInDesign: async ({
-    imageId,
+    imageToDesignId,
     designId,
     manipulateImageParams,
   }: {
-    imageId: number;
+    imageToDesignId: number;
     designId: number;
     manipulateImageParams: ManipulateImageInDesignParams;
   }) => {
     try {
       const res: AxiosResponse = await api.patch(
-        `/design/${designId}/image/${imageId}`,
+        `/design/${designId}/image/${imageToDesignId}`,
         manipulateImageParams
       );
       const manipulateImageRes: ApiResponse<object> = res.data;
