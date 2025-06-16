@@ -10,7 +10,7 @@ import { ColorOption } from "src/components/Designer/ColorOption";
 import { PulloverOption } from "src/components/Designer/PulloverOption";
 import { useEffect, useState } from "react";
 import { Design, Image, ImageWithPositionAndScale } from "abipulli-types";
-import { Group, Layer, Rect, Stage } from "react-konva";
+import { Group, Layer, Rect, Stage, Text } from "react-konva";
 import {
   ResizableImage,
   StaticImage,
@@ -343,7 +343,7 @@ function RouteComponent() {
                       </Group>
                     ))
                   ) : (
-                    <>Design Lädt</>
+                    <Text text="Design Lädt" />
                   )}
                 </Layer>
               </Stage>
