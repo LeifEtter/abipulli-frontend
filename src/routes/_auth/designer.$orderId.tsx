@@ -305,12 +305,18 @@ function RouteComponent() {
                               designImages.indexOf(selectedImage)
                           }
                           onSelect={() => selectImage(image)}
-                          onPositionChange={(pos: PositionType) => {
-                            changeImagePosition({ pos, imageId: image.id });
-                          }}
-                          onScaleChange={(scale: ScaleType) => {
-                            changeImageScale({ scale, imageId: image.id });
-                          }}
+                          onPositionChange={(pos: PositionType) =>
+                            changeImagePosition({
+                              pos,
+                              imageToDesignId: image.imageToDesignId,
+                            })
+                          }
+                          onScaleChange={(scale: ScaleType) =>
+                            changeImageScale({
+                              scale,
+                              imageToDesignId: image.imageToDesignId,
+                            })
+                          }
                         />
                         <Rect
                           fill={"red"}
