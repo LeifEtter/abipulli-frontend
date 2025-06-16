@@ -71,7 +71,6 @@ interface ResizableImageProps {
 interface ViewData {
   pos: PositionType;
   scale: ScaleType;
-  size: SizeType;
 }
 
 export const ResizableImage = ({
@@ -91,24 +90,15 @@ export const ResizableImage = ({
 
   const [viewData, setViewData] = useState<ViewData | null>(null);
 
-  const computeViewData = () => {
-    const width = originalSize.width * originalScale.x;
-    const height = originalSize.height * originalScale.x;
-    const x = canvasSize.width / 2 - width / 2 + originalPos.x;
-    const y = canvasSize.height / 2 - height / 2 + originalPos.y;
-    setViewData({
-      pos: { x, y },
-      scale: originalScale,
-      size: { width, height },
-    });
-  };
-
   useEffect(() => {
-    computeViewData();
+    setViewData({
+      pos: { x: originalPos.x, y: originalPos.y },
+      scale: originalScale,
+    });
     if (isSelected && trRef.current && imageRef.current) {
       trRef.current.nodes([imageRef.current]);
     }
-  }, [isSelected]);
+  }, [isSelected, originalPos, originalScale]);
 
   return viewData != null ? (
     <Fragment>
