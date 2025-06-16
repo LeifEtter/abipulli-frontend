@@ -74,8 +74,6 @@ interface ViewData {
 }
 
 export const ResizableImage = ({
-  originalSize,
-  canvasSize,
   originalPos,
   originalScale,
   isSelected,
@@ -107,8 +105,6 @@ export const ResizableImage = ({
         onTap={onSelect}
         ref={imageRef}
         image={image}
-        width={viewData.size.width}
-        height={viewData.size.height}
         scale={viewData.scale}
         x={50}
         y={50}
