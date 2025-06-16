@@ -106,8 +106,8 @@ export const ResizableImage = ({
         ref={imageRef}
         image={image}
         scale={viewData.scale}
-        x={50}
-        y={50}
+        x={viewData.pos.x}
+        y={viewData.pos.y}
         draggable
         onDragEnd={(e: KonvaEventObject<DragEvent>) => {
           const newPosition: PositionType = {
