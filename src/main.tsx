@@ -1,4 +1,5 @@
 import "./index.css";
+import "./utilities/index";
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { AuthProvider } from "./providers/authProvider";
