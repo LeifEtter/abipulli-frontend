@@ -39,8 +39,10 @@ export const StaticImage: React.FC<StaticImageParams> = ({
       const imageHeight: number = image.height;
       const ratio: number = imageHeight / imageWidth;
       setImageRatio(ratio);
-      setX(canvasSize!.width / 2 - width / 2);
-      setY(canvasSize!.height / 2 - (width * imageRatio) / 2);
+      setX(DESIGN_CANVAS_SIZES.large.width / 2 - width / 2);
+      setY(
+        DESIGN_CANVAS_SIZES.large.height / 2 - (width * imageRatio) / 2 + 10
+      );
     }
   }, [image, canvasSize, width, imageRatio]);
 
