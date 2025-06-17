@@ -28,7 +28,7 @@ export const UploadImageCard: React.FC<UploadImageCardParams> = ({
   >
     <div className="flex items-center gap-2">
       <FontAwesomeIcon icon={faPlus} size={"1x"} />
-      <FontAwesomeIcon icon={faFileUpload} size={"2x"} />
+      <FontAwesomeIcon icon={faFileUpload} className="text-2xl" />
     </div>
 
     <p className="text-medium text-center font-bold">Klicken zum Hochladen</p>
