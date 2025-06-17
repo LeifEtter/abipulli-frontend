@@ -1,4 +1,4 @@
-import { createFileRoute, useParams } from "@tanstack/react-router";
+import { createFileRoute, Link, useParams } from "@tanstack/react-router";
 import GreyFront from "src/assets/pullovers/grey-front.png";
 import CyanFront from "src/assets/pullovers/cyan-front.png";
 import { Spacer } from "src/components/Misc/Spacer";
@@ -10,7 +10,7 @@ import { ColorOption } from "src/components/Designer/ColorOption";
 import { PulloverOption } from "src/components/Designer/PulloverOption";
 import { useEffect, useState } from "react";
 import { Design, Image, ImageWithPositionAndScale } from "abipulli-types";
-import { Group, Layer, Rect, Stage, Text } from "react-konva";
+import { Layer, Stage, Text } from "react-konva";
 import {
   ResizableImage,
   StaticImage,
@@ -350,7 +350,7 @@ function RouteComponent() {
             </button>
           </div>
         </div>
-        <div className="flex flex-col pt-12 gap-4 w-3/12">
+        <div className="flex flex-col pt-12 gap-4 w-4/12 pr-4">
           <div className="flex flex-row gap-5">
             <div>
               <MediumLabel text="Farbe" />
