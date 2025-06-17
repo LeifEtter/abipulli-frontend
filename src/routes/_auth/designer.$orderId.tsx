@@ -407,9 +407,12 @@ function RouteComponent() {
             <button className="border-2 h-12 w-58 mt-4 rounded-lg bg-ap-new-green cursor-pointer">
               <p className="font-semibold">+ Von Abipulli Bibliothek</p>
             </button>
-            <button className="px-12 py-3 w-58 cursor-pointer bg-linear-to-r from-ap-gradient-blue to-ap-gradient-red  text-white font-medium rounded-md shadow-sm">
+            <Link
+              to={`/generate/${orderId}`}
+              className="px-12 py-3 w-58 cursor-pointer bg-linear-to-r from-ap-gradient-blue to-ap-gradient-red  text-white font-medium rounded-md shadow-sm"
+            >
               Mit KI Generieren
-            </button>
+            </Link>
           </div>
         </div>
       </div>
