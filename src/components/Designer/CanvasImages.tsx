@@ -74,19 +74,25 @@ interface ViewData {
 }
 
 export const ResizableImage = ({
+  width,
+  height,
   originalPos,
   originalScale,
   isSelected,
   onSelect,
   onPositionChange,
   onScaleChange,
+  onDelete,
   src,
 }: ResizableImageProps) => {
   const [image] = useImage(src);
+  const [trashImage] = useImage("/src/assets/icons/trash-icon.svg");
   const imageRef = useRef<KonvaImage>(null);
   const trRef = useRef<Konva.Transformer>(null);
 
   const [viewData, setViewData] = useState<ViewData | null>(null);
+
+  const [deleteVisible, setDeleteVisible] = useState<boolean>(true);
 
   useEffect(() => {
     setViewData({
@@ -133,6 +139,18 @@ export const ResizableImage = ({
         />
       )}
     </Fragment>
+        {deleteVisible && isSelected ? (
+          <Image
+            image={trashImage}
+            onClick={onDelete}
+            width={30}
+            height={30}
+            x={viewData.pos.x + width * viewData.scale.x + 10}
+            y={viewData.pos.y - 40}
+          />
+        ) : (
+          <Rect />
+        )}
   ) : (
     <Fragment />
   );
