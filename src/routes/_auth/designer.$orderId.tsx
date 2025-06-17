@@ -288,59 +288,48 @@ function RouteComponent() {
                   />
                   {!designImagesAreLoading ? (
                     designImages.map((image) => (
-                      <Group
+                      <ResizableImage
                         key={`design-image-${designImages.indexOf(image)}`}
-                      >
-                        <ResizableImage
-                          originalPos={{
-                            x: image.positionX!,
-                            y: image.positionY!,
-                          }}
-                          originalSize={{
-                            width: image.width,
-                            height: image.height,
-                          }}
-                          canvasSize={designCanvasSize}
-                          originalScale={{ x: image.scaleX!, y: image.scaleY! }}
-                          src={image.url}
-                          isSelected={
-                            selectedImage != null &&
-                            designImages.indexOf(image) ==
-                              designImages.indexOf(selectedImage)
-                          }
-                          onSelect={() => selectImage(image)}
-                          onPositionChange={(pos: PositionType) =>
-                            changeImagePosition({
-                              pos,
-                              imageToDesignId: image.imageToDesignId,
-                            })
-                          }
-                          onScaleChange={(scale: ScaleType) =>
-                            changeImageScale({
-                              scale,
-                              imageToDesignId: image.imageToDesignId,
-                            })
-                          }
-                        />
-                        <Rect
-                          fill={"red"}
-                          width={50}
-                          height={50}
-                          x={50}
-                          y={50}
-                          onClick={async () => {
-                            if (!selectedDesign)
-                              return showSnackbar({
-                                message: "Kein Design ausgewählt",
-                                type: "error",
-                              });
-                            await removeImageFromDesign(
-                              image,
-                              selectedDesign.id
-                            );
-                          }}
-                        />
-                      </Group>
+                        width={image.width}
+                        height={image.height}
+                        onDelete={async () => {
+                          if (!selectedDesign)
+                            return showSnackbar({
+                              message: "Kein Design ausgewählt",
+                              type: "error",
+                            });
+                          await removeImageFromDesign(image, selectedDesign.id);
+                        }}
+                        originalPos={{
+                          x: image.positionX!,
+                          y: image.positionY!,
+                        }}
+                        originalSize={{
+                          width: image.width,
+                          height: image.height,
+                        }}
+                        canvasSize={designCanvasSize}
+                        originalScale={{ x: image.scaleX!, y: image.scaleY! }}
+                        src={image.url}
+                        isSelected={
+                          selectedImage != null &&
+                          designImages.indexOf(image) ==
+                            designImages.indexOf(selectedImage)
+                        }
+                        onSelect={() => selectImage(image)}
+                        onPositionChange={(pos: PositionType) =>
+                          changeImagePosition({
+                            pos,
+                            imageToDesignId: image.imageToDesignId,
+                          })
+                        }
+                        onScaleChange={(scale: ScaleType) =>
+                          changeImageScale({
+                            scale,
+                            imageToDesignId: image.imageToDesignId,
+                          })
+                        }
+                      />
                     ))
                   ) : (
                     <Text text="Design Lädt" />
