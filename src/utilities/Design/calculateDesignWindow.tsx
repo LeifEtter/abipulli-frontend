@@ -11,7 +11,7 @@ interface DesignCanvasSizeMap {
   xl: DesignCanvasSize;
 }
 
-const DESIGN_CANVAS_SIZES: DesignCanvasSizeMap = {
+export const DESIGN_CANVAS_SIZES: DesignCanvasSizeMap = {
   small: { width: 300, height: 300 },
   medium: { width: 500, height: 600 },
   large: { width: 700, height: 800 },
