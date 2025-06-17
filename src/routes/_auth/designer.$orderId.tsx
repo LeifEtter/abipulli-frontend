@@ -279,7 +279,7 @@ function RouteComponent() {
                 <Layer>
                   <StaticImage
                     src={selectedDesign.preferredPullover!.image.url}
-                    width={designCanvasSize.width * 0.8}
+                    width={designCanvasSize.width * 0.75}
                     canvasSize={designCanvasSize}
                     onClick={(e: KonvaEventObject<MouseEvent>) => {
                       selectImage(null);
