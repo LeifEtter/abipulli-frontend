@@ -1,6 +1,9 @@
 import { Fragment, useEffect, useRef, useState } from "react";
-import { Image, Transformer } from "react-konva";
-import { DesignCanvasSize } from "src/utilities/Design/calculateDesignWindow";
+import { Group, Image, Rect, Transformer } from "react-konva";
+import {
+  DESIGN_CANVAS_SIZES,
+  DesignCanvasSize,
+} from "src/utilities/Design/calculateDesignWindow";
 import useImage from "use-image";
 import { KonvaEventObject } from "konva/lib/Node";
 import { Image as KonvaImage } from "konva/lib/shapes/Image";
@@ -59,6 +62,8 @@ export const StaticImage: React.FC<StaticImageParams> = ({
 };
 
 interface ResizableImageProps {
+  width: number;
+  height: number;
   originalSize: SizeType;
   canvasSize: SizeType;
   originalPos: PositionType;
@@ -67,6 +72,7 @@ interface ResizableImageProps {
   onSelect: () => void;
   onPositionChange: (pos: PositionType) => void;
   onScaleChange: (scale: ScaleType) => void;
+  onDelete: () => void;
   src: string;
 }
 
@@ -107,40 +113,43 @@ export const ResizableImage = ({
   }, [isSelected, originalPos, originalScale]);
 
   return viewData != null ? (
-    <Fragment>
-      <Image
-        onClick={onSelect}
-        onTap={onSelect}
-        ref={imageRef}
-        image={image}
-        scale={viewData.scale}
-        x={viewData.pos.x}
-        y={viewData.pos.y}
-        draggable
-        onDragEnd={(e: KonvaEventObject<DragEvent>) =>
-          onPositionChange({ x: e.target.x(), y: e.target.y() })
-        }
-        onTransformEnd={(_) => {
-          if (!imageRef.current) return;
-          onScaleChange({
-            x: imageRef.current.scaleX(),
-            y: imageRef.current.scaleY(),
-          });
-        }}
-      />
-      {isSelected && (
-        <Transformer
-          ref={trRef}
-          flipEnabled={false}
-          boundBoxFunc={(oldBox, newBox) => {
-            if (Math.abs(newBox.width) < 5 || Math.abs(newBox.height) < 5) {
-              return oldBox;
-            }
-            return newBox;
+    <Group>
+      <Fragment>
+        <Image
+          onClick={onSelect}
+          onTap={onSelect}
+          ref={imageRef}
+          image={image}
+          scale={viewData.scale}
+          x={viewData.pos.x}
+          y={viewData.pos.y}
+          draggable
+          onDragStart={() => setDeleteVisible(false)}
+          onTransformStart={() => setDeleteVisible(false)}
+          onDragEnd={(e: KonvaEventObject<DragEvent>) => {
+            onPositionChange({ x: e.target.x(), y: e.target.y() });
+            setViewData({
+              ...viewData,
+              pos: { x: e.target.x(), y: e.target.y() },
+            });
+            setDeleteVisible(true);
+          }}
+          onTransformEnd={(_) => {
+            if (!imageRef.current) return;
+            onScaleChange({
+              x: imageRef.current.scaleX(),
+              y: imageRef.current.scaleY(),
+            });
+            setViewData({
+              ...viewData,
+              scale: {
+                x: imageRef.current.scaleX(),
+                y: imageRef.current.scaleY(),
+              },
+            });
+            setDeleteVisible(true);
           }}
         />
-      )}
-    </Fragment>
         {deleteVisible && isSelected ? (
           <Image
             image={trashImage}
@@ -153,6 +162,20 @@ export const ResizableImage = ({
         ) : (
           <Rect />
         )}
+        {isSelected && (
+          <Transformer
+            ref={trRef}
+            flipEnabled={false}
+            boundBoxFunc={(oldBox, newBox) => {
+              if (Math.abs(newBox.width) < 5 || Math.abs(newBox.height) < 5) {
+                return oldBox;
+              }
+              return newBox;
+            }}
+          />
+        )}
+      </Fragment>
+    </Group>
   ) : (
     <Fragment />
   );
