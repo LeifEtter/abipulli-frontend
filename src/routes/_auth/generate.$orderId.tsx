@@ -103,7 +103,7 @@ function RouteComponent() {
           </div>
           <div className="max-w-xl mt-2">
             <InputField
-              value={inputs.jahrgang}
+              value={inputs.beschreibung}
               onChange={(e) =>
                 setInputs((prev) => ({ ...prev, beschreibung: e.target.value }))
               }
