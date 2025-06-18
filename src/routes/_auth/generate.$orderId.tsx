@@ -18,17 +18,15 @@ function RouteComponent() {
 
   const [pullovers, setPullovers] = useState<Pullover[]>([]);
 
-  const getPullovers = async () => {
-    try {
-      const pullovers = await PulloverApi.getAll();
-      setPullovers(pullovers);
-      console.log(pullovers);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   useEffect(() => {
+    const getPullovers = async () => {
+      try {
+        const pullovers = await PulloverApi.getAll();
+        setPullovers(pullovers);
+      } catch (error) {
+        console.error(error);
+      }
+    };
     getPullovers();
   }, []);
 
