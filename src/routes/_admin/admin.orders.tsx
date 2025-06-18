@@ -1,6 +1,6 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { genXOrders } from "../../utilities/exampleData";
-import { OrderTable } from "../../components/OrderTable";
+import { OrderTable } from "../../components/Admin/OrderTable";
 import { useAuth } from "src/hooks/useAuth";
 
 export const Route = createFileRoute("/_admin/admin/orders")({
