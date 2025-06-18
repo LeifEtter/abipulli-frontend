@@ -1,6 +1,7 @@
 import { createFileRoute, useParams } from "@tanstack/react-router";
 import { Pullover } from "abipulli-types";
 import { useEffect, useState } from "react";
+import { InputField } from "src/components/Inputs/InputField";
 import { MediumLabel } from "src/components/Texts/MediumLabel";
 import { SmallLabel } from "src/components/Texts/SmallLabel";
 import { PulloverApi } from "src/services/endpoints/pullover";
@@ -8,52 +9,6 @@ import { PulloverApi } from "src/services/endpoints/pullover";
 export const Route = createFileRoute("/_auth/generate/$orderId")({
   component: RouteComponent,
 });
-
-interface InputFieldProps {
-  value: string;
-  onChange: (
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => void;
-  placeholder?: string;
-  label?: string;
-  multiline?: boolean;
-  minLines?: number;
-  id?: string;
-}
-
-const InputField = ({
-  value,
-  onChange,
-  placeholder,
-  label,
-  multiline,
-  minLines,
-  id,
-}: InputFieldProps) => {
-  return (
-    <div className="flex flex-col">
-      {label ? <SmallLabel htmlFor={`input-${label}`} text={label} /> : <></>}
-      {multiline ? (
-        <textarea
-          id={id ?? `input-${label}`}
-          className="bg-ap-new-dark-beige border-1 border-ap-new-gray rounded-sm py-1 px-3"
-          placeholder={placeholder}
-          value={value}
-          onChange={onChange}
-          rows={minLines}
-        />
-      ) : (
-        <input
-          id={id ?? `input-${label}`}
-          className="bg-ap-new-dark-beige border-1 border-ap-new-gray rounded-sm py-1 px-3 w-full"
-          placeholder={placeholder}
-          value={value}
-          onChange={onChange}
-        />
-      )}
-    </div>
-  );
-};
 
 function RouteComponent() {
   const { orderId } = useParams({ strict: false });
