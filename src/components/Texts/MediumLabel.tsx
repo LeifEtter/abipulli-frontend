@@ -10,7 +10,7 @@ export const MediumLabel: React.FC<MediumLabelParams> = ({
   className,
 }) => (
   <label
-    className={`text-xl font-semibold text-ap-new-black ${className}`}
+    className={`text-xl font-semibold text-ap-new-black inline-block ${className}`}
     htmlFor={htmlFor}
   >
     {text}
