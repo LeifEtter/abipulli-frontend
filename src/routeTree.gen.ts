@@ -17,6 +17,7 @@ import { Route as AuthRouteImport } from './routes/_auth/route'
 import { Route as AdminRouteImport } from './routes/_admin/route'
 import { Route as IndexImport } from './routes/index'
 import { Route as AuthOrdersImport } from './routes/_auth/orders'
+import { Route as AuthGenerateOrderIdImport } from './routes/_auth/generate.$orderId'
 import { Route as AuthDesignerOrderIdImport } from './routes/_auth/designer.$orderId'
 import { Route as AdminAdminOrdersImport } from './routes/_admin/admin.orders'
 
@@ -53,6 +54,12 @@ const IndexRoute = IndexImport.update({
 const AuthOrdersRoute = AuthOrdersImport.update({
   id: '/orders',
   path: '/orders',
+  getParentRoute: () => AuthRouteRoute,
+} as any)
+
+const AuthGenerateOrderIdRoute = AuthGenerateOrderIdImport.update({
+  id: '/generate/$orderId',
+  path: '/generate/$orderId',
   getParentRoute: () => AuthRouteRoute,
 } as any)
 
@@ -128,6 +135,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthDesignerOrderIdImport
       parentRoute: typeof AuthRouteImport
     }
+    '/_auth/generate/$orderId': {
+      id: '/_auth/generate/$orderId'
+      path: '/generate/$orderId'
+      fullPath: '/generate/$orderId'
+      preLoaderRoute: typeof AuthGenerateOrderIdImport
+      parentRoute: typeof AuthRouteImport
+    }
   }
 }
 
@@ -148,11 +162,13 @@ const AdminRouteRouteWithChildren = AdminRouteRoute._addFileChildren(
 interface AuthRouteRouteChildren {
   AuthOrdersRoute: typeof AuthOrdersRoute
   AuthDesignerOrderIdRoute: typeof AuthDesignerOrderIdRoute
+  AuthGenerateOrderIdRoute: typeof AuthGenerateOrderIdRoute
 }
 
 const AuthRouteRouteChildren: AuthRouteRouteChildren = {
   AuthOrdersRoute: AuthOrdersRoute,
   AuthDesignerOrderIdRoute: AuthDesignerOrderIdRoute,
+  AuthGenerateOrderIdRoute: AuthGenerateOrderIdRoute,
 }
 
 const AuthRouteRouteWithChildren = AuthRouteRoute._addFileChildren(
@@ -167,6 +183,7 @@ export interface FileRoutesByFullPath {
   '/orders': typeof AuthOrdersRoute
   '/admin/orders': typeof AdminAdminOrdersRoute
   '/designer/$orderId': typeof AuthDesignerOrderIdRoute
+  '/generate/$orderId': typeof AuthGenerateOrderIdRoute
 }
 
 export interface FileRoutesByTo {
@@ -177,6 +194,7 @@ export interface FileRoutesByTo {
   '/orders': typeof AuthOrdersRoute
   '/admin/orders': typeof AdminAdminOrdersRoute
   '/designer/$orderId': typeof AuthDesignerOrderIdRoute
+  '/generate/$orderId': typeof AuthGenerateOrderIdRoute
 }
 
 export interface FileRoutesById {
@@ -189,6 +207,7 @@ export interface FileRoutesById {
   '/_auth/orders': typeof AuthOrdersRoute
   '/_admin/admin/orders': typeof AdminAdminOrdersRoute
   '/_auth/designer/$orderId': typeof AuthDesignerOrderIdRoute
+  '/_auth/generate/$orderId': typeof AuthGenerateOrderIdRoute
 }
 
 export interface FileRouteTypes {
@@ -201,6 +220,7 @@ export interface FileRouteTypes {
     | '/orders'
     | '/admin/orders'
     | '/designer/$orderId'
+    | '/generate/$orderId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -210,6 +230,7 @@ export interface FileRouteTypes {
     | '/orders'
     | '/admin/orders'
     | '/designer/$orderId'
+    | '/generate/$orderId'
   id:
     | '__root__'
     | '/'
@@ -220,6 +241,7 @@ export interface FileRouteTypes {
     | '/_auth/orders'
     | '/_admin/admin/orders'
     | '/_auth/designer/$orderId'
+    | '/_auth/generate/$orderId'
   fileRoutesById: FileRoutesById
 }
 
@@ -269,7 +291,8 @@ export const routeTree = rootRoute
       "filePath": "_auth/route.tsx",
       "children": [
         "/_auth/orders",
-        "/_auth/designer/$orderId"
+        "/_auth/designer/$orderId",
+        "/_auth/generate/$orderId"
       ]
     },
     "/login": {
@@ -288,6 +311,10 @@ export const routeTree = rootRoute
     },
     "/_auth/designer/$orderId": {
       "filePath": "_auth/designer.$orderId.tsx",
+      "parent": "/_auth"
+    },
+    "/_auth/generate/$orderId": {
+      "filePath": "_auth/generate.$orderId.tsx",
       "parent": "/_auth"
     }
   }
