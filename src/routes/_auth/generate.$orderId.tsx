@@ -1,4 +1,6 @@
-import { createFileRoute, useParams } from "@tanstack/react-router";
+import { faArrowLeft, faBackward } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { createFileRoute, Link, useParams } from "@tanstack/react-router";
 import { Pullover } from "abipulli-types";
 import { useEffect, useState } from "react";
 import { InputField } from "src/components/Inputs/InputField";
@@ -64,11 +66,18 @@ function RouteComponent() {
 
   return (
     <div>
-      <div className="flex w-full justify-center">
+      <div className="flex w-full justify-between items-center">
+        <Link
+          className="bg-ap-new-dark-beige rounded-md px-2 py-1 ml-4 shadow-sm border mt-2 flex items-center border-ap-new-gray hover:scale-105"
+          to={`/designer/${orderId}`}
+        >
+          <FontAwesomeIcon icon={faArrowLeft} className="mr-2" />
+          <p className="font-medium">Zurück</p>
+        </Link>
         <h1 className="text-2xl font-semibold mt-4">Ki Bild Generator</h1>
+        <div></div>
       </div>
       <div className="flex gap-8 pl-2">
-        {/* <Link to={`/designer/${orderId}`}>Zurück</Link> */}
         <div className="flex flex-col w-7/12 p-2">
           <div className="flex gap-8">
             <div className="w-8/12 max-w-sm">
