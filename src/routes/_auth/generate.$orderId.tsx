@@ -117,6 +117,7 @@ function RouteComponent() {
           <div className="flex gap-2">
             {Object.entries(selectedStyles).map(([k, v]) => (
               <button
+                key={`style-button-${k}`}
                 className={`hover:-mt-1 hover:mb-1 cursor-pointer transition duration-75 font-medium border-1 border-ap-new-gray p-1 px-2 rounded-md bg-ap-new-dark-beige ${v ? "bg-green-700 text-white border-none shadow-md" : "bg-ap-new-dark-beige"}`}
                 onClick={() =>
                   setSelectedStyles((prev) => ({
@@ -158,6 +159,7 @@ function RouteComponent() {
                 {pullovers[0] ? (
                   ["image1", "image2", "image3"].map((image) => (
                     <img
+                      key={`image-${image}`}
                       src={
                         "https://abipulli.nbg1.your-objectstorage.com/development/users/60/8effa685-4c52-4388-983b-7bd70332e108"
                       }
@@ -215,7 +217,10 @@ function RouteComponent() {
           <ul className="flex flex-col gap-4">
             {examples ? (
               examples.map((e) => (
-                <li className="flex flex-col font-medium text-lg">
+                <li
+                  key={`example-${examples.indexOf(e)}`}
+                  className="flex flex-col font-medium text-lg"
+                >
                   <div className="flex flex-row gap-2">
                     <img src={e.imageUrl} width={125} height={125} />
                     <p>{e.text}</p>
@@ -224,6 +229,7 @@ function RouteComponent() {
                     {Object.entries(e.styles).map(
                       ([k, v]: [k: string, v: boolean]) => (
                         <div
+                          key={`example-${examples.indexOf(e)}-style-${k}`}
                           className={`px-2 border rounded-md ${v ? "bg-green-700 text-white" : "bg-ap-new-dark-beige"}`}
                         >
                           {k.capitalize()}
