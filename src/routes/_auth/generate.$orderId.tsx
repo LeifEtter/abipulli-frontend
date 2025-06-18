@@ -5,6 +5,7 @@ import { InputField } from "src/components/Inputs/InputField";
 import { MediumLabel } from "src/components/Texts/MediumLabel";
 import { SmallLabel } from "src/components/Texts/SmallLabel";
 import { GENERATION_EXAMPLES } from "src/exampleData/GenerationExamples";
+import { ImageApi } from "src/services/endpoints/image";
 import { PulloverApi } from "src/services/endpoints/pullover";
 import { GenerationExample } from "src/types/generator/GenerationExample";
 import { SelectedStylesMap } from "src/types/generator/SelectedStyles";
@@ -46,6 +47,20 @@ function RouteComponent() {
 
   const [examples, setExamples] =
     useState<GenerationExample[]>(GENERATION_EXAMPLES);
+
+  const onImproveDescription = async () => {
+    const styleTags: string[] = Object.entries(selectedStyles)
+      .map(([style, active]) => (active ? style : null))
+      .filter((v) => v != null);
+    const description: string = (
+      await ImageApi.improveDescription({
+        styleTags,
+        motto: inputs.motto,
+        description: inputs.beschreibung,
+      })
+    ).description;
+    setInputs((prev) => ({ ...prev, generated: description }));
+  };
 
   return (
     <div>
