@@ -4,7 +4,10 @@ import { useEffect, useState } from "react";
 import { InputField } from "src/components/Inputs/InputField";
 import { MediumLabel } from "src/components/Texts/MediumLabel";
 import { SmallLabel } from "src/components/Texts/SmallLabel";
+import { GENERATION_EXAMPLES } from "src/exampleData/GenerationExamples";
 import { PulloverApi } from "src/services/endpoints/pullover";
+import { GenerationExample } from "src/types/generator/GenerationExample";
+import { SelectedStylesMap } from "src/types/generator/SelectedStyles";
 
 export const Route = createFileRoute("/_auth/generate/$orderId")({
   component: RouteComponent,
@@ -43,41 +46,8 @@ function RouteComponent() {
     retro: false,
   });
 
-  const [examples, setExamples] = useState<GenerationExample[]>([
-    {
-      imageUrl:
-        "https://abipulli.nbg1.your-objectstorage.com/development/users/60/8effa685-4c52-4388-983b-7bd70332e108",
-      text: "  Lorem ipsum dolor sit amet consectetur adipiscing elit Ut et massa mi. Aliquam in hendrerit urna. Pellentesque sit amet sapien.",
-      styles: {
-        comic: false,
-        natur: false,
-        realistisch: true,
-        retro: false,
-      },
-    },
-    {
-      imageUrl:
-        "https://abipulli.nbg1.your-objectstorage.com/development/users/60/8effa685-4c52-4388-983b-7bd70332e108",
-      text: "  Lorem ipsum dolor sit amet consectetur adipiscing elit Ut et massa mi. Aliquam in hendrerit urna. Pellentesque sit amet sapien.",
-      styles: {
-        comic: true,
-        natur: true,
-        realistisch: false,
-        retro: false,
-      },
-    },
-    {
-      imageUrl:
-        "https://abipulli.nbg1.your-objectstorage.com/development/users/60/8effa685-4c52-4388-983b-7bd70332e108",
-      text: "  Lorem ipsum dolor sit amet consectetur adipiscing elit Ut et massa mi. Aliquam in hendrerit urna. Pellentesque sit amet sapien.",
-      styles: {
-        comic: false,
-        natur: true,
-        realistisch: false,
-        retro: true,
-      },
-    },
-  ]);
+  const [examples, setExamples] =
+    useState<GenerationExample[]>(GENERATION_EXAMPLES);
 
   return (
     <div>
