@@ -36,21 +36,12 @@ function RouteComponent() {
     generated: "",
   });
 
-  interface SelectedStylesMap {
-    [index: string]: boolean;
-  }
   const [selectedStyles, setSelectedStyles] = useState<SelectedStylesMap>({
     comic: false,
     natur: true,
     realistisch: false,
     retro: false,
   });
-
-  interface GenerationExample {
-    imageUrl: string;
-    text: string;
-    styles: SelectedStylesMap;
-  }
 
   const [examples, setExamples] = useState<GenerationExample[]>([
     {
