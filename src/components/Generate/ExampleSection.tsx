@@ -26,16 +26,16 @@ export const ExampleSection = ({
               <p>{e.text}</p>
             </div>
             <div className="flex flex-row gap-2 mt-2">
-              {Object.entries(e.styles).map(
-                ([k, v]: [k: string, v: boolean]) => (
+              {Object.entries(e.styles)
+                .filter(([_, v]) => v != false)
+                .map(([k, v]: [k: string, v: boolean]) => (
                   <div
                     key={`example-${examples.indexOf(e)}-style-${k}`}
                     className={`px-2 border rounded-md ${v ? "bg-green-700 text-white" : "bg-ap-new-dark-beige"}`}
                   >
                     {k.capitalize()}
                   </div>
-                )
-              )}
+                ))}
             </div>
           </li>
         ))
