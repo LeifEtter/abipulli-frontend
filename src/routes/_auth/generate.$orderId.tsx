@@ -3,6 +3,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { createFileRoute, Link, useParams } from "@tanstack/react-router";
 import { Pullover } from "abipulli-types";
 import { useEffect, useState } from "react";
+import { BackButton } from "src/components/Buttons/BackButton";
+import { SuperDuperShinySpecialButton } from "src/components/Buttons/SuperDuperShinySpecialButton";
 import { InputField } from "src/components/Inputs/InputField";
 import { MediumLabel } from "src/components/Texts/MediumLabel";
 import { SmallLabel } from "src/components/Texts/SmallLabel";
@@ -67,13 +69,7 @@ function RouteComponent() {
   return (
     <div>
       <div className="flex w-full justify-between items-center">
-        <Link
-          className="bg-ap-new-dark-beige rounded-md px-2 py-1 ml-4 shadow-sm border mt-2 flex items-center border-ap-new-gray hover:scale-105"
-          to={`/designer/${orderId}`}
-        >
-          <FontAwesomeIcon icon={faArrowLeft} className="mr-2" />
-          <p className="font-medium">Zurück</p>
-        </Link>
+        <BackButton to={`/designer/${orderId}`} />
         <h1 className="text-2xl font-semibold mt-4">Ki Bild Generator</h1>
         <div></div>
       </div>
@@ -130,14 +126,10 @@ function RouteComponent() {
               </button>
             ))}
           </div>
-          <button
-            onClick={() => {
-              onImproveDescription();
-            }}
-            className="hover:shadow-md hover:scale-105 px-12 py-2 max-w-2xs mt-2 cursor-pointer bg-linear-to-r from-ap-gradient-blue to-ap-gradient-red  text-white font-medium rounded-md dark:hover:bg-slate-100 focus:outline-none focus:ring focus:ring-slate-500/50 focus-visible:outline-none focus-visible:ring focus-visible:ring-slate-500/50 relative before:absolute before:inset-0 before:rounded-[inherit] before:bg-[linear-gradient(45deg,transparent_25%,theme(colors.white/.5)_50%,transparent_75%,transparent_100%)] dark:before:bg-[linear-gradient(45deg,transparent_25%,theme(colors.white)_50%,transparent_75%,transparent_100%)] before:bg-[length:250%_250%,100%_100%] before:bg-[position:200%_0,0_0] before:bg-no-repeat before:[transition:background-position_0s_ease] hover:before:bg-[position:-100%_0,0_0] hover:before:duration-[1500ms]"
-          >
-            Beschreibung Generieren
-          </button>
+          <SuperDuperShinySpecialButton
+            onClick={() => onImproveDescription()}
+            text="Beschreibung Generieren"
+          />
           <div className="flex">
             <div className="w-7/12 flex flex-col items-center">
               {pullovers.length == 0 ? (
@@ -188,9 +180,10 @@ function RouteComponent() {
                   setInputs((prev) => ({ ...prev, generated: e.target.value }))
                 }
               />
-              <button className="w-full py-2 mt-2 cursor-pointer bg-linear-to-r from-ap-gradient-blue to-ap-gradient-red  text-white font-medium rounded-md shadow-sm">
-                3 Designs Generieren
-              </button>
+              <SuperDuperShinySpecialButton
+                onClick={() => {}}
+                text="3 Designs Generieren"
+              />
               <p className="font-medium text-ap-new-gray leading-5 mt-2">
                 Diese Beschreibung wurde generiert, um bessere Bilderzeugung zu
                 erlauben. Du darfst diese aber auch bearbeiten.
