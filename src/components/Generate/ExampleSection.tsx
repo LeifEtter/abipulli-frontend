@@ -19,11 +19,13 @@ export const ExampleSection = ({
         examples.map((e) => (
           <li
             key={`example-${examples.indexOf(e)}`}
-            className="flex flex-col font-medium text-lg"
+            className="flex flex-col font-medium"
           >
-            <div className="flex flex-row gap-2">
-              <img src={e.imageUrl} width={125} height={125} />
-              <p>{e.text}</p>
+            <div className="flex flex-row gap-2 items-start">
+              <img src={e.imageUrl} className="w-5/12 max-w-36" />
+              <p className="text-md lg:text-lg w-7/12 overflow-hidden text-ellipsis [display:-webkit-box] [-webkit-line-clamp:5] [-webkit-box-orient:vertical]">
+                {e.text}
+              </p>
             </div>
             <div className="flex flex-row gap-2 mt-2">
               {Object.entries(e.styles)
