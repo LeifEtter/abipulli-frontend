@@ -1,6 +1,4 @@
-import { faArrowLeft, faBackward } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { createFileRoute, Link, useParams } from "@tanstack/react-router";
+import { createFileRoute, useParams } from "@tanstack/react-router";
 import { Pullover } from "abipulli-types";
 import { useEffect, useState } from "react";
 import { BackButton } from "src/components/Buttons/BackButton";
