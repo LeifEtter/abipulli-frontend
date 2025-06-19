@@ -5,11 +5,12 @@ import { Pullover } from "abipulli-types";
 import { useEffect, useState } from "react";
 import { BackButton } from "src/components/Buttons/BackButton";
 import { SuperDuperShinySpecialButton } from "src/components/Buttons/SuperDuperShinySpecialButton";
+import { ExampleSection } from "src/components/Generate/ExampleSection";
+import { ExplanationSection } from "src/components/Generate/ExplanationSection";
 import { PreviewChooser } from "src/components/Generate/PreviewChooser";
 import { PreviewDesign } from "src/components/Generate/PreviewDesign";
 import { StyleSelector } from "src/components/Generate/StyleSelector";
 import { InputField } from "src/components/Inputs/InputField";
-import { MediumLabel } from "src/components/Texts/MediumLabel";
 import { SmallLabel } from "src/components/Texts/SmallLabel";
 import { GENERATION_EXAMPLES } from "src/exampleData/GenerationExamples";
 import { ImageApi } from "src/services/endpoints/image";
@@ -168,55 +169,8 @@ function RouteComponent() {
           </div>
         </div>
         <div className="w-5/12">
-          <MediumLabel text="Wie funktioniert es?" className="mt-1 mb-1" />
-          <ol className="list-decimal ml-6 font-medium text-lg [&_li]:leading-6 [&_li]:mt-2">
-            <li className="leading-6">
-              Gib ein Motto und wähle ob das Jahr angezeigt werden soll
-            </li>
-            <li>
-              Beschreibe den Pullover kurz, gib dabei Elemente an die auf den
-              Pullover zu sehen sein sollen
-            </li>
-            <li>
-              Wähle vorgefertigte Style Tags oder Schreibe deine Eigenen. Diese
-              gebeb dein Design Persönlichkeit.
-            </li>
-            <li>
-              Wir generieren dir eine verbesserte Beschreibung. Diese kannst du
-              auch bearbeiten.
-            </li>
-            <li>Drücke den Generator Knopf um 3 Designs zu generieren</li>
-          </ol>
-          <MediumLabel text="Beispiel" className="mt-4 mb-2" />
-          <ul className="flex flex-col gap-4">
-            {examples ? (
-              examples.map((e) => (
-                <li
-                  key={`example-${examples.indexOf(e)}`}
-                  className="flex flex-col font-medium text-lg"
-                >
-                  <div className="flex flex-row gap-2">
-                    <img src={e.imageUrl} width={125} height={125} />
-                    <p>{e.text}</p>
-                  </div>
-                  <div className="flex flex-row gap-2 mt-2">
-                    {Object.entries(e.styles).map(
-                      ([k, v]: [k: string, v: boolean]) => (
-                        <div
-                          key={`example-${examples.indexOf(e)}-style-${k}`}
-                          className={`px-2 border rounded-md ${v ? "bg-green-700 text-white" : "bg-ap-new-dark-beige"}`}
-                        >
-                          {k.capitalize()}
-                        </div>
-                      )
-                    )}
-                  </div>
-                </li>
-              ))
-            ) : (
-              <>Loading</>
-            )}
-          </ul>
+          <ExplanationSection />
+          <ExampleSection examples={examples} />
         </div>
       </div>
     </div>
