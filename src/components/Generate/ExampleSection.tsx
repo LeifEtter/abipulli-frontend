@@ -9,7 +9,7 @@ export const ExampleSection = ({
   examples: GenerationExample[];
 }) => (
   <>
-    <MediumLabel text="Beispiel" className="mt-4 mb-2" />
+    <MediumLabel text="Beispiele" className="mt-4 mb-2" />
     <ul className="flex flex-col gap-4">
       {examples.length == 0 ? (
         <Center>
