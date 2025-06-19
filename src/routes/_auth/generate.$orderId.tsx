@@ -70,13 +70,13 @@ function RouteComponent() {
 
   return (
     <div>
-      <div className="flex w-full justify-between items-center">
+      <div className="flex w-full justify-between items-center mb-3 mt-4">
         <BackButton to={`/designer/${orderId}`} />
-        <h1 className="text-2xl font-semibold mt-4">Ki Bild Generator</h1>
+        <h1 className="text-2xl font-semibold">Ki Bild Generator</h1>
         <div></div>
       </div>
-      <div className="flex gap-8 pl-2">
-        <div className="flex flex-col w-7/12 p-2">
+      <div className="flex flex-wrap">
+        <div className="flex flex-col w-12/12 md:w-6/12 p-2">
           <div className="flex gap-8">
             <div className="w-8/12 max-w-sm">
               <InputField
@@ -121,10 +121,13 @@ function RouteComponent() {
               }))
             }
           />
-          <SuperDuperShinySpecialButton
-            onClick={() => onImproveDescription()}
-            text="Beschreibung Generieren"
-          />
+          <div className="mt-3">
+            <SuperDuperShinySpecialButton
+              onClick={() => onImproveDescription()}
+              text="Beschreibung Generieren"
+            />
+          </div>
+
           <div className="flex">
             <div className="w-7/12 flex flex-col items-center">
               <PreviewDesign
@@ -166,7 +169,7 @@ function RouteComponent() {
             </div>
           </div>
         </div>
-        <div className="w-5/12">
+        <div className="w-12/12 md:w-6/12 pr-2 pl-2">
           <ExplanationSection />
           <ExampleSection examples={examples} />
         </div>
