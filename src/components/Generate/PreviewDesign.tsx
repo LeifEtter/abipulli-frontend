@@ -16,12 +16,12 @@ export const PreviewDesign = ({
       <LoadingSpinner />
     </Center>
   ) : (
-    <div className="relative justify-center mt-5">
-      <div className="flex justify-center">
+    <div className="relative justify-center mt-6">
+      <Center>
         <img src={pullover.image.url} className="w-10/12 max-w-sm" />
-      </div>
-      <div className="absolute flex justify-center items-center w-full h-full top-0 left-0">
-        <img src={designImage} alt="" className="-mt-30" width={150} />
+      </Center>
+      <div className="absolute flex justify-center w-full top-3/12">
+        <img src={designImage} alt="" className="w-4/12" />
       </div>
     </div>
   );
