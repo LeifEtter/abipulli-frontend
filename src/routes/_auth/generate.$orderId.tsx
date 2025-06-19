@@ -5,6 +5,7 @@ import { Pullover } from "abipulli-types";
 import { useEffect, useState } from "react";
 import { BackButton } from "src/components/Buttons/BackButton";
 import { SuperDuperShinySpecialButton } from "src/components/Buttons/SuperDuperShinySpecialButton";
+import { StyleSelector } from "src/components/Generate/StyleSelector";
 import { InputField } from "src/components/Inputs/InputField";
 import { MediumLabel } from "src/components/Texts/MediumLabel";
 import { SmallLabel } from "src/components/Texts/SmallLabel";
@@ -110,22 +111,15 @@ function RouteComponent() {
             />
           </div>
           <SmallLabel text="Styles" className="mt-2" />
-          <div className="flex gap-2">
-            {Object.entries(selectedStyles).map(([k, v]) => (
-              <button
-                key={`style-button-${k}`}
-                className={`hover:-mt-1 hover:mb-1 cursor-pointer transition duration-75 font-medium border-1 border-ap-new-gray p-1 px-2 rounded-md bg-ap-new-dark-beige ${v ? "bg-green-700 text-white border-none shadow-md" : "bg-ap-new-dark-beige"}`}
-                onClick={() =>
-                  setSelectedStyles((prev) => ({
-                    ...prev,
-                    [k]: !v,
-                  }))
-                }
-              >
-                {k.capitalize()}
-              </button>
-            ))}
-          </div>
+          <StyleSelector
+            selectedStyles={selectedStyles}
+            onSelect={(k) =>
+              setSelectedStyles((prev) => ({
+                ...prev,
+                [k]: !selectedStyles[k],
+              }))
+            }
+          />
           <SuperDuperShinySpecialButton
             onClick={() => onImproveDescription()}
             text="Beschreibung Generieren"
