@@ -5,6 +5,8 @@ import { Pullover } from "abipulli-types";
 import { useEffect, useState } from "react";
 import { BackButton } from "src/components/Buttons/BackButton";
 import { SuperDuperShinySpecialButton } from "src/components/Buttons/SuperDuperShinySpecialButton";
+import { PreviewChooser } from "src/components/Generate/PreviewChooser";
+import { PreviewDesign } from "src/components/Generate/PreviewDesign";
 import { StyleSelector } from "src/components/Generate/StyleSelector";
 import { InputField } from "src/components/Inputs/InputField";
 import { MediumLabel } from "src/components/Texts/MediumLabel";
@@ -126,43 +128,23 @@ function RouteComponent() {
           />
           <div className="flex">
             <div className="w-7/12 flex flex-col items-center">
-              {pullovers.length == 0 ? (
-                <>Loading</>
-              ) : (
-                <div className="relative justify-center mt-5">
-                  <div className="flex justify-center">
-                    <img
-                      src={pullovers[3].image.url}
-                      className="w-10/12 max-w-sm"
-                    />
-                  </div>
-                  <div className="absolute flex justify-center items-center w-full h-full top-0 left-0">
-                    <img
-                      src="https://abipulli.nbg1.your-objectstorage.com/development/users/60/8effa685-4c52-4388-983b-7bd70332e108"
-                      alt=""
-                      className="-mt-30"
-                      width={150}
-                    />
-                  </div>
-                </div>
-              )}
-              <div className="flex gap-5 mt-5">
-                {pullovers[0] ? (
-                  ["image1", "image2", "image3"].map((image) => (
-                    <img
-                      key={`image-${image}`}
-                      src={
-                        "https://abipulli.nbg1.your-objectstorage.com/development/users/60/8effa685-4c52-4388-983b-7bd70332e108"
-                      }
-                      width={100}
-                      height={100}
-                      className="border hover:scale-110 transition duration-100 cursor-pointer"
-                    />
-                  ))
-                ) : (
-                  <></>
-                )}
-              </div>
+              <PreviewDesign
+                pullover={pullovers[1]}
+                designImage="https://abipulli.nbg1.your-objectstorage.com/development/users/60/8effa685-4c52-4388-983b-7bd70332e108"
+              />
+              <PreviewChooser
+                images={[
+                  {
+                    id: 1,
+                    userId: 1,
+                    url: "https://abipulli.nbg1.your-objectstorage.com/development/users/60/8effa685-4c52-4388-983b-7bd70332e108",
+                    uuid: "asd",
+                    createdAt: new Date(Date.now()),
+                    width: 1,
+                    height: 1,
+                  },
+                ]}
+              />
             </div>
             <div className="w-5/12">
               <InputField
