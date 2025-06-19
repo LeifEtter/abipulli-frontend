@@ -3,7 +3,7 @@ import { MediumLabel } from "../Texts/MediumLabel";
 export const ExplanationSection = () => (
   <>
     <MediumLabel text="Wie funktioniert es?" className="mt-1 mb-1" />
-    <ol className="list-decimal ml-6 font-medium text-lg [&_li]:leading-6 [&_li]:mt-2">
+    <ol className="list-decimal ml-6 font-medium text-md lg:text-lg [&_li]:leading-6 [&_li]:mt-2">
       <li className="leading-6">
         Gib ein Motto und wähle ob das Jahr angezeigt werden soll
       </li>
