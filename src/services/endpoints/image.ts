@@ -1,4 +1,5 @@
 import {
+  GenerateImageParams,
   Image,
   ImagesResponse,
   ImageUploadResultResponse,
@@ -36,5 +37,12 @@ export const ImageApi = {
     const improveRes: ImproveImageQueryResponse = res.data;
     if (!improveRes.success) throw improveRes.error;
     return improveRes.data!;
+  },
+  generateImages: async (params: GenerateImageParams): Promise<Image[]> => {
+    const res = await api.post("/image/generate", params);
+    if (!res.data) throw "Couldn't generate images";
+    const genImagesRes: ImagesResponse = res.data;
+    if (!genImagesRes.success) throw genImagesRes.error;
+    return genImagesRes.data!.items;
   },
 };
