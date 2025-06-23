@@ -83,7 +83,6 @@ interface ViewData {
 
 export const ResizableImage = ({
   width,
-  height,
   originalPos,
   originalScale,
   isSelected,
