@@ -171,6 +171,12 @@ export const ResizableImage = ({
               }
               return newBox;
             }}
+            enabledAnchors={[
+              "middle-right",
+              "top-right",
+              "bottom-right",
+              "bottom-center",
+            ]}
           />
         )}
       </Fragment>
