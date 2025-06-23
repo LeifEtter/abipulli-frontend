@@ -177,6 +177,8 @@ export const ResizableImage = ({
               "bottom-right",
               "bottom-center",
             ]}
+            // TODO: Implement Rotation!!!
+            rotateEnabled={false}
           />
         )}
       </Fragment>
