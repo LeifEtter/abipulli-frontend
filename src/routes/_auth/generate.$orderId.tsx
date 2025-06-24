@@ -1,5 +1,5 @@
 import { createFileRoute, useParams } from "@tanstack/react-router";
-import { Pullover } from "abipulli-types";
+import { Image, Pullover } from "abipulli-types";
 import { useEffect, useState } from "react";
 import { BackButton } from "src/components/Buttons/BackButton";
 import { SuperDuperShinySpecialButton } from "src/components/Buttons/SuperDuperShinySpecialButton";
@@ -25,6 +25,8 @@ function RouteComponent() {
   const showSnackbar = useSnackbar();
 
   const { orderId } = useParams({ strict: false });
+
+  const [generatedImages, setGeneratedImages] = useState<Image[]>([]);
 
   const [pullovers, setPullovers] = useState<Pullover[]>([]);
 
