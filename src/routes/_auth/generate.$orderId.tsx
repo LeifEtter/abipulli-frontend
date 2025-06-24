@@ -76,6 +76,22 @@ function RouteComponent() {
     setInputs((prev) => ({ ...prev, generated: description }));
   };
 
+  const onGenerateImages = async () => {
+    try {
+      const images: Image[] = await ImageApi.generateImages({
+        prompt: inputs.generated,
+        styleTags: convertStyleTagsToString(selectedStyles),
+      });
+      setGeneratedImages(images);
+    } catch (error) {
+      console.error(error);
+      showSnackbar({
+        type: "error",
+        message: "Bilder konnten nicht generiert werden",
+      });
+    }
+  };
+
   return (
     <div>
       <div className="flex w-full justify-between items-center mb-3 mt-4">
