@@ -171,7 +171,7 @@ function RouteComponent() {
                 }
               />
               <SuperDuperShinySpecialButton
-                onClick={() => {}}
+                onClick={onGenerateImages}
                 text="3 Designs Generieren"
               />
               <p className="font-medium text-ap-new-gray leading-5 mt-2">
