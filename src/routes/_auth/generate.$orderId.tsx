@@ -158,19 +158,7 @@ function RouteComponent() {
                 pullover={pullovers[1]}
                 designImage="https://abipulli.nbg1.your-objectstorage.com/development/users/60/8effa685-4c52-4388-983b-7bd70332e108"
               />
-              <PreviewChooser
-                images={[
-                  {
-                    id: 1,
-                    userId: 1,
-                    url: "https://abipulli.nbg1.your-objectstorage.com/development/users/60/8effa685-4c52-4388-983b-7bd70332e108",
-                    uuid: "asd",
-                    createdAt: new Date(Date.now()),
-                    width: 1,
-                    height: 1,
-                  },
-                ]}
-              />
+              <PreviewChooser images={generatedImages} />
             </div>
             <div className="w-5/12">
               <InputField
