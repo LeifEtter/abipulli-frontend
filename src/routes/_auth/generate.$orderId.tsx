@@ -11,6 +11,7 @@ import { StyleSelector } from "src/components/Generate/StyleSelector";
 import { InputField } from "src/components/Inputs/InputField";
 import { SmallLabel } from "src/components/Texts/SmallLabel";
 import { GENERATION_EXAMPLES } from "src/exampleData/GenerationExamples";
+import { useSnackbar } from "src/hooks/useSnackbar";
 import { ImageApi } from "src/services/endpoints/image";
 import { PulloverApi } from "src/services/endpoints/pullover";
 import { GenerationExample } from "src/types/generator/GenerationExample";
@@ -21,6 +22,8 @@ export const Route = createFileRoute("/_auth/generate/$orderId")({
 });
 
 function RouteComponent() {
+  const showSnackbar = useSnackbar();
+
   const { orderId } = useParams({ strict: false });
 
   const [pullovers, setPullovers] = useState<Pullover[]>([]);
