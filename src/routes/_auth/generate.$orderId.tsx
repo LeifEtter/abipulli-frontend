@@ -54,10 +54,13 @@ function RouteComponent() {
   const [examples, setExamples] =
     useState<GenerationExample[]>(GENERATION_EXAMPLES);
 
-  const onImproveDescription = async () => {
-    const styleTags: string[] = Object.entries(selectedStyles)
+  const convertStyleTagsToString = (tags: SelectedStylesMap) =>
+    Object.entries(tags)
       .map(([style, active]) => (active ? style : null))
       .filter((v) => v != null);
+
+  const onImproveDescription = async () => {
+    const styleTags = convertStyleTagsToString(selectedStyles);
     const description: string = (
       await ImageApi.improveDescription({
         styleTags,
