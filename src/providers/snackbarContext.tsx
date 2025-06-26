@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useCallback, useState } from "react";
+import { createContext } from "react";
 
 type SnackbarType = "success" | "error" | "info" | "warning";
 

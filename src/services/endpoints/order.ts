@@ -1,10 +1,5 @@
 import { api } from "../api";
-import {
-  Order,
-  OrderResponse,
-  OrdersResponse,
-  UsersResponse,
-} from "abipulli-types";
+import { Order, OrdersResponse } from "abipulli-types";
 
 export const OrdersApi = {
   // Get all orders

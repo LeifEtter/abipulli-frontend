@@ -56,8 +56,7 @@ function RouteComponent() {
     retro: false,
   });
 
-  const [examples, setExamples] =
-    useState<GenerationExample[]>(GENERATION_EXAMPLES);
+  const [examples, _] = useState<GenerationExample[]>(GENERATION_EXAMPLES);
 
   const convertStyleTagsToString = (tags: SelectedStylesMap) =>
     Object.entries(tags)
