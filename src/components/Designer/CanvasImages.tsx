@@ -83,7 +83,6 @@ interface ViewData {
 
 export const ResizableImage = ({
   width,
-  height,
   originalPos,
   originalScale,
   isSelected,
@@ -172,6 +171,14 @@ export const ResizableImage = ({
               }
               return newBox;
             }}
+            enabledAnchors={[
+              "middle-right",
+              "top-right",
+              "bottom-right",
+              "bottom-center",
+            ]}
+            // TODO: Implement Rotation!!!
+            rotateEnabled={false}
           />
         )}
       </Fragment>
