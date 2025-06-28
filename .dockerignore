@@ -1,0 +1,40 @@
+# Dependencies
+node_modules
+**/node_modules
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Build output
+dist
+build
+.vite
+
+# OS and IDE files
+.DS_Store
+*.swp
+*.swo
+.idea
+.vscode
+
+# Git
+.git
+.gitignore
+
+# Docker files you don't need inside
+.dockerignore
+Dockerfile*
+
+# Env files (if not used in image)
+.env
+.env.*.local
+
+# Optional: test files (if not needed in image)
+__tests__/
+*.test.*
+*.spec.*
+
+# Monorepo extras (if applicable)
+packages/*/node_modules
