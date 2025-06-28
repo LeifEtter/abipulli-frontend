@@ -1,0 +1,31 @@
+name: Pull and Run Image
+
+on:
+  workflow_run:
+    workflows: ["Build and Push Image"]
+    types:
+      - completed
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Setup SSH
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.HETZNER_KEY }}
+
+      - name: Deploy to VPS
+        run: |
+          ssh -o StrictHostKeyChecking=no ${{ secrets.HETZNER_USER }}@${{ secrets.HETZNER_HOST }} << 'EOF'
+            set -e
+            cd /home/deploy-abipulli/projects/
+            docker login ghcr.io -u ${{ secrets.GHCR_USERNAME }} -p ${{ secrets.GHCR_TOKEN }}
+            docker compose pull
+            docker compose down --remove-orphans
+            docker compose up -d --build --remove-orphans
+          EOF
