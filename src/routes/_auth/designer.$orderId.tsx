@@ -1,13 +1,11 @@
 import { createFileRoute, Link, useParams } from "@tanstack/react-router";
-import GreyFront from "src/assets/pullovers/grey-front.png";
-import CyanFront from "src/assets/pullovers/cyan-front.png";
 import { Spacer } from "src/components/Misc/Spacer";
 import { MediumLabel } from "src/components/Texts/MediumLabel";
 import { DesignTab } from "src/components/Designer/DesignTab";
 import { ViewOption } from "src/components/Designer/ViewOption";
 import { ImageCard, UploadImageCard } from "src/components/Designer/ImageCard";
 import { ColorOption } from "src/components/Designer/ColorOption";
-import { PulloverOption } from "src/components/Designer/PulloverOption";
+// import { PulloverOption } from "src/components/Designer/PulloverOption";
 import { useEffect, useState } from "react";
 import { Design, Image, ImageWithPositionAndScale } from "abipulli-types";
 import { Layer, Stage, Text } from "react-konva";
@@ -363,14 +361,14 @@ function RouteComponent() {
             </div>
             <div>
               <MediumLabel text="Pullover-Art" />
-              <div className="flex flex-row gap-2">
+              {/* <div className="flex flex-row gap-2">
                 <PulloverOption image={GreyFront} name="Normal" />
                 <PulloverOption
                   image={CyanFront}
                   name="Oversized"
                   selected={true}
                 />
-              </div>
+              </div> */}
             </div>
           </div>
           <div className="flex flex-col p-2 items-center border-2 border-ap-new-gray rounded-xl border-ap bg-ap-new-dark-beige">
