@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Order } from "abipulli-types";
 import { useEffect, useState } from "react";
-import { OrdersApi } from "src/services/endpoints/order";
+import { OrdersApi } from "src/api/endpoints/order";
 
 export const Route = createFileRoute("/_auth/orders")({
   component: RouteComponent,

@@ -1,6 +1,6 @@
 import { Design } from "abipulli-types";
 import { useEffect, useState } from "react";
-import { DesignsApi } from "src/services/endpoints/design";
+import { DesignsApi } from "src/api/endpoints/design";
 
 export const useDesigns = (orderId: number) => {
   const [designs, setDesigns] = useState<Design[]>([]);

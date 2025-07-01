@@ -1,6 +1,6 @@
 import { Image } from "abipulli-types";
 import { useEffect, useState } from "react";
-import { ImageApi } from "src/services/endpoints/image";
+import { ImageApi } from "src/api/endpoints/image";
 
 export const useUserImages = () => {
   const [userImages, setUserImages] = useState<Image[]>([]);

@@ -1,10 +1,10 @@
 import { Image, ImageWithPositionAndScale } from "abipulli-types";
 import { useEffect, useState } from "react";
-import { DesignsApi } from "src/services/endpoints/design";
 import { PositionType } from "src/types/canvas/positionType";
 import { ScaleType } from "src/types/canvas/scaleType";
 import { SizeType } from "src/types/canvas/sizeType";
 import { useSnackbar } from "./useSnackbar";
+import { DesignsApi } from "src/api/endpoints/design";
 
 export const useDesignImages = (designId?: number) => {
   const [designImages, setDesignImages] = useState<ImageWithPositionAndScale[]>(

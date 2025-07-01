@@ -1,7 +1,7 @@
 import { useState, useEffect, ReactElement, useCallback } from "react";
 import { User, UserLoginParams } from "abipulli-types";
 import { AuthContext } from "./authContext";
-import { UsersApi } from "src/services/endpoints/user";
+import { UsersApi } from "src/api/endpoints/user";
 
 interface AuthProviderProps {
   children: React.ReactNode;
