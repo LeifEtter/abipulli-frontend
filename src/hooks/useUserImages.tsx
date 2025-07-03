@@ -2,7 +2,13 @@ import { Image } from "abipulli-types";
 import { useEffect, useState } from "react";
 import { ImageApi } from "src/api/endpoints/image";
 
-export const useUserImages = () => {
+interface UseUserImagesReturn {
+  userImages: Image[];
+  userImagesAreLoading: boolean;
+  userImagesError: string | null;
+}
+
+export const useUserImages = (): UseUserImagesReturn => {
   const [userImages, setUserImages] = useState<Image[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
