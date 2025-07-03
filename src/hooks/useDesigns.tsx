@@ -1,6 +1,6 @@
 import { Design } from "abipulli-types";
 import { useEffect, useState } from "react";
-import { DesignsApi } from "src/api/endpoints/design";
+import { DesignApi } from "src/api/endpoints/design";
 
 export const useDesigns = (orderId: number) => {
   const [designs, setDesigns] = useState<Design[]>([]);
@@ -12,8 +12,7 @@ export const useDesigns = (orderId: number) => {
       setError(null);
       setIsLoading(true);
       try {
-        const designs: Design[] =
-          await DesignsApi.retrieveOrderDesigns(orderId);
+        const designs: Design[] = await DesignApi.retrieveOrderDesigns(orderId);
         setDesigns(designs);
         setIsLoading(false);
       } catch (error) {

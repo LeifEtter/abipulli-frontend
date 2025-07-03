@@ -31,7 +31,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFileUpload, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useUserImages } from "src/hooks/useUserImages";
 import { PositionType } from "src/types/canvas/positionType";
-import { DesignsApi } from "src/api/endpoints/design";
+import { DesignApi } from "src/api/endpoints/design";
 import { ImageApi } from "src/api/endpoints/image";
 
 export const Route = createFileRoute("/_auth/designer/$orderId")({
@@ -105,7 +105,7 @@ function RouteComponent() {
   const saveDesignAlterations = async () => {
     if (selectedDesign) {
       for (const designImage of designImages) {
-        await DesignsApi.manipulateImageInDesign({
+        await DesignApi.manipulateImageInDesign({
           imageToDesignId: designImage.imageToDesignId,
           designId: selectedDesign?.id,
           manipulateImageParams: {

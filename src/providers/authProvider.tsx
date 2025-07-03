@@ -1,7 +1,7 @@
 import { useState, useEffect, ReactElement, useCallback } from "react";
 import { User, UserLoginParams } from "abipulli-types";
 import { AuthContext } from "./authContext";
-import { UsersApi } from "src/api/endpoints/user";
+import { UserApi } from "src/api/endpoints/user";
 
 interface AuthProviderProps {
   children: React.ReactNode;
@@ -27,7 +27,7 @@ export const AuthProvider = ({ children }: AuthProviderProps): ReactElement => {
   const login = async (creds: UserLoginParams) => {
     setState((prev) => ({ ...prev, isLoading: true, error: null }));
     try {
-      const user = await UsersApi.login(creds);
+      const user = await UserApi.login(creds);
       setState({ user, error: null, isLoading: false });
       return true;
     } catch (error) {
@@ -48,7 +48,7 @@ export const AuthProvider = ({ children }: AuthProviderProps): ReactElement => {
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        const { id } = await UsersApi.retrieveUserId();
+        const { id } = await UserApi.retrieveUserId();
         setState({ user: { id }, error: null, isLoading: false });
       } catch (error) {
         setError("Authentication failed");

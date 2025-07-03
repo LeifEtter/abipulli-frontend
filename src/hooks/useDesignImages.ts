@@ -4,7 +4,7 @@ import { PositionType } from "src/types/canvas/positionType";
 import { ScaleType } from "src/types/canvas/scaleType";
 import { SizeType } from "src/types/canvas/sizeType";
 import { useSnackbar } from "./useSnackbar";
-import { DesignsApi } from "src/api/endpoints/design";
+import { DesignApi } from "src/api/endpoints/design";
 
 export const useDesignImages = (designId?: number) => {
   const [designImages, setDesignImages] = useState<ImageWithPositionAndScale[]>(
@@ -30,7 +30,7 @@ export const useDesignImages = (designId?: number) => {
       scale = 1;
     }
     const newImage: ImageWithPositionAndScale =
-      await DesignsApi.addImageToDesign({
+      await DesignApi.addImageToDesign({
         designId: designId,
         imageId: image.id,
         addImageToDesignParams: {
@@ -48,7 +48,7 @@ export const useDesignImages = (designId?: number) => {
     designId: number
   ) => {
     try {
-      await DesignsApi.removeImageFromDesign(image, designId);
+      await DesignApi.removeImageFromDesign(image, designId);
       const newDesignImages = designImages.filter(
         (e) => e.imageToDesignId != image.imageToDesignId
       );
@@ -86,7 +86,7 @@ export const useDesignImages = (designId?: number) => {
     designImages[index].positionX = Math.round(pos.x);
     designImages[index].positionY = Math.round(pos.y);
     setDesignImages(designImages);
-    await DesignsApi.manipulateImageInDesign({
+    await DesignApi.manipulateImageInDesign({
       imageToDesignId,
       designId: designId!,
       manipulateImageParams: {
@@ -110,7 +110,7 @@ export const useDesignImages = (designId?: number) => {
     designImages[index].scaleX = scale.x;
     designImages[index].scaleY = scale.y;
     setDesignImages(designImages);
-    await DesignsApi.manipulateImageInDesign({
+    await DesignApi.manipulateImageInDesign({
       imageToDesignId,
       designId: designId!,
       manipulateImageParams: {
@@ -126,7 +126,7 @@ export const useDesignImages = (designId?: number) => {
       setIsLoading(true);
       try {
         const images: ImageWithPositionAndScale[] =
-          await DesignsApi.retrieveAllImagesForDesign(designId!);
+          await DesignApi.retrieveAllImagesForDesign(designId!);
         setDesignImages(images);
         setIsLoading(false);
       } catch (error) {
