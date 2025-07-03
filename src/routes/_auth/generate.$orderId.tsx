@@ -12,7 +12,6 @@ import { PreviewDesign } from "src/components/Generate/PreviewDesign";
 import { StyleSelector } from "src/components/Generate/StyleSelector";
 import { InputField } from "src/components/Inputs/InputField";
 import { SmallLabel } from "src/components/Texts/SmallLabel";
-import { GENERATION_EXAMPLES } from "src/exampleData/GenerationExamples";
 import { useSnackbar } from "src/hooks/useSnackbar";
 import { GenerationExample } from "src/types/generator/GenerationExample";
 import { SelectedStylesMap } from "src/types/generator/SelectedStyles";
@@ -56,7 +55,8 @@ function RouteComponent() {
     retro: false,
   });
 
-  const [examples, _] = useState<GenerationExample[]>(GENERATION_EXAMPLES);
+  //TODO Add Generation Example
+  const [examples, _] = useState<GenerationExample[]>([]);
 
   const convertStyleTagsToString = (tags: SelectedStylesMap) =>
     Object.entries(tags)
