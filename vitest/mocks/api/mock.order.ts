@@ -3,7 +3,7 @@ import { OrderFactory } from "../data/factory.order";
 import { faker } from "@faker-js/faker";
 import { getTestUserId } from "vitest/testState";
 
-export const OrderApi = {
+export const MockOrderApi = {
   getAll: async (): Promise<Order[]> => {
     const orderAmount: number = faker.number.int({ min: 1, max: 2 });
     const orders: Order[] = [];

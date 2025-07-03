@@ -2,7 +2,7 @@ import { UserCheckAuthResult, UserLoginResult } from "abipulli-types";
 import { faker } from "@faker-js/faker";
 import { getTestUserId } from "vitest/testState";
 
-export const UserApi = {
+export const MockUserApi = {
   retrieveUserId: async (): Promise<UserCheckAuthResult> => ({
     id: getTestUserId()!,
   }),

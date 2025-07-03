@@ -12,7 +12,7 @@ import { getTestUserId } from "vitest/testState";
 
 //TODO LAter use "toBeCalledWith" to compare passed params
 
-export const DesignApi = {
+export const MockDesignApi = {
   retrieveOrderDesigns: async (orderNumber: number): Promise<Design[]> =>
     DesignFactory.designs({
       orderId: orderNumber,

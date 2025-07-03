@@ -8,7 +8,7 @@ import { faker } from "@faker-js/faker";
 import { ImageFactory } from "../data/factory.image";
 import { getTestUserId } from "vitest/testState";
 
-export const ImageApi = {
+export const MockImageApi = {
   upload: async (image: File): Promise<number> => uniqueId(),
   fetchUsersImages: async (): Promise<Image[]> => {
     const imageAmount = faker.number.int({ min: 1, max: 10 });
