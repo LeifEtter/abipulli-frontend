@@ -17,6 +17,30 @@ const imageUrls = [
   "PERMANENT/Abivegas-1.png",
 ];
 
+const pulloverImageUrls = [
+  "PERMANENT/black-front.png",
+  "PERMANENT/black-back.png",
+  "PERMANENT/cyan-front.png",
+  "PERMANENT/cyan-back.png",
+  "PERMANENT/grey-front.png",
+  "PERMANENT/grey-back.png",
+  "PERMANENT/white-front.png",
+  "PERMANENT/white-back.png",
+  "PERMANENT/sand-front.png",
+  "PERMANENT/sand-back.png",
+  "PERMANENT/pink-front.png",
+  "PERMANENT/pink-back.png",
+  "PERMANENT/purple-front.png",
+  "PERMANENT/purple-back.png",
+];
+
+export const getRandomPulloverImageUrl = (): string => {
+  return (
+    "nbg1.your-objectstorage.com/abipulli/" +
+    faker.helpers.arrayElement(pulloverImageUrls)
+  );
+};
+
 export const getRandomUrl = (): string => {
   return (
     "nbg1.your-objectstorage.com/abipulli/" +
