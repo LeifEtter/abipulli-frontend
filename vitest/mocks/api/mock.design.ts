@@ -24,7 +24,7 @@ export const DesignApi = {
   retrieveAllImagesForDesign: async (
     designId: number
   ): Promise<ImageWithPositionAndScale[]> => {
-    const imageNumber = faker.number.int({ min: 0, max: 5 });
+    const imageNumber = faker.number.int({ min: 1, max: 5 });
     const images: ImageWithPositionAndScale[] = [];
     for (let i = 0; i < imageNumber; i++) {
       images.push(ImageFactory.positionedImage({}));
