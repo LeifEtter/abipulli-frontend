@@ -24,6 +24,18 @@ export default tseslint.config(
         { allowConstantExport: true },
       ],
       "@typescript-eslint/no-unused-vars": "off",
+      "import/no-restricted-paths": [
+        "error",
+        {
+          zones: [
+            {
+              target: "./src",
+              from: "./vitest",
+              message: "Do not import test-only files from vitest into src",
+            },
+          ],
+        },
+      ],
     },
   }
 );
