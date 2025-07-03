@@ -13,7 +13,7 @@ import { api } from "../api";
 import { ApiError } from "../ApiError";
 import { AxiosResponse } from "axios";
 
-export const DesignsApi = {
+export const DesignApi = {
   retrieveOrderDesigns: async (orderNumber: number): Promise<Design[]> => {
     const res = await api.get(`/order/${orderNumber}/design`);
     const designsRes: DesignsResponse = res.data;

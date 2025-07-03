@@ -8,7 +8,7 @@ import {
 import { api } from "../api";
 import { ApiError } from "../ApiError";
 
-export const UsersApi = {
+export const UserApi = {
   retrieveUserId: async (): Promise<UserCheckAuthResult> => {
     const response = await api.get<UserCheckAuthResponse>("/user/authenticate");
     if (!response.data.success) throw response.data.error;
