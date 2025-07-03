@@ -8,6 +8,7 @@ import { DesignFactory } from "../data/factory.design";
 import { faker } from "@faker-js/faker";
 import { ImageFactory } from "../data/factory.image";
 import { uniqueId } from "../data/utils";
+import { getTestUserId } from "vitest/testState";
 
 //TODO LAter use "toBeCalledWith" to compare passed params
 
@@ -16,7 +17,7 @@ export const DesignApi = {
     DesignFactory.designs({
       orderId: orderNumber,
       amount: 10,
-      customerId: 5,
+      customerId: getTestUserId()!,
     }),
   retrieveSingleDesign: async (id: number): Promise<Design> =>
     DesignFactory.design({ id: id, orderId: 5, customerId: 5 }),
@@ -39,7 +40,7 @@ export const DesignApi = {
     imageId: number;
     addImageToDesignParams: AddImageToDesignParams;
   }): Promise<ImageWithPositionAndScale> => ({
-    ...ImageFactory.image({ id: imageId }),
+    ...ImageFactory.image({ id: imageId, userId: getTestUserId()! }),
     imageToDesignId: uniqueId(),
     ...addImageToDesignParams,
   }),
@@ -52,7 +53,7 @@ export const DesignApi = {
     designId: number;
     manipulateImageParams: ManipulateImageInDesignParams;
   }): Promise<ImageWithPositionAndScale> => ({
-    ...ImageFactory.image({}),
+    ...ImageFactory.image({ userId: getTestUserId() }),
     imageToDesignId: imageToDesignId,
     ...manipulateImageParams,
   }),
