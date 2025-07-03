@@ -11,7 +11,7 @@ import { uniqueId } from "../data/utils";
 
 //TODO LAter use "toBeCalledWith" to compare passed params
 
-export const DesignsApi = {
+export const DesignApi = {
   retrieveOrderDesigns: async (orderNumber: number): Promise<Design[]> =>
     DesignFactory.designs({
       orderId: orderNumber,
