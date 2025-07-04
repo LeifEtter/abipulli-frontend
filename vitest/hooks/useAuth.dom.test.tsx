@@ -124,6 +124,33 @@ describe("useAuth", () => {
     );
   });
 
+  it("should test failed login", async () => {
+    const mockUserId = 42;
+    const mockJwt = faker.internet.jwt();
+    vi.mocked(UserApi.login).mockRejectedValue(new Error("sodmasdom"));
+    // vi.mocked(UserApi.retrieveUserId).m);
+
+    render(
+      <AuthProvider>
+        <TestComponent />
+      </AuthProvider>
+    );
+
+    const loginButton = screen.getByTestId("login-button");
+    fireEvent.click(loginButton);
+    expect(screen.getByTestId("isLoading").textContent).toBe(true.toString());
+    expect(screen.getByTestId("userData").textContent).toBe(
+      JSON.stringify(null)
+    );
+    await waitFor(() => {
+      expect(screen.getByTestId("isLoading").textContent).toBe(
+        false.toString()
+      );
+      expect(screen.getByTestId("error").textContent).toBe(
+        JSON.stringify("Login failed")
+      );
+      expect(screen.getByTestId("userData").textContent).toBe(
+        JSON.stringify(null)
       );
     });
   });
