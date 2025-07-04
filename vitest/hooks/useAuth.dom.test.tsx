@@ -97,6 +97,33 @@ describe("useAuth", () => {
     });
   });
 
+  it("should test successful logout", async () => {
+    const mockUserId = 42;
+    const mockJwt = faker.internet.jwt();
+    vi.mocked(UserApi.login).mockResolvedValue({
+      id: mockUserId,
+      token: mockJwt,
+    });
+    vi.mocked(UserApi.retrieveUserId).mockResolvedValue({ id: mockUserId });
+
+    render(
+      <AuthProvider>
+        <TestComponent />
+      </AuthProvider>
+    );
+
+    const loginButton = screen.getByTestId("login-button");
+    const logoutButton = screen.getByTestId("logout-button");
+    fireEvent.click(loginButton);
+    await waitFor(() => {});
+    fireEvent.click(logoutButton);
+    expect(screen.getByTestId("isLoading").textContent).toBe(false.toString());
+    expect(screen.getByTestId("error").textContent).toBe(JSON.stringify(null));
+    expect(screen.getByTestId("userData").textContent).toBe(
+      JSON.stringify(null)
+    );
+  });
+
       );
     });
   });
