@@ -1,6 +1,5 @@
 import { faker } from "@faker-js/faker";
-import { render, waitFor } from "@testing-library/react";
-import { useEffect } from "react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { UserApi } from "src/api/endpoints/user";
 import { useAuth } from "src/hooks/useAuth";
 import { AuthProvider } from "src/providers/authProvider";
@@ -51,14 +50,17 @@ describe("useAuth", () => {
     );
   });
 
+  it("should render initial values", async () => {
     const testComponent = render(
       <AuthProvider>
         <TestComponent />
       </AuthProvider>
     );
     await waitFor(() => {
-      expect(testComponent.getByTestId("result").textContent).toBe(
-        mockUserId.toString()
+      expect(testComponent.getByTestId("userData").textContent).toBe("null");
+      expect(testComponent.getByTestId("error").textContent).toBe("null");
+    });
+  });
       );
     });
   });
