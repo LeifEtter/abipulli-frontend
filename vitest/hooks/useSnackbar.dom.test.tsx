@@ -70,4 +70,21 @@ describe("useSnackbar", () => {
     act(() => vi.advanceTimersByTime(5000));
     expect(screen.queryByTestId("snackbar-popup")).not.toBeInTheDocument();
   });
+
+  it("should test error snackbar show and hide process with", async () => {
+    vi.useFakeTimers();
+    render(
+      <SnackbarProvider>
+        <TestComponent />
+      </SnackbarProvider>
+    );
+    const successButton = screen.getByTestId("snackbar-error");
+    fireEvent.click(successButton);
+    expect(screen.getByTestId("snackbar-popup")).not.toBeNull();
+    expect(screen.getByTestId("snackbar-popup").textContent).toBe(
+      "Oh no, Something went wrong! :("
+    );
+    act(() => vi.advanceTimersByTime(5000));
+    expect(screen.queryByTestId("snackbar-popup")).not.toBeInTheDocument();
+  });
 });
