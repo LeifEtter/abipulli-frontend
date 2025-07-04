@@ -18,6 +18,7 @@
     "@tailwindcss/vite": "^4.1.4",
     "@tanstack/react-router": "^1.120.2",
     "@tanstack/react-router-devtools": "^1.120.2",
+    "@types/node": "^24.0.10",
     "abipulli-types": "^1.0.39",
     "axios": "^1.9.0",
     "konva": "^9.3.20",
