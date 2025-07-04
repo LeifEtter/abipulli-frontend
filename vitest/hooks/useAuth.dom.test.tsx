@@ -61,6 +61,42 @@ describe("useAuth", () => {
       expect(testComponent.getByTestId("error").textContent).toBe("null");
     });
   });
+
+  it("should test successful login", async () => {
+    const mockUserId = 42;
+    const mockJwt = faker.internet.jwt();
+    vi.mocked(UserApi.login).mockResolvedValue({
+      id: mockUserId,
+      token: mockJwt,
+    });
+    vi.mocked(UserApi.retrieveUserId).mockResolvedValue({ id: mockUserId });
+
+    render(
+      <AuthProvider>
+        <TestComponent />
+      </AuthProvider>
+    );
+
+    const loginButton = screen.getByTestId("login-button");
+    fireEvent.click(loginButton);
+    expect(screen.getByTestId("isLoading").textContent).toBe(true.toString());
+    expect(screen.getByTestId("userData").textContent).toBe(
+      JSON.stringify(null)
+    );
+    expect(screen.getByTestId("error").textContent).toBe(JSON.stringify(null));
+    await waitFor(() => {
+      expect(screen.getByTestId("isLoading").textContent).toBe(
+        false.toString()
+      );
+      expect(screen.getByTestId("error").textContent).toBe(
+        JSON.stringify(null)
+      );
+      expect(screen.getByTestId("userData").textContent).toBe(
+        JSON.stringify({ id: mockUserId, token: mockJwt })
+      );
+    });
+  });
+
       );
     });
   });
