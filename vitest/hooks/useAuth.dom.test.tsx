@@ -4,7 +4,11 @@ import { useEffect } from "react";
 import { UserApi } from "src/api/endpoints/user";
 import { useAuth } from "src/hooks/useAuth";
 import { AuthProvider } from "src/providers/authProvider";
-import { describe, expect, it, vi } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
+
+afterEach(() => {
+  vi.resetAllMocks();
+});
 
 vi.mock("src/api/endpoints/user", () => ({
   UserApi: {
