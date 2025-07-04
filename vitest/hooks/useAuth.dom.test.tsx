@@ -45,7 +45,11 @@ function TestComponent() {
 }
 
 describe("useAuth", () => {
+  it("should throw an error when it's not used inside <AuthProvider>", async () => {
+    expect(() => render(<TestComponent />)).toThrowError(
+      "useAuth must be used within an AuthProvider"
     );
+  });
 
     const testComponent = render(
       <AuthProvider>
