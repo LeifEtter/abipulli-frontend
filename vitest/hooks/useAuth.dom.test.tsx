@@ -10,6 +10,7 @@ vi.mock("src/api/endpoints/user", () => ({
   UserApi: {
     login: vi.fn(),
     retrieveUserId: vi.fn(),
+    logout: vi.fn(),
   },
 }));
 
