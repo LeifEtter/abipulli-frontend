@@ -5,11 +5,7 @@ import { UserApi } from "src/api/endpoints/user";
 import { useAuth } from "src/hooks/useAuth";
 import { AuthProvider } from "src/providers/authProvider";
 import { describe, expect, it, vi } from "vitest";
-
-function delayedResolve<T>(returnValue: T, timeout: number) {
-  return () =>
-    new Promise<T>((resolve) => setTimeout(() => resolve(returnValue), 10));
-}
+import { delayedResolve } from "vitest/helpers/helpers";
 
 vi.mock("src/api/endpoints/user", () => ({
   UserApi: {
