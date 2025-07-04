@@ -22,10 +22,8 @@ import { useDesigns } from "src/hooks/useDesigns";
 import { KonvaEventObject } from "konva/lib/Node";
 import { useDesignImages } from "src/hooks/useDesignImages";
 import { ScaleType } from "src/types/canvas/scaleType";
-import { DesignsApi } from "src/services/endpoints/design";
 import { ErrorCode as DropzoneError } from "react-dropzone";
 import { useSnackbar } from "src/hooks/useSnackbar";
-import { ImageApi } from "src/services/endpoints/image";
 import { ImageDropper } from "src/components/Designer/UploadDropper";
 import { ModalBackground } from "src/components/Misc/ModalBackground";
 import { getTotalFileSizeFromArray } from "src/utilities/Files/getTotalFileSizeFromArray";
@@ -33,6 +31,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFileUpload, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useUserImages } from "src/hooks/useUserImages";
 import { PositionType } from "src/types/canvas/positionType";
+import { DesignApi } from "src/api/endpoints/design";
+import { ImageApi } from "src/api/endpoints/image";
 
 export const Route = createFileRoute("/_auth/designer/$orderId")({
   component: RouteComponent,
@@ -105,7 +105,7 @@ function RouteComponent() {
   const saveDesignAlterations = async () => {
     if (selectedDesign) {
       for (const designImage of designImages) {
-        await DesignsApi.manipulateImageInDesign({
+        await DesignApi.manipulateImageInDesign({
           imageToDesignId: designImage.imageToDesignId,
           designId: selectedDesign?.id,
           manipulateImageParams: {

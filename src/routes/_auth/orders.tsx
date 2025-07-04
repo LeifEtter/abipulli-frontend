@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Order } from "abipulli-types";
 import { useEffect, useState } from "react";
-import { OrdersApi } from "src/services/endpoints/order";
+import { OrderApi } from "src/api/endpoints/order";
 
 export const Route = createFileRoute("/_auth/orders")({
   component: RouteComponent,
@@ -12,7 +12,7 @@ function RouteComponent() {
 
   const initOrders = async () => {
     try {
-      const orders: Order[] | null = await OrdersApi.getAll();
+      const orders: Order[] | null = await OrderApi.getAll();
       setOrders(orders);
     } catch (error) {
       console.log(error);
