@@ -18,7 +18,10 @@ export const SnackbarProvider = ({ children }: { children: ReactNode }) => {
     <SnackbarContext.Provider value={{ showSnackbar }}>
       {children}
       {snackbar != null ? (
-        <div className="w-full fixed top-0 text-center bg-red-500 z-50">
+        <div
+          data-testid="snackbar-popup"
+          className="w-full fixed top-0 text-center bg-red-500 z-50"
+        >
           {snackbar?.message}
         </div>
       ) : (
