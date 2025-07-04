@@ -2,7 +2,6 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { renderHook, waitFor } from "@testing-library/react";
 import { useUserImages } from "src/hooks/useUserImages";
 import { setTestUserId } from "vitest/testState";
-import { ImageFactory } from "vitest/mocks/data/factory.image";
 import { MockImageApi } from "../mocks/api/mock.image";
 import { ImageApi } from "src/api/endpoints/image";
 import { ApiError } from "src/api/ApiError";
