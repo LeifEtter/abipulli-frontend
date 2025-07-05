@@ -13,6 +13,7 @@
 import { Route as rootRoute } from './routes/__root'
 import { Route as TestingImport } from './routes/testing'
 import { Route as LoginImport } from './routes/login'
+import { Route as OnboardingRouteImport } from './routes/onboarding/route'
 import { Route as AuthRouteImport } from './routes/_auth/route'
 import { Route as AdminRouteImport } from './routes/_admin/route'
 import { Route as IndexImport } from './routes/index'
@@ -32,6 +33,12 @@ const TestingRoute = TestingImport.update({
 const LoginRoute = LoginImport.update({
   id: '/login',
   path: '/login',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const OnboardingRouteRoute = OnboardingRouteImport.update({
+  id: '/onboarding',
+  path: '/onboarding',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -98,6 +105,13 @@ declare module '@tanstack/react-router' {
       path: ''
       fullPath: ''
       preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRoute
+    }
+    '/onboarding': {
+      id: '/onboarding'
+      path: '/onboarding'
+      fullPath: '/onboarding'
+      preLoaderRoute: typeof OnboardingRouteImport
       parentRoute: typeof rootRoute
     }
     '/login': {
@@ -178,6 +192,7 @@ const AuthRouteRouteWithChildren = AuthRouteRoute._addFileChildren(
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '': typeof AuthRouteRouteWithChildren
+  '/onboarding': typeof OnboardingRouteRoute
   '/login': typeof LoginRoute
   '/testing': typeof TestingRoute
   '/orders': typeof AuthOrdersRoute
@@ -189,6 +204,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '': typeof AuthRouteRouteWithChildren
+  '/onboarding': typeof OnboardingRouteRoute
   '/login': typeof LoginRoute
   '/testing': typeof TestingRoute
   '/orders': typeof AuthOrdersRoute
@@ -202,6 +218,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_admin': typeof AdminRouteRouteWithChildren
   '/_auth': typeof AuthRouteRouteWithChildren
+  '/onboarding': typeof OnboardingRouteRoute
   '/login': typeof LoginRoute
   '/testing': typeof TestingRoute
   '/_auth/orders': typeof AuthOrdersRoute
@@ -215,6 +232,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | ''
+    | '/onboarding'
     | '/login'
     | '/testing'
     | '/orders'
@@ -225,6 +243,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | ''
+    | '/onboarding'
     | '/login'
     | '/testing'
     | '/orders'
@@ -236,6 +255,7 @@ export interface FileRouteTypes {
     | '/'
     | '/_admin'
     | '/_auth'
+    | '/onboarding'
     | '/login'
     | '/testing'
     | '/_auth/orders'
@@ -249,6 +269,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AdminRouteRoute: typeof AdminRouteRouteWithChildren
   AuthRouteRoute: typeof AuthRouteRouteWithChildren
+  OnboardingRouteRoute: typeof OnboardingRouteRoute
   LoginRoute: typeof LoginRoute
   TestingRoute: typeof TestingRoute
 }
@@ -257,6 +278,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminRouteRoute: AdminRouteRouteWithChildren,
   AuthRouteRoute: AuthRouteRouteWithChildren,
+  OnboardingRouteRoute: OnboardingRouteRoute,
   LoginRoute: LoginRoute,
   TestingRoute: TestingRoute,
 }
@@ -274,6 +296,7 @@ export const routeTree = rootRoute
         "/",
         "/_admin",
         "/_auth",
+        "/onboarding",
         "/login",
         "/testing"
       ]
@@ -294,6 +317,9 @@ export const routeTree = rootRoute
         "/_auth/designer/$orderId",
         "/_auth/generate/$orderId"
       ]
+    },
+    "/onboarding": {
+      "filePath": "onboarding/route.tsx"
     },
     "/login": {
       "filePath": "login.tsx"
