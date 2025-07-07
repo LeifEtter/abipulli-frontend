@@ -39,6 +39,14 @@
   --color-ap-medium-grey-half-opacity: oklch(0.32 0.0507 261.01 / 20%);
 }
 
+@layer components {
+  .card {
+    background-color: var(--color-white);
+    border-radius: 16px;
+    box-shadow: var(--shadow-ap-special-shadow);
+  }
+}
+
 :root {
   line-height: 1.5;
   font-weight: 400;
