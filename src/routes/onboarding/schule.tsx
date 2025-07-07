@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import Select from "react-select";
 import { SuperDuperShinySpecialButton } from "src/components/Buttons/SuperDuperShinySpecialButton";
 import { InputField } from "src/components/Inputs/InputField";
@@ -17,7 +17,7 @@ function RouteComponent() {
 
   return (
     <div>
-      <div className="bg-white shadow-ap-special-shadow rounded-xl px-12 py-10 max-w-9/12">
+      <div className="bg-white shadow-ap-special-shadow rounded-xl px-12 pt-10 pb-5 max-w-200">
         <h1 className="text-3xl font-medium text-ap-new-black">
           Über Eure Schule
         </h1>
@@ -98,9 +98,18 @@ function RouteComponent() {
             />
           </div>
         </div>
-        <button className="cursor-pointer bg-abipulli-green shadow-ap-button py-1.5 rounded-md border font-semibold min-w-38 mt-3 text-md hover:translate-y-2 hover:shadow-none">
-          Next
-        </button>
+        <div className="flex w-full justify-between h-20 mt-2">
+          <span className="self-end">
+            <p>Du hast schon ein Account?</p>
+            <Link className="text-blue-500 font-semibold" to="/login">
+              Klicke Hier um dich Einzuloggen
+            </Link>
+          </span>
+
+          <button className="self-start cursor-pointer bg-abipulli-green shadow-ap-button py-1.5 px-4 rounded-md border font-semibold min-w-40 text-md hover:translate-y-2 hover:shadow-none">
+            {`Nächster Schritt ->`}
+          </button>
+        </div>
       </div>
     </div>
   );
