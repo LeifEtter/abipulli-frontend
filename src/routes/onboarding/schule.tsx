@@ -1,0 +1,107 @@
+import { createFileRoute } from "@tanstack/react-router";
+import Select from "react-select";
+import { SuperDuperShinySpecialButton } from "src/components/Buttons/SuperDuperShinySpecialButton";
+import { InputField } from "src/components/Inputs/InputField";
+
+export const Route = createFileRoute("/onboarding/schule")({
+  component: RouteComponent,
+});
+
+const countryCodes = ["DE", "CH", "AT"];
+
+function RouteComponent() {
+  const selectOptions = countryCodes.map((countryCode) => ({
+    value: countryCode,
+    label: countryCode,
+  }));
+
+  return (
+    <div>
+      <div className="bg-white shadow-ap-special-shadow rounded-xl px-12 py-10 max-w-9/12">
+        <h1 className="text-3xl font-medium text-ap-new-black">
+          Über Eure Schule
+        </h1>
+        <p className="text-md text-gray-600">
+          Wir brauchen erstmal ein Paar Infos über eure Schule damit wir die
+          Logistik deiner Bestellung planen können. Aber keine Angst, alles ist
+          unverbindlich!
+        </p>
+        <div className="flex flex-row gap-2 mt-10">
+          <div className="flex-1/12 min-w-21">
+            <label
+              htmlFor="select-country-code"
+              className="text-lg font-medium"
+            >
+              Land *
+            </label>
+            <Select
+              id="select-country-code"
+              styles={{}}
+              options={selectOptions}
+              defaultValue={selectOptions[0]}
+            />
+          </div>
+          <div className="flex-6/12">
+            <InputField
+              onChange={() => {}}
+              placeholder="asdasd"
+              value=""
+              label="Schule"
+              required
+              requiredStarColor="text-abipulli-green-strong"
+            />
+          </div>
+          <div className="flex-4/12">
+            <InputField
+              onChange={() => {}}
+              placeholder="asdasd"
+              value=""
+              label="Stadt"
+              required
+              requiredStarColor="text-abipulli-green-strong"
+            />
+          </div>
+        </div>
+        <div className="flex gap-2 mt-4">
+          <div className="flex-1/12 max-w-16">
+            <InputField
+              onChange={() => {}}
+              placeholder="12"
+              value=""
+              label="Stufe"
+              required
+              requiredStarColor="text-abipulli-green-strong"
+            />
+          </div>
+          <div className="flex-9/12 max-w-26">
+            <InputField
+              onChange={() => {}}
+              placeholder="2025"
+              value=""
+              label="Abijahrgang"
+              required
+              requiredStarColor="text-abipulli-green-strong"
+            />
+          </div>
+        </div>
+        <div className="flex flex-row mt-4">
+          <div className="flex flex-col">
+            <label htmlFor="delivery-deadline">Wunschtermin Lieferung</label>
+            <input
+              value="tt.mm.jjjj"
+              type="date"
+              id="delivery-deadline"
+              name="trip-start"
+              placeholder="dd"
+              lang="de"
+              className="border-1 border-abipulli-grey-border rounded-sm py-1.5 px-3 w-38"
+            />
+          </div>
+        </div>
+        <button className="cursor-pointer bg-abipulli-green shadow-ap-button py-1.5 rounded-md border font-semibold min-w-38 mt-3 text-md hover:translate-y-2 hover:shadow-none">
+          Next
+        </button>
+      </div>
+    </div>
+  );
+}
