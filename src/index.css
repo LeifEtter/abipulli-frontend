@@ -15,6 +15,11 @@
   --color-ap-light-grey: oklch(0.97 0.0029 264.54);
   --color-ap-medium-grey: oklch(0.96 0.0027 286.35);
 
+  --color-abipulli-green: #c7e1be;
+  --color-abipulli-green-light: #e8f1e5;
+  --color-abipulli-green-strong: #578a46;
+  --color-abipulli-grey-border: #d5d7da;
+
   --color-ap-new-green: #c7e2be;
   --color-ap-new-beige: #f0eae0;
   --color-ap-new-dark-beige: #dfd6c9;
