@@ -25,16 +25,20 @@ function RouteComponent() {
         </div>
       </div>
 
-      <img className="absolute bottom-0" src={TreeBG} alt="" />
+      <img
+        className="absolute bottom-0"
+        src={TreeBG}
+        alt="trees-background-image"
+      />
       <img
         className="absolute w-70 right-0 bottom-3/12"
         src={ThumbsUP}
-        alt=""
+        alt="thumbs-up-background-image"
       />
       <img
         src={AbipulliMascot}
         className="w-120 absolute right-2/12 -top-1/12"
-        alt=""
+        alt="mascot-background-image"
       />
     </div>
   );
