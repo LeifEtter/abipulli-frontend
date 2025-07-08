@@ -39,20 +39,7 @@ function RouteComponent() {
           unverbindlich!
         </p>
         <div className="flex flex-row gap-2 mt-10">
-          <div className="flex-1/12 min-w-21">
-            <label
-              htmlFor="select-country-code"
-              className="text-lg font-medium"
-            >
-              Land *
-            </label>
-            <Select
-              id="select-country-code"
-              styles={{}}
-              options={selectOptions}
-              defaultValue={selectOptions[0]}
-            />
-          </div>
+          <SelectField label="Land" options={selectOptions} />
           <div className="flex-6/12">
             <InputField
               onChange={() => {}}
