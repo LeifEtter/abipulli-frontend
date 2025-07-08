@@ -85,18 +85,13 @@ function RouteComponent() {
           </div>
         </div>
         <div className="flex flex-row mt-4">
-          <div className="flex flex-col">
-            <label htmlFor="delivery-deadline">Wunschtermin Lieferung</label>
-            <input
-              value="tt.mm.jjjj"
-              type="date"
-              id="delivery-deadline"
-              name="trip-start"
-              placeholder="dd"
-              lang="de"
-              className="border-1 border-abipulli-grey-border rounded-sm py-1.5 px-3 w-38"
-            />
-          </div>
+          <DatePicker
+            label={"Wunschtermin Lieferung"}
+            value={convertToDateValue(deadline)}
+            onChange={(e) =>
+              saveProgressLocally({ deadline: new Date(e.target.value) })
+            }
+          />
         </div>
         <div className="flex w-full justify-between h-20 mt-2">
           <span className="self-end">
