@@ -4,10 +4,16 @@ interface DatePickerProps {
   onChange: (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => void;
+  className?: string;
 }
 
-export const DatePicker = ({ label, value, onChange }: DatePickerProps) => (
-  <div className="flex flex-col">
+export const DatePicker = ({
+  label,
+  value,
+  onChange,
+  className,
+}: DatePickerProps) => (
+  <div className={`flex flex-col` + " " + className}>
     <label htmlFor="delivery-deadline">Wunschtermin Lieferung</label>
     <input
       value={value}

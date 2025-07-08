@@ -80,6 +80,14 @@ function RouteComponent() {
             requiredStarColor="text-abipulli-green-strong"
           />
         </div>
+        <DatePicker
+          className="flex mt-4"
+          label={"Wunschtermin Lieferung"}
+          value={convertToDateValue(deadline)}
+          onChange={(e) =>
+            saveProgressLocally({ deadline: new Date(e.target.value) })
+          }
+        />
         <div className="flex w-full justify-between h-20 mt-2">
           <ClickToLogin className="self-end" to="/login" />
           <Link
