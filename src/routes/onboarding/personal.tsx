@@ -19,13 +19,7 @@ function RouteComponent() {
         </p>
         <div className="flex"></div>
         <div className="flex w-full justify-between h-20 mt-2">
-          <span className="self-end">
-            <p>Du hast schon ein Account?</p>
-            <Link className="text-blue-500 font-semibold" to="/login">
-              Klicke Hier um dich Einzuloggen
-            </Link>
-          </span>
-
+          <ClickToLogin className="self-end" to="/login" />
           <button className="self-start cursor-pointer bg-abipulli-green shadow-ap-button py-1.5 px-4 rounded-md border font-semibold min-w-40 text-md hover:translate-y-2 hover:shadow-none">
             {`Nächster Schritt ->`}
           </button>
