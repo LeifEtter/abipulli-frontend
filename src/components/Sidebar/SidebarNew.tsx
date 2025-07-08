@@ -97,7 +97,7 @@ export const SidebarNew: React.FC = () => {
       <div className="flex flex-col items-start bg-white shadow-ap-special-shadow rounded-2xl px-8 py-4 min-h-9/12">
         <h2 className="text-xl font-semibold mb-10">Abipulli.com</h2>
         {steps.map((step) => (
-          <>
+          <div key={`step-${step.label}-${steps.indexOf(step)}`}>
             <StepTile
               label={step.label}
               description={step.description}
@@ -108,7 +108,7 @@ export const SidebarNew: React.FC = () => {
             ) : (
               <></>
             )}
-          </>
+          </div>
         ))}
       </div>
       <div className="card p-3">
