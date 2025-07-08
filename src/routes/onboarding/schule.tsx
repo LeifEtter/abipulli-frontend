@@ -1,7 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import Select from "react-select";
-import { SuperDuperShinySpecialButton } from "src/components/Buttons/SuperDuperShinySpecialButton";
+import { DatePicker } from "src/components/Inputs/DatePicker";
 import { InputField } from "src/components/Inputs/InputField";
+import { SelectField } from "src/components/Inputs/SelectField";
+import { useOnboardingInfo } from "src/hooks/useOnboardingInfo";
+import { convertToDateValue } from "src/utilities/date";
 
 export const Route = createFileRoute("/onboarding/schule")({
   component: RouteComponent,
@@ -14,6 +16,16 @@ function RouteComponent() {
     value: countryCode,
     label: countryCode,
   }));
+
+  const {
+    countryCode,
+    school,
+    city,
+    grade,
+    graduationYear,
+    deadline,
+    saveProgressLocally,
+  } = useOnboardingInfo();
 
   return (
     <div>
