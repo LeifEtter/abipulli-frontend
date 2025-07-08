@@ -100,9 +100,12 @@ function RouteComponent() {
             </Link>
           </span>
 
-          <button className="self-start cursor-pointer bg-abipulli-green shadow-ap-button py-1.5 px-4 rounded-md border font-semibold min-w-40 text-md hover:translate-y-2 hover:shadow-none">
+          <Link
+            to={"/onboarding/personal"}
+            className="self-start cursor-pointer bg-abipulli-green shadow-ap-button py-1.5 px-4 rounded-md border font-semibold min-w-40 text-md hover:translate-y-2 hover:shadow-none"
+          >
             {`Nächster Schritt ->`}
-          </button>
+          </Link>
         </div>
       </div>
     </div>
