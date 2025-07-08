@@ -12,6 +12,7 @@ interface InputFieldProps {
   id?: string;
   required?: boolean;
   requiredStarColor?: string;
+  className?: string;
 }
 
 export const InputField = ({
@@ -24,9 +25,10 @@ export const InputField = ({
   id,
   required = false,
   requiredStarColor,
+  className,
 }: InputFieldProps) => {
   return (
-    <div className="flex flex-col">
+    <div className={"flex flex-col" + " " + className}>
       {label ? (
         <span className="flex gap-1">
           <SmallLabel

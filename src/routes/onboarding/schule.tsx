@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { DatePicker } from "src/components/Inputs/DatePicker";
 import { InputField } from "src/components/Inputs/InputField";
 import { SelectField } from "src/components/Inputs/SelectField";
+import { ClickToLogin } from "src/components/Onboarding/ClickToLogin";
 import { useOnboardingInfo } from "src/hooks/useOnboardingInfo";
 import { convertToDateValue } from "src/utilities/date";
 
@@ -40,56 +41,43 @@ function RouteComponent() {
         </p>
         <div className="flex flex-row gap-2 mt-10">
           <SelectField label="Land" options={selectOptions} />
-          <div className="flex-6/12">
-            <InputField
-              onChange={() => {}}
-              placeholder="asdasd"
-              value=""
-              label="Schule"
-              required
-              requiredStarColor="text-abipulli-green-strong"
-            />
-          </div>
-          <div className="flex-4/12">
-            <InputField
-              onChange={() => {}}
-              placeholder="asdasd"
-              value=""
-              label="Stadt"
-              required
-              requiredStarColor="text-abipulli-green-strong"
-            />
-          </div>
+          <InputField
+            className="flex-6/12"
+            onChange={() => {}}
+            placeholder="asdasd"
+            value=""
+            label="Schule"
+            required
+            requiredStarColor="text-abipulli-green-strong"
+          />
+          <InputField
+            className="flex-4/12"
+            onChange={() => {}}
+            placeholder="asdasd"
+            value=""
+            label="Stadt"
+            required
+            requiredStarColor="text-abipulli-green-strong"
+          />
         </div>
         <div className="flex gap-2 mt-4">
-          <div className="flex-1/12 max-w-16">
-            <InputField
-              onChange={() => {}}
-              placeholder="12"
-              value=""
-              label="Stufe"
-              required
-              requiredStarColor="text-abipulli-green-strong"
-            />
-          </div>
-          <div className="flex-9/12 max-w-26">
-            <InputField
-              onChange={() => {}}
-              placeholder="2025"
-              value=""
-              label="Abijahrgang"
-              required
-              requiredStarColor="text-abipulli-green-strong"
-            />
-          </div>
-        </div>
-        <div className="flex flex-row mt-4">
-          <DatePicker
-            label={"Wunschtermin Lieferung"}
-            value={convertToDateValue(deadline)}
-            onChange={(e) =>
-              saveProgressLocally({ deadline: new Date(e.target.value) })
-            }
+          <InputField
+            className="flex-1/12 max-w-16"
+            onChange={() => {}}
+            placeholder="12"
+            value=""
+            label="Stufe"
+            required
+            requiredStarColor="text-abipulli-green-strong"
+          />
+          <InputField
+            className="flex-9/12 max-w-26"
+            onChange={() => {}}
+            placeholder="2025"
+            value=""
+            label="Abijahrgang"
+            required
+            requiredStarColor="text-abipulli-green-strong"
           />
         </div>
         <div className="flex w-full justify-between h-20 mt-2">

@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { ClickToLogin } from "src/components/Onboarding/ClickToLogin";
 import { useOnboardingInfo } from "src/hooks/useOnboardingInfo";
 
 export const Route = createFileRoute("/onboarding/personal")({
