@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { CountryCode } from "abipulli-types";
 import { DatePicker } from "src/components/Inputs/DatePicker";
 import { InputField } from "src/components/Inputs/InputField";
 import { SelectField } from "src/components/Inputs/SelectField";
@@ -26,6 +27,9 @@ function RouteComponent() {
     graduationYear,
     deadline,
     saveProgressLocally,
+    submitProgress,
+    saveToLocalStorage,
+    retrieveFromLocalStorage,
   } = useOnboardingInfo();
 
   return (
@@ -40,21 +44,32 @@ function RouteComponent() {
           unverbindlich!
         </p>
         <div className="flex flex-row gap-2 mt-10">
-          <SelectField label="Land" options={selectOptions} />
+          <SelectField
+            label="Land"
+            options={selectOptions}
+            chosenOption={
+              selectOptions.filter((option) => option.value == countryCode)[0]
+            }
+            onChange={(e) =>
+              saveProgressLocally({
+                countryCode: e!.value as CountryCode,
+              })
+            }
+          />
           <InputField
             className="flex-6/12"
-            onChange={() => {}}
-            placeholder="asdasd"
-            value=""
+            onChange={(e) => saveProgressLocally({ school: e.target.value })}
+            placeholder="Bsp.: Otto-Schott-Gymnasium"
+            value={school ?? ""}
             label="Schule"
             required
             requiredStarColor="text-abipulli-green-strong"
           />
           <InputField
             className="flex-4/12"
-            onChange={() => {}}
-            placeholder="asdasd"
-            value=""
+            onChange={(e) => saveProgressLocally({ city: e.target.value })}
+            placeholder="Bsp.: Mainz"
+            value={city ?? ""}
             label="Stadt"
             required
             requiredStarColor="text-abipulli-green-strong"
@@ -63,18 +78,23 @@ function RouteComponent() {
         <div className="flex gap-2 mt-4">
           <InputField
             className="flex-1/12 max-w-16"
-            onChange={() => {}}
+            onChange={(e) =>
+              saveProgressLocally({ grade: parseInt(e.target.value) })
+            }
             placeholder="12"
-            value=""
+            value={grade ? grade.toString() : ""}
             label="Stufe"
             required
             requiredStarColor="text-abipulli-green-strong"
           />
           <InputField
             className="flex-9/12 max-w-26"
-            onChange={() => {}}
+            onChange={(e) =>
+              saveProgressLocally({ graduationYear: parseInt(e.target.value) })
+            }
             placeholder="2025"
-            value=""
+            maxLength={4}
+            value={graduationYear ? graduationYear.toString() : ""}
             label="Abijahrgang"
             required
             requiredStarColor="text-abipulli-green-strong"
@@ -83,7 +103,11 @@ function RouteComponent() {
         <DatePicker
           className="flex mt-4"
           label={"Wunschtermin Lieferung"}
-          value={convertToDateValue(deadline)}
+          value={
+            deadline
+              ? convertToDateValue(deadline)
+              : convertToDateValue(new Date())
+          }
           onChange={(e) =>
             saveProgressLocally({ deadline: new Date(e.target.value) })
           }
