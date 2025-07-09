@@ -1,6 +1,6 @@
 import { ReactElement, useEffect, useState } from "react";
 import { OnboardingContext } from "./onboardingContext";
-import { OnboardingInfo } from "abipulli-types";
+import { OnboardingInfo, OnboardingInfoSchema } from "abipulli-types";
 import { faker } from "@faker-js/faker";
 
 export const OnboardingProvider = ({
@@ -8,19 +8,19 @@ export const OnboardingProvider = ({
 }: {
   children: React.ReactNode;
 }): ReactElement => {
-  const [state, setState] = useState<OnboardingInfo>({
-    email: "",
-    password: "",
-    deadline: new Date(),
-    mobileNumber: "",
-    grade: 12,
-    graduationYear: new Date().getFullYear(),
-    city: "",
-    countryCode: "DE",
-    firstName: "",
-    lastName: "",
-    school: "",
-    birthdate: new Date(),
+  const [state, setState] = useState<Partial<OnboardingInfo>>({
+    email: undefined,
+    password: undefined,
+    deadline: undefined,
+    mobileNumber: undefined,
+    grade: undefined,
+    graduationYear: undefined,
+    city: undefined,
+    countryCode: undefined,
+    firstName: undefined,
+    lastName: undefined,
+    school: undefined,
+    birthdate: undefined,
   });
 
   //TODO save onboarding process in localstorage
