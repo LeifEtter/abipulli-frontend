@@ -28,8 +28,26 @@ export const OnboardingProvider = ({
     setState((prev) => ({ ...prev, ...state }));
   };
 
+  const saveToLocalStorage = () => {
+    const { password, ...stateWithoutPassword } = state;
+    const stringifiedState = JSON.stringify(stateWithoutPassword);
+    localStorage.setItem("onboardingInfo", stringifiedState);
+  };
+
+  const retrieveFromLocalStorage = () => {
+    const raw: string | null = localStorage.getItem("onboardingInfo");
+    if (!raw) return;
+    const parsed = JSON.parse(raw);
+    const result = OnboardingInfoSchema.partial().nullable().safeParse(parsed);
+    if (!result.success) return console.log(result.error);
+    console.log(result.data!.countryCode);
+    setState((prev) => ({ ...prev, ...result.data }));
+  };
+
   //TODO submit onboarding progress to backend
-  const submitProgress = () => {};
+  const submitProgress = () => {
+    console.log(state);
+  };
 
   // TODO get progress from backend
   const getProgress = () => {};
@@ -49,6 +67,8 @@ export const OnboardingProvider = ({
         submitProgress,
         getProgress,
         setError,
+        saveToLocalStorage,
+        retrieveFromLocalStorage,
       }}
     >
       {children}
