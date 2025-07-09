@@ -121,6 +121,11 @@ function RouteComponent() {
             {`Nächster Schritt ->`}
           </Link>
         </div>
+        <button onClick={() => submitProgress()}>Log State</button>
+        <button onClick={() => saveToLocalStorage()}>
+          Save to Localstorage
+        </button>
+        <button onClick={() => retrieveFromLocalStorage()}>Retrieve</button>
       </div>
     </div>
   );
