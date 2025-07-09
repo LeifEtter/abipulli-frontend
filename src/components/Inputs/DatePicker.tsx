@@ -1,6 +1,6 @@
 interface DatePickerProps {
   label: string;
-  value: string;
+  value: string | undefined;
   onChange: (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => void;
