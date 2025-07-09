@@ -1,3 +1,4 @@
+import { HTMLInputTypeAttribute } from "react";
 import { SmallLabel } from "../Texts/SmallLabel";
 
 interface InputFieldProps {
@@ -13,6 +14,8 @@ interface InputFieldProps {
   required?: boolean;
   requiredStarColor?: string;
   className?: string;
+  maxLength?: number;
+  type?: HTMLInputTypeAttribute;
 }
 
 export const InputField = ({
@@ -25,7 +28,9 @@ export const InputField = ({
   id,
   required = false,
   requiredStarColor,
+  maxLength,
   className,
+  type,
 }: InputFieldProps) => {
   return (
     <div className={"flex flex-col" + " " + className}>
@@ -61,6 +66,8 @@ export const InputField = ({
         />
       ) : (
         <input
+          type={type}
+          maxLength={maxLength}
           id={id ?? `input-${label}`}
           className="border-1 border-abipulli-grey-border rounded-sm py-1.5 px-3 w-full"
           placeholder={placeholder}
