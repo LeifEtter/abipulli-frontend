@@ -1,6 +1,6 @@
 import Select from "react-select";
 
-interface SelectOption {
+export interface SelectOption {
   label: string;
   value: string;
 }
