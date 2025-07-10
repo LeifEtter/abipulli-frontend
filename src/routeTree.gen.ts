@@ -19,6 +19,7 @@ import { Route as AdminRouteImport } from './routes/_admin/route'
 import { Route as IndexImport } from './routes/index'
 import { Route as OnboardingSchuleImport } from './routes/onboarding/schule'
 import { Route as OnboardingPersonalImport } from './routes/onboarding/personal'
+import { Route as OnboardingLoginNewImport } from './routes/onboarding/loginNew'
 import { Route as AuthOrdersImport } from './routes/_auth/orders'
 import { Route as AuthGenerateOrderIdImport } from './routes/_auth/generate.$orderId'
 import { Route as AuthDesignerOrderIdImport } from './routes/_auth/designer.$orderId'
@@ -69,6 +70,12 @@ const OnboardingSchuleRoute = OnboardingSchuleImport.update({
 const OnboardingPersonalRoute = OnboardingPersonalImport.update({
   id: '/personal',
   path: '/personal',
+  getParentRoute: () => OnboardingRouteRoute,
+} as any)
+
+const OnboardingLoginNewRoute = OnboardingLoginNewImport.update({
+  id: '/loginNew',
+  path: '/loginNew',
   getParentRoute: () => OnboardingRouteRoute,
 } as any)
 
@@ -149,6 +156,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthOrdersImport
       parentRoute: typeof AuthRouteImport
     }
+    '/onboarding/loginNew': {
+      id: '/onboarding/loginNew'
+      path: '/loginNew'
+      fullPath: '/onboarding/loginNew'
+      preLoaderRoute: typeof OnboardingLoginNewImport
+      parentRoute: typeof OnboardingRouteImport
+    }
     '/onboarding/personal': {
       id: '/onboarding/personal'
       path: '/personal'
@@ -218,11 +232,13 @@ const AuthRouteRouteWithChildren = AuthRouteRoute._addFileChildren(
 )
 
 interface OnboardingRouteRouteChildren {
+  OnboardingLoginNewRoute: typeof OnboardingLoginNewRoute
   OnboardingPersonalRoute: typeof OnboardingPersonalRoute
   OnboardingSchuleRoute: typeof OnboardingSchuleRoute
 }
 
 const OnboardingRouteRouteChildren: OnboardingRouteRouteChildren = {
+  OnboardingLoginNewRoute: OnboardingLoginNewRoute,
   OnboardingPersonalRoute: OnboardingPersonalRoute,
   OnboardingSchuleRoute: OnboardingSchuleRoute,
 }
@@ -238,6 +254,7 @@ export interface FileRoutesByFullPath {
   '/login': typeof LoginRoute
   '/testing': typeof TestingRoute
   '/orders': typeof AuthOrdersRoute
+  '/onboarding/loginNew': typeof OnboardingLoginNewRoute
   '/onboarding/personal': typeof OnboardingPersonalRoute
   '/onboarding/schule': typeof OnboardingSchuleRoute
   '/admin/orders': typeof AdminAdminOrdersRoute
@@ -252,6 +269,7 @@ export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/testing': typeof TestingRoute
   '/orders': typeof AuthOrdersRoute
+  '/onboarding/loginNew': typeof OnboardingLoginNewRoute
   '/onboarding/personal': typeof OnboardingPersonalRoute
   '/onboarding/schule': typeof OnboardingSchuleRoute
   '/admin/orders': typeof AdminAdminOrdersRoute
@@ -268,6 +286,7 @@ export interface FileRoutesById {
   '/login': typeof LoginRoute
   '/testing': typeof TestingRoute
   '/_auth/orders': typeof AuthOrdersRoute
+  '/onboarding/loginNew': typeof OnboardingLoginNewRoute
   '/onboarding/personal': typeof OnboardingPersonalRoute
   '/onboarding/schule': typeof OnboardingSchuleRoute
   '/_admin/admin/orders': typeof AdminAdminOrdersRoute
@@ -284,6 +303,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/testing'
     | '/orders'
+    | '/onboarding/loginNew'
     | '/onboarding/personal'
     | '/onboarding/schule'
     | '/admin/orders'
@@ -297,6 +317,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/testing'
     | '/orders'
+    | '/onboarding/loginNew'
     | '/onboarding/personal'
     | '/onboarding/schule'
     | '/admin/orders'
@@ -311,6 +332,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/testing'
     | '/_auth/orders'
+    | '/onboarding/loginNew'
     | '/onboarding/personal'
     | '/onboarding/schule'
     | '/_admin/admin/orders'
@@ -375,6 +397,7 @@ export const routeTree = rootRoute
     "/onboarding": {
       "filePath": "onboarding/route.tsx",
       "children": [
+        "/onboarding/loginNew",
         "/onboarding/personal",
         "/onboarding/schule"
       ]
@@ -388,6 +411,10 @@ export const routeTree = rootRoute
     "/_auth/orders": {
       "filePath": "_auth/orders.tsx",
       "parent": "/_auth"
+    },
+    "/onboarding/loginNew": {
+      "filePath": "onboarding/loginNew.tsx",
+      "parent": "/onboarding"
     },
     "/onboarding/personal": {
       "filePath": "onboarding/personal.tsx",
