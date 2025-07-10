@@ -11,6 +11,7 @@ import AbiPulliLogo from "src/assets/icons/abipulli-logo.png";
 
 import { useEffect, useRef, useState } from "react";
 import { Sidebar } from "src/components/Sidebar/Sidebar";
+import { SidebarMobile } from "src/components/Sidebar/SidebarMobile";
 
 function useNavigationDirection() {
   const location = useLocation();
@@ -64,7 +65,13 @@ function RouteComponent() {
         <h2 className="text-xl font-semibold">Abipulli.com</h2>
       </span>
       <div className="flex flex-row mt-16 gap-2 sm:gap-8 lg:gap-12 pl-4 items-start">
-        <Sidebar />
+        <div className="block sm:hidden">
+          <SidebarMobile />
+        </div>
+        <div className="hidden sm:block">
+          <Sidebar />
+        </div>
+
         {/* <div className="ml-0 lg:ml-10 basis-72 z-10">
           <SidebarNew />
         </div> */}
