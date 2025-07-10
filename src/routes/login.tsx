@@ -1,69 +1,43 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
-import { useAuth } from "../hooks/useAuth";
-
+import { InputField } from "src/components/Inputs/InputField";
+import { useAuth } from "src/hooks/useAuth";
 export const Route = createFileRoute("/login")({
   component: RouteComponent,
 });
 
 function RouteComponent() {
-  const { login, error, isLoading } = useAuth();
-  const navigate = useNavigate();
-  const [formData, setFormData] = useState({
-    email: import.meta.env.VITE_TEST_EMAIL ?? "",
-    password: import.meta.env.VITE_TEST_PASS ?? "",
-  });
+  const [email, setEmail] = useState<string | null>(null);
+  const [password, setPassword] = useState<string | null>(null);
 
-  const handleSubmit = async (isAdmin: boolean = false) => {
-    const success = await login(formData);
-    if (success) {
-      navigate({ to: isAdmin ? "/admin/orders" : "/orders" });
-    }
-  };
+  const { login, error, isLoading } = useAuth();
 
   return (
-    <div className="flex flex-col gap-4 p-4">
-      <h1 className="text-2xl font-bold">Login</h1>
-
-      {error && <div className="text-red-500">{error}</div>}
-
-      <div className="flex flex-col gap-2">
-        <input
-          type="email"
-          value={formData.email}
-          onChange={(e) =>
-            setFormData((prev) => ({ ...prev, email: e.target.value }))
-          }
-          className="border p-2 rounded"
-          placeholder="Email"
-        />
-        <input
-          type="password"
-          value={formData.password}
-          onChange={(e) =>
-            setFormData((prev) => ({ ...prev, password: e.target.value }))
-          }
-          className="border p-2 rounded"
-          placeholder="Password"
-        />
-      </div>
-
-      <div className="flex gap-2">
-        <button
-          onClick={() => handleSubmit(false)}
-          disabled={isLoading}
-          className="bg-blue-500 text-white px-4 py-2 rounded disabled:opacity-50"
-        >
-          {isLoading ? "Logging in..." : "Login"}
-        </button>
-        <button
-          onClick={() => handleSubmit(true)}
-          disabled={isLoading}
-          className="bg-gray-500 text-white px-4 py-2 rounded disabled:opacity-50"
-        >
-          {isLoading ? "Logging in..." : "Admin Login"}
-        </button>
-      </div>
+    <div className="card w-11/12 sm:w-10/12 md:w-8/12 pb-8 max-w-140 flex flex-col items-center">
+      <h1 className="mt-8 mb-12 text-2xl text-center font-semibold text-ap-new-black">
+        Einloggen
+      </h1>
+      <InputField
+        className="w-8/12 max-w-72"
+        onChange={(e) => setEmail(e.target.value)}
+        value={email ?? ""}
+        label="Email"
+        required
+        requiredStarColor="text-abipulli-green-strong"
+      />
+      <InputField
+        className="w-8/12 max-w-72 mt-4"
+        onChange={(e) => setPassword(e.target.value)}
+        value={password ?? ""}
+        label="Passwort"
+        required
+        requiredStarColor="text-abipulli-green-strong"
+        error={"Password is wrong"}
+      />
+      {/* <p className="text-blue-500 font-semibold mt-2">Passwort Vergessen</p> */}
+      <button className="w-8/12 max-w-72 mt-16 mb-4 cursor-pointer bg-abipulli-green shadow-abipulli-sm py-1.5 px-4 rounded-md border font-semibold text-md hover:translate-y-2 hover:shadow-none">
+        {`Einloggen`}
+      </button>
     </div>
   );
 }
