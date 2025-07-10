@@ -7,6 +7,7 @@ import {
   faCircleQuestion,
 } from "@fortawesome/free-regular-svg-icons";
 import { Link } from "@tanstack/react-router";
+import AbiPulliLogo from "src/assets/icons/abipulli-logo.png";
 
 const StepTileStatusOptions = [
   "FINISHED",
@@ -61,13 +62,13 @@ const StepTile = ({ label, description, status }: StepTileProps) => {
     }
   };
   return (
-    <div className="flex flex-row gap-2">
+    <button className="flex flex-row gap-2">
       {indicator()}
-      <span>
+      <span className="flex flex-col items-start">
         <SmallLabel text={label} className="font-semibold" />
-        <p>{description}</p>
+        <p className="text-left">{description}</p>
       </span>
-    </div>
+    </button>
   );
 };
 
@@ -76,26 +77,34 @@ export const SidebarNew: React.FC = () => {
 
   const steps = [
     {
-      label: "Grundinfos",
-      description: "Schritt 1: Infos",
+      label: "Schule",
+      description: "Über Eure Schule",
       status: "FINISHED",
     },
     {
-      label: "Grundinfos",
-      description: "Schritt 1: Infos",
+      label: "Persönliches",
+      description: "Über Dich",
       status: "IN_PROGRESS",
     },
     {
-      label: "Grundinfos",
-      description: "Schritt 1: Infos",
+      label: "Pullover",
+      description: "Pullover-Model Auswahl",
       status: "NOT_STARTED",
     },
   ];
 
   return (
     <div className="h-full flex flex-col gap-4 justify-start">
-      <div className="flex flex-col items-start bg-white shadow-ap-special-shadow rounded-2xl px-8 py-4 min-h-9/12">
-        <h2 className="text-xl font-semibold mb-10">Abipulli.com</h2>
+      <div className="flex flex-col items-start bg-white shadow-ap-special-shadow rounded-2xl p-5">
+        <h2 className="text-xl font-semibold">Onboarding</h2>
+        <p className="text-md text-gray-600">
+          Hier erzählst du uns über dich und eure Stufe
+        </p>
+        {/* <span className="flex flex-row gap-2 justify-center items-center">
+          <img src={AbiPulliLogo} className="w-8 h-8" />
+          <h2 className="text-xl font-semibold">Abipulli.com</h2>
+        </span> */}
+        <div className="h-8"></div>
         {steps.map((step) => (
           <div key={`step-${step.label}-${steps.indexOf(step)}`}>
             <StepTile
@@ -111,17 +120,24 @@ export const SidebarNew: React.FC = () => {
           </div>
         ))}
       </div>
-      <div className="card p-3">
+      <div className="card p-3 flex flex-col gap-4">
         <Link to="/chats" aria-labelledby="link-title">
-          <span className="flex gap-2 border items-center">
-            <FontAwesomeIcon icon={faComments} />
-            <span id="link-title">Chats</span>
+          <span className="flex gap-2 items-center">
+            <FontAwesomeIcon className="text-2xl w-10" icon={faComments} />
+            <span id="link-title" className="font-semibold text-lg">
+              Chats
+            </span>
           </span>
         </Link>
         <Link to="/help" aria-labelledby="link-title">
-          <span className="flex gap-2 border items-center">
-            <FontAwesomeIcon icon={faCircleQuestion} />
-            <span id="link-title">Chats</span>
+          <span className="flex gap-2 items-center">
+            <FontAwesomeIcon
+              className="text-2xl w-10"
+              icon={faCircleQuestion}
+            />
+            <span id="link-title" className="font-semibold text-lg">
+              Hilfe
+            </span>
           </span>
         </Link>
       </div>
