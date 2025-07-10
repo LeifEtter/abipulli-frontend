@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Onest:wght@100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
 @import "tailwindcss";
 
 @theme {
@@ -13,6 +14,12 @@
   --color-ap-grey: oklch(0.67 0.0163 260.72);
   --color-ap-light-grey: oklch(0.97 0.0029 264.54);
   --color-ap-medium-grey: oklch(0.96 0.0027 286.35);
+
+  --color-abipulli-green: #c7e1be;
+  --color-abipulli-green-light: #e8f1e5;
+  --color-abipulli-green-strong: #578a46;
+  --color-abipulli-green-strong-opacity-50: rgba(87, 138, 70, 0.5);
+  --color-abipulli-grey-border: #d5d7da;
 
   --color-ap-new-green: #c7e2be;
   --color-ap-new-beige: #f0eae0;
@@ -30,6 +37,14 @@
   --shadow-ap-special-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
   --shadow-ap-button: #1a1919 0px 10px 0px 0px;
   --color-ap-medium-grey-half-opacity: oklch(0.32 0.0507 261.01 / 20%);
+}
+
+@layer components {
+  .card {
+    background-color: var(--color-white);
+    border-radius: 16px;
+    box-shadow: var(--shadow-ap-special-shadow);
+  }
 }
 
 :root {

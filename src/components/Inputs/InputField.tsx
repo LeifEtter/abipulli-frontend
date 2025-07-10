@@ -1,3 +1,4 @@
+import { HTMLInputTypeAttribute } from "react";
 import { SmallLabel } from "../Texts/SmallLabel";
 
 interface InputFieldProps {
@@ -10,6 +11,11 @@ interface InputFieldProps {
   multiline?: boolean;
   minLines?: number;
   id?: string;
+  required?: boolean;
+  requiredStarColor?: string;
+  className?: string;
+  maxLength?: number;
+  type?: HTMLInputTypeAttribute;
 }
 
 export const InputField = ({
@@ -20,26 +26,54 @@ export const InputField = ({
   multiline,
   minLines,
   id,
+  required = false,
+  requiredStarColor,
+  maxLength,
+  className,
+  type,
 }: InputFieldProps) => {
   return (
-    <div className="flex flex-col">
-      {label ? <SmallLabel htmlFor={`input-${label}`} text={label} /> : <></>}
+    <div className={"flex flex-col" + " " + className}>
+      {label ? (
+        <span className="flex gap-1">
+          <SmallLabel
+            htmlFor={`input-${label}`}
+            text={label}
+            className="text-lg font-medium"
+          />
+          {required ? (
+            <p
+              className={`text-lg font-medium ${requiredStarColor ?? "text-black"}`}
+            >
+              *
+            </p>
+          ) : (
+            <></>
+          )}
+        </span>
+      ) : (
+        <></>
+      )}
       {multiline ? (
         <textarea
           id={id ?? `input-${label}`}
-          className="bg-ap-new-dark-beige border-1 border-ap-new-gray rounded-sm py-1 px-3"
+          className="border-1 border-abipulli-grey-border rounded-sm py-1 px-3"
           placeholder={placeholder}
           value={value}
           onChange={onChange}
           rows={minLines}
+          required
         />
       ) : (
         <input
+          type={type}
+          maxLength={maxLength}
           id={id ?? `input-${label}`}
-          className="bg-ap-new-dark-beige border-1 border-ap-new-gray rounded-sm py-1 px-3 w-full"
+          className="border-1 border-abipulli-grey-border rounded-sm py-1.5 px-3 w-full"
           placeholder={placeholder}
           value={value}
           onChange={onChange}
+          required
         />
       )}
     </div>
