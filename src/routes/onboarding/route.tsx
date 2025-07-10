@@ -7,6 +7,7 @@ import { SidebarNew } from "src/components/Sidebar/SidebarNew";
 import { AnimatePresence, easeInOut, motion } from "framer-motion";
 import { useLocation } from "@tanstack/react-router";
 import { OnboardingProvider } from "src/providers/onboardingProvider";
+import AbiPulliLogo from "src/assets/icons/abipulli-logo.png";
 
 import { useEffect, useRef, useState } from "react";
 
@@ -54,15 +55,18 @@ export const Route = createFileRoute("/onboarding")({
 function RouteComponent() {
   return (
     <div
-      className="flex h-full w-full bg-abipulli-green-light pt-30"
+      className="flex flex-col h-full w-full bg-abipulli-green-light"
       style={{ fontFamily: "Inter" }}
     >
-      <div className="ml-0 lg:ml-10 flex-2/12 px-4 z-10">
-        <SidebarNew />
-      </div>
-      <div className="flex-10/12 z-10 flex">
-        <div className="flex-0 xl:flex-1/12"></div>
-        <div className="flex-12/12 xl:flex-11/12">
+      <span className="flex flex-row gap-2 justify-center items-center self-start pt-5 pl-5">
+        <img src={AbiPulliLogo} className="w-8 h-8" />
+        <h2 className="text-xl font-semibold">Abipulli.com</h2>
+      </span>
+      <div className="flex flex-row mt-16 gap-2 sm:gap-8 lg:gap-12">
+        <div className="ml-0 lg:ml-10 basis-72 z-10">
+          <SidebarNew />
+        </div>
+        <div className="flex-10/12 z-10 flex">
           <OnboardingProvider>
             <AnimatedOutlet />
           </OnboardingProvider>
