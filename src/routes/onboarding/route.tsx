@@ -38,6 +38,7 @@ function AnimatedOutlet() {
   return (
     <AnimatePresence mode="wait">
       <motion.div
+        className="w-full h-full"
         key={location.pathname}
         initial={{ y: direction == "back" ? 800 : -800, opacity: 1 }}
         animate={{ y: 0, opacity: 1 }}
