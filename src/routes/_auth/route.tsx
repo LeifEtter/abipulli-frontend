@@ -1,5 +1,5 @@
 import { createFileRoute, Outlet } from "@tanstack/react-router";
-import { LeftSideBar } from "src/components/Sidebar/Sidebar";
+import { LeftSideBar } from "src/components/Sidebar/SidebarOld";
 
 export const Route = createFileRoute("/_auth")({
   component: RouteComponent,
