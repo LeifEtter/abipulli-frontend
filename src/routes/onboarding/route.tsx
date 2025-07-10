@@ -63,10 +63,8 @@ function RouteComponent() {
         <img src={AbiPulliLogo} className="w-8 h-8" />
         <h2 className="text-xl font-semibold">Abipulli.com</h2>
       </span>
-      <div className="flex flex-row mt-16 gap-2 sm:gap-8 lg:gap-12">
-        <div className="ml-10">
-          <Sidebar />
-        </div>
+      <div className="flex flex-row mt-16 gap-2 sm:gap-8 lg:gap-12 pl-4 items-start">
+        <Sidebar />
         {/* <div className="ml-0 lg:ml-10 basis-72 z-10">
           <SidebarNew />
         </div> */}
