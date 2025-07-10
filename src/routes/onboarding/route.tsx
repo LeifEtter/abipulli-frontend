@@ -10,6 +10,7 @@ import { OnboardingProvider } from "src/providers/onboardingProvider";
 import AbiPulliLogo from "src/assets/icons/abipulli-logo.png";
 
 import { useEffect, useRef, useState } from "react";
+import { Sidebar } from "src/components/Sidebar/Sidebar";
 
 function useNavigationDirection() {
   const location = useLocation();
@@ -63,10 +64,13 @@ function RouteComponent() {
         <h2 className="text-xl font-semibold">Abipulli.com</h2>
       </span>
       <div className="flex flex-row mt-16 gap-2 sm:gap-8 lg:gap-12">
-        <div className="ml-0 lg:ml-10 basis-72 z-10">
-          <SidebarNew />
+        <div className="ml-10">
+          <Sidebar />
         </div>
-        <div className="flex-10/12 z-10 flex">
+        {/* <div className="ml-0 lg:ml-10 basis-72 z-10">
+          <SidebarNew />
+        </div> */}
+        <div className="flex-8/12 z-10 flex">
           <OnboardingProvider>
             <AnimatedOutlet />
           </OnboardingProvider>
