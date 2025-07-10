@@ -1,44 +1,63 @@
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import {
-  fa0,
   faIcons,
   faImages,
   faInfoCircle,
+  faLock,
   faPoll,
   faShirt,
   faTruckFast,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Center } from "../Misc/Center";
-import { SmallLabel } from "../Texts/SmallLabel";
+import { Link } from "@tanstack/react-router";
 
 interface SidebarTileProps {
   icon: IconProp;
   label: string;
   description: string;
+  to: string;
   selected?: boolean;
+  locked?: boolean;
 }
 
 const SidebarTile = ({
   icon,
   label,
   description,
+  to,
   selected = false,
+  locked = false,
 }: SidebarTileProps) => {
   return (
-    <div
-      className={`flex flex-row items-center gap-2 cursor-pointer group/tile hover:bg-abipulli-green rounded-xl p-3`}
+    <Link
+      to={to}
+      onClick={(e) => (locked ? e.preventDefault() : null)}
+      className={`relative ${locked ? "cursor-help" : "cursor-pointer hover:bg-abipulli-green rounded-xl"}`}
     >
-      <div className="border-2 shadow-abipulli-sm rounded-lg bg-abipulli-green p-1 aspect-square w-12 group-hover/tile:scale-110 duration-100">
-        <Center>
-          <FontAwesomeIcon icon={icon} className="text-3xl" />
-        </Center>
+      <div className="absolute left-0 top-0">
+        {locked ? (
+          <FontAwesomeIcon icon={faLock} className="text-2xl shadow-md" />
+        ) : null}
       </div>
-      <span className="hidden lg:block group-hover/navbar:block">
-        <span className="text-lg">{label}</span>
-        <p className="text-md text-gray-500 font-normal">{description}</p>
-      </span>
-    </div>
+      <div
+        className={`flex flex-row items-center gap-2 group/tile rounded-xl p-3 ${selected ? "border-2 bg-abipulli-green-light shadow-abipulli-sm" : ""}`}
+      >
+        <div
+          className={`border-2 ${selected ? "" : "shadow-abipulli-sm"} rounded-lg ${locked ? "bg-gray-400" : "bg-abipulli-green"} p-1 aspect-square w-12 ${locked ? "" : "group-hover/tile:scale-110"} duration-100`}
+        >
+          <Center>
+            <FontAwesomeIcon icon={icon} className="text-3xl" />
+          </Center>
+        </div>
+        <span className="hidden lg:block group-hover/navbar:block">
+          <span className={`text-lg ${locked ? "text-gray-500" : ""}`}>
+            {label}
+          </span>
+          <p className="text-md text-gray-500 font-normal">{description}</p>
+        </span>
+      </div>
+    </Link>
   );
 };
 
@@ -53,13 +72,17 @@ export const Sidebar: React.FC = () => {
             igation
           </span>
         </h2>
+        <div className="h-4"></div>
         <SidebarTile
           icon={faInfoCircle}
           label="Onboarding"
           description="AbiPulli Prozess Erklärt"
+          to="onboarding"
+          selected={true}
         />
         <SidebarTile
           icon={faIcons}
+          to="generate"
           label="Neues Bild Erstellen"
           description="Generiere neues Element"
         />
@@ -67,21 +90,26 @@ export const Sidebar: React.FC = () => {
           icon={faImages}
           label="Bild Vorschau"
           description="Vergleiche Bild Elemente"
+          to="compare"
         />
         <SidebarTile
           icon={faShirt}
           label="Designer"
           description="Vergleiche Bild Elemente"
+          to="designer"
         />
         <SidebarTile
           icon={faPoll}
           label="Umfragetool"
           description="Starte eine Umfrage"
+          to="polls"
         />
         <SidebarTile
           icon={faTruckFast}
           label="Bestellabschluss"
           description="Bestelle deinen AbiPulli"
+          to="order"
+          locked={true}
         />
       </div>
     </div>
