@@ -10,6 +10,8 @@ import { OnboardingProvider } from "src/providers/onboardingProvider";
 import AbiPulliLogo from "src/assets/icons/abipulli-logo.png";
 
 import { useEffect, useRef, useState } from "react";
+import { Sidebar } from "src/components/Sidebar/Sidebar";
+import { SidebarMobile } from "src/components/Sidebar/SidebarMobile";
 
 function useNavigationDirection() {
   const location = useLocation();
@@ -62,11 +64,18 @@ function RouteComponent() {
         <img src={AbiPulliLogo} className="w-8 h-8" />
         <h2 className="text-xl font-semibold">Abipulli.com</h2>
       </span>
-      <div className="flex flex-row mt-16 gap-2 sm:gap-8 lg:gap-12">
-        <div className="ml-0 lg:ml-10 basis-72 z-10">
-          <SidebarNew />
+      <div className="flex flex-row mt-16 gap-2 sm:gap-8 lg:gap-12 pl-4 items-start">
+        <div className="block sm:hidden">
+          <SidebarMobile />
         </div>
-        <div className="flex-10/12 z-10 flex">
+        <div className="hidden sm:block">
+          <Sidebar />
+        </div>
+
+        {/* <div className="ml-0 lg:ml-10 basis-72 z-10">
+          <SidebarNew />
+        </div> */}
+        <div className="flex-8/12 z-10 flex">
           <OnboardingProvider>
             <AnimatedOutlet />
           </OnboardingProvider>
@@ -85,7 +94,7 @@ function RouteComponent() {
       />
       <img
         src={AbipulliMascot}
-        className="w-120 absolute right-2/12 -top-1/12"
+        className="w-120 absolute right-2/12 -top-1/12 -z-10"
         alt="mascot-background-image"
       />
     </div>

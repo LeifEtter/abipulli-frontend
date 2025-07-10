@@ -20,6 +20,7 @@
   --color-abipulli-green-strong: #578a46;
   --color-abipulli-green-strong-opacity-50: rgba(87, 138, 70, 0.5);
   --color-abipulli-grey-border: #d5d7da;
+  --color-abipulli-offblack: #1e1e1e;
 
   --color-ap-new-green: #c7e2be;
   --color-ap-new-beige: #f0eae0;
@@ -36,6 +37,10 @@
 
   --shadow-ap-special-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
   --shadow-ap-button: #1a1919 0px 10px 0px 0px;
+
+  --shadow-abipulli: #1a1919 0px 10px 0px 0px;
+  --shadow-abipulli-sm: #1a1919 0px 4px 0px 0px;
+
   --color-ap-medium-grey-half-opacity: oklch(0.32 0.0507 261.01 / 20%);
 }
 
