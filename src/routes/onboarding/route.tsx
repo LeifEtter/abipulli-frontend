@@ -89,7 +89,7 @@ function RouteComponent() {
       />
       <img
         src={AbipulliMascot}
-        className="w-120 absolute right-2/12 -top-1/12"
+        className="w-120 absolute right-2/12 -top-1/12 -z-10"
         alt="mascot-background-image"
       />
     </div>
