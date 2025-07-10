@@ -16,6 +16,7 @@ interface InputFieldProps {
   className?: string;
   maxLength?: number;
   type?: HTMLInputTypeAttribute;
+  error?: string | null;
 }
 
 export const InputField = ({
@@ -31,6 +32,7 @@ export const InputField = ({
   maxLength,
   className,
   type,
+  error = null,
 }: InputFieldProps) => {
   return (
     <div className={"flex flex-col" + " " + className}>
@@ -69,13 +71,14 @@ export const InputField = ({
           type={type}
           maxLength={maxLength}
           id={id ?? `input-${label}`}
-          className="border-1 border-abipulli-grey-border rounded-sm py-1.5 px-3 w-full"
+          className={`border-1 border-abipulli-grey-border rounded-sm py-1.5 px-3 w-full ${error !== null ? "animate-[var(--animation-shake)] border-red-400 border" : ""}`}
           placeholder={placeholder}
           value={value}
           onChange={onChange}
           required
         />
       )}
+      <p className="text-red-500 font-medium text-sm">{error}</p>
     </div>
   );
 };
