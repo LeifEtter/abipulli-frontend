@@ -5,12 +5,15 @@ import { createRoot } from "react-dom/client";
 import { AuthProvider } from "./providers/authProvider";
 import { SnackbarProvider } from "./providers/snackbarProvider";
 import { RouterContextWrapper } from "./RouterContextWrapper";
+import { PopupProvider } from "./providers/popupProvider";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <AuthProvider>
       <SnackbarProvider>
-        <RouterContextWrapper />
+        <PopupProvider>
+          <RouterContextWrapper />
+        </PopupProvider>
       </SnackbarProvider>
     </AuthProvider>
   </StrictMode>

@@ -1,7 +1,10 @@
 import { ReactElement, useEffect, useState } from "react";
 import { OnboardingContext } from "./onboardingContext";
 import { OnboardingInfo, OnboardingInfoSchema } from "abipulli-types";
-import { faker } from "@faker-js/faker";
+
+export type OnboardingErrors = {
+  [K in keyof OnboardingInfo]?: string | null;
+};
 
 export const OnboardingProvider = ({
   children,
@@ -22,6 +25,33 @@ export const OnboardingProvider = ({
     school: undefined,
     birthdate: undefined,
   });
+
+  const [errorState, setErrorState] = useState<OnboardingErrors>({});
+
+  const validate = () => {
+    let newErrorState: OnboardingErrors = {};
+    for (const [key, value] of Object.entries(state)) {
+      console.log(key);
+      newErrorState = {
+        ...newErrorState,
+        [key]: "Bitte fülle dieses Feld aus",
+      };
+    }
+    // console.log(state);
+    // console.log(errorState);
+    // const result = OnboardingInfoSchema.safeParse(state);
+    // console.log(result.error);
+    console.log(newErrorState);
+    setErrorState(newErrorState);
+  };
+
+  const clearError = (key: keyof OnboardingErrors) => {
+    setErrorState((prev) => ({ ...prev, [key]: undefined }));
+  };
+
+  const setError = ([k, v]: [k: keyof OnboardingErrors, v: string]) => {
+    setErrorState((prev) => ({ ...prev, [k]: v }));
+  };
 
   //TODO save onboarding process in localstorage
   const saveProgressLocally = (state: Partial<OnboardingInfo>) => {
@@ -46,14 +76,11 @@ export const OnboardingProvider = ({
 
   //TODO submit onboarding progress to backend
   const submitProgress = () => {
-    console.log(state);
+    validate();
   };
 
   // TODO get progress from backend
   const getProgress = () => {};
-
-  //TODO React to error
-  const setError = () => {};
 
   useEffect(() => {
     // TODO initialize stuff
@@ -63,6 +90,8 @@ export const OnboardingProvider = ({
     <OnboardingContext.Provider
       value={{
         ...state,
+        errorState,
+        clearError,
         saveProgressLocally,
         submitProgress,
         getProgress,

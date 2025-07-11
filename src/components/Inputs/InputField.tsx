@@ -11,11 +11,14 @@ interface InputFieldProps {
   multiline?: boolean;
   minLines?: number;
   id?: string;
-  required?: boolean;
-  requiredStarColor?: string;
+  required?: any;
+  starColor?: string;
   className?: string;
   maxLength?: number;
   type?: HTMLInputTypeAttribute;
+  error?: string | null;
+  disabled?: any;
+  defaultValue?: string;
 }
 
 export const InputField = ({
@@ -26,29 +29,26 @@ export const InputField = ({
   multiline,
   minLines,
   id,
-  required = false,
-  requiredStarColor,
+  required,
+  starColor,
   maxLength,
   className,
   type,
+  error = null,
+  disabled,
+  defaultValue,
 }: InputFieldProps) => {
   return (
     <div className={"flex flex-col" + " " + className}>
       {label ? (
-        <span className="flex gap-1">
+        <span className="flex gap-1 text-lg font-medium">
           <SmallLabel
             htmlFor={`input-${label}`}
             text={label}
             className="text-lg font-medium"
           />
-          {required ? (
-            <p
-              className={`text-lg font-medium ${requiredStarColor ?? "text-black"}`}
-            >
-              *
-            </p>
-          ) : (
-            <></>
+          {required && (
+            <p className={`${starColor ?? "text-abipulli-green-strong"}`}>*</p>
           )}
         </span>
       ) : (
@@ -62,20 +62,25 @@ export const InputField = ({
           value={value}
           onChange={onChange}
           rows={minLines}
-          required
+          required={required}
+          disabled={disabled}
+          defaultValue={defaultValue}
         />
       ) : (
         <input
           type={type}
           maxLength={maxLength}
           id={id ?? `input-${label}`}
-          className="border-1 border-abipulli-grey-border rounded-sm py-1.5 px-3 w-full"
+          className={`border-1 border-abipulli-grey-border rounded-sm py-1.5 px-3 w-full ${error !== null ? "animate-[var(--animation-shake)] border-red-400 border" : ""} ${disabled && "bg-gray-100 text-gray-400"}`}
           placeholder={placeholder}
           value={value}
           onChange={onChange}
-          required
+          required={required}
+          disabled={disabled}
+          defaultValue={defaultValue}
         />
       )}
+      <p className="text-red-500 font-medium text-sm">{error}</p>
     </div>
   );
 };
