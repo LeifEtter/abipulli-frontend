@@ -26,6 +26,9 @@ function RouteComponent() {
   );
 
   const [repeatPassword, setRepeatPassword] = useState<string | null>(null);
+  const [repeatPasswordError, setRepeatPasswordError] = useState<string | null>(
+    null
+  );
 
   const {
     firstName,
@@ -36,6 +39,7 @@ function RouteComponent() {
     email,
     gender,
     password,
+    errorState,
     saveProgressLocally,
     submitProgress,
     saveToLocalStorage,
@@ -80,6 +84,7 @@ function RouteComponent() {
             onChange={(e) => saveProgressLocally({ firstName: e.target.value })}
             placeholder="Max"
             value={firstName ?? ""}
+            error={errorState.firstName}
             label="Name"
             required
           />
@@ -87,6 +92,7 @@ function RouteComponent() {
             onChange={(e) => saveProgressLocally({ lastName: e.target.value })}
             placeholder="Mustermann"
             value={lastName ?? ""}
+            error={errorState.lastName}
             label="Nachname"
             required
           />
@@ -111,6 +117,7 @@ function RouteComponent() {
               onChange={(e) =>
                 saveProgressLocally({ mobileNumber: e.target.value })
               }
+              error={errorState.mobileNumber}
               placeholder="1744206955"
               value={mobileNumber ?? ""}
               label="Mobilnummer"
@@ -124,6 +131,7 @@ function RouteComponent() {
               onChange={(e) => saveProgressLocally({ email: e.target.value })}
               placeholder="max.mustermann@gmail.com"
               value={email ?? ""}
+              error={errorState.email}
               label="Email"
               required
             />
@@ -136,6 +144,7 @@ function RouteComponent() {
                   saveProgressLocally({ password: e.target.value })
                 }
                 placeholder="SuperSicher@1234"
+                error={errorState.password}
                 value={password ?? ""}
                 label="Passwort"
                 type="password"
