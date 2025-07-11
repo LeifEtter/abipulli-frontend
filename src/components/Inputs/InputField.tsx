@@ -11,8 +11,8 @@ interface InputFieldProps {
   multiline?: boolean;
   minLines?: number;
   id?: string;
-  required?: boolean;
-  requiredStarColor?: string;
+  required?: any;
+  starColor?: string;
   className?: string;
   maxLength?: number;
   type?: HTMLInputTypeAttribute;
@@ -27,8 +27,8 @@ export const InputField = ({
   multiline,
   minLines,
   id,
-  required = false,
-  requiredStarColor,
+  required,
+  starColor,
   maxLength,
   className,
   type,
@@ -37,20 +37,14 @@ export const InputField = ({
   return (
     <div className={"flex flex-col" + " " + className}>
       {label ? (
-        <span className="flex gap-1">
+        <span className="flex gap-1 text-lg font-medium">
           <SmallLabel
             htmlFor={`input-${label}`}
             text={label}
             className="text-lg font-medium"
           />
-          {required ? (
-            <p
-              className={`text-lg font-medium ${requiredStarColor ?? "text-black"}`}
-            >
-              *
-            </p>
-          ) : (
-            <></>
+          {required && (
+            <p className={`${starColor ?? "text-abipulli-green-strong"}`}>*</p>
           )}
         </span>
       ) : (
