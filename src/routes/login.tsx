@@ -23,7 +23,6 @@ function RouteComponent() {
         value={email ?? ""}
         label="Email"
         required
-        requiredStarColor="text-abipulli-green-strong"
       />
       <InputField
         className="w-8/12 max-w-72 mt-4"
@@ -31,7 +30,6 @@ function RouteComponent() {
         value={password ?? ""}
         label="Passwort"
         required
-        requiredStarColor="text-abipulli-green-strong"
         error={"Password is wrong"}
       />
       {/* <p className="text-blue-500 font-semibold mt-2">Passwort Vergessen</p> */}

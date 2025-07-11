@@ -82,7 +82,6 @@ function RouteComponent() {
             value={firstName ?? ""}
             label="Name"
             required
-            requiredStarColor="text-abipulli-green-strong"
           />
           <InputField
             onChange={(e) => saveProgressLocally({ lastName: e.target.value })}
@@ -90,7 +89,6 @@ function RouteComponent() {
             value={lastName ?? ""}
             label="Nachname"
             required
-            requiredStarColor="text-abipulli-green-strong"
           />
           <div className="flex flex-row gap-2 flex-12/12">
             <SelectField
@@ -117,7 +115,7 @@ function RouteComponent() {
               value={mobileNumber ?? ""}
               label="Mobilnummer"
               required
-              requiredStarColor="text-abipulli-green-strong"
+            />
             />
           </div>
           <div className="w-full flex flex-row">
@@ -128,7 +126,6 @@ function RouteComponent() {
               value={email ?? ""}
               label="Email"
               required
-              requiredStarColor="text-abipulli-green-strong"
             />
           </div>
           <div className="flex flex-row gap-4 flex-wrap">
@@ -143,7 +140,6 @@ function RouteComponent() {
                 label="Passwort"
                 type="password"
                 required
-                requiredStarColor="text-abipulli-green-strong"
               />
               <div className="h-0.5 mt-2 bg-gray-300">
                 <div
@@ -161,7 +157,6 @@ function RouteComponent() {
               value={repeatPassword ?? ""}
               label="Passwort Wiederholen"
               required
-              requiredStarColor="text-abipulli-green-strong"
             />
           </div>
         </div>
