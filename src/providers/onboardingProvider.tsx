@@ -28,6 +28,23 @@ export const OnboardingProvider = ({
 
   const [errorState, setErrorState] = useState<OnboardingErrors>({});
 
+  const validate = () => {
+    let newErrorState: OnboardingErrors = {};
+    for (const [key, value] of Object.entries(state)) {
+      console.log(key);
+      newErrorState = {
+        ...newErrorState,
+        [key]: "Bitte fülle dieses Feld aus",
+      };
+    }
+    // console.log(state);
+    // console.log(errorState);
+    // const result = OnboardingInfoSchema.safeParse(state);
+    // console.log(result.error);
+    console.log(newErrorState);
+    setErrorState(newErrorState);
+  };
+
   const clearError = (key: keyof OnboardingErrors) => {
     setErrorState((prev) => ({ ...prev, [key]: undefined }));
   };
@@ -59,7 +76,7 @@ export const OnboardingProvider = ({
 
   //TODO submit onboarding progress to backend
   const submitProgress = () => {
-    console.log(state);
+    validate();
   };
 
   // TODO get progress from backend
