@@ -49,6 +49,9 @@
     background-color: var(--color-white);
     border-radius: 16px;
     box-shadow: var(--shadow-ap-special-shadow);
+    padding-bottom: calc(var(--spacing) * 5);
+    padding-top: calc(var(--spacing) * 10);
+    padding-inline: calc(var(--spacing) * 12);
   }
 }
 
