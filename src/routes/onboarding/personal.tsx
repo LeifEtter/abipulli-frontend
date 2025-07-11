@@ -123,6 +123,17 @@ function RouteComponent() {
               label="Mobilnummer"
               required
             />
+            <DatePicker
+              idPrefix="birthday"
+              label="Geburtstag"
+              value={
+                birthdate
+                  ? convertToDateValue(birthdate)
+                  : convertToDateValue(new Date())
+              }
+              onChange={(e) =>
+                saveProgressLocally({ birthdate: new Date(e.target.value) })
+              }
             />
           </div>
           <div className="w-full flex flex-row">
