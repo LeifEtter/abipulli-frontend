@@ -119,7 +119,7 @@ export const Sidebar: React.FC = () => {
         </div>
       </div>
       <Link
-        to={"/onboarding/loginNew"}
+        to={"/login"}
         className="flex flex-row card mt-4 items-center gap-4 p-0.5 justify-start rounded-l-4xl rounded-r-2xl"
       >
         <div className="border-2 p-1 rounded-full bg-abipulli-green border-abipulli-offblack">
