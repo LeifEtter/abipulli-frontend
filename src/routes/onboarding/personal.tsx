@@ -28,7 +28,6 @@ function RouteComponent() {
   const [repeatPassword, setRepeatPassword] = useState<string | null>(null);
 
   const {
-    //gender
     firstName,
     lastName,
     birthdate,
