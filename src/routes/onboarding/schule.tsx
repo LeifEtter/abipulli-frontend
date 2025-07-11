@@ -132,6 +132,19 @@ function RouteComponent() {
           Nächster Schritt
         </BasicButton>
       </div>
+      <button onClick={() => submitProgress()}>Log State</button>
+      <button onClick={() => saveToLocalStorage()}>Save to Localstorage</button>
+      <button onClick={() => setError(["school", "test error"])}>
+        Set Error
+      </button>
+      <button
+        onClick={() =>
+          showSnackbar({ type: "error", message: "Something went wrong" })
+        }
+      >
+        Show snackbar
+      </button>
+      <button onClick={() => retrieveFromLocalStorage()}>Retrieve</button>
     </div>
   );
 }
