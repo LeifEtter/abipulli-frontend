@@ -34,14 +34,6 @@ function RouteComponent() {
 
   return (
     <div>
-        <h1 className="text-3xl font-medium text-ap-new-black">
-          Über Eure Schule
-        </h1>
-        <p className="text-md text-gray-600">
-          Wir brauchen erstmal ein Paar Infos über eure Schule damit wir die
-          Logistik deiner Bestellung planen können. Aber keine Angst, alles ist
-          unverbindlich!
-        </p>
         <div className="flex flex-row gap-2 mt-10">
           <SelectField
             label="Land"
@@ -107,6 +99,12 @@ function RouteComponent() {
               ? convertToDateValue(deadline)
               : convertToDateValue(new Date())
     <div className="card max-w-200">
+      <PageTitle>Über Eure Schule</PageTitle>
+      <PageDescription>
+        Wir brauchen erstmal ein Paar Infos über eure Schule damit wir die
+        Logistik deiner Bestellung planen können. Aber keine Angst, alles ist
+        unverbindlich!
+      </PageDescription>
           }
           onChange={(e) =>
             saveProgressLocally({ deadline: new Date(e.target.value) })

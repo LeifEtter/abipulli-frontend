@@ -45,13 +45,13 @@ function RouteComponent() {
 
   return (
     <div>
-        <h1 className="text-3xl font-medium text-ap-new-black">Über Dich</h1>
-        <p className="text-md text-gray-600">
       <div className="card max-w-200">
+        <PageTitle>Über Dich</PageTitle>
+        <PageDescription>
           Damit wir dein Profil anlegen können brauchen wir ein Paar Infos von
           dir. Diese Infos werden gelöscht falls du den Prozess abbrichst, also
           keine Angst!
-        </p>
+        </PageDescription>
         <div className="flex flex-wrap gap-4 mt-4">
           <SelectField
             className="basis-35"
