@@ -1,8 +1,10 @@
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import {
+  faFaceSmile,
   faIcons,
   faImages,
   faInfoCircle,
+  faKey,
   faLock,
   faPerson,
   faPoll,
@@ -11,10 +13,12 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Center } from "../Misc/Center";
-import { Link } from "@tanstack/react-router";
+import { Link, useLocation, useRouter } from "@tanstack/react-router";
 import { faFaceGrinStars } from "@fortawesome/free-regular-svg-icons";
 import AbiPulliLogo from "src/assets/icons/abipulli-logo.png";
 import Avatar from "src/assets/icons/avatar.png";
+import { useEffect } from "react";
+import { useAuth } from "src/hooks/useAuth";
 
 interface SidebarTileProps {
   icon: IconProp;
@@ -23,6 +27,7 @@ interface SidebarTileProps {
   to: string;
   selected?: boolean;
   locked?: boolean;
+  overrideCollapsed?: boolean;
 }
 
 const SidebarTile = ({
@@ -32,6 +37,7 @@ const SidebarTile = ({
   to,
   selected = false,
   locked = false,
+  overrideCollapsed = false,
 }: SidebarTileProps) => {
   return (
     <Link
@@ -54,8 +60,12 @@ const SidebarTile = ({
             <FontAwesomeIcon icon={icon} className="text-3xl" />
           </Center>
         </div>
-        <span className="hidden lg:block group-hover/navbar:block">
-          <span className={`text-lg ${locked ? "text-gray-500" : ""}`}>
+        <span
+          className={`hidden ${!overrideCollapsed && "lg:block"} group-hover/navbar:block`}
+        >
+          <span
+            className={`text-lg font-semibold ${locked ? "text-gray-500" : ""}`}
+          >
             {label}
           </span>
           <p className="text-md text-gray-500 font-normal">{description}</p>
@@ -67,13 +77,26 @@ const SidebarTile = ({
 
 interface SidebarProps {}
 export const Sidebar: React.FC = () => {
+  const location = useLocation();
+
+  const { user } = useAuth();
+
+  const overrideCollapsed = (): boolean => {
+    if (location.pathname.includes("designer")) return true;
+    return false;
+  };
+
   return (
     <div>
-      <div className="card flex flex-col items-center p-6 font-semibold group/navbar w-24 lg:w-80 hover:min-w-80">
+      <div
+        className={`card flex flex-col items-center p-6 group/navbar w-24 ${!overrideCollapsed() && "lg:w-80"} hover:min-w-80`}
+      >
         <div className="flex flex-col items-start">
-          <h2 className="text-2xl self-center flex">
+          <h2 className="text-2xl self-center flex font-semibold">
             Nav
-            <span className="hidden lg:block group-hover/navbar:block">
+            <span
+              className={`hidden ${!overrideCollapsed() && "lg:block"} group-hover/navbar:block`}
+            >
               igation
             </span>
           </h2>
@@ -82,51 +105,79 @@ export const Sidebar: React.FC = () => {
             icon={faInfoCircle}
             label="Onboarding"
             description="AbiPulli Prozess Erklärt"
-            to="onboarding"
-            selected={true}
+            to="/onboarding/schule"
+            selected={location.pathname.includes("onboarding")}
+            overrideCollapsed={overrideCollapsed()}
           />
           <SidebarTile
             icon={faIcons}
-            to="generate"
+            to="/generieren"
             label="Neues Bild Erstellen"
             description="Generiere neues Element"
+            selected={location.pathname.includes("generieren")}
+            overrideCollapsed={overrideCollapsed()}
           />
           <SidebarTile
             icon={faImages}
             label="Bild Vorschau"
             description="Vergleiche Bild Elemente"
-            to="compare"
+            to="/vorschau"
+            selected={location.pathname == "/vorschau"}
+            overrideCollapsed={overrideCollapsed()}
           />
           <SidebarTile
             icon={faShirt}
             label="Designer"
             description="Vergleiche Bild Elemente"
-            to="designer"
+            to="/designer"
+            selected={location.pathname == "/designer"}
+            overrideCollapsed={overrideCollapsed()}
           />
           <SidebarTile
             icon={faPoll}
             label="Umfragetool"
             description="Starte eine Umfrage"
-            to="polls"
+            to="/umfrage"
+            selected={location.pathname == "/umfrage"}
+            overrideCollapsed={overrideCollapsed()}
           />
           <SidebarTile
             icon={faTruckFast}
             label="Bestellabschluss"
             description="Bestelle deinen AbiPulli"
-            to="order"
+            to="/bestellen"
             locked={true}
+            selected={location.pathname == "/bestellen"}
+            overrideCollapsed={overrideCollapsed()}
           />
         </div>
       </div>
-      <Link
-        to={"/login"}
-        className="flex flex-row card mt-4 items-center gap-4 p-0.5 justify-start rounded-l-4xl rounded-r-2xl"
+      <div className="h-4" />
+      <div
+        className={`card p-2 px-4 w-24 ${!overrideCollapsed() && "lg:w-80"} group/navbar hover:min-w-80`}
       >
-        <div className="border-2 p-1 rounded-full bg-abipulli-green border-abipulli-offblack">
-          <img src={Avatar} className="w-12" />
+        <div>
+          {user ? (
+            <SidebarTile
+              icon={faFaceSmile}
+              label="Benutzerkonto"
+              description="Verwalte deine Daten"
+              to="/account"
+              selected={location.pathname == "/account"}
+              overrideCollapsed={overrideCollapsed()}
+            />
+          ) : (
+            <SidebarTile
+              icon={faKey}
+              label="Anmelden"
+              description="Logge dich ein"
+              to="/login"
+              selected={location.pathname == "/login"}
+              overrideCollapsed={overrideCollapsed()}
+            />
+          )}
         </div>
-        <span className="text-lg font-semibold">Account</span>
-      </Link>
+      </div>
     </div>
   );
 };

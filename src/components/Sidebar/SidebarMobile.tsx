@@ -1,9 +1,11 @@
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import {
   faBars,
+  faFaceSmile,
   faIcons,
   faImages,
   faInfoCircle,
+  faKey,
   faLock,
   faPoll,
   faShirt,
@@ -11,8 +13,10 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Center } from "../Misc/Center";
-import { Link } from "@tanstack/react-router";
-import { useState } from "react";
+import { Link, useLocation } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
+import { useAuth } from "src/hooks/useAuth";
+import { Divider } from "../Misc/Divider";
 
 interface SidebarTileProps {
   icon: IconProp;
@@ -66,10 +70,18 @@ const SidebarMobileTile = ({
 export const SidebarMobile: React.FC = () => {
   const [open, setOpen] = useState<boolean>(false);
 
+  const location = useLocation();
+
+  useEffect(() => {
+    setOpen(false);
+  }, [location]);
+
+  const { user } = useAuth();
+
   return (
     <div className="w-full border">
       <div
-        className={`${open ? "opacity-20" : "opacity-0 hidden"} absolute bg-black w-full h-full top-0 left-0 z-10`}
+        className={`${open ? "opacity-20" : "opacity-0 hidden"} absolute bg-black w-full h-full top-0 left-0 z-20`}
         onClick={() => setOpen(false)}
       />
       <button
@@ -90,40 +102,63 @@ export const SidebarMobile: React.FC = () => {
           icon={faInfoCircle}
           label="Onboarding"
           description="AbiPulli Prozess Erklärt"
-          to="onboarding"
-          selected={true}
+          to="/onboarding/schule"
+          selected={location.pathname.includes("onboarding")}
         />
         <SidebarMobileTile
           icon={faIcons}
-          to="generate"
           label="Neues Bild Erstellen"
           description="Generiere neues Element"
+          selected={location.pathname.includes("generieren")}
+          to="/generieren"
         />
         <SidebarMobileTile
           icon={faImages}
           label="Bild Vorschau"
           description="Vergleiche Bild Elemente"
-          to="compare"
+          to="/vorschau"
+          selected={location.pathname == "/vorschau"}
         />
         <SidebarMobileTile
           icon={faShirt}
           label="Designer"
           description="Vergleiche Bild Elemente"
-          to="designer"
+          to="/designer"
+          selected={location.pathname == "/designer"}
         />
         <SidebarMobileTile
           icon={faPoll}
           label="Umfragetool"
           description="Starte eine Umfrage"
-          to="polls"
+          to="/umfrage"
+          selected={location.pathname == "/umfrage"}
         />
         <SidebarMobileTile
           icon={faTruckFast}
           label="Bestellabschluss"
           description="Bestelle deinen AbiPulli"
-          to="order"
+          to="/bestellen"
           locked={true}
+          selected={location.pathname == "/bestellen"}
         />
+        <Divider className="my-2" />
+        {user ? (
+          <SidebarMobileTile
+            icon={faFaceSmile}
+            label="Benutzerkonto"
+            description="Verwalte deine Daten"
+            to="/account"
+            selected={location.pathname == "/account"}
+          />
+        ) : (
+          <SidebarMobileTile
+            icon={faKey}
+            label="Anmelden"
+            description="Logge dich ein"
+            to="/login"
+            selected={location.pathname == "/login"}
+          />
+        )}
       </div>
     </div>
   );
