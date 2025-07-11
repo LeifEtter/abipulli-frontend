@@ -34,7 +34,7 @@ import { PositionType } from "src/types/canvas/positionType";
 import { DesignApi } from "src/api/endpoints/design";
 import { ImageApi } from "src/api/endpoints/image";
 
-export const Route = createFileRoute("/_auth/designer/$orderId")({
+export const Route = createFileRoute("/_auth/designerOld/$orderId")({
   component: RouteComponent,
 });
 
