@@ -5,6 +5,7 @@ import { InputField } from "src/components/Inputs/InputField";
 import { SelectField } from "src/components/Inputs/SelectField";
 import { ClickToLogin } from "src/components/Onboarding/ClickToLogin";
 import { useOnboardingInfo } from "src/hooks/useOnboardingInfo";
+import { useSnackbar } from "src/hooks/useSnackbar";
 import { convertToDateValue } from "src/utilities/date";
 
 export const Route = createFileRoute("/onboarding/schule")({
@@ -18,6 +19,8 @@ function RouteComponent() {
     value: countryCode,
     label: countryCode,
   }));
+
+  const showSnackbar = useSnackbar();
 
   const {
     countryCode,
