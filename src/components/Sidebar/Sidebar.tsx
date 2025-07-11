@@ -118,15 +118,26 @@ export const Sidebar: React.FC = () => {
           />
         </div>
       </div>
-      <Link
-        to={"/login"}
-        className="flex flex-row card mt-4 items-center gap-4 p-0.5 justify-start rounded-l-4xl rounded-r-2xl"
-      >
-        <div className="border-2 p-1 rounded-full bg-abipulli-green border-abipulli-offblack">
-          <img src={Avatar} className="w-12" />
-        </div>
-        <span className="text-lg font-semibold">Account</span>
-      </Link>
+      <div className="h-4" />
+      <div className="card p-2 px-6 w-24 lg:w-80 hover:min-w-80">
+        {user ? (
+          <SidebarTile
+            icon={faFaceSmile}
+            label="Benutzerkonto"
+            description="Verwalte deine Daten"
+            to="/account"
+            selected={location.pathname == "/account"}
+          />
+        ) : (
+          <SidebarTile
+            icon={faKey}
+            label="Anmelden"
+            description="Logge dich ein"
+            to="/login"
+            selected={location.pathname == "/login"}
+          />
+        )}
+      </div>
     </div>
   );
 };
