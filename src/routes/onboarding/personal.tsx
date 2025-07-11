@@ -43,6 +43,18 @@ function RouteComponent() {
     retrieveFromLocalStorage,
   } = useOnboardingInfo();
 
+  const passwordStrength = (): number => {
+    if (!password) return 0;
+    let points: number = 0;
+
+    points += password?.length * 2;
+    if (password.length < 4) return points > 100 ? 100 : points;
+    if (password.match(/[!@#$%^&*()_+]/g)) points += 25;
+    if (password.match(/[A-Z]/g)) points += 25;
+    if (password.match(/[0-9]/g)) points += 25;
+    return points > 100 ? 100 : points;
+  };
+
   return (
     <div>
       <div className="card max-w-200">
@@ -121,17 +133,28 @@ function RouteComponent() {
             />
           </div>
           <div className="flex flex-row gap-4 flex-wrap">
-            <InputField
-              className="flex-2/6 basis-30"
-              onChange={(e) =>
-                saveProgressLocally({ password: e.target.value })
-              }
-              placeholder="SuperSicher@1234"
-              value={password ?? ""}
-              label="Passwort"
-              required
-              requiredStarColor="text-abipulli-green-strong"
-            />
+            <div>
+              <InputField
+                className="flex-2/6 basis-30"
+                onChange={(e) =>
+                  saveProgressLocally({ password: e.target.value })
+                }
+                placeholder="SuperSicher@1234"
+                value={password ?? ""}
+                label="Passwort"
+                type="password"
+                required
+                requiredStarColor="text-abipulli-green-strong"
+              />
+              <div className="h-0.5 mt-2 bg-gray-300">
+                <div
+                  className="h-0.5 bg-green-500 w-9/12"
+                  style={{
+                    width: `${passwordStrength()}%`,
+                  }}
+                ></div>
+              </div>
+            </div>
             <InputField
               className="flex-2/6 basis-30"
               onChange={(e) => setRepeatPassword(e.target.value)}
