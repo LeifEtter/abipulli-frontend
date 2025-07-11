@@ -20,4 +20,8 @@ export const UserApi = {
     if (!res.data.success) throw new ApiError(res.data.error!);
     return res.data.data!;
   },
+  deleteSelf: async (): Promise<void> => {
+    const res = await api.delete("/");
+    if (!res.data.success) throw new ApiError(res.data.error!);
+  },
 };
