@@ -165,6 +165,8 @@ function RouteComponent() {
               placeholder="SuperSicher@1234"
               value={repeatPassword ?? ""}
               label="Passwort Wiederholen"
+              type="password"
+              error={repeatPasswordError}
               required
             />
           </div>
