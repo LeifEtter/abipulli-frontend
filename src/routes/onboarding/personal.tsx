@@ -1,10 +1,16 @@
+import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Gender, MobileCountryCode } from "abipulli-types";
 import { useState } from "react";
+import { BasicButton, ButtonType } from "src/components/Buttons/BasicButton";
+import { DatePicker } from "src/components/Inputs/DatePicker";
 import { InputField } from "src/components/Inputs/InputField";
 import { SelectField, SelectOption } from "src/components/Inputs/SelectField";
 import { ClickToLogin } from "src/components/Onboarding/ClickToLogin";
+import { PageDescription } from "src/components/Texts/PageDescription";
+import { PageTitle } from "src/components/Texts/PageTitle";
 import { useOnboardingInfo } from "src/hooks/useOnboardingInfo";
+import { convertToDateValue } from "src/utilities/date";
 
 export const Route = createFileRoute("/onboarding/personal")({
   component: RouteComponent,
