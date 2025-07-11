@@ -38,6 +38,7 @@ export const BasicButton = ({
       onClick={onClick}
     >
       {children}
+      {icon ? <FontAwesomeIcon className="ml-2" icon={icon} /> : <></>}
     </button>
   ) : (
     <Link
