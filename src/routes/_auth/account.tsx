@@ -38,11 +38,12 @@ function RouteComponent() {
       <InputField
         className="mt-4"
         label="Email"
-        value={email.value ?? ""}
+        value={""}
         onChange={(e) =>
           setEmail((prev) => ({ ...prev, value: e.target.value }))
         }
         error={email.error}
+        disabled
       />
       <Divider />
       <div className="flex flex-row gap-4">
