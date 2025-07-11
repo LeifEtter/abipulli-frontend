@@ -27,6 +27,7 @@ interface SidebarTileProps {
   to: string;
   selected?: boolean;
   locked?: boolean;
+  overrideCollapsed?: boolean;
 }
 
 const SidebarTile = ({
@@ -36,6 +37,7 @@ const SidebarTile = ({
   to,
   selected = false,
   locked = false,
+  overrideCollapsed = false,
 }: SidebarTileProps) => {
   return (
     <Link
@@ -58,8 +60,12 @@ const SidebarTile = ({
             <FontAwesomeIcon icon={icon} className="text-3xl" />
           </Center>
         </div>
-        <span className="hidden lg:block group-hover/navbar:block">
-          <span className={`text-lg ${locked ? "text-gray-500" : ""}`}>
+        <span
+          className={`hidden ${!overrideCollapsed && "lg:block"} group-hover/navbar:block`}
+        >
+          <span
+            className={`text-lg font-semibold ${locked ? "text-gray-500" : ""}`}
+          >
             {label}
           </span>
           <p className="text-md text-gray-500 font-normal">{description}</p>
@@ -75,13 +81,22 @@ export const Sidebar: React.FC = () => {
 
   const { user } = useAuth();
 
+  const overrideCollapsed = (): boolean => {
+    if (location.pathname.includes("designer")) return true;
+    return false;
+  };
+
   return (
     <div>
-      <div className="card flex flex-col items-center p-6 font-semibold group/navbar w-24 lg:w-80 hover:min-w-80">
+      <div
+        className={`card flex flex-col items-center p-6 group/navbar w-24 ${!overrideCollapsed() && "lg:w-80"} hover:min-w-80`}
+      >
         <div className="flex flex-col items-start">
-          <h2 className="text-2xl self-center flex">
+          <h2 className="text-2xl self-center flex font-semibold">
             Nav
-            <span className="hidden lg:block group-hover/navbar:block">
+            <span
+              className={`hidden ${!overrideCollapsed() && "lg:block"} group-hover/navbar:block`}
+            >
               igation
             </span>
           </h2>
@@ -92,6 +107,7 @@ export const Sidebar: React.FC = () => {
             description="AbiPulli Prozess Erklärt"
             to="/onboarding/schule"
             selected={location.pathname.includes("onboarding")}
+            overrideCollapsed={overrideCollapsed()}
           />
           <SidebarTile
             icon={faIcons}
@@ -99,6 +115,7 @@ export const Sidebar: React.FC = () => {
             label="Neues Bild Erstellen"
             description="Generiere neues Element"
             selected={location.pathname.includes("generieren")}
+            overrideCollapsed={overrideCollapsed()}
           />
           <SidebarTile
             icon={faImages}
@@ -106,6 +123,7 @@ export const Sidebar: React.FC = () => {
             description="Vergleiche Bild Elemente"
             to="/vorschau"
             selected={location.pathname == "/vorschau"}
+            overrideCollapsed={overrideCollapsed()}
           />
           <SidebarTile
             icon={faShirt}
@@ -113,6 +131,7 @@ export const Sidebar: React.FC = () => {
             description="Vergleiche Bild Elemente"
             to="/designer"
             selected={location.pathname == "/designer"}
+            overrideCollapsed={overrideCollapsed()}
           />
           <SidebarTile
             icon={faPoll}
@@ -120,6 +139,7 @@ export const Sidebar: React.FC = () => {
             description="Starte eine Umfrage"
             to="/umfrage"
             selected={location.pathname == "/umfrage"}
+            overrideCollapsed={overrideCollapsed()}
           />
           <SidebarTile
             icon={faTruckFast}
@@ -128,28 +148,35 @@ export const Sidebar: React.FC = () => {
             to="/bestellen"
             locked={true}
             selected={location.pathname == "/bestellen"}
+            overrideCollapsed={overrideCollapsed()}
           />
         </div>
       </div>
       <div className="h-4" />
-      <div className="card p-2 px-6 w-24 lg:w-80 hover:min-w-80">
-        {user ? (
-          <SidebarTile
-            icon={faFaceSmile}
-            label="Benutzerkonto"
-            description="Verwalte deine Daten"
-            to="/account"
-            selected={location.pathname == "/account"}
-          />
-        ) : (
-          <SidebarTile
-            icon={faKey}
-            label="Anmelden"
-            description="Logge dich ein"
-            to="/login"
-            selected={location.pathname == "/login"}
-          />
-        )}
+      <div
+        className={`card p-2 px-4 w-24 ${!overrideCollapsed() && "lg:w-80"} group/navbar hover:min-w-80`}
+      >
+        <div>
+          {user ? (
+            <SidebarTile
+              icon={faFaceSmile}
+              label="Benutzerkonto"
+              description="Verwalte deine Daten"
+              to="/account"
+              selected={location.pathname == "/account"}
+              overrideCollapsed={overrideCollapsed()}
+            />
+          ) : (
+            <SidebarTile
+              icon={faKey}
+              label="Anmelden"
+              description="Logge dich ein"
+              to="/login"
+              selected={location.pathname == "/login"}
+              overrideCollapsed={overrideCollapsed()}
+            />
+          )}
+        </div>
       </div>
     </div>
   );
