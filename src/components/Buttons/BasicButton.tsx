@@ -16,6 +16,7 @@ interface BasicButtonProps {
   children: string;
   icon?: IconProp;
   shadow?: any;
+  color?: string;
 }
 
 export const BasicButton = ({
@@ -27,12 +28,13 @@ export const BasicButton = ({
   children,
   icon,
   shadow,
+  color,
 }: BasicButtonProps) => {
   if (type == ButtonType.Link && !to)
     throw "Please pass 'to' prop when using type == ButtonType.Link";
   return type == ButtonType.Button ? (
     <button
-      className={`cursor-pointer bg-abipulli-green py-1.5 px-4 rounded-md border font-semibold text-md ${hoverEffect ? "hover:translate-y-2 hover:shadow-none" : ""} ${shadow ? "shadow-abipulli-sm" : ""} ${className}`}
+      className={`cursor-pointer ${color ?? "bg-abipulli-green"} py-1.5 px-4 rounded-md border font-semibold text-md ${hoverEffect ? "hover:translate-y-2 hover:shadow-none" : ""} ${shadow ? "shadow-abipulli-sm" : ""} ${className}`}
       onClick={onClick}
     >
       {children}
