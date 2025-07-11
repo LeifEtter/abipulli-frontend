@@ -1,8 +1,10 @@
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import {
+  faFaceSmile,
   faIcons,
   faImages,
   faInfoCircle,
+  faKey,
   faLock,
   faPerson,
   faPoll,
@@ -11,10 +13,12 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Center } from "../Misc/Center";
-import { Link } from "@tanstack/react-router";
+import { Link, useLocation, useRouter } from "@tanstack/react-router";
 import { faFaceGrinStars } from "@fortawesome/free-regular-svg-icons";
 import AbiPulliLogo from "src/assets/icons/abipulli-logo.png";
 import Avatar from "src/assets/icons/avatar.png";
+import { useEffect } from "react";
+import { useAuth } from "src/hooks/useAuth";
 
 interface SidebarTileProps {
   icon: IconProp;
@@ -67,6 +71,10 @@ const SidebarTile = ({
 
 interface SidebarProps {}
 export const Sidebar: React.FC = () => {
+  const location = useLocation();
+
+  const { user } = useAuth();
+
   return (
     <div>
       <div className="card flex flex-col items-center p-6 font-semibold group/navbar w-24 lg:w-80 hover:min-w-80">
@@ -82,39 +90,44 @@ export const Sidebar: React.FC = () => {
             icon={faInfoCircle}
             label="Onboarding"
             description="AbiPulli Prozess Erklärt"
-            to="onboarding"
-            selected={true}
+            to="/onboarding"
+            selected={location.pathname.includes("onboarding")}
           />
           <SidebarTile
             icon={faIcons}
-            to="generate"
+            to="/generieren"
             label="Neues Bild Erstellen"
             description="Generiere neues Element"
+            selected={location.pathname.includes("generieren")}
           />
           <SidebarTile
             icon={faImages}
             label="Bild Vorschau"
             description="Vergleiche Bild Elemente"
-            to="compare"
+            to="/vorschau"
+            selected={location.pathname == "/vorschau"}
           />
           <SidebarTile
             icon={faShirt}
             label="Designer"
             description="Vergleiche Bild Elemente"
-            to="designer"
+            to="/designer"
+            selected={location.pathname == "/designer"}
           />
           <SidebarTile
             icon={faPoll}
             label="Umfragetool"
             description="Starte eine Umfrage"
-            to="polls"
+            to="/umfrage"
+            selected={location.pathname == "/umfrage"}
           />
           <SidebarTile
             icon={faTruckFast}
             label="Bestellabschluss"
             description="Bestelle deinen AbiPulli"
-            to="order"
+            to="/bestellen"
             locked={true}
+            selected={location.pathname == "/bestellen"}
           />
         </div>
       </div>
