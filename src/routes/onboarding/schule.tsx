@@ -34,7 +34,6 @@ function RouteComponent() {
 
   return (
     <div>
-      <div className="bg-white shadow-ap-special-shadow rounded-xl px-12 pt-10 pb-5 max-w-200">
         <h1 className="text-3xl font-medium text-ap-new-black">
           Über Eure Schule
         </h1>
@@ -107,6 +106,7 @@ function RouteComponent() {
             deadline
               ? convertToDateValue(deadline)
               : convertToDateValue(new Date())
+    <div className="card max-w-200">
           }
           onChange={(e) =>
             saveProgressLocally({ deadline: new Date(e.target.value) })
