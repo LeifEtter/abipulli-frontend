@@ -167,11 +167,17 @@ function RouteComponent() {
           </div>
         </div>
 
-        <div className="flex w-full justify-between h-20 mt-2">
+        <div className="flex w-full justify-between h-20 mt-2 items-start">
           <ClickToLogin className="self-end" to="/login" />
-          <button className="self-start cursor-pointer bg-abipulli-green shadow-ap-button py-1.5 px-4 rounded-md border font-semibold min-w-40 text-md hover:translate-y-2 hover:shadow-none">
-            {`Nächster Schritt ->`}
-          </button>
+          <BasicButton
+            shadow
+            onClick={() => submitProgress()}
+            type={ButtonType.Button}
+            // to="/onboarding/personal"
+            icon={faArrowRight}
+          >
+            Einreichen
+          </BasicButton>
         </div>
       </div>
     </div>

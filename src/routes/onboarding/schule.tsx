@@ -112,18 +112,20 @@ function RouteComponent() {
         />
         <div className="flex w-full justify-between h-20 mt-2">
           <ClickToLogin className="self-end" to="/login" />
-          <Link
-            to={"/onboarding/personal"}
-            className="self-start cursor-pointer bg-abipulli-green shadow-ap-button py-1.5 px-4 rounded-md border font-semibold min-w-40 text-md hover:translate-y-2 hover:shadow-none"
-          >
-            {`Nächster Schritt ->`}
-          </Link>
         </div>
         <button onClick={() => submitProgress()}>Log State</button>
         <button onClick={() => saveToLocalStorage()}>
           Save to Localstorage
         </button>
         <button onClick={() => retrieveFromLocalStorage()}>Retrieve</button>
+        <BasicButton
+          shadow
+          type={ButtonType.Link}
+          to="/onboarding/personal"
+          icon={faArrowRight}
+        >
+          Nächster Schritt
+        </BasicButton>
       </div>
     </div>
   );
