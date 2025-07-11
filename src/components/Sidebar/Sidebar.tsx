@@ -90,7 +90,7 @@ export const Sidebar: React.FC = () => {
             icon={faInfoCircle}
             label="Onboarding"
             description="AbiPulli Prozess Erklärt"
-            to="/onboarding"
+            to="/onboarding/schule"
             selected={location.pathname.includes("onboarding")}
           />
           <SidebarTile
