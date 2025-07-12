@@ -45,6 +45,9 @@ export const ImageSelection = ({ images }: ImageSelectionProps) => {
           </div>
         ))}
       </div>
+      <div className="absolute bottom-4 flex justify-center w-full">
+        <BasicButton icon={faPlus}>Bild Element Erstellen</BasicButton>
+      </div>
     </div>
   );
 };
