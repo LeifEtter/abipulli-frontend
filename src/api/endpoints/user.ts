@@ -1,9 +1,12 @@
 import {
+  User,
+  UserChangePasswordParams,
   UserCheckAuthResponse,
   UserCheckAuthResult,
   UserLoginParams,
   UserLoginResponse,
   UserLoginResult,
+  UserResponse,
 } from "abipulli-types";
 import api from "../api";
 import { ApiError } from "../ApiError";
@@ -23,5 +26,13 @@ export const UserApi = {
   deleteSelf: async (): Promise<void> => {
     const res = await api.delete("/user");
     if (!res.data.success) throw new ApiError(res.data.error!);
+  },
+  getUserData: async (): Promise<Omit<User, "password">> => {
+    const res = await api.get<UserResponse>("/user/me");
+    if (!res.data.success) throw new ApiError(res.data.error!);
+    return res.data.data!;
+  },
+  changePassword: async (body: UserChangePasswordParams): Promise<void> => {
+    const res = await api.patch("/user/me/password", body);
   },
 };
