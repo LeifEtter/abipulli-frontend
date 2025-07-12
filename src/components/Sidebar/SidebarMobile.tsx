@@ -60,7 +60,9 @@ const SidebarMobileTile = ({
           <span className={`text-lg ${locked ? "text-gray-500" : ""}`}>
             {label}
           </span>
-          <p className="text-md text-gray-500 font-normal">{description}</p>
+          <p className="text-md text-gray-500 font-normal overflow-ellipsis whitespace-nowrap">
+            {description}
+          </p>
         </span>
       </div>
     </Link>
