@@ -18,10 +18,7 @@ import { useSnackbar } from "src/hooks/useSnackbar";
 import { useUserImages } from "src/hooks/useUserImages";
 import { PositionType } from "src/types/canvas/positionType";
 import { ScaleType } from "src/types/canvas/scaleType";
-import {
-  DesignCanvasSize,
-  getDesignCanvasSize,
-} from "src/utilities/Design/calculateDesignWindow";
+import { DesignCanvasSize } from "src/utilities/Design/calculateDesignWindow";
 
 export const Route = createFileRoute("/_auth/designer")({
   component: RouteComponent,
@@ -73,13 +70,9 @@ function RouteComponent() {
 
   const width = useWindowWidth();
   const [designCanvasSize, setDesignCanvasSize] = useState<DesignCanvasSize>({
-    width: 0,
-    height: 0,
+    width: 400,
+    height: 500,
   });
-  useEffect(
-    () => setDesignCanvasSize(getDesignCanvasSize({ windowWidth: width })),
-    [width]
-  );
 
   const onDeleteImage = async (image: ImageWithPositionAndScale) => {
     if (!design)
@@ -131,8 +124,11 @@ function RouteComponent() {
             <Layer>
               <StaticImage
                 src={design.preferredPullover!.image.url}
-                width={designCanvasSize.width * 0.6}
-                canvasSize={designCanvasSize}
+                width={designCanvasSize.width}
+                canvasSize={{
+                  width: designCanvasSize.width,
+                  height: designCanvasSize.height,
+                }}
                 onClick={(e: KonvaEventObject<MouseEvent>) => {
                   checkDeselect(e);
                   selectImage(null);
