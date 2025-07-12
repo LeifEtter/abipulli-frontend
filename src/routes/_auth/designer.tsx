@@ -124,7 +124,7 @@ function RouteComponent() {
             <Layer>
               <StaticImage
                 src={design.preferredPullover!.image.url}
-                width={designCanvasSize.width}
+                width={designCanvasSize.width - 20}
                 canvasSize={{
                   width: designCanvasSize.width,
                   height: designCanvasSize.height,
