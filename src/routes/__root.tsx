@@ -5,6 +5,7 @@ import TreeBG from "src/assets/tree-bg.png";
 import { AbiPulliLogo } from "src/components/Misc/AbipulliLogo";
 import { SidebarMobile } from "src/components/Sidebar/SidebarMobile";
 import { Sidebar } from "src/components/Sidebar/Sidebar";
+import { Center } from "src/components/Misc/Center";
 
 interface RouterContext {
   auth: AuthContextType;
@@ -14,7 +15,7 @@ const BackgroundImages: React.FC = () => (
   <div className="[&>*]:absolute w-full h-full ">
     <img className="bottom-0" src={TreeBG} alt="trees-background" />
     <img
-      className="w-70 right-0 bottom-3/12"
+      className="w-70 right-0 bottom-3/12 hidden md:block"
       src={ThumbsUP}
       alt="thumbs-up-img"
     />
@@ -30,7 +31,9 @@ export const Route = createRootRouteWithContext<RouterContext>()({
   component: () => (
     <div style={{ fontFamily: "Inter" }} className="px-4">
       {/* style={{ fontFamily: "Onest" }} */}
-      <AbiPulliLogo />
+      <div className="relative w-full">
+        <AbiPulliLogo />
+      </div>
       <div className="flex flex-row mt-16 gap-0 sm:gap-4 items-start">
         <div className="block sm:hidden">
           <SidebarMobile />
