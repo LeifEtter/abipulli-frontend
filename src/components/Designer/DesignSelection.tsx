@@ -1,8 +1,10 @@
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { faPenFancy, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { BasicButton } from "../Buttons/BasicButton";
 import { DesignTab } from "./DesignTab";
 import { JSX } from "react";
 import { Design } from "abipulli-types";
+import { Center } from "../Misc/Center";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 interface DesignsSelectionProps {
   designs: Design[];
@@ -45,6 +47,12 @@ export const DesignsSelection = ({
 
     <div className="absolute hidden xl:flex bottom-4  flex-row w-full justify-center">
       <BasicButton icon={faPlus}>Neues Design</BasicButton>
+    </div>
+    <div className="absolute flex xl:hidden bottom-4  flex-row w-full justify-center">
+      <FontAwesomeIcon
+        icon={faPlus}
+        className="border-2 bg-abipulli-green rounded-xl py-3 px-4 shadow-md text-2xl"
+      />
     </div>
   </div>
 );
