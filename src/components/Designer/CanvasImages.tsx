@@ -1,5 +1,5 @@
 import { Fragment, useEffect, useRef, useState } from "react";
-import { Group, Image, Rect, Transformer } from "react-konva";
+import { Group, Image, Layer, Rect, Transformer } from "react-konva";
 import {
   DESIGN_CANVAS_SIZES,
   DesignCanvasSize,
@@ -15,17 +15,13 @@ import { SizeType } from "src/types/canvas/sizeType";
 interface StaticImageParams {
   src: string;
   width: number;
-  initialX?: number;
-  initialY?: number;
-  canvasSize?: DesignCanvasSize;
+  canvasSize: DesignCanvasSize;
   onClick?: (e: KonvaEventObject<MouseEvent>) => void;
 }
 
 export const StaticImage: React.FC<StaticImageParams> = ({
   src,
   width,
-  initialX,
-  initialY,
   canvasSize,
   onClick,
 }) => {
@@ -33,19 +29,12 @@ export const StaticImage: React.FC<StaticImageParams> = ({
 
   const [imageRatio, setImageRatio] = useState(1);
 
-  const [x, setX] = useState<number>(initialX ?? 0);
-  const [y, setY] = useState<number>(initialY ?? 0);
-
   useEffect(() => {
     if (image) {
       const imageWidth: number = image.width;
       const imageHeight: number = image.height;
       const ratio: number = imageHeight / imageWidth;
       setImageRatio(ratio);
-      setX(DESIGN_CANVAS_SIZES.large.width / 2 - width / 2);
-      setY(
-        DESIGN_CANVAS_SIZES.large.height / 2 - (width * imageRatio) / 2 + 10
-      );
     }
   }, [image, canvasSize, width, imageRatio]);
 
@@ -55,7 +44,7 @@ export const StaticImage: React.FC<StaticImageParams> = ({
       image={image}
       height={width * imageRatio}
       width={width}
-      x={x}
+      x={0}
       y={0}
     />
   );
@@ -149,37 +138,35 @@ export const ResizableImage = ({
             setDeleteVisible(true);
           }}
         />
-        {deleteVisible && isSelected ? (
-          <Image
-            image={trashImage}
-            onClick={onDelete}
-            width={30}
-            height={30}
-            x={viewData.pos.x + width * viewData.scale.x + 10}
-            y={viewData.pos.y - 40}
-          />
-        ) : (
-          <Rect />
-        )}
+
         {isSelected && (
           <Transformer
+            //! Implement Rotation
             ref={trRef}
             flipEnabled={false}
-            boundBoxFunc={(oldBox, newBox) => {
-              if (Math.abs(newBox.width) < 5 || Math.abs(newBox.height) < 5) {
-                return oldBox;
-              }
-              return newBox;
-            }}
-            enabledAnchors={[
-              "middle-right",
-              "top-right",
-              "bottom-right",
-              "bottom-center",
-            ]}
-            // TODO: Implement Rotation!!!
+            enabledAnchors={["middle-right", "bottom-right", "bottom-center"]}
             rotateEnabled={false}
           />
+        )}
+        {deleteVisible && isSelected && (
+          <Group>
+            <Rect
+              width={40}
+              height={40}
+              cornerRadius={6}
+              fill={"white"}
+              x={viewData.pos.x - 20}
+              y={viewData.pos.y - 20}
+            />
+            <Image
+              image={trashImage}
+              onClick={onDelete}
+              width={30}
+              height={30}
+              x={viewData.pos.x - 15}
+              y={viewData.pos.y - 15}
+            />
+          </Group>
         )}
       </Fragment>
     </Group>
