@@ -23,7 +23,7 @@ interface InputInfo {
 const InputInfoInit = { value: null, error: null };
 
 function RouteComponent() {
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
 
   const showPopup = usePopup();
   const showSnackbar = useSnackbar();
@@ -126,6 +126,24 @@ function RouteComponent() {
         color="bg-red-300"
       >
         Account Löschen
+      </BasicButton>
+      <BasicButton
+        className="mt-8 w-42"
+        onClick={async () => {
+          // await UserApi.deleteSelf();
+          showPopup({
+            message: "Willst du dich wirklich ausloggen?",
+            description: "Click cancel or confirm",
+            onClickConfirm: async () => {
+              await logout();
+              // Redirect
+            },
+          });
+        }}
+        shadow
+        color="bg-gray-200"
+      >
+        Ausloggen
       </BasicButton>
     </div>
   );
