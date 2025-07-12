@@ -1,4 +1,5 @@
-import { faSave } from "@fortawesome/free-solid-svg-icons";
+import { faImage, faImages, faSave } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useWindowWidth } from "@react-hook/window-size";
 import { createFileRoute } from "@tanstack/react-router";
 import { Design, Image, ImageWithPositionAndScale } from "abipulli-types";
@@ -19,6 +20,7 @@ import { useUserImages } from "src/hooks/useUserImages";
 import { PositionType } from "src/types/canvas/positionType";
 import { ScaleType } from "src/types/canvas/scaleType";
 import { DesignCanvasSize } from "src/utilities/Design/calculateDesignWindow";
+import ImageTextIcon from "src/assets/icons/imageText.png";
 
 export const Route = createFileRoute("/_auth/designer")({
   component: RouteComponent,
@@ -103,6 +105,9 @@ function RouteComponent() {
       setDesign(designs[0]);
     }
   }, [designsAreLoading, designs]);
+
+  const [imageSelectorExpanded, setImageSelectorExpanded] =
+    useState<boolean>(false);
 
   return (
     <div className="flex flex-row w-full">
@@ -192,20 +197,33 @@ function RouteComponent() {
           </BasicButton>
         </div>
       </div>
-
-      {userImages && (
-        <ImageSelection
-          onClick={(image: Image) => {
-            if (!design) {
-              return showSnackbar({
-                message: "Wähle ein Design aus bevor du ein Bild hinzufügst",
-              });
-            }
-            addImageToDesign(image, designCanvasSize, design.id);
-          }}
-          images={userImages}
-        />
-      )}
+      {/* <div className="card fixed right-0 w-1/2 h-full top-0"></div> */}
+      <div
+        onClick={() => setImageSelectorExpanded(false)}
+        className={`${imageSelectorExpanded ? "absolute" : "hidden"} absolute z-10 bg-gray-800/20 w-full h-full top-0 left-0`}
+      />
+      <div
+        onClick={() => !imageSelectorExpanded && setImageSelectorExpanded(true)}
+        className={`absolute md:relative z-20 flex-row ${imageSelectorExpanded ? "right-0" : "-right-25 "} md:right-0 transition-all duration-75`}
+      >
+        {userImages && (
+          <ImageSelection
+            onClick={(image: Image) => {
+              if (!imageSelectorExpanded) {
+                setImageSelectorExpanded(true);
+                return;
+              }
+              if (!design) {
+                return showSnackbar({
+                  message: "Wähle ein Design aus bevor du ein Bild hinzufügst",
+                });
+              }
+              addImageToDesign(image, designCanvasSize, design.id);
+            }}
+            images={userImages}
+          />
+        )}
+      </div>
     </div>
   );
 }
