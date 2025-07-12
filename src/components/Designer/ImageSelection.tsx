@@ -3,6 +3,7 @@ import { useState } from "react";
 import { BasicButton } from "../Buttons/BasicButton";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { ImageCard } from "./ImageCard";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 interface ImageSelectionProps {
   images: Image[];
@@ -20,8 +21,8 @@ export const ImageSelection = ({ images, onClick }: ImageSelectionProps) => {
   );
 
   return (
-    <div className="card relative p-0 pt-4 w-40 md:w-80 h-120 flex flex-col">
-      <h3 className="text-center text-xl font-semibold pb-4">Elemente</h3>
+    <div className="card relative p-0 w-40 lg:w-80 h-120 flex flex-col">
+      <h3 className="text-center text-xl font-semibold pb-4 pt-4">Elemente</h3>
       <div className="relative flex flex-row flex-wrap [&>*]:transition-all duration-75">
         <button
           onClick={() => setSelectedTab(SelectedTab.Images)}
@@ -51,8 +52,14 @@ export const ImageSelection = ({ images, onClick }: ImageSelectionProps) => {
           />
         ))}
       </div>
-      <div className="absolute bottom-4 flex justify-center w-full">
+      <div className="hidden md:flex bottom-4 justify-center w-full px-4">
         <BasicButton icon={faPlus}>Bild Element Erstellen</BasicButton>
+      </div>
+      <div className="absolute flex md:hidden bottom-4  flex-row w-full justify-center">
+        <FontAwesomeIcon
+          icon={faPlus}
+          className="border-2 bg-abipulli-green rounded-xl py-3 px-4 shadow-md text-2xl"
+        />
       </div>
     </div>
   );
