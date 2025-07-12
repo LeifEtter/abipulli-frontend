@@ -21,7 +21,7 @@ export const UserApi = {
     return res.data.data!;
   },
   deleteSelf: async (): Promise<void> => {
-    const res = await api.delete("/");
+    const res = await api.delete("/user");
     if (!res.data.success) throw new ApiError(res.data.error!);
   },
 };
