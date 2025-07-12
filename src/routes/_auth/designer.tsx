@@ -195,6 +195,11 @@ function RouteComponent() {
             </BasicButton>
           </div>
         </div>
+        <div className="flex justify-center mt-4">
+          <BasicButton className="w-50 h-12" shadow icon={faSave}>
+            Speichern
+          </BasicButton>
+        </div>
       </div>
 
       {userImages && (
