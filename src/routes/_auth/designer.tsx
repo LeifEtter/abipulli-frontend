@@ -71,7 +71,7 @@ function RouteComponent() {
   const width = useWindowWidth();
   const [designCanvasSize, setDesignCanvasSize] = useState<DesignCanvasSize>({
     width: 400,
-    height: 500,
+    height: 550,
   });
 
   const onDeleteImage = async (image: ImageWithPositionAndScale) => {
