@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { InputField } from "src/components/Inputs/InputField";
 import { useAuth } from "src/hooks/useAuth";
 export const Route = createFileRoute("/login")({
@@ -11,6 +11,10 @@ function RouteComponent() {
   const [password, setPassword] = useState<string | null>(null);
 
   const { login, error, isLoading } = useAuth();
+
+  useEffect(() => {
+    
+  }, []);
 
   return (
     <div className="card w-11/12 sm:w-10/12 md:w-8/12 pb-8 max-w-140 flex flex-col items-center">
@@ -33,7 +37,16 @@ function RouteComponent() {
         error={"Password is wrong"}
       />
       {/* <p className="text-blue-500 font-semibold mt-2">Passwort Vergessen</p> */}
-      <button className="w-8/12 max-w-72 mt-16 mb-4 cursor-pointer bg-abipulli-green shadow-abipulli-sm py-1.5 px-4 rounded-md border font-semibold text-md hover:translate-y-2 hover:shadow-none">
+      <button
+        onClick={async () => {
+          try {
+            if (email && password) await login({ email, password });
+          } catch (error) {
+            console.log(error);
+          }
+        }}
+        className="w-8/12 max-w-72 mt-16 mb-4 cursor-pointer bg-abipulli-green shadow-abipulli-sm py-1.5 px-4 rounded-md border font-semibold text-md hover:translate-y-2 hover:shadow-none"
+      >
         {`Einloggen`}
       </button>
     </div>
