@@ -113,7 +113,7 @@ function RouteComponent() {
           selectDesign={(id) => selectDesignById(id)}
         />
       )}
-      <div className="border border-red-500">
+      <div className="mx-2 lg:mx-16 xl:mx-30">
         {design && (
           <Stage
             height={designCanvasSize.height}
