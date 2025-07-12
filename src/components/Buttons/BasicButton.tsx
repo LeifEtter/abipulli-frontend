@@ -34,7 +34,7 @@ export const BasicButton = ({
     throw "Please pass 'to' prop when using type == ButtonType.Link";
   return type == ButtonType.Button ? (
     <button
-      className={`cursor-pointer ${color ?? "bg-abipulli-green"} py-1.5 px-4 rounded-md border font-semibold text-md ${hoverEffect ? "hover:translate-y-2 hover:shadow-none" : ""} ${shadow ? "shadow-abipulli-sm" : ""} ${className}`}
+      className={`cursor-pointer ${color ?? "bg-abipulli-green"} py-1.5 px-4 rounded-md border font-semibold text-md ${shadow ? "shadow-abipulli-sm hover:translate-y-2 hover:shadow-none" : "hover:scale-110"} ${className}`}
       onClick={onClick}
     >
       {children}
@@ -43,7 +43,7 @@ export const BasicButton = ({
   ) : (
     <Link
       to={to}
-      className={`cursor-pointer bg-abipulli-green py-1.5 px-4 rounded-md border font-semibold text-md ${hoverEffect ? "hover:translate-y-2 hover:shadow-none" : ""} ${shadow ? "shadow-abipulli-sm" : ""} ${className}`}
+      className={`cursor-pointer bg-abipulli-green py-1.5 px-4 rounded-md border font-semibold text-md ${shadow ? "shadow-abipulli-sm hover:translate-y-2 hover:shadow-none" : "hover:scale-110"} ${className}`}
     >
       {children}
       {icon ? <FontAwesomeIcon className="ml-2" icon={icon} /> : <></>}
