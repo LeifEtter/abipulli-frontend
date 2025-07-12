@@ -15,10 +15,19 @@ export const DesignsSelection = ({
   selectDesign,
   selectedDesign,
 }: DesignsSelectionProps): JSX.Element => (
-  <div className="card p-0 relative h-132 flex flex-col w-2/12">
-    <h2 className="text-2xl font-semibold text-center pb-3 border-2 shadow-abipulli-sm z-10 border-black bg-abipulli-green pt-3 rounded-2xl">
-      Designs
-    </h2>
+  <div className="card p-0 relative h-157 flex flex-col w-2/12 max-w-50">
+    <div className="border-b-2 flex py-4 shadow-md">
+      <Center>
+        <div className="flex justify-center items-center gap-2">
+          <div className="shadow-abipulli-sm bg-abipulli-green border-2 p-1 rounded-md">
+            <Center>
+              <FontAwesomeIcon icon={faPenFancy} className="text-2xl" />
+            </Center>
+          </div>
+          <h3 className="hidden lg:block text-2xl font-semibold">Designs</h3>
+        </div>
+      </Center>
+    </div>
     <div className="overflow-scroll">
       <div className="flex flex-col items-center gap-2 mt-2">
         {designs.map((e, i) => (
