@@ -38,11 +38,11 @@ export const ImageSelection = ({ images }: ImageSelectionProps) => {
           className={`block md:hidden absolute w-full h-1/2 bg-black ${selectedTab == SelectedTab.Images ? "top-0" : "top-1/2"}`}
         />
       </div>
-      <div className="grid grid-cols-1 xl:grid-cols-2 gap-2 xl:gap-4 overflow-scroll py-4 px-3">
         {[...images, ...images].map((image, index) => (
           <div className="aspect-square border" key={index}>
             image
           </div>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-2 xl:gap-4 overflow-scroll py-4 px-3">
         ))}
       </div>
       <div className="absolute bottom-4 flex justify-center w-full">
