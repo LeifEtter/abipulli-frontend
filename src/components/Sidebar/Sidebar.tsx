@@ -68,7 +68,9 @@ const SidebarTile = ({
           >
             {label}
           </span>
-          <p className="text-md text-gray-500 font-normal">{description}</p>
+          <p className="text-md text-gray-500 font-normal whitespace-nowrap overflow-ellipsis">
+            {description}
+          </p>
         </span>
       </div>
     </Link>
@@ -89,7 +91,7 @@ export const Sidebar: React.FC = () => {
   return (
     <div>
       <div
-        className={`card flex flex-col items-center p-6 group/navbar w-24 ${!overrideCollapsed() && "lg:w-80"} hover:min-w-80`}
+        className={`card flex flex-col items-center p-6 group/navbar w-24 ${!overrideCollapsed() && "lg:w-80"} hover:w-80 transition-all duration-200 ease-in-out`}
       >
         <div className="flex flex-col items-start">
           <h2 className="text-2xl self-center flex font-semibold">
@@ -154,7 +156,7 @@ export const Sidebar: React.FC = () => {
       </div>
       <div className="h-4" />
       <div
-        className={`card p-2 px-4 w-24 ${!overrideCollapsed() && "lg:w-80"} group/navbar hover:min-w-80`}
+        className={`card p-2 px-4 w-24 ${!overrideCollapsed() && "lg:w-80"} group/navbar hover:w-80 transition-[width] duration-150 ease-in-out`}
       >
         <div>
           {user ? (
