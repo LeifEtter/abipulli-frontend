@@ -20,7 +20,7 @@ export const ImageSelection = ({ images, onClick }: ImageSelectionProps) => {
   );
 
   return (
-    <div className="card p-0 pt-4 w-40 md:w-80 h-120 flex flex-col">
+    <div className="card relative p-0 pt-4 w-40 md:w-80 h-120 flex flex-col">
       <h3 className="text-center text-xl font-semibold pb-4">Elemente</h3>
       <div className="relative flex flex-row flex-wrap [&>*]:transition-all duration-75">
         <button
