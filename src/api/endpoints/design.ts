@@ -9,7 +9,7 @@ import {
   ImageWithPositionAndScale,
   ManipulateImageInDesignParams,
 } from "abipulli-types";
-import { api } from "../api";
+import api from "../api";
 import { ApiError } from "../ApiError";
 import { AxiosResponse } from "axios";
 

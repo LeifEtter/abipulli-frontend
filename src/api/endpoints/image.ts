@@ -6,7 +6,7 @@ import {
   ImproveImageQueryParams,
   ImproveImageQueryResponse,
 } from "abipulli-types";
-import { api } from "../api";
+import api from "../api";
 
 export const ImageApi = {
   upload: async (image: File): Promise<number> => {
