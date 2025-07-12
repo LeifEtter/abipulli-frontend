@@ -1,16 +1,17 @@
-import { fa1, faPlus, faSave } from "@fortawesome/free-solid-svg-icons";
+import { faSave } from "@fortawesome/free-solid-svg-icons";
 import { useWindowWidth } from "@react-hook/window-size";
 import { createFileRoute } from "@tanstack/react-router";
-import { Design, Image, ImageWithPositionAndScale } from "abipulli-types";
+import { Design, ImageWithPositionAndScale } from "abipulli-types";
 import { KonvaEventObject } from "konva/lib/Node";
-import { JSX, useEffect, useState } from "react";
-import { Layer, Stage, Text } from "react-konva";
+import { useEffect, useState } from "react";
+import { Layer, Stage } from "react-konva";
 import { BasicButton } from "src/components/Buttons/BasicButton";
 import {
   ResizableImage,
   StaticImage,
 } from "src/components/Designer/CanvasImages";
-import { DesignTab } from "src/components/Designer/DesignTab";
+import { DesignsSelection } from "src/components/Designer/DesignSelection";
+import { ImageSelection } from "src/components/Designer/ImageSelection";
 import { useDesignImages } from "src/hooks/useDesignImages";
 import { useDesigns } from "src/hooks/useDesigns";
 import { useSnackbar } from "src/hooks/useSnackbar";
@@ -25,90 +26,6 @@ import {
 export const Route = createFileRoute("/_auth/designer")({
   component: RouteComponent,
 });
-
-interface DesignsSelectionProps {
-  designs: Design[];
-  selectDesign: (id: number) => void;
-  selectedDesign: Design | undefined;
-}
-
-const DesignsSelection = ({
-  designs,
-  selectDesign,
-  selectedDesign,
-}: DesignsSelectionProps): JSX.Element => (
-  <div className="card p-0 relative h-132 flex flex-col w-2/12">
-    <h2 className="text-2xl font-semibold text-center pb-3 border-2 shadow-abipulli-sm z-10 border-black bg-abipulli-green pt-3 rounded-2xl">
-      Designs
-    </h2>
-    <div className="overflow-scroll">
-      <div className="flex flex-col items-center gap-2 mt-2">
-        {[...designs, ...designs].map((e, i) => (
-          <div className="w-1/2 min-w-50">
-            <DesignTab
-              key={`design-tab-${i}`}
-              onSelect={() => selectDesign(e.id)}
-              selected={selectedDesign && selectedDesign.id == e.id}
-              image={e.preferredPullover!.image.url}
-            />
-          </div>
-        ))}
-      </div>
-    </div>
-
-    <div className="absolute bottom-4 flex flex-row w-full justify-center">
-      <BasicButton icon={faPlus}>Neues Design</BasicButton>
-    </div>
-  </div>
-);
-
-interface ImageSelectionProps {
-  images: Image[];
-}
-
-enum SelectedTab {
-  Images,
-  Texts,
-}
-
-const ImageSelection = ({ images }: ImageSelectionProps) => {
-  const [selectedTab, setSelectedTab] = useState<SelectedTab>(
-    SelectedTab.Images
-  );
-
-  return (
-    <div className="card p-0 pt-4 w-40 md:w-80 h-120 flex flex-col">
-      <h3 className="text-center text-xl font-semibold pb-4">Elemente</h3>
-      <div className="relative flex flex-row flex-wrap [&>*]:transition-all duration-75">
-        <button
-          onClick={() => setSelectedTab(SelectedTab.Images)}
-          className={`font-semibold cursor-pointer p-1 flex-1/1 md:flex-1/2  border-black border-y z-10 ${selectedTab == SelectedTab.Images ? " text-white" : " text-black"}`}
-        >
-          Bilder
-        </button>
-        <button
-          onClick={() => setSelectedTab(SelectedTab.Texts)}
-          className={`font-semibold cursor-pointer p-1 flex-1/1 md:flex-1/2 border-black z-10 border-y ${selectedTab == SelectedTab.Texts ? "text-white" : " text-black"}`}
-        >
-          Texte
-        </button>
-        <div
-          className={`hidden md:block absolute w-1/2 bg-black h-full ${selectedTab == SelectedTab.Images ? "left-0" : "left-1/2"}`}
-        />
-        <div
-          className={`block md:hidden absolute w-full h-1/2 bg-black ${selectedTab == SelectedTab.Images ? "top-0" : "top-1/2"}`}
-        />
-      </div>
-      <div className="grid grid-cols-1 xl:grid-cols-2 gap-2 xl:gap-4 overflow-scroll py-4 px-3">
-        {[...images, ...images].map((image, index) => (
-          <div className="aspect-square border" key={index}>
-            image
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-};
 
 enum ViewingSide {
   Front,
