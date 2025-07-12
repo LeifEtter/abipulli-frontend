@@ -21,8 +21,8 @@ export const DesignsSelection = ({
     </h2>
     <div className="overflow-scroll">
       <div className="flex flex-col items-center gap-2 mt-2">
-        {[...designs, ...designs].map((e, i) => (
-          <div className="w-1/2 min-w-50">
+        {designs.map((e, i) => (
+          <div className="w-3/4 max-w-40">
             <DesignTab
               key={`design-tab-${i}`}
               onSelect={() => selectDesign(e.id)}
