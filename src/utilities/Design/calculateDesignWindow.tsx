@@ -11,11 +11,18 @@ interface DesignCanvasSizeMap {
   xl: DesignCanvasSize;
 }
 
+// export const DESIGN_CANVAS_SIZES: DesignCanvasSizeMap = {
+//   small: { width: 300, height: 300 },
+//   medium: { width: 500, height: 600 },
+//   large: { width: 700, height: 800 },
+//   xl: { width: 1100, height: 1400 },
+// };
+
 export const DESIGN_CANVAS_SIZES: DesignCanvasSizeMap = {
   small: { width: 300, height: 300 },
-  medium: { width: 500, height: 600 },
-  large: { width: 700, height: 800 },
-  xl: { width: 1100, height: 1400 },
+  medium: { width: 300, height: 300 },
+  large: { width: 600, height: 600 },
+  xl: { width: 600, height: 600 },
 };
 
 interface GetDesignCanvasSizeParams {
