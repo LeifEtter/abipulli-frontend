@@ -56,7 +56,7 @@ export const StaticImage: React.FC<StaticImageParams> = ({
       height={width * imageRatio}
       width={width}
       x={x}
-      y={y}
+      y={0}
     />
   );
 };
