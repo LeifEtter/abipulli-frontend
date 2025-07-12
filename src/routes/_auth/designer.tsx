@@ -196,7 +196,20 @@ function RouteComponent() {
           </div>
         </div>
       </div>
-      {userImages && <ImageSelection images={userImages} />}
+
+      {userImages && (
+        <ImageSelection
+          onClick={(image: Image) => {
+            if (!design) {
+              return showSnackbar({
+                message: "Wähle ein Design aus bevor du ein Bild hinzufügst",
+              });
+            }
+            addImageToDesign(image, designCanvasSize, design.id);
+          }}
+          images={userImages}
+        />
+      )}
     </div>
   );
 }
