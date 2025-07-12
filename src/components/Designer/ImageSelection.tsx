@@ -1,11 +1,15 @@
 import { Image } from "abipulli-types";
 import { useState } from "react";
+import { BasicButton } from "../Buttons/BasicButton";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { ImageCard } from "./ImageCard";
 
 interface ImageSelectionProps {
   images: Image[];
+  onClick: (image: Image) => void;
 }
 
-export const ImageSelection = ({ images }: ImageSelectionProps) => {
+export const ImageSelection = ({ images, onClick }: ImageSelectionProps) => {
   enum SelectedTab {
     Images,
     Texts,
@@ -38,11 +42,13 @@ export const ImageSelection = ({ images }: ImageSelectionProps) => {
           className={`block md:hidden absolute w-full h-1/2 bg-black ${selectedTab == SelectedTab.Images ? "top-0" : "top-1/2"}`}
         />
       </div>
-        {[...images, ...images].map((image, index) => (
-          <div className="aspect-square border" key={index}>
-            image
-          </div>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-2 xl:gap-4 overflow-scroll py-4 px-3">
+        {images.map((image) => (
+          <ImageCard
+            key={`image-card-${image.id}`}
+            image={image.url}
+            onClick={() => onClick(image)}
+          />
         ))}
       </div>
       <div className="absolute bottom-4 flex justify-center w-full">
