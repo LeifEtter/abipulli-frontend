@@ -1,5 +1,5 @@
 import { Pullover, PulloversResponse } from "abipulli-types";
-import { api } from "../api";
+import api from "../api";
 
 export const PulloverApi = {
   getAll: async (): Promise<Pullover[]> => {

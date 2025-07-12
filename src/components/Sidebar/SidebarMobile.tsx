@@ -60,7 +60,9 @@ const SidebarMobileTile = ({
           <span className={`text-lg ${locked ? "text-gray-500" : ""}`}>
             {label}
           </span>
-          <p className="text-md text-gray-500 font-normal">{description}</p>
+          <p className="text-md text-gray-500 font-normal overflow-ellipsis whitespace-nowrap">
+            {description}
+          </p>
         </span>
       </div>
     </Link>
@@ -93,7 +95,7 @@ export const SidebarMobile: React.FC = () => {
         </Center>
       </button>
       <div
-        className={`flex flex-col items-start ${open ? "w-8/12 min-w-64 opacity-100" : "w-0 opacity-0"} absolute bg-white right-0 h-full z-20 top-0 p-4 duration-150 overflow-hidden opacity-0 rounded-l-3xl`}
+        className={`flex flex-col items-start ${open ? "w-8/12 min-w-64 opacity-100" : "w-0 opacity-0 overflow-hidden pointer-events-none"}  absolute bg-white right-0 h-full z-20 top-0 p-4 duration-150 overflow-hidden opacity-0 rounded-l-3xl`}
       >
         <h2 className="text-2xl self-center flex font-semibold my-8">
           Navigation

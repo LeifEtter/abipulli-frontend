@@ -19,9 +19,10 @@ import { Route as IndexImport } from './routes/index'
 import { Route as OnboardingSchuleImport } from './routes/onboarding/schule'
 import { Route as OnboardingPersonalImport } from './routes/onboarding/personal'
 import { Route as AuthOrdersImport } from './routes/_auth/orders'
+import { Route as AuthDesignerImport } from './routes/_auth/designer'
 import { Route as AuthAccountImport } from './routes/_auth/account'
 import { Route as AuthGenerateOrderIdImport } from './routes/_auth/generate.$orderId'
-import { Route as AuthDesignerOrderIdImport } from './routes/_auth/designer.$orderId'
+import { Route as AuthDesignerOldOrderIdImport } from './routes/_auth/designerOld.$orderId'
 import { Route as AdminAdminOrdersImport } from './routes/_admin/admin.orders'
 
 // Create/Update Routes
@@ -72,6 +73,12 @@ const AuthOrdersRoute = AuthOrdersImport.update({
   getParentRoute: () => AuthRouteRoute,
 } as any)
 
+const AuthDesignerRoute = AuthDesignerImport.update({
+  id: '/designer',
+  path: '/designer',
+  getParentRoute: () => AuthRouteRoute,
+} as any)
+
 const AuthAccountRoute = AuthAccountImport.update({
   id: '/account',
   path: '/account',
@@ -84,9 +91,9 @@ const AuthGenerateOrderIdRoute = AuthGenerateOrderIdImport.update({
   getParentRoute: () => AuthRouteRoute,
 } as any)
 
-const AuthDesignerOrderIdRoute = AuthDesignerOrderIdImport.update({
-  id: '/designer/$orderId',
-  path: '/designer/$orderId',
+const AuthDesignerOldOrderIdRoute = AuthDesignerOldOrderIdImport.update({
+  id: '/designerOld/$orderId',
+  path: '/designerOld/$orderId',
   getParentRoute: () => AuthRouteRoute,
 } as any)
 
@@ -142,6 +149,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthAccountImport
       parentRoute: typeof AuthRouteImport
     }
+    '/_auth/designer': {
+      id: '/_auth/designer'
+      path: '/designer'
+      fullPath: '/designer'
+      preLoaderRoute: typeof AuthDesignerImport
+      parentRoute: typeof AuthRouteImport
+    }
     '/_auth/orders': {
       id: '/_auth/orders'
       path: '/orders'
@@ -170,11 +184,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminAdminOrdersImport
       parentRoute: typeof AdminRouteImport
     }
-    '/_auth/designer/$orderId': {
-      id: '/_auth/designer/$orderId'
-      path: '/designer/$orderId'
-      fullPath: '/designer/$orderId'
-      preLoaderRoute: typeof AuthDesignerOrderIdImport
+    '/_auth/designerOld/$orderId': {
+      id: '/_auth/designerOld/$orderId'
+      path: '/designerOld/$orderId'
+      fullPath: '/designerOld/$orderId'
+      preLoaderRoute: typeof AuthDesignerOldOrderIdImport
       parentRoute: typeof AuthRouteImport
     }
     '/_auth/generate/$orderId': {
@@ -203,15 +217,17 @@ const AdminRouteRouteWithChildren = AdminRouteRoute._addFileChildren(
 
 interface AuthRouteRouteChildren {
   AuthAccountRoute: typeof AuthAccountRoute
+  AuthDesignerRoute: typeof AuthDesignerRoute
   AuthOrdersRoute: typeof AuthOrdersRoute
-  AuthDesignerOrderIdRoute: typeof AuthDesignerOrderIdRoute
+  AuthDesignerOldOrderIdRoute: typeof AuthDesignerOldOrderIdRoute
   AuthGenerateOrderIdRoute: typeof AuthGenerateOrderIdRoute
 }
 
 const AuthRouteRouteChildren: AuthRouteRouteChildren = {
   AuthAccountRoute: AuthAccountRoute,
+  AuthDesignerRoute: AuthDesignerRoute,
   AuthOrdersRoute: AuthOrdersRoute,
-  AuthDesignerOrderIdRoute: AuthDesignerOrderIdRoute,
+  AuthDesignerOldOrderIdRoute: AuthDesignerOldOrderIdRoute,
   AuthGenerateOrderIdRoute: AuthGenerateOrderIdRoute,
 }
 
@@ -239,11 +255,12 @@ export interface FileRoutesByFullPath {
   '/onboarding': typeof OnboardingRouteRouteWithChildren
   '/login': typeof LoginRoute
   '/account': typeof AuthAccountRoute
+  '/designer': typeof AuthDesignerRoute
   '/orders': typeof AuthOrdersRoute
   '/onboarding/personal': typeof OnboardingPersonalRoute
   '/onboarding/schule': typeof OnboardingSchuleRoute
   '/admin/orders': typeof AdminAdminOrdersRoute
-  '/designer/$orderId': typeof AuthDesignerOrderIdRoute
+  '/designerOld/$orderId': typeof AuthDesignerOldOrderIdRoute
   '/generate/$orderId': typeof AuthGenerateOrderIdRoute
 }
 
@@ -253,11 +270,12 @@ export interface FileRoutesByTo {
   '/onboarding': typeof OnboardingRouteRouteWithChildren
   '/login': typeof LoginRoute
   '/account': typeof AuthAccountRoute
+  '/designer': typeof AuthDesignerRoute
   '/orders': typeof AuthOrdersRoute
   '/onboarding/personal': typeof OnboardingPersonalRoute
   '/onboarding/schule': typeof OnboardingSchuleRoute
   '/admin/orders': typeof AdminAdminOrdersRoute
-  '/designer/$orderId': typeof AuthDesignerOrderIdRoute
+  '/designerOld/$orderId': typeof AuthDesignerOldOrderIdRoute
   '/generate/$orderId': typeof AuthGenerateOrderIdRoute
 }
 
@@ -269,11 +287,12 @@ export interface FileRoutesById {
   '/onboarding': typeof OnboardingRouteRouteWithChildren
   '/login': typeof LoginRoute
   '/_auth/account': typeof AuthAccountRoute
+  '/_auth/designer': typeof AuthDesignerRoute
   '/_auth/orders': typeof AuthOrdersRoute
   '/onboarding/personal': typeof OnboardingPersonalRoute
   '/onboarding/schule': typeof OnboardingSchuleRoute
   '/_admin/admin/orders': typeof AdminAdminOrdersRoute
-  '/_auth/designer/$orderId': typeof AuthDesignerOrderIdRoute
+  '/_auth/designerOld/$orderId': typeof AuthDesignerOldOrderIdRoute
   '/_auth/generate/$orderId': typeof AuthGenerateOrderIdRoute
 }
 
@@ -285,11 +304,12 @@ export interface FileRouteTypes {
     | '/onboarding'
     | '/login'
     | '/account'
+    | '/designer'
     | '/orders'
     | '/onboarding/personal'
     | '/onboarding/schule'
     | '/admin/orders'
-    | '/designer/$orderId'
+    | '/designerOld/$orderId'
     | '/generate/$orderId'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -298,11 +318,12 @@ export interface FileRouteTypes {
     | '/onboarding'
     | '/login'
     | '/account'
+    | '/designer'
     | '/orders'
     | '/onboarding/personal'
     | '/onboarding/schule'
     | '/admin/orders'
-    | '/designer/$orderId'
+    | '/designerOld/$orderId'
     | '/generate/$orderId'
   id:
     | '__root__'
@@ -312,11 +333,12 @@ export interface FileRouteTypes {
     | '/onboarding'
     | '/login'
     | '/_auth/account'
+    | '/_auth/designer'
     | '/_auth/orders'
     | '/onboarding/personal'
     | '/onboarding/schule'
     | '/_admin/admin/orders'
-    | '/_auth/designer/$orderId'
+    | '/_auth/designerOld/$orderId'
     | '/_auth/generate/$orderId'
   fileRoutesById: FileRoutesById
 }
@@ -367,8 +389,9 @@ export const routeTree = rootRoute
       "filePath": "_auth/route.tsx",
       "children": [
         "/_auth/account",
+        "/_auth/designer",
         "/_auth/orders",
-        "/_auth/designer/$orderId",
+        "/_auth/designerOld/$orderId",
         "/_auth/generate/$orderId"
       ]
     },
@@ -384,6 +407,10 @@ export const routeTree = rootRoute
     },
     "/_auth/account": {
       "filePath": "_auth/account.tsx",
+      "parent": "/_auth"
+    },
+    "/_auth/designer": {
+      "filePath": "_auth/designer.tsx",
       "parent": "/_auth"
     },
     "/_auth/orders": {
@@ -402,8 +429,8 @@ export const routeTree = rootRoute
       "filePath": "_admin/admin.orders.tsx",
       "parent": "/_admin"
     },
-    "/_auth/designer/$orderId": {
-      "filePath": "_auth/designer.$orderId.tsx",
+    "/_auth/designerOld/$orderId": {
+      "filePath": "_auth/designerOld.$orderId.tsx",
       "parent": "/_auth"
     },
     "/_auth/generate/$orderId": {
