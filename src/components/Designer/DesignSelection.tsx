@@ -43,7 +43,7 @@ export const DesignsSelection = ({
       </div>
     </div>
 
-    <div className="absolute bottom-4 flex flex-row w-full justify-center">
+    <div className="absolute hidden xl:flex bottom-4  flex-row w-full justify-center">
       <BasicButton icon={faPlus}>Neues Design</BasicButton>
     </div>
   </div>
