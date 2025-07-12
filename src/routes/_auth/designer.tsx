@@ -1,7 +1,7 @@
 import { faSave } from "@fortawesome/free-solid-svg-icons";
 import { useWindowWidth } from "@react-hook/window-size";
 import { createFileRoute } from "@tanstack/react-router";
-import { Design, ImageWithPositionAndScale } from "abipulli-types";
+import { Design, Image, ImageWithPositionAndScale } from "abipulli-types";
 import { KonvaEventObject } from "konva/lib/Node";
 import { useEffect, useState } from "react";
 import { Layer, Stage } from "react-konva";
@@ -116,8 +116,8 @@ function RouteComponent() {
       <div className="mx-2 lg:mx-16 xl:mx-30">
         {design && (
           <Stage
-            height={designCanvasSize.height}
             width={designCanvasSize.width}
+            height={designCanvasSize.height}
             onMouseDown={checkDeselect}
             onTouchStart={checkDeselect}
           >
