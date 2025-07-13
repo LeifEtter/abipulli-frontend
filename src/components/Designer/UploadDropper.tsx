@@ -37,8 +37,10 @@ export const ImageDropper = ({
           className="flex flex-col items-center justify-center h-full"
         >
           <input {...getInputProps()} />
-          <p className="font-medium">Ziehe hier ein Bild zum hochladen rein</p>
-          <p className="text-gray-400 font-medium text-sm">
+          <p className="font-medium text-center text-wrap w-50">
+            Ziehe hier ein Bild zum hochladen rein
+          </p>
+          <p className="text-gray-400 font-medium text-sm text-center text-wrap w-50">
             Akzeptiert: .jpg/.jpeg - .png - .webp, bis 10MB
           </p>
           <button className="mt-5 border-2 rounded-md px-3 py-2 text-gray-700 font-medium border-ap-new-gray cursor-pointer">
