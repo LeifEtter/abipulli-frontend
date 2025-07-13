@@ -142,6 +142,7 @@ export const Sidebar: React.FC = () => {
             to="/umfrage"
             selected={location.pathname == "/umfrage"}
             overrideCollapsed={overrideCollapsed()}
+            locked
           />
           <SidebarTile
             icon={faTruckFast}
