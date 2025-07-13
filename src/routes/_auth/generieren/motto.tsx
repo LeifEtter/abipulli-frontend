@@ -1,12 +1,13 @@
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
-import { BasicButton, ButtonType } from "src/components/Buttons/BasicButton";
+import { BasicButton } from "src/components/Buttons/BasicButton";
 import { InputField } from "src/components/Inputs/InputField";
 import { Center } from "src/components/Misc/Center";
 import { PageDescription } from "src/components/Texts/PageDescription";
 import { PageTitle } from "src/components/Texts/PageTitle";
 import { useGenerateInfo } from "src/hooks/useGenerateInfo";
+import { ButtonType } from "src/types/ButtonType";
 
 export const Route = createFileRoute("/_auth/generieren/motto")({
   component: RouteComponent,

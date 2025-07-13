@@ -11,8 +11,9 @@ import { SelectedStylesMap } from "src/types/generator/SelectedStyles";
 import AbInsBett from "src/assets/Abinsbett-2.png";
 import { SizeType } from "src/types/canvas/sizeType";
 import { AspectRatio } from "src/providers/generateContext";
-import { BasicButton, ButtonType } from "src/components/Buttons/BasicButton";
+import { BasicButton } from "src/components/Buttons/BasicButton";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
+import { ButtonType } from "src/types/ButtonType";
 
 export const Route = createFileRoute("/_auth/generieren/beschreibung")({
   component: RouteComponent,

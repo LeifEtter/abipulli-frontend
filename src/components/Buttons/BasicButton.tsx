@@ -1,11 +1,7 @@
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "@tanstack/react-router";
-
-export enum ButtonType {
-  Link,
-  Button,
-}
+import { ButtonType } from "src/types/ButtonType";
 
 interface BasicButtonProps {
   type?: ButtonType;

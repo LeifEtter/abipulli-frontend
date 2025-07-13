@@ -14,7 +14,8 @@ import {
   faTrash,
 } from "@fortawesome/free-solid-svg-icons";
 import { Center } from "src/components/Misc/Center";
-import { BasicButton, ButtonType } from "src/components/Buttons/BasicButton";
+import { BasicButton } from "src/components/Buttons/BasicButton";
+import { ButtonType } from "src/types/ButtonType";
 
 export const Route = createFileRoute("/_auth/generieren/referenz")({
   component: RouteComponent,

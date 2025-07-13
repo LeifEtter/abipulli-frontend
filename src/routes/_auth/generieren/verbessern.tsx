@@ -2,7 +2,7 @@ import { faArrowRight, faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { ImageApi } from "src/api/endpoints/image";
-import { BasicButton, ButtonType } from "src/components/Buttons/BasicButton";
+import { BasicButton } from "src/components/Buttons/BasicButton";
 import { InputField } from "src/components/Inputs/InputField";
 import {
   LoadingSpinner,
@@ -12,6 +12,7 @@ import { PageDescription } from "src/components/Texts/PageDescription";
 import { PageTitle } from "src/components/Texts/PageTitle";
 import { useGenerateInfo } from "src/hooks/useGenerateInfo";
 import { useSnackbar } from "src/hooks/useSnackbar";
+import { ButtonType } from "src/types/ButtonType";
 
 export const Route = createFileRoute("/_auth/generieren/verbessern")({
   component: RouteComponent,
