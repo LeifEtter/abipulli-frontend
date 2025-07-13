@@ -66,7 +66,7 @@ function RouteComponent() {
   const onImproveDescription = async () => {
     const styleTags = convertStyleTagsToString(selectedStyles);
     const description: string = (
-      await ImageApi.improveDescription({
+      await ImageApi.generateDescription({
         styleTags,
         motto: inputs.motto,
         description: inputs.beschreibung,
