@@ -1,4 +1,6 @@
 import {
+  CommentOnQueryParams,
+  CommentOnQueryResult,
   GenerateImageParams,
   Image,
   ImagesResponse,
@@ -29,7 +31,7 @@ export const ImageApi = {
     if (!imageRes.success) throw imageRes.error;
     return imageRes.data!.items;
   },
-  improveDescription: async (
+  generateDescription: async (
     params: ImproveImageQueryParams
   ): Promise<{ description: string }> => {
     const res = await api.post("/image/prompt", params);
@@ -37,6 +39,13 @@ export const ImageApi = {
     const improveRes: ImproveImageQueryResponse = res.data;
     if (!improveRes.success) throw improveRes.error;
     return improveRes.data!;
+  },
+  commentOnDescription: async (
+    params: CommentOnQueryParams
+  ): Promise<string> => {
+    const res = await api.post("/image/prompt/improve", params);
+    const commentResult: CommentOnQueryResult = res.data;
+    return commentResult.description;
   },
   generateImages: async (params: GenerateImageParams): Promise<Image[]> => {
     const res = await api.post("/image/generate", params);
