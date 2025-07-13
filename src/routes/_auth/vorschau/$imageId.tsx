@@ -1,22 +1,15 @@
-import {
-  faExpand,
-  faRedo,
-  faShirt,
-  faSliders,
-} from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faRedo, faShirt, faSliders } from "@fortawesome/free-solid-svg-icons";
 import { createFileRoute, useParams } from "@tanstack/react-router";
 import { Image } from "abipulli-types";
 import { useEffect, useState } from "react";
 import { ImageApi } from "src/api/endpoints/image";
-import PulloverSand from "src/assets/sand-front.png";
+import PulloverSandFront from "src/assets/sand-front.png";
+import PulloverSandBack from "src/assets/sand-back.png";
 import { DescriptionButton } from "src/components/Buttons/DescriptionButton";
 import { FrontBackButton } from "src/components/Buttons/FrontBackButton";
 import { useSnackbar } from "src/hooks/useSnackbar";
 import { ButtonType } from "src/types/ButtonType";
 import { ViewingSide } from "src/types/ViewingSide";
-import useImage from "use-image";
-
 export const Route = createFileRoute("/_auth/vorschau/$imageId")({
   component: RouteComponent,
 });
@@ -57,18 +50,31 @@ function RouteComponent() {
           width: canvasWidth,
         }}
       >
-        <img src={PulloverSand} />
+        <div
+          className={`relative w-full transition-transform duration-500 [transform-style:preserve-3d] h-140 ${
+            viewingSide == ViewingSide.Back && "rotate-y-180"
+          }`}
+        >
+          <img
+            src={PulloverSandFront}
+            alt="Front"
+            className="absolute w-full h-full backface-hidden object-contain"
+          />
+          <img
+            src={PulloverSandBack}
+            alt="Back"
+            className="absolute w-full h-full backface-hidden rotate-y-180 object-contain"
+          />
+        </div>
         {image && (
-          <div className="">
-            <img
-              style={{
-                width: generatedImageWidth,
-                left: canvasWidth / 2 - generatedImageWidth / 2,
-              }}
-              className="absolute top-30 left-1/2"
-              src={image.url}
-            />
-          </div>
+          <img
+            style={{
+              width: generatedImageWidth,
+              left: canvasWidth / 2 - generatedImageWidth / 2,
+            }}
+            className={`absolute ${viewingSide == ViewingSide.Front ? "top-30" : "top-40"} left-1/2 transition-all duration-200`}
+            src={image.url}
+          />
         )}
         <div className="absolute bottom-30 w-full flex gap-4 flex-col lg:flex-row justify-center items-center">
           <DescriptionButton
@@ -94,7 +100,10 @@ function RouteComponent() {
         </div>
         <div className="flex flex-row justify-center">
           <FrontBackButton
-            switchViewingSide={(side: ViewingSide) => setViewingSide(side)}
+            switchViewingSide={(side: ViewingSide) => {
+              console.log(side);
+              setViewingSide(side);
+            }}
             currentViewingSide={viewingSide}
           />
         </div>
