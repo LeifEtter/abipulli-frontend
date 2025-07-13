@@ -43,7 +43,7 @@ const SidebarTile = ({
     <Link
       to={to}
       onClick={(e) => (locked ? e.preventDefault() : null)}
-      className={`relative ${locked ? "cursor-help" : "cursor-pointer hover:bg-abipulli-green rounded-xl"}`}
+      className={`relative ${locked ? "cursor-help" : `cursor-pointer hover:bg-abipulli-green ${!selected && "hover:border-2"} rounded-xl`}`}
     >
       <div className="absolute left-0 top-0">
         {locked ? (
