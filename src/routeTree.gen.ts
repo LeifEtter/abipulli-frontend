@@ -18,12 +18,12 @@ import { Route as AdminRouteImport } from './routes/_admin/route'
 import { Route as IndexImport } from './routes/index'
 import { Route as OnboardingSchuleImport } from './routes/onboarding/schule'
 import { Route as OnboardingPersonalImport } from './routes/onboarding/personal'
-import { Route as AuthVorschauImport } from './routes/_auth/vorschau'
 import { Route as AuthOrdersImport } from './routes/_auth/orders'
 import { Route as AuthDesignerImport } from './routes/_auth/designer'
 import { Route as AuthAccountImport } from './routes/_auth/account'
 import { Route as AuthGenerierenRouteImport } from './routes/_auth/generieren/route'
-import { Route as AuthVorschauImageIdImport } from './routes/_auth/vorschau.$imageId'
+import { Route as AuthVorschauIndexImport } from './routes/_auth/vorschau/index'
+import { Route as AuthVorschauImageIdImport } from './routes/_auth/vorschau/$imageId'
 import { Route as AuthGenerierenVerbessernImport } from './routes/_auth/generieren/verbessern'
 import { Route as AuthGenerierenReferenzImport } from './routes/_auth/generieren/referenz'
 import { Route as AuthGenerierenMottoImport } from './routes/_auth/generieren/motto'
@@ -74,12 +74,6 @@ const OnboardingPersonalRoute = OnboardingPersonalImport.update({
   getParentRoute: () => OnboardingRouteRoute,
 } as any)
 
-const AuthVorschauRoute = AuthVorschauImport.update({
-  id: '/vorschau',
-  path: '/vorschau',
-  getParentRoute: () => AuthRouteRoute,
-} as any)
-
 const AuthOrdersRoute = AuthOrdersImport.update({
   id: '/orders',
   path: '/orders',
@@ -104,10 +98,16 @@ const AuthGenerierenRouteRoute = AuthGenerierenRouteImport.update({
   getParentRoute: () => AuthRouteRoute,
 } as any)
 
+const AuthVorschauIndexRoute = AuthVorschauIndexImport.update({
+  id: '/vorschau/',
+  path: '/vorschau/',
+  getParentRoute: () => AuthRouteRoute,
+} as any)
+
 const AuthVorschauImageIdRoute = AuthVorschauImageIdImport.update({
-  id: '/$imageId',
-  path: '/$imageId',
-  getParentRoute: () => AuthVorschauRoute,
+  id: '/vorschau/$imageId',
+  path: '/vorschau/$imageId',
+  getParentRoute: () => AuthRouteRoute,
 } as any)
 
 const AuthGenerierenVerbessernRoute = AuthGenerierenVerbessernImport.update({
@@ -221,13 +221,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthOrdersImport
       parentRoute: typeof AuthRouteImport
     }
-    '/_auth/vorschau': {
-      id: '/_auth/vorschau'
-      path: '/vorschau'
-      fullPath: '/vorschau'
-      preLoaderRoute: typeof AuthVorschauImport
-      parentRoute: typeof AuthRouteImport
-    }
     '/onboarding/personal': {
       id: '/onboarding/personal'
       path: '/personal'
@@ -293,10 +286,17 @@ declare module '@tanstack/react-router' {
     }
     '/_auth/vorschau/$imageId': {
       id: '/_auth/vorschau/$imageId'
-      path: '/$imageId'
+      path: '/vorschau/$imageId'
       fullPath: '/vorschau/$imageId'
       preLoaderRoute: typeof AuthVorschauImageIdImport
-      parentRoute: typeof AuthVorschauImport
+      parentRoute: typeof AuthRouteImport
+    }
+    '/_auth/vorschau/': {
+      id: '/_auth/vorschau/'
+      path: '/vorschau'
+      fullPath: '/vorschau'
+      preLoaderRoute: typeof AuthVorschauIndexImport
+      parentRoute: typeof AuthRouteImport
     }
   }
 }
@@ -332,26 +332,15 @@ const AuthGenerierenRouteRouteChildren: AuthGenerierenRouteRouteChildren = {
 const AuthGenerierenRouteRouteWithChildren =
   AuthGenerierenRouteRoute._addFileChildren(AuthGenerierenRouteRouteChildren)
 
-interface AuthVorschauRouteChildren {
-  AuthVorschauImageIdRoute: typeof AuthVorschauImageIdRoute
-}
-
-const AuthVorschauRouteChildren: AuthVorschauRouteChildren = {
-  AuthVorschauImageIdRoute: AuthVorschauImageIdRoute,
-}
-
-const AuthVorschauRouteWithChildren = AuthVorschauRoute._addFileChildren(
-  AuthVorschauRouteChildren,
-)
-
 interface AuthRouteRouteChildren {
   AuthGenerierenRouteRoute: typeof AuthGenerierenRouteRouteWithChildren
   AuthAccountRoute: typeof AuthAccountRoute
   AuthDesignerRoute: typeof AuthDesignerRoute
   AuthOrdersRoute: typeof AuthOrdersRoute
-  AuthVorschauRoute: typeof AuthVorschauRouteWithChildren
   AuthDesignerOldOrderIdRoute: typeof AuthDesignerOldOrderIdRoute
   AuthGenerateOrderIdRoute: typeof AuthGenerateOrderIdRoute
+  AuthVorschauImageIdRoute: typeof AuthVorschauImageIdRoute
+  AuthVorschauIndexRoute: typeof AuthVorschauIndexRoute
 }
 
 const AuthRouteRouteChildren: AuthRouteRouteChildren = {
@@ -359,9 +348,10 @@ const AuthRouteRouteChildren: AuthRouteRouteChildren = {
   AuthAccountRoute: AuthAccountRoute,
   AuthDesignerRoute: AuthDesignerRoute,
   AuthOrdersRoute: AuthOrdersRoute,
-  AuthVorschauRoute: AuthVorschauRouteWithChildren,
   AuthDesignerOldOrderIdRoute: AuthDesignerOldOrderIdRoute,
   AuthGenerateOrderIdRoute: AuthGenerateOrderIdRoute,
+  AuthVorschauImageIdRoute: AuthVorschauImageIdRoute,
+  AuthVorschauIndexRoute: AuthVorschauIndexRoute,
 }
 
 const AuthRouteRouteWithChildren = AuthRouteRoute._addFileChildren(
@@ -391,7 +381,6 @@ export interface FileRoutesByFullPath {
   '/account': typeof AuthAccountRoute
   '/designer': typeof AuthDesignerRoute
   '/orders': typeof AuthOrdersRoute
-  '/vorschau': typeof AuthVorschauRouteWithChildren
   '/onboarding/personal': typeof OnboardingPersonalRoute
   '/onboarding/schule': typeof OnboardingSchuleRoute
   '/admin/orders': typeof AdminAdminOrdersRoute
@@ -402,6 +391,7 @@ export interface FileRoutesByFullPath {
   '/generieren/referenz': typeof AuthGenerierenReferenzRoute
   '/generieren/verbessern': typeof AuthGenerierenVerbessernRoute
   '/vorschau/$imageId': typeof AuthVorschauImageIdRoute
+  '/vorschau': typeof AuthVorschauIndexRoute
 }
 
 export interface FileRoutesByTo {
@@ -413,7 +403,6 @@ export interface FileRoutesByTo {
   '/account': typeof AuthAccountRoute
   '/designer': typeof AuthDesignerRoute
   '/orders': typeof AuthOrdersRoute
-  '/vorschau': typeof AuthVorschauRouteWithChildren
   '/onboarding/personal': typeof OnboardingPersonalRoute
   '/onboarding/schule': typeof OnboardingSchuleRoute
   '/admin/orders': typeof AdminAdminOrdersRoute
@@ -424,6 +413,7 @@ export interface FileRoutesByTo {
   '/generieren/referenz': typeof AuthGenerierenReferenzRoute
   '/generieren/verbessern': typeof AuthGenerierenVerbessernRoute
   '/vorschau/$imageId': typeof AuthVorschauImageIdRoute
+  '/vorschau': typeof AuthVorschauIndexRoute
 }
 
 export interface FileRoutesById {
@@ -437,7 +427,6 @@ export interface FileRoutesById {
   '/_auth/account': typeof AuthAccountRoute
   '/_auth/designer': typeof AuthDesignerRoute
   '/_auth/orders': typeof AuthOrdersRoute
-  '/_auth/vorschau': typeof AuthVorschauRouteWithChildren
   '/onboarding/personal': typeof OnboardingPersonalRoute
   '/onboarding/schule': typeof OnboardingSchuleRoute
   '/_admin/admin/orders': typeof AdminAdminOrdersRoute
@@ -448,6 +437,7 @@ export interface FileRoutesById {
   '/_auth/generieren/referenz': typeof AuthGenerierenReferenzRoute
   '/_auth/generieren/verbessern': typeof AuthGenerierenVerbessernRoute
   '/_auth/vorschau/$imageId': typeof AuthVorschauImageIdRoute
+  '/_auth/vorschau/': typeof AuthVorschauIndexRoute
 }
 
 export interface FileRouteTypes {
@@ -461,7 +451,6 @@ export interface FileRouteTypes {
     | '/account'
     | '/designer'
     | '/orders'
-    | '/vorschau'
     | '/onboarding/personal'
     | '/onboarding/schule'
     | '/admin/orders'
@@ -472,6 +461,7 @@ export interface FileRouteTypes {
     | '/generieren/referenz'
     | '/generieren/verbessern'
     | '/vorschau/$imageId'
+    | '/vorschau'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -482,7 +472,6 @@ export interface FileRouteTypes {
     | '/account'
     | '/designer'
     | '/orders'
-    | '/vorschau'
     | '/onboarding/personal'
     | '/onboarding/schule'
     | '/admin/orders'
@@ -493,6 +482,7 @@ export interface FileRouteTypes {
     | '/generieren/referenz'
     | '/generieren/verbessern'
     | '/vorschau/$imageId'
+    | '/vorschau'
   id:
     | '__root__'
     | '/'
@@ -504,7 +494,6 @@ export interface FileRouteTypes {
     | '/_auth/account'
     | '/_auth/designer'
     | '/_auth/orders'
-    | '/_auth/vorschau'
     | '/onboarding/personal'
     | '/onboarding/schule'
     | '/_admin/admin/orders'
@@ -515,6 +504,7 @@ export interface FileRouteTypes {
     | '/_auth/generieren/referenz'
     | '/_auth/generieren/verbessern'
     | '/_auth/vorschau/$imageId'
+    | '/_auth/vorschau/'
   fileRoutesById: FileRoutesById
 }
 
@@ -567,9 +557,10 @@ export const routeTree = rootRoute
         "/_auth/account",
         "/_auth/designer",
         "/_auth/orders",
-        "/_auth/vorschau",
         "/_auth/designerOld/$orderId",
-        "/_auth/generate/$orderId"
+        "/_auth/generate/$orderId",
+        "/_auth/vorschau/$imageId",
+        "/_auth/vorschau/"
       ]
     },
     "/onboarding": {
@@ -603,13 +594,6 @@ export const routeTree = rootRoute
     "/_auth/orders": {
       "filePath": "_auth/orders.tsx",
       "parent": "/_auth"
-    },
-    "/_auth/vorschau": {
-      "filePath": "_auth/vorschau.tsx",
-      "parent": "/_auth",
-      "children": [
-        "/_auth/vorschau/$imageId"
-      ]
     },
     "/onboarding/personal": {
       "filePath": "onboarding/personal.tsx",
@@ -648,8 +632,12 @@ export const routeTree = rootRoute
       "parent": "/_auth/generieren"
     },
     "/_auth/vorschau/$imageId": {
-      "filePath": "_auth/vorschau.$imageId.tsx",
-      "parent": "/_auth/vorschau"
+      "filePath": "_auth/vorschau/$imageId.tsx",
+      "parent": "/_auth"
+    },
+    "/_auth/vorschau/": {
+      "filePath": "_auth/vorschau/index.tsx",
+      "parent": "/_auth"
     }
   }
 }
