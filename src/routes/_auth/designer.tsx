@@ -21,15 +21,11 @@ import { PositionType } from "src/types/canvas/positionType";
 import { ScaleType } from "src/types/canvas/scaleType";
 import { DesignCanvasSize } from "src/utilities/Design/calculateDesignWindow";
 import ImageTextIcon from "src/assets/icons/imageText.png";
+import { ViewingSide } from "src/types/ViewingSide";
 
 export const Route = createFileRoute("/_auth/designer")({
   component: RouteComponent,
 });
-
-enum ViewingSide {
-  Front,
-  Back,
-}
 
 function RouteComponent() {
   const [design, setDesign] = useState<Design | null>();
