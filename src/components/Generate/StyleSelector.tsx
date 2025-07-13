@@ -3,13 +3,15 @@ import { SelectedStylesMap } from "src/types/generator/SelectedStyles";
 interface StyleSelectorProps {
   selectedStyles: SelectedStylesMap;
   onSelect: (k: string) => void;
+  id?: string;
 }
 
 export const StyleSelector = ({
   selectedStyles,
   onSelect,
+  id,
 }: StyleSelectorProps) => (
-  <div className="flex gap-2">
+  <div className="flex gap-2" id={id}>
     {Object.entries(selectedStyles).map(([k, v]) => (
       <button
         key={`style-button-${k}`}
