@@ -1,5 +1,4 @@
-import { faImage, faImages, faSave } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSave } from "@fortawesome/free-solid-svg-icons";
 import { useWindowWidth } from "@react-hook/window-size";
 import { createFileRoute } from "@tanstack/react-router";
 import { Design, Image, ImageWithPositionAndScale } from "abipulli-types";
@@ -20,7 +19,6 @@ import { useUserImages } from "src/hooks/useUserImages";
 import { PositionType } from "src/types/canvas/positionType";
 import { ScaleType } from "src/types/canvas/scaleType";
 import { DesignCanvasSize } from "src/utilities/Design/calculateDesignWindow";
-import ImageTextIcon from "src/assets/icons/imageText.png";
 import { ViewingSide } from "src/types/ViewingSide";
 import { FrontBackButton } from "src/components/Buttons/FrontBackButton";
 
@@ -191,7 +189,6 @@ function RouteComponent() {
           </BasicButton>
         </div>
       </div>
-      {/* <div className="card fixed right-0 w-1/2 h-full top-0"></div> */}
       <div
         onClick={() => setImageSelectorExpanded(false)}
         className={`${imageSelectorExpanded ? "absolute" : "hidden"} absolute z-10 bg-gray-800/20 w-full h-full top-0 left-0`}
