@@ -18,9 +18,15 @@ import { Route as AdminRouteImport } from './routes/_admin/route'
 import { Route as IndexImport } from './routes/index'
 import { Route as OnboardingSchuleImport } from './routes/onboarding/schule'
 import { Route as OnboardingPersonalImport } from './routes/onboarding/personal'
+import { Route as AuthVorschauImport } from './routes/_auth/vorschau'
 import { Route as AuthOrdersImport } from './routes/_auth/orders'
 import { Route as AuthDesignerImport } from './routes/_auth/designer'
 import { Route as AuthAccountImport } from './routes/_auth/account'
+import { Route as AuthGenerierenRouteImport } from './routes/_auth/generieren/route'
+import { Route as AuthGenerierenVerbessernImport } from './routes/_auth/generieren/verbessern'
+import { Route as AuthGenerierenReferenzImport } from './routes/_auth/generieren/referenz'
+import { Route as AuthGenerierenMottoImport } from './routes/_auth/generieren/motto'
+import { Route as AuthGenerierenBeschreibungImport } from './routes/_auth/generieren/beschreibung'
 import { Route as AuthGenerateOrderIdImport } from './routes/_auth/generate.$orderId'
 import { Route as AuthDesignerOldOrderIdImport } from './routes/_auth/designerOld.$orderId'
 import { Route as AdminAdminOrdersImport } from './routes/_admin/admin.orders'
@@ -67,6 +73,12 @@ const OnboardingPersonalRoute = OnboardingPersonalImport.update({
   getParentRoute: () => OnboardingRouteRoute,
 } as any)
 
+const AuthVorschauRoute = AuthVorschauImport.update({
+  id: '/vorschau',
+  path: '/vorschau',
+  getParentRoute: () => AuthRouteRoute,
+} as any)
+
 const AuthOrdersRoute = AuthOrdersImport.update({
   id: '/orders',
   path: '/orders',
@@ -84,6 +96,38 @@ const AuthAccountRoute = AuthAccountImport.update({
   path: '/account',
   getParentRoute: () => AuthRouteRoute,
 } as any)
+
+const AuthGenerierenRouteRoute = AuthGenerierenRouteImport.update({
+  id: '/generieren',
+  path: '/generieren',
+  getParentRoute: () => AuthRouteRoute,
+} as any)
+
+const AuthGenerierenVerbessernRoute = AuthGenerierenVerbessernImport.update({
+  id: '/verbessern',
+  path: '/verbessern',
+  getParentRoute: () => AuthGenerierenRouteRoute,
+} as any)
+
+const AuthGenerierenReferenzRoute = AuthGenerierenReferenzImport.update({
+  id: '/referenz',
+  path: '/referenz',
+  getParentRoute: () => AuthGenerierenRouteRoute,
+} as any)
+
+const AuthGenerierenMottoRoute = AuthGenerierenMottoImport.update({
+  id: '/motto',
+  path: '/motto',
+  getParentRoute: () => AuthGenerierenRouteRoute,
+} as any)
+
+const AuthGenerierenBeschreibungRoute = AuthGenerierenBeschreibungImport.update(
+  {
+    id: '/beschreibung',
+    path: '/beschreibung',
+    getParentRoute: () => AuthGenerierenRouteRoute,
+  } as any,
+)
 
 const AuthGenerateOrderIdRoute = AuthGenerateOrderIdImport.update({
   id: '/generate/$orderId',
@@ -142,6 +186,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LoginImport
       parentRoute: typeof rootRoute
     }
+    '/_auth/generieren': {
+      id: '/_auth/generieren'
+      path: '/generieren'
+      fullPath: '/generieren'
+      preLoaderRoute: typeof AuthGenerierenRouteImport
+      parentRoute: typeof AuthRouteImport
+    }
     '/_auth/account': {
       id: '/_auth/account'
       path: '/account'
@@ -161,6 +212,13 @@ declare module '@tanstack/react-router' {
       path: '/orders'
       fullPath: '/orders'
       preLoaderRoute: typeof AuthOrdersImport
+      parentRoute: typeof AuthRouteImport
+    }
+    '/_auth/vorschau': {
+      id: '/_auth/vorschau'
+      path: '/vorschau'
+      fullPath: '/vorschau'
+      preLoaderRoute: typeof AuthVorschauImport
       parentRoute: typeof AuthRouteImport
     }
     '/onboarding/personal': {
@@ -198,6 +256,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthGenerateOrderIdImport
       parentRoute: typeof AuthRouteImport
     }
+    '/_auth/generieren/beschreibung': {
+      id: '/_auth/generieren/beschreibung'
+      path: '/beschreibung'
+      fullPath: '/generieren/beschreibung'
+      preLoaderRoute: typeof AuthGenerierenBeschreibungImport
+      parentRoute: typeof AuthGenerierenRouteImport
+    }
+    '/_auth/generieren/motto': {
+      id: '/_auth/generieren/motto'
+      path: '/motto'
+      fullPath: '/generieren/motto'
+      preLoaderRoute: typeof AuthGenerierenMottoImport
+      parentRoute: typeof AuthGenerierenRouteImport
+    }
+    '/_auth/generieren/referenz': {
+      id: '/_auth/generieren/referenz'
+      path: '/referenz'
+      fullPath: '/generieren/referenz'
+      preLoaderRoute: typeof AuthGenerierenReferenzImport
+      parentRoute: typeof AuthGenerierenRouteImport
+    }
+    '/_auth/generieren/verbessern': {
+      id: '/_auth/generieren/verbessern'
+      path: '/verbessern'
+      fullPath: '/generieren/verbessern'
+      preLoaderRoute: typeof AuthGenerierenVerbessernImport
+      parentRoute: typeof AuthGenerierenRouteImport
+    }
   }
 }
 
@@ -215,18 +301,39 @@ const AdminRouteRouteWithChildren = AdminRouteRoute._addFileChildren(
   AdminRouteRouteChildren,
 )
 
+interface AuthGenerierenRouteRouteChildren {
+  AuthGenerierenBeschreibungRoute: typeof AuthGenerierenBeschreibungRoute
+  AuthGenerierenMottoRoute: typeof AuthGenerierenMottoRoute
+  AuthGenerierenReferenzRoute: typeof AuthGenerierenReferenzRoute
+  AuthGenerierenVerbessernRoute: typeof AuthGenerierenVerbessernRoute
+}
+
+const AuthGenerierenRouteRouteChildren: AuthGenerierenRouteRouteChildren = {
+  AuthGenerierenBeschreibungRoute: AuthGenerierenBeschreibungRoute,
+  AuthGenerierenMottoRoute: AuthGenerierenMottoRoute,
+  AuthGenerierenReferenzRoute: AuthGenerierenReferenzRoute,
+  AuthGenerierenVerbessernRoute: AuthGenerierenVerbessernRoute,
+}
+
+const AuthGenerierenRouteRouteWithChildren =
+  AuthGenerierenRouteRoute._addFileChildren(AuthGenerierenRouteRouteChildren)
+
 interface AuthRouteRouteChildren {
+  AuthGenerierenRouteRoute: typeof AuthGenerierenRouteRouteWithChildren
   AuthAccountRoute: typeof AuthAccountRoute
   AuthDesignerRoute: typeof AuthDesignerRoute
   AuthOrdersRoute: typeof AuthOrdersRoute
+  AuthVorschauRoute: typeof AuthVorschauRoute
   AuthDesignerOldOrderIdRoute: typeof AuthDesignerOldOrderIdRoute
   AuthGenerateOrderIdRoute: typeof AuthGenerateOrderIdRoute
 }
 
 const AuthRouteRouteChildren: AuthRouteRouteChildren = {
+  AuthGenerierenRouteRoute: AuthGenerierenRouteRouteWithChildren,
   AuthAccountRoute: AuthAccountRoute,
   AuthDesignerRoute: AuthDesignerRoute,
   AuthOrdersRoute: AuthOrdersRoute,
+  AuthVorschauRoute: AuthVorschauRoute,
   AuthDesignerOldOrderIdRoute: AuthDesignerOldOrderIdRoute,
   AuthGenerateOrderIdRoute: AuthGenerateOrderIdRoute,
 }
@@ -254,14 +361,20 @@ export interface FileRoutesByFullPath {
   '': typeof AuthRouteRouteWithChildren
   '/onboarding': typeof OnboardingRouteRouteWithChildren
   '/login': typeof LoginRoute
+  '/generieren': typeof AuthGenerierenRouteRouteWithChildren
   '/account': typeof AuthAccountRoute
   '/designer': typeof AuthDesignerRoute
   '/orders': typeof AuthOrdersRoute
+  '/vorschau': typeof AuthVorschauRoute
   '/onboarding/personal': typeof OnboardingPersonalRoute
   '/onboarding/schule': typeof OnboardingSchuleRoute
   '/admin/orders': typeof AdminAdminOrdersRoute
   '/designerOld/$orderId': typeof AuthDesignerOldOrderIdRoute
   '/generate/$orderId': typeof AuthGenerateOrderIdRoute
+  '/generieren/beschreibung': typeof AuthGenerierenBeschreibungRoute
+  '/generieren/motto': typeof AuthGenerierenMottoRoute
+  '/generieren/referenz': typeof AuthGenerierenReferenzRoute
+  '/generieren/verbessern': typeof AuthGenerierenVerbessernRoute
 }
 
 export interface FileRoutesByTo {
@@ -269,14 +382,20 @@ export interface FileRoutesByTo {
   '': typeof AuthRouteRouteWithChildren
   '/onboarding': typeof OnboardingRouteRouteWithChildren
   '/login': typeof LoginRoute
+  '/generieren': typeof AuthGenerierenRouteRouteWithChildren
   '/account': typeof AuthAccountRoute
   '/designer': typeof AuthDesignerRoute
   '/orders': typeof AuthOrdersRoute
+  '/vorschau': typeof AuthVorschauRoute
   '/onboarding/personal': typeof OnboardingPersonalRoute
   '/onboarding/schule': typeof OnboardingSchuleRoute
   '/admin/orders': typeof AdminAdminOrdersRoute
   '/designerOld/$orderId': typeof AuthDesignerOldOrderIdRoute
   '/generate/$orderId': typeof AuthGenerateOrderIdRoute
+  '/generieren/beschreibung': typeof AuthGenerierenBeschreibungRoute
+  '/generieren/motto': typeof AuthGenerierenMottoRoute
+  '/generieren/referenz': typeof AuthGenerierenReferenzRoute
+  '/generieren/verbessern': typeof AuthGenerierenVerbessernRoute
 }
 
 export interface FileRoutesById {
@@ -286,14 +405,20 @@ export interface FileRoutesById {
   '/_auth': typeof AuthRouteRouteWithChildren
   '/onboarding': typeof OnboardingRouteRouteWithChildren
   '/login': typeof LoginRoute
+  '/_auth/generieren': typeof AuthGenerierenRouteRouteWithChildren
   '/_auth/account': typeof AuthAccountRoute
   '/_auth/designer': typeof AuthDesignerRoute
   '/_auth/orders': typeof AuthOrdersRoute
+  '/_auth/vorschau': typeof AuthVorschauRoute
   '/onboarding/personal': typeof OnboardingPersonalRoute
   '/onboarding/schule': typeof OnboardingSchuleRoute
   '/_admin/admin/orders': typeof AdminAdminOrdersRoute
   '/_auth/designerOld/$orderId': typeof AuthDesignerOldOrderIdRoute
   '/_auth/generate/$orderId': typeof AuthGenerateOrderIdRoute
+  '/_auth/generieren/beschreibung': typeof AuthGenerierenBeschreibungRoute
+  '/_auth/generieren/motto': typeof AuthGenerierenMottoRoute
+  '/_auth/generieren/referenz': typeof AuthGenerierenReferenzRoute
+  '/_auth/generieren/verbessern': typeof AuthGenerierenVerbessernRoute
 }
 
 export interface FileRouteTypes {
@@ -303,28 +428,40 @@ export interface FileRouteTypes {
     | ''
     | '/onboarding'
     | '/login'
+    | '/generieren'
     | '/account'
     | '/designer'
     | '/orders'
+    | '/vorschau'
     | '/onboarding/personal'
     | '/onboarding/schule'
     | '/admin/orders'
     | '/designerOld/$orderId'
     | '/generate/$orderId'
+    | '/generieren/beschreibung'
+    | '/generieren/motto'
+    | '/generieren/referenz'
+    | '/generieren/verbessern'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | ''
     | '/onboarding'
     | '/login'
+    | '/generieren'
     | '/account'
     | '/designer'
     | '/orders'
+    | '/vorschau'
     | '/onboarding/personal'
     | '/onboarding/schule'
     | '/admin/orders'
     | '/designerOld/$orderId'
     | '/generate/$orderId'
+    | '/generieren/beschreibung'
+    | '/generieren/motto'
+    | '/generieren/referenz'
+    | '/generieren/verbessern'
   id:
     | '__root__'
     | '/'
@@ -332,14 +469,20 @@ export interface FileRouteTypes {
     | '/_auth'
     | '/onboarding'
     | '/login'
+    | '/_auth/generieren'
     | '/_auth/account'
     | '/_auth/designer'
     | '/_auth/orders'
+    | '/_auth/vorschau'
     | '/onboarding/personal'
     | '/onboarding/schule'
     | '/_admin/admin/orders'
     | '/_auth/designerOld/$orderId'
     | '/_auth/generate/$orderId'
+    | '/_auth/generieren/beschreibung'
+    | '/_auth/generieren/motto'
+    | '/_auth/generieren/referenz'
+    | '/_auth/generieren/verbessern'
   fileRoutesById: FileRoutesById
 }
 
@@ -388,9 +531,11 @@ export const routeTree = rootRoute
     "/_auth": {
       "filePath": "_auth/route.tsx",
       "children": [
+        "/_auth/generieren",
         "/_auth/account",
         "/_auth/designer",
         "/_auth/orders",
+        "/_auth/vorschau",
         "/_auth/designerOld/$orderId",
         "/_auth/generate/$orderId"
       ]
@@ -405,6 +550,16 @@ export const routeTree = rootRoute
     "/login": {
       "filePath": "login.tsx"
     },
+    "/_auth/generieren": {
+      "filePath": "_auth/generieren/route.tsx",
+      "parent": "/_auth",
+      "children": [
+        "/_auth/generieren/beschreibung",
+        "/_auth/generieren/motto",
+        "/_auth/generieren/referenz",
+        "/_auth/generieren/verbessern"
+      ]
+    },
     "/_auth/account": {
       "filePath": "_auth/account.tsx",
       "parent": "/_auth"
@@ -415,6 +570,10 @@ export const routeTree = rootRoute
     },
     "/_auth/orders": {
       "filePath": "_auth/orders.tsx",
+      "parent": "/_auth"
+    },
+    "/_auth/vorschau": {
+      "filePath": "_auth/vorschau.tsx",
       "parent": "/_auth"
     },
     "/onboarding/personal": {
@@ -436,6 +595,22 @@ export const routeTree = rootRoute
     "/_auth/generate/$orderId": {
       "filePath": "_auth/generate.$orderId.tsx",
       "parent": "/_auth"
+    },
+    "/_auth/generieren/beschreibung": {
+      "filePath": "_auth/generieren/beschreibung.tsx",
+      "parent": "/_auth/generieren"
+    },
+    "/_auth/generieren/motto": {
+      "filePath": "_auth/generieren/motto.tsx",
+      "parent": "/_auth/generieren"
+    },
+    "/_auth/generieren/referenz": {
+      "filePath": "_auth/generieren/referenz.tsx",
+      "parent": "/_auth/generieren"
+    },
+    "/_auth/generieren/verbessern": {
+      "filePath": "_auth/generieren/verbessern.tsx",
+      "parent": "/_auth/generieren"
     }
   }
 }
