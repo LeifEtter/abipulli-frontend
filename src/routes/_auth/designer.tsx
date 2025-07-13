@@ -22,6 +22,7 @@ import { ScaleType } from "src/types/canvas/scaleType";
 import { DesignCanvasSize } from "src/utilities/Design/calculateDesignWindow";
 import ImageTextIcon from "src/assets/icons/imageText.png";
 import { ViewingSide } from "src/types/ViewingSide";
+import { FrontBackButton } from "src/components/Buttons/FrontBackButton";
 
 export const Route = createFileRoute("/_auth/designer")({
   component: RouteComponent,
@@ -169,23 +170,10 @@ function RouteComponent() {
           </Stage>
         )}
         <div className="w-full flex flex-row justify-center mt-8">
-          <div className="flex justify-center relative border-black border-2 bg-white rounded-4xl h-14 font-semibold [&>*]:cursor-pointer min-w-60 max-w-70">
-            <button
-              onClick={() => setViewingSide(ViewingSide.Front)}
-              className={`z-10 w-1/2 text-black pl-2 ${viewingSide == ViewingSide.Front && "text-white"}`}
-            >
-              Vorne
-            </button>
-            <button
-              onClick={() => setViewingSide(ViewingSide.Back)}
-              className={`z-10 w-1/2 pr-2 ${viewingSide == ViewingSide.Back && "text-white"}`}
-            >
-              Hinten
-            </button>
-            <div
-              className={`absolute h-14 rounded-4xl bg-black w-7/12 -top-0.5 ${viewingSide == ViewingSide.Front ? " -left-0.5" : "left-5/12"} transition-all duration-100`}
-            />
-          </div>
+          <FrontBackButton
+            switchViewingSide={(side: ViewingSide) => setViewingSide(side)}
+            currentViewingSide={viewingSide}
+          />
         </div>
         <div className="flex justify-center mt-4">
           <BasicButton className="w-50 h-12" shadow icon={faSave}>
