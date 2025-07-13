@@ -106,6 +106,15 @@ function RouteComponent() {
   const [imageSelectorExpanded, setImageSelectorExpanded] =
     useState<boolean>(false);
 
+  const CanvasPlaceholder: React.FC = () => (
+    <div
+      style={{
+        width: designCanvasSize.width,
+        height: designCanvasSize.height,
+      }}
+    />
+  );
+
   return (
     <div className="flex flex-row w-full">
       {!designsAreLoading && (
@@ -116,6 +125,7 @@ function RouteComponent() {
         />
       )}
       <div className="mx-2 lg:mx-16 xl:mx-30">
+        {!design && <CanvasPlaceholder />}
         {design && (
           <Stage
             width={designCanvasSize.width}
