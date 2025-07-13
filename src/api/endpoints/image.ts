@@ -3,6 +3,7 @@ import {
   CommentOnQueryResult,
   GenerateImageParams,
   Image,
+  ImageResponse,
   ImagesResponse,
   ImageUploadResultResponse,
   ImproveImageQueryParams,
@@ -53,5 +54,10 @@ export const ImageApi = {
     const genImagesRes: ImagesResponse = res.data;
     if (!genImagesRes.success) throw genImagesRes.error;
     return genImagesRes.data!.items;
+  },
+  fetch: async (id: number): Promise<Image> => {
+    const res = await api.get(`/image/${id}`);
+    const imageResponse: ImageResponse = res.data;
+    return imageResponse.data!;
   },
 };
