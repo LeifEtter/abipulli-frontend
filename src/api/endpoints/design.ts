@@ -16,6 +16,11 @@ import { AxiosResponse } from "axios";
  * Api methods for managing images and design images
  */
 export const DesignApi = {
+  retrieveAllDesigns: async (userId: number): Promise<Design[]> => {
+    const res = await api.get(`/design/me`);
+    const designsRes: DesignsResponse = res.data;
+    return designsRes.data!.items;
+  },
   /**
    * Retrieves all Designs belonging to a specific order
    * @param orderNumber - Id of order to fetch designs for
