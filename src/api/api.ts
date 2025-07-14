@@ -12,17 +12,15 @@ const api = axios.create({
 
 api.interceptors.response.use(
   (response) => {
-    console.log("here " + response);
     if (response.data?.error) {
-      throw new ApiError(response.data.error);
+      return Promise.reject(new ApiError(response.data.error));
     }
     return response;
   },
   (error) => {
     console.log(error.response.data.error);
     if (error.response.data.error != null) {
-      console.log("JAa");
-      throw new ApiError(error.response.data.error);
+      return Promise.reject(new ApiError(error.response.data.error));
     }
     // Let actual network errors (timeouts, no response, etc.) bubble up
     return Promise.reject(error);

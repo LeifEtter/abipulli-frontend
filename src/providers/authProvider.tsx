@@ -26,14 +26,8 @@ export const AuthProvider = ({ children }: AuthProviderProps): ReactElement => {
 
   const login = async (creds: UserLoginParams) => {
     setState((prev) => ({ ...prev, isLoading: true, error: null }));
-    try {
-      const user = await UserApi.login(creds);
-      setState({ user, error: null, isLoading: false });
-      return true;
-    } catch (error) {
-      setError("Login failed");
-      return false;
-    }
+    const user = await UserApi.login(creds);
+    setState({ user, error: null, isLoading: false });
   };
 
   const logout = useCallback(async () => {

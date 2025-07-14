@@ -1,9 +1,6 @@
 import { useCallback, useState } from "react";
 import { ReactNode } from "@tanstack/react-router";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faExclamationTriangle } from "@fortawesome/free-solid-svg-icons";
 import { Popup, PopupContext } from "./popupContext";
-import { Center } from "src/components/Misc/Center";
 import { BasicButton } from "src/components/Buttons/BasicButton";
 import { SmallLabel } from "src/components/Texts/SmallLabel";
 
@@ -32,7 +29,12 @@ export const PopupProvider = ({ children }: { children: ReactNode }) => {
           >
             <SmallLabel text={popup.message} />
             <div className="flex flex-row gap-4 mt-8">
-              <BasicButton onClick={popup.onClickConfirm}>
+              <BasicButton
+                onClick={() => {
+                  setPopup(null);
+                  popup.onClickConfirm();
+                }}
+              >
                 Bestätigen
               </BasicButton>
               <BasicButton color="bg-red-300" onClick={() => setPopup(null)}>

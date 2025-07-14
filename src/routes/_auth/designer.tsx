@@ -1,5 +1,4 @@
-import { faImage, faImages, faSave } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSave } from "@fortawesome/free-solid-svg-icons";
 import { useWindowWidth } from "@react-hook/window-size";
 import { createFileRoute } from "@tanstack/react-router";
 import { Design, Image, ImageWithPositionAndScale } from "abipulli-types";
@@ -20,16 +19,12 @@ import { useUserImages } from "src/hooks/useUserImages";
 import { PositionType } from "src/types/canvas/positionType";
 import { ScaleType } from "src/types/canvas/scaleType";
 import { DesignCanvasSize } from "src/utilities/Design/calculateDesignWindow";
-import ImageTextIcon from "src/assets/icons/imageText.png";
+import { ViewingSide } from "src/types/ViewingSide";
+import { FrontBackButton } from "src/components/Buttons/FrontBackButton";
 
 export const Route = createFileRoute("/_auth/designer")({
   component: RouteComponent,
 });
-
-enum ViewingSide {
-  Front,
-  Back,
-}
 
 function RouteComponent() {
   const [design, setDesign] = useState<Design | null>();
@@ -109,6 +104,15 @@ function RouteComponent() {
   const [imageSelectorExpanded, setImageSelectorExpanded] =
     useState<boolean>(false);
 
+  const CanvasPlaceholder: React.FC = () => (
+    <div
+      style={{
+        width: designCanvasSize.width,
+        height: designCanvasSize.height,
+      }}
+    />
+  );
+
   return (
     <div className="flex flex-row w-full">
       {!designsAreLoading && (
@@ -119,6 +123,7 @@ function RouteComponent() {
         />
       )}
       <div className="mx-2 lg:mx-16 xl:mx-30">
+        {!design && <CanvasPlaceholder />}
         {design && (
           <Stage
             width={designCanvasSize.width}
@@ -173,23 +178,10 @@ function RouteComponent() {
           </Stage>
         )}
         <div className="w-full flex flex-row justify-center mt-8">
-          <div className="flex justify-center relative border-black border-2 bg-white rounded-4xl h-14 font-semibold [&>*]:cursor-pointer min-w-60 max-w-70">
-            <button
-              onClick={() => setViewingSide(ViewingSide.Front)}
-              className={`z-10 w-1/2 text-black pl-2 ${viewingSide == ViewingSide.Front && "text-white"}`}
-            >
-              Vorne
-            </button>
-            <button
-              onClick={() => setViewingSide(ViewingSide.Back)}
-              className={`z-10 w-1/2 pr-2 ${viewingSide == ViewingSide.Back && "text-white"}`}
-            >
-              Hinten
-            </button>
-            <div
-              className={`absolute h-14 rounded-4xl bg-black w-7/12 -top-0.5 ${viewingSide == ViewingSide.Front ? " -left-0.5" : "left-5/12"} transition-all duration-100`}
-            />
-          </div>
+          <FrontBackButton
+            switchViewingSide={(side: ViewingSide) => setViewingSide(side)}
+            currentViewingSide={viewingSide}
+          />
         </div>
         <div className="flex justify-center mt-4">
           <BasicButton className="w-50 h-12" shadow icon={faSave}>
@@ -197,22 +189,21 @@ function RouteComponent() {
           </BasicButton>
         </div>
       </div>
-      {/* <div className="card fixed right-0 w-1/2 h-full top-0"></div> */}
-      <div
+      {/* <div
         onClick={() => setImageSelectorExpanded(false)}
-        className={`${imageSelectorExpanded ? "absolute" : "hidden"} absolute z-10 bg-gray-800/20 w-full h-full top-0 left-0`}
-      />
+        className={`${imageSelectorExpanded ? "absolute" : "hidden"} md:hidden absolute z-10 bg-gray-800/20 w-full h-full top-0 left-0`}
+      /> */}
       <div
-        onClick={() => !imageSelectorExpanded && setImageSelectorExpanded(true)}
-        className={`absolute md:relative z-20 flex-row ${imageSelectorExpanded ? "right-0" : "-right-25 "} md:right-0 transition-all duration-75`}
+        // onClick={() => !imageSelectorExpanded && setImageSelectorExpanded(true)}
+        className={`absolute md:relative z-20 flex-row transition-all right-0 duration-75`}
       >
         {userImages && (
           <ImageSelection
             onClick={(image: Image) => {
-              if (!imageSelectorExpanded) {
-                setImageSelectorExpanded(true);
-                return;
-              }
+              // if (!imageSelectorExpanded) {
+              //   setImageSelectorExpanded(true);
+              //   return;
+              // }
               if (!design) {
                 return showSnackbar({
                   message: "Wähle ein Design aus bevor du ein Bild hinzufügst",

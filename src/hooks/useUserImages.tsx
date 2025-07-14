@@ -19,6 +19,10 @@ export const useUserImages = (): UseUserImagesReturn => {
       setIsLoading(true);
       try {
         const images: Image[] = await ImageApi.fetchUsersImages();
+        images.sort(
+          (a, b) =>
+            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+        );
         setUserImages(images);
         setIsLoading(false);
       } catch (error) {

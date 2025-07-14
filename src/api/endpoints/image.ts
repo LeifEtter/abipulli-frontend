@@ -1,6 +1,9 @@
 import {
+  ApiResponse,
+  CommentOnQueryParams,
   GenerateImageParams,
   Image,
+  ImageResponse,
   ImagesResponse,
   ImageUploadResultResponse,
   ImproveImageQueryParams,
@@ -29,7 +32,7 @@ export const ImageApi = {
     if (!imageRes.success) throw imageRes.error;
     return imageRes.data!.items;
   },
-  improveDescription: async (
+  generateDescription: async (
     params: ImproveImageQueryParams
   ): Promise<{ description: string }> => {
     const res = await api.post("/image/prompt", params);
@@ -38,6 +41,13 @@ export const ImageApi = {
     if (!improveRes.success) throw improveRes.error;
     return improveRes.data!;
   },
+  commentOnDescription: async (
+    params: CommentOnQueryParams
+  ): Promise<string> => {
+    const res = await api.post("/image/comment", params);
+    const commentResult: ApiResponse<string> = res.data;
+    return commentResult.data!;
+  },
   generateImages: async (params: GenerateImageParams): Promise<Image[]> => {
     const res = await api.post("/image/generate", params);
     if (!res.data) throw "Couldn't generate images";
@@ -45,4 +55,13 @@ export const ImageApi = {
     if (!genImagesRes.success) throw genImagesRes.error;
     return genImagesRes.data!.items;
   },
+  fetch: async (id: number): Promise<Image> => {
+    const res = await api.get(`/image/${id}`);
+    const imageResponse: ImageResponse = res.data;
+    return imageResponse.data!;
+  },
+  // commentOnQuery: async (params: CommentOnQueryParams): string => {
+  //   const res = await api.post("/image/comment", params);
+  //   console.log(res.data);
+  // },
 };
