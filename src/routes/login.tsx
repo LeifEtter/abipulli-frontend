@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { InputField } from "src/components/Inputs/InputField";
 import { useAuth } from "src/hooks/useAuth";
@@ -12,11 +12,8 @@ function RouteComponent() {
   const [password, setPassword] = useState<string | null>(null);
   const [passwordError, setPasswordError] = useState<string | null>(null);
 
-  const { login, error, isLoading } = useAuth();
-
-  useEffect(() => {
-    
-  }, []);
+  const { login, isLoading, user } = useAuth();
+  const navigate = useNavigate();
 
   return (
     <div className="card w-11/12 sm:w-10/12 md:w-8/12 pb-8 max-w-140 flex flex-col items-center">
@@ -45,6 +42,7 @@ function RouteComponent() {
         onClick={async () => {
           try {
             if (email && password) await login({ email, password });
+            if (!isLoading && user) navigate({ to: "/account" });
           } catch (error) {
             setPasswordError("Email oder Password ist falsch");
           }
