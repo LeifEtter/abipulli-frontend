@@ -1,6 +1,6 @@
 import {
+  ApiResponse,
   CommentOnQueryParams,
-  CommentOnQueryResult,
   GenerateImageParams,
   Image,
   ImageResponse,
@@ -44,9 +44,9 @@ export const ImageApi = {
   commentOnDescription: async (
     params: CommentOnQueryParams
   ): Promise<string> => {
-    const res = await api.post("/image/prompt/improve", params);
-    const commentResult: CommentOnQueryResult = res.data;
-    return commentResult.description;
+    const res = await api.post("/image/comment", params);
+    const commentResult: ApiResponse<string> = res.data;
+    return commentResult.data!;
   },
   generateImages: async (params: GenerateImageParams): Promise<Image[]> => {
     const res = await api.post("/image/generate", params);
