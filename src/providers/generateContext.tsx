@@ -1,4 +1,4 @@
-import { OnboardingInfo } from "abipulli-types";
+import { AspectRatio, Image } from "abipulli-types";
 import { createContext } from "react";
 import { OnboardingErrors } from "./onboardingProvider";
 
@@ -11,6 +11,8 @@ export interface GenerateInfo {
   comment?: string;
   aspectRatio: AspectRatio;
   styleTags: string[];
+  referenceFile?: File;
+  referenceImage?: Image;
 }
 
 export type GenerateErrors = {
