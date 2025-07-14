@@ -5,6 +5,11 @@ import {
   GenerateInfoContext,
 } from "./generateContext";
 import { ImageApi } from "src/api/endpoints/image";
+import {
+  GenerateImageParams,
+  Image,
+  ImproveImageQueryParams,
+} from "abipulli-types";
 
 export const GenerateInfoProvider = ({
   children,
@@ -48,6 +53,22 @@ export const GenerateInfoProvider = ({
   //TODO save onboarding process in localstorage
   const saveProgressLocally = (state: Partial<GenerateInfo>) => {
     setState((prev) => ({ ...prev, ...state }));
+  };
+
+  const generateDescription = async (): Promise<void> => {
+    try {
+      if (!state.motto || !state.description) return;
+      const req: ImproveImageQueryParams = {
+        //ADD graduation year
+        motto: state.motto,
+        description: state.description,
+        styleTags: state.styleTags,
+      };
+      const { description } = await ImageApi.generateDescription(req);
+      saveProgressLocally({ generatedDescription: description });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const submitComment = async (): Promise<void> => {
