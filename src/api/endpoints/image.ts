@@ -20,25 +20,19 @@ export const ImageApi = {
         "Content-type": "multipart/form-data",
       },
     });
-    if (!res.data) throw "Something went wrong";
     const imageRes: ImageUploadResultResponse = res.data;
-    if (!imageRes.success) throw imageRes.error;
     return imageRes.data!.imageId;
   },
   fetchUsersImages: async (): Promise<Image[]> => {
     const res = await api.get("image/me");
-    if (!res.data) throw "Something went wrong";
     const imageRes: ImagesResponse = res.data;
-    if (!imageRes.success) throw imageRes.error;
     return imageRes.data!.items;
   },
   generateDescription: async (
     params: ImproveImageQueryParams
   ): Promise<{ description: string }> => {
     const res = await api.post("/image/prompt", params);
-    if (!res.data) throw "Couldn't Improve Query";
     const improveRes: ImproveImageQueryResponse = res.data;
-    if (!improveRes.success) throw improveRes.error;
     return improveRes.data!;
   },
   commentOnDescription: async (
@@ -50,9 +44,7 @@ export const ImageApi = {
   },
   generateImages: async (params: GenerateImageParams): Promise<Image[]> => {
     const res = await api.post("/image/generate", params);
-    if (!res.data) throw "Couldn't generate images";
     const genImagesRes: ImagesResponse = res.data;
-    if (!genImagesRes.success) throw genImagesRes.error;
     return genImagesRes.data!.items;
   },
   fetch: async (id: number): Promise<Image> => {
@@ -60,8 +52,4 @@ export const ImageApi = {
     const imageResponse: ImageResponse = res.data;
     return imageResponse.data!;
   },
-  // commentOnQuery: async (params: CommentOnQueryParams): string => {
-  //   const res = await api.post("/image/comment", params);
-  //   console.log(res.data);
-  // },
 };
