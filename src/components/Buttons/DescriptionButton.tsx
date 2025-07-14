@@ -19,6 +19,12 @@ interface DescriptionButtonProps {
   id?: string;
 }
 
+/**
+ * Renders a styled button or link with optional icon.
+ *
+ * @param props - DescriptionButtonProps
+ * @returns React element for a button or link with a description
+ */
 export const DescriptionButton = ({
   type = ButtonType.Button,
   to,
