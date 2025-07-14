@@ -1,7 +1,5 @@
 import { AspectRatio, Image } from "abipulli-types";
 import { createContext } from "react";
-import { OnboardingErrors } from "./onboardingProvider";
-
 
 export interface GenerateInfo {
   motto?: string;
@@ -24,11 +22,11 @@ export interface GenerateInfoContextType extends GenerateInfo {
   clearError: (key: keyof GenerateErrors) => void;
   setError: ([k, v]: [k: keyof GenerateErrors, v: string]) => void;
   saveProgressLocally: (state: Partial<GenerateInfo>) => void;
-  improveDescription: () => void;
-  generateImage: () => void;
+  generateImage: () => Promise<number>;
   saveToLocalStorage: () => void;
   retrieveFromLocalStorage: () => void;
   submitComment: () => Promise<void>;
+  generateDescription: () => Promise<void>;
 }
 
 export const GenerateInfoContext =
