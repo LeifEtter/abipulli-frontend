@@ -149,7 +149,7 @@ export const ResizableImage = ({
           />
         )}
         {deleteVisible && isSelected && (
-          <Group>
+          <Group onClick={onDelete} onTap={onDelete}>
             <Rect
               width={40}
               height={40}
@@ -160,7 +160,6 @@ export const ResizableImage = ({
             />
             <Image
               image={trashImage}
-              onClick={onDelete}
               width={30}
               height={30}
               x={viewData.pos.x - 15}
