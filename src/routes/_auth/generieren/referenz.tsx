@@ -16,15 +16,18 @@ import {
 import { Center } from "src/components/Misc/Center";
 import { BasicButton } from "src/components/Buttons/BasicButton";
 import { ButtonType } from "src/types/ButtonType";
+import { ReferenceImagePicker } from "src/components/Generate/ReferenceImagePicker";
+import { useGenerateInfo } from "src/hooks/useGenerateInfo";
+import { Image } from "abipulli-types";
 
 export const Route = createFileRoute("/_auth/generieren/referenz")({
   component: RouteComponent,
 });
 
 function RouteComponent() {
-  const [uploadedImage, setUploadedImage] = useState<File | undefined>();
-  const [chosenImage, setChosenImage] = useState<number | undefined>();
   const { userImages, userImagesAreLoading, userImagesError } = useUserImages();
+  const { referenceFile, referenceImage, saveProgressLocally } =
+    useGenerateInfo();
   const showSnackbar = useSnackbar();
 
   const handleDrop = (files: File[]) => {
@@ -32,7 +35,10 @@ function RouteComponent() {
       showSnackbar({ type: "error", message: "Nur eine Datei" });
     if (files[0] && files[0].size > 10000000)
       showSnackbar({ type: "error", message: "Datei zu groß" });
-    if (files[0]) setUploadedImage(files[0]);
+    if (files[0]) {
+      saveProgressLocally({ referenceFile: files[0] });
+      saveProgressLocally({ referenceImage: undefined });
+    }
   };
 
   const handleRejections = (fileRejections: FileRejection[]) => {
@@ -68,21 +74,23 @@ function RouteComponent() {
         dir. Diese Infos werden gelöscht falls du den Prozess abbrichst, also
         keine Angst!
       </PageDescription>
-      <div className="flex flex-row mt-8 gap-6 items-center h-80">
-        <div className="flex-6/12 h-full">
-          {uploadedImage ? (
+      <div className="flex flex-col md:flex-row gap-6 items-center">
+        <div className="flex-1/1 sm:flex-6/12 h-full">
+          {referenceFile ? (
             <div
               key={`uploaded-image`}
               className="shadow-sm border-1 rounded-md relative h-full"
             >
               <FontAwesomeIcon
-                onClick={() => setUploadedImage(undefined)}
+                onClick={() =>
+                  saveProgressLocally({ referenceFile: undefined })
+                }
                 icon={faTrash}
                 className="absolute top-0 right-0 p-2 bg-red-300 rounded-md text-2xl border"
               />
               <img
                 className="object-cover h-full"
-                src={URL.createObjectURL(uploadedImage)}
+                src={URL.createObjectURL(referenceFile)}
               />
             </div>
           ) : (
