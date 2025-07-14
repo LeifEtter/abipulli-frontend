@@ -59,8 +59,15 @@ const SizeButton = ({
 );
 
 function RouteComponent() {
-  const { saveProgressLocally, description, aspectRatio, styleTags } =
-    useGenerateInfo();
+  const {
+    saveProgressLocally,
+    description,
+    aspectRatio,
+    styleTags,
+    errorState,
+    clearError,
+    generateDescription,
+  } = useGenerateInfo();
   const [isLoading, setIsLoading] = useState(false);
 
   const [selectedStyles, setSelectedStyles] = useState<SelectedStylesMap>({
@@ -93,8 +100,12 @@ function RouteComponent() {
         label="Beschreibe dein Bild"
         multiline
         minLines={3}
-        onChange={(e) => saveProgressLocally({ description: e.target.value })}
+        onChange={(e) => {
+          clearError("description");
+          saveProgressLocally({ description: e.target.value });
+        }}
         value={description ?? ""}
+        error={errorState.description}
       />
       <SmallLabel
         htmlFor={`styles`}
