@@ -110,6 +110,7 @@ export const Sidebar: React.FC = () => {
             to="/onboarding/schule"
             selected={location.pathname.includes("onboarding")}
             overrideCollapsed={overrideCollapsed()}
+            locked={user != null}
           />
           <SidebarTile
             icon={faIcons}
@@ -118,14 +119,16 @@ export const Sidebar: React.FC = () => {
             description="Generiere neues Element"
             selected={location.pathname.includes("generieren")}
             overrideCollapsed={overrideCollapsed()}
+            locked={user == null}
           />
           <SidebarTile
             icon={faImages}
             label="Bild Vorschau"
             description="Vergleiche Bild Elemente"
             to="/vorschau"
-            selected={location.pathname == "/vorschau"}
+            selected={location.pathname.includes("/vorschau")}
             overrideCollapsed={overrideCollapsed()}
+            locked={user == null}
           />
           <SidebarTile
             icon={faShirt}
@@ -134,6 +137,7 @@ export const Sidebar: React.FC = () => {
             to="/designer"
             selected={location.pathname == "/designer"}
             overrideCollapsed={overrideCollapsed()}
+            locked={user == null}
           />
           <SidebarTile
             icon={faPoll}
@@ -149,7 +153,7 @@ export const Sidebar: React.FC = () => {
             label="Bestellabschluss"
             description="Bestelle deinen AbiPulli"
             to="/bestellen"
-            locked={true}
+            locked={user == null}
             selected={location.pathname == "/bestellen"}
             overrideCollapsed={overrideCollapsed()}
           />
