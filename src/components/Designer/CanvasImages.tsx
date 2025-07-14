@@ -1,9 +1,5 @@
 import { Fragment, useEffect, useRef, useState } from "react";
 import { Group, Image, Layer, Rect, Transformer } from "react-konva";
-import {
-  DESIGN_CANVAS_SIZES,
-  DesignCanvasSize,
-} from "src/utilities/Design/calculateDesignWindow";
 import useImage from "use-image";
 import { KonvaEventObject } from "konva/lib/Node";
 import { Image as KonvaImage } from "konva/lib/shapes/Image";
@@ -15,14 +11,12 @@ import { SizeType } from "src/types/canvas/sizeType";
 interface StaticImageParams {
   src: string;
   width: number;
-  canvasSize: DesignCanvasSize;
   onClick?: (e: KonvaEventObject<MouseEvent>) => void;
 }
 
 export const StaticImage: React.FC<StaticImageParams> = ({
   src,
   width,
-  canvasSize,
   onClick,
 }) => {
   const [image] = useImage(src);
@@ -36,7 +30,7 @@ export const StaticImage: React.FC<StaticImageParams> = ({
       const ratio: number = imageHeight / imageWidth;
       setImageRatio(ratio);
     }
-  }, [image, canvasSize, width, imageRatio]);
+  }, [image, width, imageRatio]);
 
   return (
     <Image

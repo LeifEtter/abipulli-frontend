@@ -18,9 +18,9 @@ import { useSnackbar } from "src/hooks/useSnackbar";
 import { useUserImages } from "src/hooks/useUserImages";
 import { PositionType } from "src/types/canvas/positionType";
 import { ScaleType } from "src/types/canvas/scaleType";
-import { DesignCanvasSize } from "src/utilities/Design/calculateDesignWindow";
 import { ViewingSide } from "src/types/ViewingSide";
 import { FrontBackButton } from "src/components/Buttons/FrontBackButton";
+import { SizeType } from "src/types/canvas/sizeType";
 
 export const Route = createFileRoute("/_auth/designer")({
   component: RouteComponent,
@@ -66,7 +66,7 @@ function RouteComponent() {
   const showSnackbar = useSnackbar();
 
   const width = useWindowWidth();
-  const [designCanvasSize, setDesignCanvasSize] = useState<DesignCanvasSize>({
+  const [designCanvasSize, setDesignCanvasSize] = useState<SizeType>({
     width: 400,
     height: 550,
   });
@@ -135,10 +135,6 @@ function RouteComponent() {
               <StaticImage
                 src={design.preferredPullover!.image.url}
                 width={designCanvasSize.width - 20}
-                canvasSize={{
-                  width: designCanvasSize.width,
-                  height: designCanvasSize.height,
-                }}
                 onClick={(e: KonvaEventObject<MouseEvent>) => {
                   checkDeselect(e);
                   selectImage(null);
