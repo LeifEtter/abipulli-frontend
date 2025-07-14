@@ -2,7 +2,7 @@ import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { CountryCode } from "abipulli-types";
-import { BasicButton, ButtonType } from "src/components/Buttons/BasicButton";
+import { BasicButton } from "src/components/Buttons/BasicButton";
 import { DatePicker } from "src/components/Inputs/DatePicker";
 import { InputField } from "src/components/Inputs/InputField";
 import { SelectField } from "src/components/Inputs/SelectField";
@@ -11,6 +11,7 @@ import { PageDescription } from "src/components/Texts/PageDescription";
 import { PageTitle } from "src/components/Texts/PageTitle";
 import { useOnboardingInfo } from "src/hooks/useOnboardingInfo";
 import { useSnackbar } from "src/hooks/useSnackbar";
+import { ButtonType } from "src/types/ButtonType";
 import { convertToDateValue } from "src/utilities/date";
 
 export const Route = createFileRoute("/onboarding/schule")({
