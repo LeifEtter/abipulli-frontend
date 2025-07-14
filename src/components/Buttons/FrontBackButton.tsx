@@ -5,6 +5,12 @@ interface FrontBackButtonProps {
   currentViewingSide: ViewingSide;
 }
 
+/**
+ * Renders a Button used for switching between Front and Back of Abipullover
+ *
+ * @param props - FrontBackButtonProps
+ * @returns React element with a front and back switch
+ */
 export const FrontBackButton = ({
   switchViewingSide,
   currentViewingSide,

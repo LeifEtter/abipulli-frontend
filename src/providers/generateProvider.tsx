@@ -33,7 +33,6 @@ export const GenerateInfoProvider = ({
   const validate = () => {
     let newErrorState: GenerateErrors = {};
     for (const [key, value] of Object.entries(state)) {
-      console.log(key);
       newErrorState = {
         ...newErrorState,
         [key]: "Bitte fülle dieses Feld aus",
@@ -123,7 +122,6 @@ export const GenerateInfoProvider = ({
         aspectRatio: state.aspectRatio,
       };
       const result: Image[] = await ImageApi.generateImages(params);
-      console.log(result[0].url);
       return result[0]!.id;
     } catch (error) {
       console.log(error);
@@ -141,8 +139,6 @@ export const GenerateInfoProvider = ({
     const raw: string | null = localStorage.getItem("onboardingInfo");
     if (!raw) return;
     const parsed = JSON.parse(raw);
-    // const result = Genpartial().nullable().safeParse(parsed);
-    // if (!result.success) return console.log(result.error);
     setState((prev) => ({ ...prev, ...parsed.data }));
   };
   useEffect(() => {

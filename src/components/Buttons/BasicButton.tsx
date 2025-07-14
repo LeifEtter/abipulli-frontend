@@ -18,6 +18,12 @@ interface BasicButtonProps {
   ariaLabel?: string;
 }
 
+/**
+ * Renders a styled button or link with optional icon.
+ *
+ * @param props - BasicButtonProps
+ * @returns React element for a button or link
+ */
 export const BasicButton = ({
   type = ButtonType.Button,
   to,

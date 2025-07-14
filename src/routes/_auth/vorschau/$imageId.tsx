@@ -114,7 +114,6 @@ function RouteComponent() {
         >
           <FrontBackButton
             switchViewingSide={(side: ViewingSide) => {
-              console.log(side);
               setViewingSide(side);
             }}
             currentViewingSide={viewingSide}

@@ -14,6 +14,14 @@ interface StaticImageParams {
   onClick?: (e: KonvaEventObject<MouseEvent>) => void;
 }
 
+/**
+ * Renders a Static image for use in Konva Canvas
+ *
+ * @param src - Source for image
+ * @param width - Width of image
+ * @param onClick - Function to run if image is clicked
+ * @returns Static Konva Image
+ */
 export const StaticImage: React.FC<StaticImageParams> = ({
   src,
   width,
@@ -64,6 +72,12 @@ interface ViewData {
   scale: ScaleType;
 }
 
+/**
+ * Renders a draggable, resizable Image for use in Konva Canvas
+ *
+ * @params ResizableImageProps
+ * @returns Draggable, Resizable Konva Image
+ */
 export const ResizableImage = ({
   width,
   originalPos,
