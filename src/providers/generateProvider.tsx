@@ -19,6 +19,8 @@ export const GenerateInfoProvider = ({
     aspectRatio: "1x1",
     styleTags: [],
     comment: undefined,
+    referenceFile: undefined,
+    referenceImage: undefined,
   });
 
   const [errorState, setErrorState] = useState<GenerateErrors>({});
