@@ -21,6 +21,7 @@ import { ScaleType } from "src/types/canvas/scaleType";
 import { ViewingSide } from "src/types/ViewingSide";
 import { FrontBackButton } from "src/components/Buttons/FrontBackButton";
 import { SizeType } from "src/types/canvas/sizeType";
+import { useAuth } from "src/hooks/useAuth";
 
 export const Route = createFileRoute("/_auth/designer")({
   component: RouteComponent,
@@ -44,8 +45,10 @@ function RouteComponent() {
   } = useDesignImages(design?.id);
 
   const { userImages, userImagesAreLoading, userImagesError } = useUserImages();
-
-  const { designs, designsAreLoading, designsError } = useDesigns(4);
+  const { user, isLoading } = useAuth();
+  const userId = user?.id;
+  const designsHook = useDesigns(userId ?? undefined);
+  const { designs, designsAreLoading, designsError } = designsHook;
 
   const selectDesignById = (id: number) => {
     const design: Design | null = designs.filter((e) => e.id == id)[0];
