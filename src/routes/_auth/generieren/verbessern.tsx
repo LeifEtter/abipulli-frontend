@@ -4,6 +4,7 @@ import { useState } from "react";
 import { ImageApi } from "src/api/endpoints/image";
 import { BasicButton } from "src/components/Buttons/BasicButton";
 import { InputField } from "src/components/Inputs/InputField";
+import { Center } from "src/components/Misc/Center";
 import {
   LoadingSpinner,
   LoadingSpinnerNew,
@@ -28,9 +29,17 @@ function RouteComponent() {
     clearError,
   } = useGenerateInfo();
 
+  const [isLoading, setIsLoading] = useState(false);
   const showSnackbar = useSnackbar();
   return (
-    <div className="card">
+    <div className="card relative">
+      {isLoading && (
+        <div className="absolute w-full h-full bg-black/20 top-0 left-0 rounded-2xl">
+          <Center>
+            <LoadingSpinnerNew />
+          </Center>
+        </div>
+      )}
       <PageTitle>Beschreibe das Design der Vorderseite!</PageTitle>
       <PageDescription>
         Kurz, lang, verrückt - stell uns deine Idee vor.
@@ -65,7 +74,9 @@ function RouteComponent() {
           onClick={async () => {
             try {
               clearError("comment");
+              setIsLoading(true);
               await submitComment();
+              setIsLoading(false);
               showSnackbar({
                 type: "success",
                 message: "Beschreibung Verbessert!",

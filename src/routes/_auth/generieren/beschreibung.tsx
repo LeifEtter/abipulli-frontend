@@ -13,6 +13,8 @@ import { SizeType } from "src/types/canvas/sizeType";
 import { BasicButton } from "src/components/Buttons/BasicButton";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { ButtonType } from "src/types/ButtonType";
+import { Center } from "src/components/Misc/Center";
+import { LoadingSpinnerNew } from "src/components/Misc/LoadingSpinner";
 
 export const Route = createFileRoute("/_auth/generieren/beschreibung")({
   component: RouteComponent,
@@ -59,6 +61,7 @@ const SizeButton = ({
 function RouteComponent() {
   const { saveProgressLocally, description, aspectRatio, styleTags } =
     useGenerateInfo();
+  const [isLoading, setIsLoading] = useState(false);
 
   const [selectedStyles, setSelectedStyles] = useState<SelectedStylesMap>({
     comic: false,
@@ -73,7 +76,14 @@ function RouteComponent() {
       .filter((v) => v != null);
 
   return (
-    <div className="card w-7/12">
+    <div className="card px-6 sm:px-12 w-7/12">
+      {isLoading && (
+        <div className="absolute w-full h-full bg-black/20 top-0 left-0 rounded-2xl">
+          <Center>
+            <LoadingSpinnerNew />
+          </Center>
+        </div>
+      )}
       <PageTitle>Beschreibe das Design der Vorderseite!</PageTitle>
       <PageDescription>
         Kurz, lang, verrückt - stell uns deine Idee vor.
