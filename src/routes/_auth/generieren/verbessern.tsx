@@ -1,5 +1,5 @@
 import { faArrowRight, faPaperPlane } from "@fortawesome/free-solid-svg-icons";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { ImageApi } from "src/api/endpoints/image";
 import { BasicButton } from "src/components/Buttons/BasicButton";
@@ -27,9 +27,12 @@ function RouteComponent() {
     comment,
     errorState,
     clearError,
+    generateImage,
   } = useGenerateInfo();
 
   const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
+
   const showSnackbar = useSnackbar();
   return (
     <div className="card relative">
@@ -97,7 +100,24 @@ function RouteComponent() {
         >
           Zurück
         </BasicButton>
-        <BasicButton icon={faArrowRight} type={ButtonType.Link} to="/vorschau">
+        <BasicButton
+          icon={faArrowRight}
+          type={ButtonType.Button}
+          onClick={async () => {
+            try {
+              setIsLoading(true);
+              const imageId = await generateImage();
+              setIsLoading(false);
+              navigate({ to: `/vorschau/${imageId}` });
+            } catch (error) {
+              console.log(error);
+              showSnackbar({
+                type: "error",
+                message: "Bild konnte nicht generiert werden",
+              });
+            }
+          }}
+        >
           Bild Generieren
         </BasicButton>
       </div>
