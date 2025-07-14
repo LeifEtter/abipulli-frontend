@@ -64,14 +64,15 @@ export const OnboardingProvider = ({
     localStorage.setItem("onboardingInfo", stringifiedState);
   };
 
-  const retrieveFromLocalStorage = () => {
+  const retrieveFromLocalStorage = (): boolean => {
     const raw: string | null = localStorage.getItem("onboardingInfo");
-    if (!raw) return;
+    if (!raw) return false;
     const parsed = JSON.parse(raw);
     const result = OnboardingInfoSchema.partial().nullable().safeParse(parsed);
-    if (!result.success) return console.log(result.error);
+    if (!result.success) return false;
     console.log(result.data!.countryCode);
     setState((prev) => ({ ...prev, ...result.data }));
+    return true;
   };
 
   //TODO submit onboarding progress to backend
