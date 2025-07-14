@@ -67,7 +67,7 @@ function RouteComponent() {
   };
 
   return (
-    <div className="card max-w-3xl">
+    <div className="card p-6 sm:p-12 max-w-3xl">
       <PageTitle>Habt ihr ein Referenzbild?</PageTitle>
       <PageDescription>
         Damit wir dein Profil anlegen können brauchen wir ein Paar Infos von
@@ -102,7 +102,7 @@ function RouteComponent() {
             />
           )}
         </div>
-        <div className="flex-1/12 flex-col self-center">
+        <div className="flex-1/1 sm:flex-1/12 flex-col self-center">
           <p className="font-semibold text-lg text-gray-600">ODER</p>
         </div>
         <ReferenceImagePicker
@@ -120,11 +120,11 @@ function RouteComponent() {
         <BasicButton
           shadow
           icon={faArrowRight}
-          className="w-40 text-center"
+          className="w-60 text-center"
           type={ButtonType.Link}
           to="/generieren/motto"
         >
-          Weiter
+          Fortfahren
         </BasicButton>
       </div>
     </div>
