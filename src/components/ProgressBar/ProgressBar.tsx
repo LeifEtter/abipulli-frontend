@@ -56,7 +56,12 @@ const StepTile = ({ label, description, status }: StepTileProps) => {
     }
   };
   return (
-    <button className="relative flex flex-row gap-2">
+    <button
+      className="relative flex flex-row gap-2"
+      aria-label={`Schritt: ${label}. ${description}`}
+      aria-pressed={status === "IN_PROGRESS"}
+      type="button"
+    >
       <div>{indicator()}</div>
       <span className="left-14 hidden absolute md:flex flex-col items-start overflow-hidden w-36">
         <SmallLabel text={label} className="font-semibold" />
@@ -74,24 +79,34 @@ export interface SingleProgressBarStep {
 
 export const ProgressBar = ({ steps }: { steps: SingleProgressBarStep[] }) => {
   return (
-    <div className="card p-4 flex flex-col items-center sm:items-start shadow-sm rounded-2xl md:w-50 transition-all duration-75 md:min-w-56 pb-10">
+    <nav
+      className="card p-4 flex flex-col items-center sm:items-start shadow-sm rounded-2xl md:w-50 transition-all duration-75 md:min-w-56 pb-10"
+      aria-label="Fortschritts"
+    >
       <div className="w-full flex justify-center">
         <div className="hidden md:block mb-4">
           <MediumLabel text="Schritte" />
         </div>
       </div>
-      {steps.map((step) => (
-        <div className="flex flex-col" key={`step-${step.title}`}>
+      {steps.map((step, idx) => (
+        <div
+          className="flex flex-col"
+          key={`step-${step.title}`}
+          aria-label={`Schritt ${idx + 1} von ${steps.length}`}
+        >
           <StepTile
             label={step.title}
             description={step.description}
             status={step.status as StepTileStatus}
           />
-          {steps.indexOf(step) < steps.length - 1 && (
-            <div className="h-14 ml-5.5 w-1 bg-abipulli-green-strong" />
+          {idx < steps.length - 1 && (
+            <div
+              className="h-14 ml-5.5 w-1 bg-abipulli-green-strong"
+              aria-hidden="true"
+            />
           )}
         </div>
       ))}
-    </div>
+    </nav>
   );
 };

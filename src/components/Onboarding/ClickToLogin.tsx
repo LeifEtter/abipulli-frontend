@@ -6,10 +6,14 @@ interface ClickToLoginProps {
 }
 
 export const ClickToLogin = ({ to, className }: ClickToLoginProps) => (
-  <span className={className}>
+  <div className={className} aria-label="Login Hinweis">
     <p>Du hast schon ein Account?</p>
-    <Link className="text-blue-500 font-semibold" to={to}>
+    <Link
+      className="text-blue-500 font-semibold"
+      to={to}
+      aria-label="Hier klicken um sich einzuloggen"
+    >
       Klicke Hier um dich Einzuloggen
     </Link>
-  </span>
+  </div>
 );

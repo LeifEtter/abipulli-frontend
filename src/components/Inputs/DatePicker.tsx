@@ -21,17 +21,21 @@ export const DatePicker = ({
   required,
   starColor,
 }: DatePickerProps) => (
-  <div className={`flex flex-col ${className}`}>
-    <div className="flex flex-row">
-      <SmallLabel
-        htmlFor={`pick-date-${idPrefix}`}
-        text={label}
-        className="text-lg font-medium"
-      />
+  <div className={`flex flex-col ${className}`} aria-label="Datumsauswahl">
+    <label
+      htmlFor={`pick-date-${idPrefix}`}
+      className="flex flex-row items-center text-lg font-medium"
+    >
+      {label}
       {required && (
-        <p className={`${starColor ?? "text-abipulli-green-strong"}`}>*</p>
+        <span
+          className={`${starColor ?? "text-abipulli-green-strong"}`}
+          aria-label="Pflichtfeld"
+        >
+          *
+        </span>
       )}
-    </div>
+    </label>
     <input
       value={value}
       onChange={onChange}
@@ -40,6 +44,8 @@ export const DatePicker = ({
       name="trip-start"
       lang="de"
       className="border-1 border-abipulli-grey-border rounded-sm py-1.5 px-3 w-38"
+      aria-required={!!required}
+      aria-label={label}
     />
   </div>
 );

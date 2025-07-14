@@ -106,6 +106,8 @@ export const ResizableImage = ({
           x={viewData.pos.x}
           y={viewData.pos.y}
           draggable
+          aria-label="Bild verschieben und skalieren"
+          role="img"
           onDragStart={() => setDeleteVisible(false)}
           onTransformStart={() => setDeleteVisible(false)}
           onDragEnd={(e: KonvaEventObject<DragEvent>) => {
@@ -140,10 +142,18 @@ export const ResizableImage = ({
             flipEnabled={false}
             enabledAnchors={["middle-right", "bottom-right", "bottom-center"]}
             rotateEnabled={false}
+            aria-label="Bildgröße ändern"
+            role="group"
           />
         )}
         {deleteVisible && isSelected && (
-          <Group onClick={onDelete} onTap={onDelete}>
+          <Group
+            onClick={onDelete}
+            onTap={onDelete}
+            aria-label="Bild löschen"
+            role="button"
+            tabIndex={0}
+          >
             <Rect
               width={40}
               height={40}
@@ -158,6 +168,8 @@ export const ResizableImage = ({
               height={30}
               x={viewData.pos.x - 15}
               y={viewData.pos.y - 15}
+              aria-label="Papierkorb Icon"
+              role="img"
             />
           </Group>
         )}

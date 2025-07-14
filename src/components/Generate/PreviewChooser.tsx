@@ -5,19 +5,21 @@ import { LoadingSpinner } from "../Misc/LoadingSpinner";
 export const PreviewChooser = ({ images }: { images?: Image[] }) => {
   return !images ? (
     <Center>
-      <LoadingSpinner />
+      <LoadingSpinner aria-label="Lade Vorschaubilder" />
     </Center>
   ) : (
-    <div className="flex gap-5 mt-5">
+    <section className="flex gap-5 mt-5" aria-label="Vorschaubilder Auswahl">
       {images.map((image) => (
         <img
-          key={`image-${image}`}
+          key={`image-${image.id!}`}
           src={image.url}
           width={100}
           height={100}
           className="border hover:scale-110 transition duration-100 cursor-pointer"
+          alt={`Vorschaubild ${image.id!}`}
+          aria-label={`Vorschaubild ${image.id!}`}
         />
       ))}
-    </div>
+    </section>
   );
 };

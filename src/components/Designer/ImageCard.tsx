@@ -7,12 +7,18 @@ interface ImageCardParams {
 }
 
 export const ImageCard: React.FC<ImageCardParams> = ({ image, onClick }) => (
-  <div
+  <button
+    type="button"
     onClick={onClick}
     className="border-2 rounded-md border-ap-new-gray aspect-square w-full h-full"
+    aria-label="Bild auswählen"
   >
-    <img src={image} className="rounded-sm object-cover h-full w-full" />
-  </div>
+    <img
+      src={image}
+      className="rounded-sm object-cover h-full w-full"
+      alt="Design Bild"
+    />
+  </button>
 );
 
 interface UploadImageCardParams {
@@ -22,15 +28,17 @@ interface UploadImageCardParams {
 export const UploadImageCard: React.FC<UploadImageCardParams> = ({
   onClick,
 }) => (
-  <div
+  <button
+    type="button"
     onClick={onClick}
     className="cursor-pointer border-2 rounded-md border-ap-new-gray aspect-square w-full h-full flex justify-center items-center flex-col gap-2"
+    aria-label="Bild hochladen"
   >
-    <div className="flex items-center gap-2">
+    <div className="flex items-center gap-2" aria-hidden="true">
       <FontAwesomeIcon icon={faPlus} size={"1x"} />
       <FontAwesomeIcon icon={faFileUpload} className="text-2xl" />
     </div>
 
     <p className="text-medium text-center font-bold">Klicken zum Hochladen</p>
-  </div>
+  </button>
 );

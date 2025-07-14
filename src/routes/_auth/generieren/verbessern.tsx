@@ -60,7 +60,11 @@ function RouteComponent() {
         value={generatedDescription ?? ""}
         error={errorState.generatedDescription}
       />
-      <div className="flex flex-row items-center">
+      <form
+        onClick={(e) => e.preventDefault()}
+        className="flex flex-row items-center"
+        aria-label="Kommentar Formular"
+      >
         <InputField
           className="mt-4 mb-4 basis-80"
           label="Schlage Verbesserungen vor"
@@ -88,10 +92,11 @@ function RouteComponent() {
               console.log(error);
             }
           }}
+          aria-label="Kommentar senden"
         >
           Send
         </BasicButton>
-      </div>
+      </form>
       <div className="flex flex-row justify-between mt-12">
         <BasicButton
           className="bg-gray-400"

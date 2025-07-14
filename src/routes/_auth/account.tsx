@@ -43,7 +43,7 @@ function RouteComponent() {
   }, [user]);
 
   return (
-    <div className="card flex flex-col items-start">
+    <main className="card flex flex-col items-start">
       <PageTitle>Account</PageTitle>
       <PageDescription>
         Hier kannst du deine Account Daten verwalten. Schreib uns auf Whatsapp
@@ -146,6 +146,6 @@ function RouteComponent() {
       >
         Ausloggen
       </BasicButton>
-    </div>
+    </main>
   );
 }

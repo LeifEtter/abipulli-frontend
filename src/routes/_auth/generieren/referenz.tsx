@@ -67,19 +67,26 @@ function RouteComponent() {
   };
 
   return (
-    <div className="card p-6 sm:p-12 max-w-3xl">
+    <main
+      className="card p-6 sm:p-12 max-w-3xl"
+      aria-label="Referenzbild Auswahl"
+    >
       <PageTitle>Habt ihr ein Referenzbild?</PageTitle>
       <PageDescription>
         Damit wir dein Profil anlegen können brauchen wir ein Paar Infos von
         dir. Diese Infos werden gelöscht falls du den Prozess abbrichst, also
         keine Angst!
       </PageDescription>
-      <div className="flex flex-col md:flex-row gap-6 items-center">
+      <section
+        className="flex flex-col md:flex-row gap-6 items-center"
+        aria-label="Hochgeladenes Referenzbild oder Referenzbild aus bereits erstellten Bildern"
+      >
         <div className="flex-1/1 sm:flex-6/12 h-full">
           {referenceFile ? (
             <div
               key={`uploaded-image`}
               className="shadow-sm border-1 rounded-md relative h-full"
+              aria-label="Hochgeladenes Referenzbild"
             >
               <FontAwesomeIcon
                 onClick={() =>
@@ -87,10 +94,14 @@ function RouteComponent() {
                 }
                 icon={faTrash}
                 className="absolute top-0 right-0 p-2 bg-red-300 rounded-md text-2xl border"
+                aria-label="Referenzbild entfernen"
+                role="button"
+                tabIndex={0}
               />
               <img
                 className="object-cover h-full"
                 src={URL.createObjectURL(referenceFile)}
+                alt="Referenzbild Vorschau"
               />
             </div>
           ) : (
@@ -102,7 +113,10 @@ function RouteComponent() {
             />
           )}
         </div>
-        <div className="flex-1/1 sm:flex-1/12 flex-col self-center">
+        <div
+          className="flex-1/1 sm:flex-1/12 flex-col self-center"
+          aria-hidden="true"
+        >
           <p className="font-semibold text-lg text-gray-600">ODER</p>
         </div>
         <ReferenceImagePicker
@@ -115,7 +129,7 @@ function RouteComponent() {
           }
           deactivate={referenceFile != null}
         />
-      </div>
+      </section>
       <div className="flex justify-center mt-8">
         <BasicButton
           shadow
@@ -123,10 +137,11 @@ function RouteComponent() {
           className="w-60 text-center"
           type={ButtonType.Link}
           to="/generieren/motto"
+          aria-label="Fortfahren zum Motto"
         >
           Fortfahren
         </BasicButton>
       </div>
-    </div>
+    </main>
   );
 }

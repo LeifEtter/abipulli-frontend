@@ -2,14 +2,12 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { StyleSelector } from "src/components/Generate/StyleSelector";
 import { InputField } from "src/components/Inputs/InputField";
-import { MediumLabel } from "src/components/Texts/MediumLabel";
 import { PageDescription } from "src/components/Texts/PageDescription";
 import { PageTitle } from "src/components/Texts/PageTitle";
 import { SmallLabel } from "src/components/Texts/SmallLabel";
 import { useGenerateInfo } from "src/hooks/useGenerateInfo";
 import { SelectedStylesMap } from "src/types/generator/SelectedStyles";
 import AbInsBett from "src/assets/designs/Abinsbett-2.png";
-import { SizeType } from "src/types/canvas/sizeType";
 import { BasicButton } from "src/components/Buttons/BasicButton";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { ButtonType } from "src/types/ButtonType";
@@ -80,13 +78,13 @@ function RouteComponent() {
     retro: false,
   });
 
-  const convertStyleTagsToString = (tags: SelectedStylesMap) =>
-    Object.entries(tags)
-      .map(([style, active]) => (active ? style : null))
-      .filter((v) => v != null);
+  // const convertStyleTagsToString = (tags: SelectedStylesMap) =>
+  //   Object.entries(tags)
+  //     .map(([style, active]) => (active ? style : null))
+  //     .filter((v) => v != null);
 
   return (
-    <div className="card px-6 sm:px-12 w-7/12">
+    <main className="card px-6 sm:px-12 w-7/12">
       {isLoading && (
         <div className="absolute w-full h-full bg-black/20 top-0 left-0 rounded-2xl">
           <Center>
@@ -125,13 +123,18 @@ function RouteComponent() {
           }))
         }
       />
-      <div className="h-6"> </div>
+      <div className="h-6" aria-hidden="true" />
       <SmallLabel
-        htmlFor={`styles`}
+        htmlFor="aspect-ratio-group"
         text="Größenverhältnis"
         className="text-lg font-medium"
       />
-      <div className="flex flex-row justify-start gap-4 items-center">
+      <div
+        className="flex flex-row justify-start gap-4 items-center"
+        id="aspect-ratio-group"
+        role="group"
+        aria-label="Größenverhältnis Auswahl"
+      >
         <SizeButton
           onClick={() => saveProgressLocally({ aspectRatio: "1x1" })}
           ratio={"1x1"}
@@ -166,6 +169,6 @@ function RouteComponent() {
           Beschreibung Generieren
         </BasicButton>
       </div>
-    </div>
+    </main>
   );
 }

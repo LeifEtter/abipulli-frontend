@@ -45,107 +45,105 @@ function RouteComponent() {
   } = useOnboardingInfo();
 
   return (
-    <div className="card max-w-200">
-      <PageTitle>Über Eure Schule</PageTitle>
-      <PageDescription>
-        Wir brauchen erstmal ein Paar Infos über eure Schule damit wir die
-        Logistik deiner Bestellung planen können. Aber keine Angst, alles ist
-        unverbindlich!
-      </PageDescription>
-      <div className="flex flex-row gap-2 mt-10">
-        <SelectField
-          label="Land"
-          options={selectOptions}
-          chosenOption={
-            selectOptions.filter((option) => option.value == countryCode)[0]
-          }
-          onChange={(e) =>
-            saveProgressLocally({
-              countryCode: e!.value as CountryCode,
-            })
-          }
-        />
-        <InputField
-          className="flex-6/12"
-          onChange={(e) => {
-            clearError("school");
-            saveProgressLocally({ school: e.target.value });
-          }}
-          placeholder="Bsp.: Otto-Schott-Gymnasium"
-          value={school ?? ""}
-          label="Schule"
-          required
-          error={errorState.school}
-        />
-        <InputField
-          className="flex-4/12"
-          onChange={(e) => saveProgressLocally({ city: e.target.value })}
-          placeholder="Bsp.: Mainz"
-          value={city ?? ""}
-          label="Stadt"
-          required
-        />
-      </div>
-      <div className="flex gap-2 mt-4">
-        <InputField
-          className="flex-1/12 max-w-16"
-          onChange={(e) =>
-            saveProgressLocally({ grade: parseInt(e.target.value) })
-          }
-          placeholder="12"
-          value={grade ? grade.toString() : ""}
-          label="Stufe"
-          required
-        />
-        <InputField
-          className="flex-9/12 max-w-26"
-          onChange={(e) =>
-            saveProgressLocally({ graduationYear: parseInt(e.target.value) })
-          }
-          placeholder="2025"
-          maxLength={4}
-          value={graduationYear ? graduationYear.toString() : ""}
-          label="Abijahrgang"
-          required
-        />
-      </div>
-      <DatePicker
-        idPrefix="deadline"
-        className="flex mt-4"
-        label={"Wunschtermin Lieferung"}
-        value={
-          deadline
-            ? convertToDateValue(deadline)
-            : convertToDateValue(new Date())
-        }
-        onChange={(e) =>
-          saveProgressLocally({ deadline: new Date(e.target.value) })
-        }
-      />
-      <div className="flex w-full justify-between h-20 mt-2 items-start">
-        <ClickToLogin className="self-end" to="/login" />
-        <BasicButton
-          shadow
-          type={ButtonType.Link}
-          to="/onboarding/personal"
-          icon={faArrowRight}
+    <main aria-label="Onboarding Schule">
+      <div className="card max-w-200">
+        <PageTitle>Über Eure Schule</PageTitle>
+        <PageDescription>
+          Wir brauchen erstmal ein Paar Infos über eure Schule damit wir die
+          Logistik deiner Bestellung planen können. Aber keine Angst, alles ist
+          unverbindlich!
+        </PageDescription>
+        <div
+          onClick={(e) => e.preventDefault()}
+          className="flex flex-row gap-2 mt-10"
+          aria-label="Schulinfos Formular"
         >
-          Nächster Schritt
-        </BasicButton>
+          <SelectField
+            label="Land"
+            options={selectOptions}
+            chosenOption={
+              selectOptions.filter((option) => option.value == countryCode)[0]
+            }
+            onChange={(e) =>
+              saveProgressLocally({
+                countryCode: e!.value as CountryCode,
+              })
+            }
+          />
+          <InputField
+            className="flex-6/12"
+            onChange={(e) => {
+              clearError("school");
+              saveProgressLocally({ school: e.target.value });
+            }}
+            placeholder="Bsp.: Otto-Schott-Gymnasium"
+            value={school ?? ""}
+            label="Schule"
+            required
+            error={errorState.school}
+          />
+          <InputField
+            className="flex-4/12"
+            onChange={(e) => saveProgressLocally({ city: e.target.value })}
+            placeholder="Bsp.: Mainz"
+            value={city ?? ""}
+            label="Stadt"
+            required
+          />
+        </div>
+        <div
+          onClick={(e) => e.preventDefault()}
+          className="flex gap-2 mt-4"
+          aria-label="Jahrgang und Abijahrgang Formular"
+        >
+          <InputField
+            className="flex-1/12 max-w-16"
+            onChange={(e) =>
+              saveProgressLocally({ grade: parseInt(e.target.value) })
+            }
+            placeholder="12"
+            value={grade ? grade.toString() : ""}
+            label="Stufe"
+            required
+          />
+          <InputField
+            className="flex-9/12 max-w-26"
+            onChange={(e) =>
+              saveProgressLocally({ graduationYear: parseInt(e.target.value) })
+            }
+            placeholder="2025"
+            maxLength={4}
+            value={graduationYear ? graduationYear.toString() : ""}
+            label="Abijahrgang"
+            required
+          />
+        </div>
+        <DatePicker
+          idPrefix="deadline"
+          className="flex mt-4"
+          label={"Wunschtermin Lieferung"}
+          value={
+            deadline
+              ? convertToDateValue(deadline)
+              : convertToDateValue(new Date())
+          }
+          onChange={(e) =>
+            saveProgressLocally({ deadline: new Date(e.target.value) })
+          }
+        />
+        <div className="flex w-full justify-between h-20 mt-2 items-start">
+          <ClickToLogin className="self-end" to="/login" />
+          <BasicButton
+            shadow
+            type={ButtonType.Link}
+            to="/onboarding/personal"
+            icon={faArrowRight}
+            aria-label="Nächster Schritt"
+          >
+            Nächster Schritt
+          </BasicButton>
+        </div>
       </div>
-      <button onClick={() => submitProgress()}>Log State</button>
-      <button onClick={() => saveToLocalStorage()}>Save to Localstorage</button>
-      <button onClick={() => setError(["school", "test error"])}>
-        Set Error
-      </button>
-      <button
-        onClick={() =>
-          showSnackbar({ type: "error", message: "Something went wrong" })
-        }
-      >
-        Show snackbar
-      </button>
-      <button onClick={() => retrieveFromLocalStorage()}>Retrieve</button>
-    </div>
+    </main>
   );
 }

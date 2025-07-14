@@ -10,7 +10,7 @@ import {
   ResizableImage,
   StaticImage,
 } from "src/components/Designer/CanvasImages";
-import { DesignsSelection } from "src/components/Designer/DesignSelection";
+import { DesignSelection } from "src/components/Designer/DesignSelection";
 import { ImageSelection } from "src/components/Designer/ImageSelection";
 import { useDesignImages } from "src/hooks/useDesignImages";
 import { useDesigns } from "src/hooks/useDesigns";
@@ -114,9 +114,9 @@ function RouteComponent() {
   );
 
   return (
-    <div className="flex flex-row w-full">
+    <main className="flex flex-row w-full" aria-label="Designer">
       {!designsAreLoading && (
-        <DesignsSelection
+        <DesignSelection
           designs={designs}
           selectedDesign={design ?? undefined}
           selectDesign={(id) => selectDesignById(id)}
@@ -130,6 +130,8 @@ function RouteComponent() {
             height={designCanvasSize.height}
             onMouseDown={checkDeselect}
             onTouchStart={checkDeselect}
+            aria-label="Design Canvas"
+            role="region"
           >
             <Layer>
               <StaticImage
@@ -139,6 +141,7 @@ function RouteComponent() {
                   checkDeselect(e);
                   selectImage(null);
                 }}
+                aria-label="Pullover Hintergrund"
               />
               {!designImagesAreLoading &&
                 designImages.map((image) => (
@@ -168,38 +171,45 @@ function RouteComponent() {
                       onImagePositionChange(pos, image)
                     }
                     onScaleChange={(scale) => onScaleChange(scale, image)}
+                    aria-label={`Designbild ${designImages.indexOf(image) + 1}`}
                   />
                 ))}
             </Layer>
           </Stage>
         )}
-        <div className="w-full flex flex-row justify-center mt-8">
+        <div
+          className="w-full flex flex-row justify-center mt-8"
+          role="group"
+          aria-label="Ansicht wechseln"
+        >
           <FrontBackButton
             switchViewingSide={(side: ViewingSide) => setViewingSide(side)}
             currentViewingSide={viewingSide}
           />
         </div>
-        <div className="flex justify-center mt-4">
-          <BasicButton className="w-50 h-12" shadow icon={faSave}>
+        <div
+          className="flex justify-center mt-4"
+          role="group"
+          aria-label="Design speichern"
+        >
+          <BasicButton
+            className="w-50 h-12"
+            shadow
+            icon={faSave}
+            aria-label="Design speichern"
+          >
             Speichern
           </BasicButton>
         </div>
       </div>
-      {/* <div
-        onClick={() => setImageSelectorExpanded(false)}
-        className={`${imageSelectorExpanded ? "absolute" : "hidden"} md:hidden absolute z-10 bg-gray-800/20 w-full h-full top-0 left-0`}
-      /> */}
       <div
-        // onClick={() => !imageSelectorExpanded && setImageSelectorExpanded(true)}
         className={`absolute md:relative z-20 flex-row transition-all right-0 duration-75`}
+        aria-label="Bild Auswahl"
+        role="region"
       >
         {userImages && (
           <ImageSelection
             onClick={(image: Image) => {
-              // if (!imageSelectorExpanded) {
-              //   setImageSelectorExpanded(true);
-              //   return;
-              // }
               if (!design) {
                 return showSnackbar({
                   message: "Wähle ein Design aus bevor du ein Bild hinzufügst",
@@ -211,6 +221,6 @@ function RouteComponent() {
           />
         )}
       </div>
-    </div>
+    </main>
   );
 }

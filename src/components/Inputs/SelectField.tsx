@@ -25,13 +25,19 @@ export const SelectField = ({
 }: SelectFieldProps) => (
   <div className={className}>
     <label htmlFor="select-country-code" className="text-lg font-medium">
-      {label} *
+      {label}
+      <span className="text-abipulli-green-strong" aria-label="Pflichtfeld">
+        *
+      </span>
     </label>
     <Select
-      id="select-country-code"
+      inputId="select-country-code"
       options={options}
       value={chosenOption}
       onChange={onChange}
+      aria-label={label}
+      aria-required={true}
+      classNamePrefix="react-select"
     />
   </div>
 );

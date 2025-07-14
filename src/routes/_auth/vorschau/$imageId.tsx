@@ -43,7 +43,7 @@ function RouteComponent() {
   const generatedImageWidth = 150;
 
   return (
-    <div className="w-full">
+    <main className="w-full" aria-label="Bildvorschau">
       <div
         className="relative left-6 sm:left-1/12 lg:left-2/12"
         style={{
@@ -54,15 +54,16 @@ function RouteComponent() {
           className={`relative w-full transition-transform duration-500 [transform-style:preserve-3d] h-140 ${
             viewingSide == ViewingSide.Back && "rotate-y-180"
           }`}
+          aria-label="Pullover Vorschau"
         >
           <img
             src={PulloverSandFront}
-            alt="Front"
+            alt="Pullover Vorderseite"
             className="absolute w-full h-full backface-hidden object-contain"
           />
           <img
             src={PulloverSandBack}
-            alt="Back"
+            alt="Pullover Rückseite"
             className="absolute w-full h-full backface-hidden rotate-y-180 object-contain"
           />
         </div>
@@ -74,9 +75,15 @@ function RouteComponent() {
             }}
             className={`absolute ${viewingSide == ViewingSide.Front ? "top-30" : "top-40"} left-1/2 transition-all duration-200`}
             src={image.url}
+            alt="Generiertes Designbild"
+            aria-label="Generiertes Designbild"
           />
         )}
-        <div className="absolute bottom-30 w-full flex gap-4 flex-col lg:flex-row justify-center items-center">
+        <div
+          className="absolute bottom-30 w-full flex gap-4 flex-col lg:flex-row justify-center items-center"
+          role="group"
+          aria-label="Bildaktionen"
+        >
           <DescriptionButton
             type={ButtonType.Link}
             to="/generieren"
@@ -84,6 +91,7 @@ function RouteComponent() {
             shadow
             className="w-70 bg-red-200"
             description="Bild wird gespeichert"
+            aria-label="Neues Bild generieren"
           >
             Neues Bild
           </DescriptionButton>
@@ -94,11 +102,16 @@ function RouteComponent() {
             shadow
             className="w-70"
             description="Bild verbessern"
+            aria-label="Bild verbessern"
           >
             Verbessern
           </DescriptionButton>
         </div>
-        <div className="flex flex-row justify-center">
+        <div
+          className="flex flex-row justify-center"
+          role="group"
+          aria-label="Ansicht wechseln"
+        >
           <FrontBackButton
             switchViewingSide={(side: ViewingSide) => {
               console.log(side);
@@ -111,6 +124,8 @@ function RouteComponent() {
       <div
         className="relative flex flex-row justify-center left-6 sm:left-1/12 lg:left-2/12 top-10"
         style={{ width: canvasWidth }}
+        role="group"
+        aria-label="Designer öffnen"
       >
         <DescriptionButton
           type={ButtonType.Link}
@@ -119,10 +134,11 @@ function RouteComponent() {
           shadow
           className="w-70"
           description="Kombiniere Pullis und Designs"
+          aria-label="Designer öffnen"
         >
           Zum Designer
         </DescriptionButton>
       </div>
-    </div>
+    </main>
   );
 }
