@@ -31,17 +31,11 @@ export const OnboardingProvider = ({
   const validate = () => {
     let newErrorState: OnboardingErrors = {};
     for (const [key, value] of Object.entries(state)) {
-      console.log(key);
       newErrorState = {
         ...newErrorState,
         [key]: "Bitte fülle dieses Feld aus",
       };
     }
-    // console.log(state);
-    // console.log(errorState);
-    // const result = OnboardingInfoSchema.safeParse(state);
-    // console.log(result.error);
-    console.log(newErrorState);
     setErrorState(newErrorState);
   };
 
@@ -70,7 +64,6 @@ export const OnboardingProvider = ({
     const parsed = JSON.parse(raw);
     const result = OnboardingInfoSchema.partial().nullable().safeParse(parsed);
     if (!result.success) return false;
-    console.log(result.data!.countryCode);
     setState((prev) => ({ ...prev, ...result.data }));
     return true;
   };
