@@ -18,8 +18,8 @@ function RouteComponent() {
         Bildern.
       </PageDescription>
       <div className="flex gap-4 mt-12 flex-wrap">
-        {[...userImages, ...userImages, ...userImages].map((image) => (
-          <Link to={`/vorschau/${image.id}`} className="">
+        {userImages.map((image) => (
+          <Link key={`pick-vorschau-${image.id}`} to={`/vorschau/${image.id}`}>
             <img
               className="w-40 object-cover hover:scale-110 hover:shadow-xl transition-all duration-75"
               src={image.url}
