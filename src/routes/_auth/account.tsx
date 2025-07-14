@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { errorMessages, User } from "abipulli-types";
 import { useEffect, useState } from "react";
 import { ApiError } from "src/api/ApiError";
@@ -24,6 +24,7 @@ const InputInfoInit = { value: null, error: null };
 
 function RouteComponent() {
   const { user, logout } = useAuth();
+  const navigate = useNavigate();
 
   const showPopup = usePopup();
   const showSnackbar = useSnackbar();
@@ -136,7 +137,7 @@ function RouteComponent() {
             description: "Click cancel or confirm",
             onClickConfirm: async () => {
               await logout();
-              // Redirect
+              navigate({ to: "/onboarding" });
             },
           });
         }}
