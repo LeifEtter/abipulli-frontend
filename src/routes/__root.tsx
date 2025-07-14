@@ -29,12 +29,12 @@ const BackgroundImages: React.FC = () => (
 
 export const Route = createRootRouteWithContext<RouterContext>()({
   component: () => (
-    <div style={{ fontFamily: "Inter" }} className="px-4">
+    <div style={{ fontFamily: "Inter" }} className="">
       {/* style={{ fontFamily: "Onest" }} */}
       <div className="relative w-full">
         <AbiPulliLogo />
       </div>
-      <div className="flex flex-row mt-16 gap-0 sm:gap-4 items-start">
+      <div className="flex flex-row mt-16 gap-0 sm:gap-4 items-start px-4">
         <div className="block sm:hidden">
           <SidebarMobile />
         </div>
