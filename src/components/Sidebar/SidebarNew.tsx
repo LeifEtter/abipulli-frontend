@@ -7,7 +7,6 @@ import {
   faCircleQuestion,
 } from "@fortawesome/free-regular-svg-icons";
 import { Link } from "@tanstack/react-router";
-import AbiPulliLogo from "src/assets/icons/abipulli-logo.png";
 
 const StepTileStatusOptions = [
   "FINISHED",

@@ -8,7 +8,7 @@ import { PageTitle } from "src/components/Texts/PageTitle";
 import { SmallLabel } from "src/components/Texts/SmallLabel";
 import { useGenerateInfo } from "src/hooks/useGenerateInfo";
 import { SelectedStylesMap } from "src/types/generator/SelectedStyles";
-import AbInsBett from "src/assets/Abinsbett-2.png";
+import AbInsBett from "src/assets/designs/Abinsbett-2.png";
 import { SizeType } from "src/types/canvas/sizeType";
 import { BasicButton } from "src/components/Buttons/BasicButton";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";

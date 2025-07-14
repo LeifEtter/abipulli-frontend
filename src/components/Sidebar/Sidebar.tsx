@@ -6,18 +6,13 @@ import {
   faInfoCircle,
   faKey,
   faLock,
-  faPerson,
   faPoll,
   faShirt,
   faTruckFast,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Center } from "../Misc/Center";
-import { Link, useLocation, useRouter } from "@tanstack/react-router";
-import { faFaceGrinStars } from "@fortawesome/free-regular-svg-icons";
-import AbiPulliLogo from "src/assets/icons/abipulli-logo.png";
-import Avatar from "src/assets/icons/avatar.png";
-import { useEffect } from "react";
+import { Link, useLocation } from "@tanstack/react-router";
 import { useAuth } from "src/hooks/useAuth";
 
 interface SidebarTileProps {

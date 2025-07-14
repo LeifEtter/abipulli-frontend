@@ -1,11 +1,10 @@
 import { createRootRouteWithContext, Outlet } from "@tanstack/react-router";
 import { AuthContextType } from "../providers/authContext";
-import ThumbsUP from "src/assets/thumbs-up.png";
-import TreeBG from "src/assets/tree-bg.png";
+import ThumbsUP from "src/assets/background/thumbs-up.png";
+import TreeBG from "src/assets/background/tree-bg.png";
 import { AbiPulliLogo } from "src/components/Misc/AbipulliLogo";
 import { SidebarMobile } from "src/components/Sidebar/SidebarMobile";
 import { Sidebar } from "src/components/Sidebar/Sidebar";
-import { Center } from "src/components/Misc/Center";
 
 interface RouterContext {
   auth: AuthContextType;
