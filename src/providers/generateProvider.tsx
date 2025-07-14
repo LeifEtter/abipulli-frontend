@@ -93,22 +93,58 @@ export const GenerateInfoProvider = ({
     }
   };
 
-  // const saveToLocalStorage = () => {
-  //   const { password, ...stateWithoutPassword } = state;
-  //   const stringifiedState = JSON.stringify(stateWithoutPassword);
-  //   localStorage.setItem("onboardingInfo", stringifiedState);
-  // };
+  const generateImage = async (): Promise<number> => {
+    try {
+      if (!state.generatedDescription) {
+        setError(["generatedDescription", "Bitte Generiere eine Beschreibung"]);
+        throw Error;
+      }
+      if (!state.motto) {
+        setError(["motto", "Gib dein Motto an"]);
+        throw Error;
+      }
+      if (!state.graduationYear) {
+        setError(["graduationYear", "Trage dein Abschlussjahr ein"]);
+        throw Error;
+      }
+      if (!state.aspectRatio) {
+        throw Error;
+      }
 
-  // const retrieveFromLocalStorage = () => {
-  //   const raw: string | null = localStorage.getItem("onboardingInfo");
-  //   if (!raw) return;
-  //   const parsed = JSON.parse(raw);
-  //   const result = OnboardingInfoSchema.partial().nullable().safeParse(parsed);
-  //   if (!result.success) return console.log(result.error);
-  //   console.log(result.data!.countryCode);
-  //   setState((prev) => ({ ...prev, ...result.data }));
-  // };
+      let imageId: number | undefined;
+      if (state.referenceFile) {
+        imageId = await ImageApi.upload(state.referenceFile);
+      } else if (state.referenceImage) {
+        imageId = state.referenceImage!.id;
+      }
+      const params: GenerateImageParams = {
+        referenceImageId: imageId,
+        prompt: state.generatedDescription,
+        aspectRatio: state.aspectRatio,
+      };
+      const result: Image[] = await ImageApi.generateImages(params);
+      console.log(result[0].url);
+      return result[0]!.id;
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  };
 
+  const saveToLocalStorage = () => {
+    const { referenceFile, ...stateWithoutFile } = state;
+    const stringifiedState = JSON.stringify({ ...stateWithoutFile });
+    localStorage.setItem("onboardingInfo", stringifiedState);
+  };
+
+  const retrieveFromLocalStorage = () => {
+    const raw: string | null = localStorage.getItem("onboardingInfo");
+    if (!raw) return;
+    const parsed = JSON.parse(raw);
+    // const result = Genpartial().nullable().safeParse(parsed);
+    // if (!result.success) return console.log(result.error);
+    setState((prev) => ({ ...prev, ...parsed.data }));
+  };
   useEffect(() => {
     // TODO initialize stuff
   }, []);
@@ -122,8 +158,8 @@ export const GenerateInfoProvider = ({
         saveProgressLocally,
         setError,
         submitComment,
-        improveDescription: () => {},
-        generateImage: () => {},
+        generateImage,
+        generateDescription,
         saveToLocalStorage: () => {},
         retrieveFromLocalStorage: () => {},
       }}
