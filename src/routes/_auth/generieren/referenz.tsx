@@ -97,37 +97,16 @@ function RouteComponent() {
         <div className="flex-1/12 flex-col self-center">
           <p className="font-semibold text-lg text-gray-600">ODER</p>
         </div>
-        <div className="flex-6/12 flex flex-col border rounded-xl p-4 aspect-square overflow-scroll h-full">
-          <MediumLabel
-            className="text-center"
-            text="Wähle aus zuvor Generierten Bildern"
-          />
-          <div className="flex flex-wrap gap-2 mt-4">
-            {[...userImages, ...userImages].map((image) => {
-              const imageChosen: boolean = chosenImage == image.id;
-              return (
-                <div
-                  className="cursor-pointer relative"
-                  onClick={() =>
-                    !uploadedImage &&
-                    setChosenImage(imageChosen ? undefined : image.id)
-                  }
-                >
-                  <div
-                    className={`absolute -right-2 -top-2 w-6 h-6 border flex ${uploadedImage ? "bg-gray-300" : imageChosen ? "bg-abipulli-green" : "bg-white"}`}
-                  >
-                    {imageChosen && (
-                      <Center>
-                        <FontAwesomeIcon icon={faCheck} />
-                      </Center>
-                    )}
-                  </div>
-                  <img src={image.url} className="w-30" />
-                </div>
-              );
-            })}
-          </div>
-        </div>
+        <ReferenceImagePicker
+          images={userImages}
+          chosenImage={referenceImage}
+          setChosenImage={(image: Image) =>
+            saveProgressLocally({
+              referenceImage: image == referenceImage ? undefined : image,
+            })
+          }
+          deactivate={referenceFile != null}
+        />
       </div>
       <div className="flex justify-center mt-8">
         <BasicButton
