@@ -79,7 +79,7 @@ function RouteComponent() {
         <div className="absolute bottom-30 w-full flex gap-4 flex-col lg:flex-row justify-center items-center">
           <DescriptionButton
             type={ButtonType.Link}
-            to="/"
+            to="/generieren"
             icon={faRedo}
             shadow
             className="w-70 bg-red-200"
