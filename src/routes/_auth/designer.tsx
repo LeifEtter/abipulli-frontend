@@ -189,21 +189,21 @@ function RouteComponent() {
           </BasicButton>
         </div>
       </div>
-      <div
+      {/* <div
         onClick={() => setImageSelectorExpanded(false)}
-        className={`${imageSelectorExpanded ? "absolute" : "hidden"} absolute z-10 bg-gray-800/20 w-full h-full top-0 left-0`}
-      />
+        className={`${imageSelectorExpanded ? "absolute" : "hidden"} md:hidden absolute z-10 bg-gray-800/20 w-full h-full top-0 left-0`}
+      /> */}
       <div
-        onClick={() => !imageSelectorExpanded && setImageSelectorExpanded(true)}
-        className={`absolute md:relative z-20 flex-row ${imageSelectorExpanded ? "right-0" : "-right-25 "} md:right-0 transition-all duration-75`}
+        // onClick={() => !imageSelectorExpanded && setImageSelectorExpanded(true)}
+        className={`absolute md:relative z-20 flex-row transition-all right-0 duration-75`}
       >
         {userImages && (
           <ImageSelection
             onClick={(image: Image) => {
-              if (!imageSelectorExpanded) {
-                setImageSelectorExpanded(true);
-                return;
-              }
+              // if (!imageSelectorExpanded) {
+              //   setImageSelectorExpanded(true);
+              //   return;
+              // }
               if (!design) {
                 return showSnackbar({
                   message: "Wähle ein Design aus bevor du ein Bild hinzufügst",
