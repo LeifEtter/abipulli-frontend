@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { StyleSelector } from "src/components/Generate/StyleSelector";
 import { InputField } from "src/components/Inputs/InputField";
@@ -68,6 +68,9 @@ function RouteComponent() {
     clearError,
     generateDescription,
   } = useGenerateInfo();
+
+  const navigate = useNavigate();
+
   const [isLoading, setIsLoading] = useState(false);
 
   const [selectedStyles, setSelectedStyles] = useState<SelectedStylesMap>({
@@ -150,11 +153,17 @@ function RouteComponent() {
       </div>
       <div className="w-full justify-end flex flex-row">
         <BasicButton
-          type={ButtonType.Link}
-          to={"/generieren/verbessern"}
+          type={ButtonType.Button}
+          onClick={async () => {
+            setIsLoading(true);
+            await generateDescription();
+            setIsLoading(false);
+            navigate({ to: "/generieren/verbessern" });
+          }}
+          // to={"/generieren/verbessern"}
           icon={faArrowRight}
         >
-          Weiter
+          Beschreibung Generieren
         </BasicButton>
       </div>
     </div>
