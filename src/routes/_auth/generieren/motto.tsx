@@ -1,5 +1,5 @@
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { BasicButton } from "src/components/Buttons/BasicButton";
 import { InputField } from "src/components/Inputs/InputField";
@@ -23,38 +23,50 @@ function RouteComponent() {
     saveProgressLocally,
   } = useGenerateInfo();
 
+  const navigate = useNavigate();
+
   return (
-    <div className="card p-6 sm:p-12 w-6/12 max-w-2xl">
+    <div className="card p-6 sm:p-12 w-10/12 max-w-2xl flex flex-col items-start">
       <PageTitle>Los geht's mit dem Vorderseiten-Design!</PageTitle>
       <PageDescription>
         Wir haben noch zwei kurze Fragen zum Jahrgang
       </PageDescription>
-      <Center>
-        <div className="w-60 flex flex-col gap-4 mt-12">
-          <InputField
-            label="Motto"
-            value={motto ?? ""}
-            onChange={(e) => saveProgressLocally({ motto: e.target.value })}
-          />
-          <InputField
-            label="Jahrgang"
-            value={graduationYear?.toString() ?? ""}
-            onChange={(e) =>
-              saveProgressLocally({ graduationYear: parseInt(e.target.value) })
-            }
-          />
-          <div className="h-6" />
-          <BasicButton
-            shadow
-            icon={faArrowRight}
-            className="w-40 text-center"
-            type={ButtonType.Link}
-            to="/generieren/beschreibung"
-          >
-            Weiter
-          </BasicButton>
-        </div>
-      </Center>
+      <div className="flex flex-col gap-4 w-full items-center">
+        <InputField
+          label="Motto"
+          value={motto ?? ""}
+          className="mt-8"
+          onChange={(e) => {
+            clearError("motto");
+            saveProgressLocally({ motto: e.target.value });
+          }}
+          error={errorState.motto}
+        />
+        <InputField
+          label="Jahrgang"
+          value={graduationYear?.toString() ?? ""}
+          onChange={(e) => {
+            clearError("graduationYear");
+            saveProgressLocally({ graduationYear: e.target.value });
+          }}
+          error={errorState.graduationYear}
+        />
+        <BasicButton
+          shadow
+          icon={faArrowRight}
+          className="text-center w-52 mt-8"
+          type={ButtonType.Button}
+          onClick={() => {
+            if (!motto) setError(["motto", "Fülle dieses Feld aus"]);
+            if (!graduationYear)
+              setError(["graduationYear", "Fülle dieses Feld aus"]);
+            if (!motto || !graduationYear) return;
+            navigate({ to: "/generieren/beschreibung" });
+          }}
+        >
+          Weiter
+        </BasicButton>
+      </div>
     </div>
   );
 }
