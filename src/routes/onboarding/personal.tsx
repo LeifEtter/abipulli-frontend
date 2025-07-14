@@ -66,7 +66,7 @@ function RouteComponent() {
   };
 
   return (
-    <div>
+    <main aria-label="Onboarding Persönliche Daten">
       <div className="card max-w-200">
         <PageTitle>Über Dich</PageTitle>
         <PageDescription>
@@ -74,7 +74,11 @@ function RouteComponent() {
           dir. Diese Infos werden gelöscht falls du den Prozess abbrichst, also
           keine Angst!
         </PageDescription>
-        <div className="flex flex-wrap gap-4 mt-4">
+        <form
+          onClick={(e) => e.preventDefault()}
+          className="flex flex-wrap gap-4 mt-4"
+          aria-label="Persönliche Daten Formular"
+        >
           <SelectField
             className="basis-35"
             label="Geschlecht"
@@ -103,7 +107,10 @@ function RouteComponent() {
             label="Nachname"
             required
           />
-          <div className="flex flex-row gap-2 flex-12/12">
+          <div
+            className="flex flex-row gap-2 flex-12/12"
+            aria-label="Mobilnummer und Geburtstag"
+          >
             <SelectField
               className="basis-24"
               label="Vorwahl"
@@ -154,7 +161,10 @@ function RouteComponent() {
               required
             />
           </div>
-          <div className="flex flex-row gap-4 flex-wrap">
+          <div
+            className="flex flex-row gap-4 flex-wrap"
+            aria-label="Passwort Eingabe"
+          >
             <div>
               <InputField
                 className="flex-2/6 basis-30"
@@ -168,7 +178,7 @@ function RouteComponent() {
                 type="password"
                 required
               />
-              <div className="h-0.5 mt-2 bg-gray-300">
+              <div className="h-0.5 mt-2 bg-gray-300" aria-hidden="true">
                 <div
                   className="h-0.5 bg-green-500 w-9/12"
                   style={{
@@ -188,21 +198,20 @@ function RouteComponent() {
               required
             />
           </div>
-        </div>
-
+        </form>
         <div className="flex w-full justify-between h-20 mt-2 items-start">
           <ClickToLogin className="self-end" to="/login" />
           <BasicButton
             shadow
             onClick={() => submitProgress()}
             type={ButtonType.Button}
-            // to="/onboarding/personal"
             icon={faArrowRight}
+            aria-label="Einreichen"
           >
             Einreichen
           </BasicButton>
         </div>
       </div>
-    </div>
+    </main>
   );
 }

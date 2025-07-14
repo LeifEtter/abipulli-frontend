@@ -10,40 +10,25 @@ import {
   ManipulateImageInDesignParams,
 } from "abipulli-types";
 import api from "../api";
-import { ApiError } from "../ApiError";
 import { AxiosResponse } from "axios";
 
 export const DesignApi = {
   retrieveOrderDesigns: async (orderNumber: number): Promise<Design[]> => {
     const res = await api.get(`/order/${orderNumber}/design`);
     const designsRes: DesignsResponse = res.data;
-    if (!designsRes.success || !res.data) throw designsRes.error;
     return designsRes.data!.items;
   },
   retrieveSingleDesign: async (id: number): Promise<Design> => {
-    try {
-      const res: AxiosResponse = await api.get(`/design/${id}`);
-      const designRes: DesignResponse = res.data;
-      if (!designRes.success || !res.data) throw designRes.error;
-      return designRes.data!;
-    } catch (error) {
-      if (error instanceof ApiError) console.log(error.info);
-      throw error;
-    }
+    const res = await api.get(`/design/${id}`);
+    const designRes: DesignResponse = res.data;
+    return designRes.data!;
   },
   retrieveAllImagesForDesign: async (
     designId: number
   ): Promise<ImageWithPositionAndScale[]> => {
-    try {
-      const res: AxiosResponse = await api.get(`design/${designId}/image`);
-      const imageResponse: ImagesForDesignResponse = res.data;
-      if (!imageResponse.success) throw imageResponse.error;
-      const images: ImageWithPositionAndScale[] = imageResponse.data!.items;
-      return images;
-    } catch (error) {
-      console.log(error);
-      throw error;
-    }
+    const res: AxiosResponse = await api.get(`design/${designId}/image`);
+    const imageResponse: ImagesForDesignResponse = res.data;
+    return imageResponse.data!.items;
   },
   addImageToDesign: async ({
     designId,
@@ -54,20 +39,12 @@ export const DesignApi = {
     imageId: number;
     addImageToDesignParams: AddImageToDesignParams;
   }): Promise<ImageWithPositionAndScale> => {
-    try {
-      const res: AxiosResponse = await api.post(
-        `/design/${designId}/image/${imageId}`,
-        addImageToDesignParams
-      );
-      if (!res.data) throw "Something went wrong";
-      if (!(res.status == 201)) throw "Couldn't add image";
-      const imageResponse: AddImageToDesignResponse = res.data;
-
-      return imageResponse.data!;
-    } catch (error) {
-      console.error(error);
-      throw error;
-    }
+    const res: AxiosResponse = await api.post(
+      `/design/${designId}/image/${imageId}`,
+      addImageToDesignParams
+    );
+    const imageResponse: AddImageToDesignResponse = res.data;
+    return imageResponse.data!;
   },
   manipulateImageInDesign: async ({
     imageToDesignId,
@@ -78,26 +55,17 @@ export const DesignApi = {
     designId: number;
     manipulateImageParams: ManipulateImageInDesignParams;
   }) => {
-    try {
-      const res: AxiosResponse = await api.patch(
-        `/design/${designId}/image/${imageToDesignId}`,
-        manipulateImageParams
-      );
-      const manipulateImageRes: ApiResponse<object> = res.data;
-      if (!manipulateImageRes.success || !res.data)
-        throw manipulateImageRes.error;
-    } catch (error) {
-      console.log(error);
-    }
+    const res: AxiosResponse = await api.patch(
+      `/design/${designId}/image/${imageToDesignId}`,
+      manipulateImageParams
+    );
+    const manipulateImageRes: ApiResponse<object> = res.data;
+    // return manipulateImageRes.data;
   },
   removeImageFromDesign: async (
     image: ImageWithPositionAndScale,
     designId: number
   ) => {
-    try {
-      await api.delete(`/design/${designId}/image/${image.imageToDesignId}`);
-    } catch (error) {
-      console.log(error);
-    }
+    await api.delete(`/design/${designId}/image/${image.imageToDesignId}`);
   },
 };

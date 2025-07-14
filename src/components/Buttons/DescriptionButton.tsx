@@ -14,6 +14,9 @@ interface DescriptionButtonProps {
   shadow?: any;
   color?: string;
   description: string;
+  ariaLabel?: string;
+  describedById?: string;
+  id?: string;
 }
 
 export const DescriptionButton = ({
@@ -27,30 +30,44 @@ export const DescriptionButton = ({
   shadow,
   color,
   description,
+  ariaLabel,
+  describedById,
+  id,
 }: DescriptionButtonProps) => {
   if (type == ButtonType.Link && !to)
     throw "Please pass 'to' prop when using type == ButtonType.Link";
+  const computedAriaLabel = ariaLabel ?? children;
+  const descriptionId = describedById ?? `${id ?? "desc-btn"}-desc`;
   return type == ButtonType.Button ? (
     <button
+      type="button"
+      aria-label={computedAriaLabel}
+      aria-describedby={descriptionId}
       className={`flex flex-col cursor-pointer ${color ?? "bg-abipulli-green"} py-1.5 px-4 rounded-md border font-semibold text-md ${shadow ? "shadow-abipulli-sm hover:translate-y-2 hover:shadow-none" : "hover:scale-110"} ${className}`}
       onClick={onClick}
     >
-      <div className="flex flex-row justify-start items-center text-lg">
+      <span className="flex flex-row justify-start items-center text-lg">
         {children}
-        {icon ? <FontAwesomeIcon className="ml-2" icon={icon} /> : <></>}
-      </div>
-      <p className="text-gray-500 font-semibold text-sm">{description}</p>
+        {icon ? <FontAwesomeIcon className="ml-2" icon={icon} /> : null}
+      </span>
+      <span id={descriptionId} className="text-gray-500 font-semibold text-sm">
+        {description}
+      </span>
     </button>
   ) : (
     <Link
+      aria-label={computedAriaLabel}
+      aria-describedby={descriptionId}
       to={to}
       className={`flex flex-col cursor-pointer bg-abipulli-green py-1.5 px-4 rounded-md border font-semibold text-md ${shadow ? "shadow-abipulli-sm hover:translate-y-2 hover:shadow-none" : "hover:scale-110"} ${className}`}
     >
-      <div className="flex flex-row justify-start items-center text-lg">
+      <span className="flex flex-row justify-start items-center text-lg">
         {children}
-        {icon ? <FontAwesomeIcon className="ml-2" icon={icon} /> : <></>}
-      </div>
-      <p className="text-gray-500 font-semibold text-sm">{description}</p>
+        {icon ? <FontAwesomeIcon className="ml-2" icon={icon} /> : null}
+      </span>
+      <span id={descriptionId} className="text-gray-500 font-semibold text-sm">
+        {description}
+      </span>
     </Link>
   );
 };

@@ -1,9 +1,5 @@
 import { Fragment, useEffect, useRef, useState } from "react";
 import { Group, Image, Layer, Rect, Transformer } from "react-konva";
-import {
-  DESIGN_CANVAS_SIZES,
-  DesignCanvasSize,
-} from "src/utilities/Design/calculateDesignWindow";
 import useImage from "use-image";
 import { KonvaEventObject } from "konva/lib/Node";
 import { Image as KonvaImage } from "konva/lib/shapes/Image";
@@ -15,14 +11,12 @@ import { SizeType } from "src/types/canvas/sizeType";
 interface StaticImageParams {
   src: string;
   width: number;
-  canvasSize: DesignCanvasSize;
   onClick?: (e: KonvaEventObject<MouseEvent>) => void;
 }
 
 export const StaticImage: React.FC<StaticImageParams> = ({
   src,
   width,
-  canvasSize,
   onClick,
 }) => {
   const [image] = useImage(src);
@@ -36,7 +30,7 @@ export const StaticImage: React.FC<StaticImageParams> = ({
       const ratio: number = imageHeight / imageWidth;
       setImageRatio(ratio);
     }
-  }, [image, canvasSize, width, imageRatio]);
+  }, [image, width, imageRatio]);
 
   return (
     <Image
@@ -112,6 +106,8 @@ export const ResizableImage = ({
           x={viewData.pos.x}
           y={viewData.pos.y}
           draggable
+          aria-label="Bild verschieben und skalieren"
+          role="img"
           onDragStart={() => setDeleteVisible(false)}
           onTransformStart={() => setDeleteVisible(false)}
           onDragEnd={(e: KonvaEventObject<DragEvent>) => {
@@ -146,10 +142,18 @@ export const ResizableImage = ({
             flipEnabled={false}
             enabledAnchors={["middle-right", "bottom-right", "bottom-center"]}
             rotateEnabled={false}
+            aria-label="Bildgröße ändern"
+            role="group"
           />
         )}
         {deleteVisible && isSelected && (
-          <Group onClick={onDelete} onTap={onDelete}>
+          <Group
+            onClick={onDelete}
+            onTap={onDelete}
+            aria-label="Bild löschen"
+            role="button"
+            tabIndex={0}
+          >
             <Rect
               width={40}
               height={40}
@@ -164,6 +168,8 @@ export const ResizableImage = ({
               height={30}
               x={viewData.pos.x - 15}
               y={viewData.pos.y - 15}
+              aria-label="Papierkorb Icon"
+              role="img"
             />
           </Group>
         )}

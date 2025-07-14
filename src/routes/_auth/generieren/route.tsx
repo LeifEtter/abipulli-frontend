@@ -11,7 +11,6 @@ import {
   SingleProgressBarStep,
   StepTileStatus,
 } from "src/components/ProgressBar/ProgressBar";
-import { SidebarNew } from "src/components/Sidebar/SidebarNew";
 import { GenerateInfoProvider } from "src/providers/generateProvider";
 
 const StepPagesList = [

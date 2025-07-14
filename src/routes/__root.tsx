@@ -1,11 +1,10 @@
 import { createRootRouteWithContext, Outlet } from "@tanstack/react-router";
 import { AuthContextType } from "../providers/authContext";
-import ThumbsUP from "src/assets/thumbs-up.png";
-import TreeBG from "src/assets/tree-bg.png";
+import ThumbsUP from "src/assets/background/thumbs-up.png";
+import TreeBG from "src/assets/background/tree-bg.png";
 import { AbiPulliLogo } from "src/components/Misc/AbipulliLogo";
 import { SidebarMobile } from "src/components/Sidebar/SidebarMobile";
 import { Sidebar } from "src/components/Sidebar/Sidebar";
-import { Center } from "src/components/Misc/Center";
 
 interface RouterContext {
   auth: AuthContextType;
@@ -29,27 +28,37 @@ const BackgroundImages: React.FC = () => (
 
 export const Route = createRootRouteWithContext<RouterContext>()({
   component: () => (
-    <div style={{ fontFamily: "Inter" }} className="">
-      {/* style={{ fontFamily: "Onest" }} */}
-      <div className="relative w-full">
+    <main
+      style={{ fontFamily: "Inter" }}
+      className=""
+      aria-label="AbiPulli App Hauptbereich"
+    >
+      <div className="relative w-full" aria-label="Logo Bereich">
         <AbiPulliLogo />
       </div>
-      <div className="flex flex-row mt-16 gap-0 sm:gap-4 items-start px-4">
-        <div className="block sm:hidden">
+      <div
+        className="flex flex-row mt-16 gap-0 sm:gap-4 items-start px-4"
+        aria-label="Seitenlayout"
+      >
+        <nav className="block sm:hidden" aria-label="Mobile Navigation">
           <SidebarMobile />
-        </div>
-        <div className="hidden sm:block">
+        </nav>
+        <nav className="hidden sm:block" aria-label="Sidebar Navigation">
           <Sidebar />
-        </div>
-        <div className="flex-1 sm:flex-8/12 z-10 flex">
+        </nav>
+        <section
+          className="flex-1 sm:flex-8/12 z-10 flex"
+          aria-label="Seiteninhalt"
+        >
           <Outlet />
-        </div>
+        </section>
       </div>
       <BackgroundImages />
-    </div>
+    </main>
   ),
 });
 
+//TODO Reimplement animation
 // function useNavigationDirection() {
 //   const location = useLocation();
 //   const prevPath = useRef(location.pathname);

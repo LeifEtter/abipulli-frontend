@@ -6,18 +6,13 @@ import {
   faInfoCircle,
   faKey,
   faLock,
-  faPerson,
   faPoll,
   faShirt,
   faTruckFast,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Center } from "../Misc/Center";
-import { Link, useLocation, useRouter } from "@tanstack/react-router";
-import { faFaceGrinStars } from "@fortawesome/free-regular-svg-icons";
-import AbiPulliLogo from "src/assets/icons/abipulli-logo.png";
-import Avatar from "src/assets/icons/avatar.png";
-import { useEffect } from "react";
+import { Link, useLocation } from "@tanstack/react-router";
 import { useAuth } from "src/hooks/useAuth";
 
 interface SidebarTileProps {
@@ -44,8 +39,13 @@ const SidebarTile = ({
       to={to}
       onClick={(e) => (locked ? e.preventDefault() : null)}
       className={`relative ${locked ? "cursor-help" : `cursor-pointer hover:bg-abipulli-green ${!selected && "hover:border-2"} rounded-xl`}`}
+      aria-label={`${label} ${description} - ${locked ? "locked" : ""}`}
+      aria-current={selected ? "page" : undefined}
+      tabIndex={locked ? -1 : 0}
+      aria-disabled={locked}
+      role="menuitem"
     >
-      <div className="absolute left-0 top-0">
+      <div className="absolute left-0 top-0" aria-hidden="true">
         {locked ? (
           <FontAwesomeIcon icon={faLock} className="text-2xl shadow-md" />
         ) : null}
@@ -55,6 +55,7 @@ const SidebarTile = ({
       >
         <div
           className={`border-2 ${selected ? "" : "shadow-abipulli-sm"} rounded-lg ${locked ? "bg-gray-400" : "bg-abipulli-green"} p-1 aspect-square w-12 ${locked ? "" : "group-hover/tile:scale-110"} duration-100`}
+          aria-hidden="true"
         >
           <Center>
             <FontAwesomeIcon icon={icon} className="text-3xl" />
@@ -77,7 +78,6 @@ const SidebarTile = ({
   );
 };
 
-interface SidebarProps {}
 export const Sidebar: React.FC = () => {
   const location = useLocation();
 
@@ -89,7 +89,7 @@ export const Sidebar: React.FC = () => {
   };
 
   return (
-    <div>
+    <nav aria-label="Seitennavigation">
       <div
         className={`card flex flex-col items-center p-6 group/navbar w-24 ${!overrideCollapsed() && "lg:w-80"} hover:w-80 transition-all duration-200 ease-in-out`}
       >
@@ -102,7 +102,7 @@ export const Sidebar: React.FC = () => {
               igation
             </span>
           </h2>
-          <div className="h-4"></div>
+          <div className="h-4" aria-hidden="true"></div>
           <SidebarTile
             icon={faInfoCircle}
             label="Onboarding"
@@ -159,7 +159,7 @@ export const Sidebar: React.FC = () => {
           />
         </div>
       </div>
-      <div className="h-4" />
+      <div className="h-4" aria-hidden="true" />
       <div
         className={`card p-2 px-4 w-24 ${!overrideCollapsed() && "lg:w-80"} group/navbar hover:w-80 transition-[width] duration-150 ease-in-out`}
       >
@@ -185,6 +185,6 @@ export const Sidebar: React.FC = () => {
           )}
         </div>
       </div>
-    </div>
+    </nav>
   );
 };

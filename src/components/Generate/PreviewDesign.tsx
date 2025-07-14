@@ -13,16 +13,29 @@ export const PreviewDesign = ({
 }: PreviewDesignProps) => {
   return !pullover ? (
     <Center>
-      <LoadingSpinner />
+      <LoadingSpinner aria-label="Lade Pullover Vorschau" />
     </Center>
   ) : (
-    <div className="relative justify-center mt-6">
+    <section
+      className="relative justify-center mt-6"
+      aria-label="Pullover Design Vorschau"
+    >
       <Center>
-        <img src={pullover.image.url} className="w-10/12 max-w-sm" />
+        <img
+          src={pullover.image.url}
+          className="w-10/12 max-w-sm"
+          alt="Pullover Vorschau"
+          aria-label="Pullover Vorschau"
+        />
       </Center>
       <div className="absolute flex justify-center w-full top-3/12">
-        <img src={designImage} alt="" className="w-4/12" />
+        <img
+          src={designImage}
+          alt="Design Vorschau"
+          aria-label="Design Vorschau"
+          className="w-4/12"
+        />
       </div>
-    </div>
+    </section>
   );
 };

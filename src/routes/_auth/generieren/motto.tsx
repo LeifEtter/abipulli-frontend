@@ -26,12 +26,19 @@ function RouteComponent() {
   const navigate = useNavigate();
 
   return (
-    <div className="card p-6 sm:p-12 w-10/12 max-w-2xl flex flex-col items-start">
+    <main
+      className="card p-6 sm:p-12 w-10/12 max-w-2xl flex flex-col items-start"
+      aria-label="Motto und Jahrgang Eingabe"
+    >
       <PageTitle>Los geht's mit dem Vorderseiten-Design!</PageTitle>
       <PageDescription>
         Wir haben noch zwei kurze Fragen zum Jahrgang
       </PageDescription>
-      <div className="flex flex-col gap-4 w-full items-center">
+      <form
+        onClick={(e) => e.preventDefault()}
+        className="flex flex-col gap-4 w-full items-center"
+        aria-label="Motto und Jahrgang Formular"
+      >
         <InputField
           label="Motto"
           value={motto ?? ""}
@@ -63,10 +70,11 @@ function RouteComponent() {
             if (!motto || !graduationYear) return;
             navigate({ to: "/generieren/beschreibung" });
           }}
+          aria-label="Weiter zur Beschreibung"
         >
           Weiter
         </BasicButton>
-      </div>
-    </div>
+      </form>
+    </main>
   );
 }

@@ -17,34 +17,53 @@ export const ReferenceImagePicker = ({
   setChosenImage,
   deactivate,
 }: ReferenceImagePickerProps) => (
-  <div className="w-full sm:flex-6/12 flex flex-col border rounded-xl p-4 aspect-square overflow-scroll sm:mt-8">
+  <section
+    className="w-full sm:flex-6/12 flex flex-col border rounded-xl p-4 aspect-square overflow-scroll sm:mt-8"
+    aria-label="Referenzbild Auswahl"
+  >
     <MediumLabel
       className="text-center"
       text="Wähle aus zuvor Generierten Bildern"
     />
-    <div className="flex flex-wrap gap-2 mt-4 justify-center">
+    <div
+      className="flex flex-wrap gap-2 mt-4 justify-center"
+      aria-label="Bilderliste"
+    >
       {images.map((image) => {
         const imageChosen: boolean =
           chosenImage != undefined && chosenImage.id == image.id;
         return (
-          <div
+          <button
             key={`pick-reference-${image.id}`}
-            className="cursor-pointer relative"
+            className="cursor-pointer relative border-none bg-transparent p-0"
             onClick={() => !deactivate && setChosenImage(image)}
+            aria-label={
+              imageChosen
+                ? `Bild ${image.id} ausgewählt`
+                : `Bild ${image.id} auswählen`
+            }
+            aria-pressed={imageChosen}
+            disabled={deactivate}
+            type="button"
           >
-            <div
+            <span
               className={`absolute -right-2 -top-2 w-6 h-6 border flex ${deactivate ? "bg-gray-300" : imageChosen ? "bg-abipulli-green" : "bg-white"}`}
+              aria-hidden="true"
             >
               {imageChosen && (
                 <Center>
                   <FontAwesomeIcon icon={faCheck} />
                 </Center>
               )}
-            </div>
-            <img src={image.url} className="w-26" />
-          </div>
+            </span>
+            <img
+              src={image.url}
+              className="w-26"
+              alt={`Referenzbild ${image.id}`}
+            />
+          </button>
         );
       })}
     </div>
-  </div>
+  </section>
 );

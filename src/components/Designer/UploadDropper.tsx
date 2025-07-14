@@ -31,19 +31,40 @@ export const ImageDropper = ({
     onDropRejected={onDropRejected}
   >
     {({ getRootProps, getInputProps }) => (
-      <section className="sm:border-2 sm:border-dashed border-ap-new-gray rounded-2xl w-full sm:h-full cursor-pointer py-8 flex justify-center">
+      <section
+        className="sm:border-2 sm:border-dashed border-ap-new-gray rounded-2xl w-full sm:h-full cursor-pointer py-8 flex justify-center"
+        aria-label="Bild hochladen Bereich"
+      >
         <div
-          {...getRootProps()}
+          {...getRootProps({
+            role: "button",
+            tabIndex: 0,
+            "aria-label": "Bild hochladen oder hier ablegen",
+          })}
           className="flex flex-col items-center justify-center h-full w-50"
         >
-          <input {...getInputProps()} />
-          <p className="hidden sm:block font-medium text-center text-wrap">
-            Ziehe hier ein Bild zum hochladen rein
+          <input
+            {...getInputProps()}
+            aria-label="Datei zum Hochladen auswählen"
+          />
+          <p
+            className="hidden sm:block font-medium text-center text-wrap"
+            id="drop-instruction"
+          >
+            Ziehe hier ein Bild zum Hochladen rein
           </p>
-          <p className="hidden sm:block text-gray-400 font-medium text-sm text-center text-wrap">
+          <p
+            className="hidden sm:block text-gray-400 font-medium text-sm text-center text-wrap"
+            id="drop-accepted"
+          >
             Akzeptiert: .jpg/.jpeg - .png - .webp, bis 10MB
           </p>
-          <button className="mt-5 border-2 rounded-md px-3 py-2 text-gray-700 font-medium border-ap-new-gray cursor-pointer">
+          <button
+            className="mt-5 border-2 rounded-md px-3 py-2 text-gray-700 font-medium border-ap-new-gray cursor-pointer"
+            aria-label="Datei manuell auswählen"
+            aria-describedby="drop-instruction drop-accepted"
+            type="button"
+          >
             Datei Manuell Wählen
           </button>
         </div>
