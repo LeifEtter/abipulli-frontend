@@ -60,4 +60,8 @@ export const ImageApi = {
     const imageResponse: ImageResponse = res.data;
     return imageResponse.data!;
   },
+  // commentOnQuery: async (params: CommentOnQueryParams): string => {
+  //   const res = await api.post("/image/comment", params);
+  //   console.log(res.data);
+  // },
 };
