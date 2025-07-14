@@ -1,6 +1,5 @@
 import { ReactElement, useEffect, useState } from "react";
 import {
-  AspectRatio,
   GenerateErrors,
   GenerateInfo,
   GenerateInfoContext,
@@ -17,7 +16,7 @@ export const GenerateInfoProvider = ({
     graduationYear: undefined,
     description: undefined,
     generatedDescription: undefined,
-    aspectRatio: AspectRatio["1x1"],
+    aspectRatio: "1x1",
     styleTags: [],
     comment: undefined,
   });

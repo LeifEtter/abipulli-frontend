@@ -10,7 +10,6 @@ import { useGenerateInfo } from "src/hooks/useGenerateInfo";
 import { SelectedStylesMap } from "src/types/generator/SelectedStyles";
 import AbInsBett from "src/assets/Abinsbett-2.png";
 import { SizeType } from "src/types/canvas/sizeType";
-import { AspectRatio } from "src/providers/generateContext";
 import { BasicButton } from "src/components/Buttons/BasicButton";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { ButtonType } from "src/types/ButtonType";
@@ -110,28 +109,22 @@ function RouteComponent() {
       />
       <div className="flex flex-row justify-start gap-4 items-center">
         <SizeButton
-          onClick={() =>
-            saveProgressLocally({ aspectRatio: AspectRatio["1x1"] })
-          }
+          onClick={() => saveProgressLocally({ aspectRatio: "1x1" })}
           ratio={"1x1"}
           src={AbInsBett}
-          selected={aspectRatio == AspectRatio["1x1"]}
+          selected={aspectRatio == "1x1"}
         />
         <SizeButton
-          onClick={() =>
-            saveProgressLocally({ aspectRatio: AspectRatio["16x9"] })
-          }
+          onClick={() => saveProgressLocally({ aspectRatio: "16x9" })}
           ratio={"16x9"}
           src={AbInsBett}
-          selected={aspectRatio == AspectRatio["16x9"]}
+          selected={aspectRatio == "16x9"}
         />
         <SizeButton
-          onClick={() =>
-            saveProgressLocally({ aspectRatio: AspectRatio["4x3"] })
-          }
+          onClick={() => saveProgressLocally({ aspectRatio: "4x3" })}
           ratio={"4x3"}
           src={AbInsBett}
-          selected={aspectRatio == AspectRatio["4x3"]}
+          selected={aspectRatio == "4x3"}
         />
       </div>
       <div className="w-full justify-end flex flex-row">

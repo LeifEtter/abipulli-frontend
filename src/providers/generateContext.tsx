@@ -2,12 +2,6 @@ import { OnboardingInfo } from "abipulli-types";
 import { createContext } from "react";
 import { OnboardingErrors } from "./onboardingProvider";
 
-export enum AspectRatio {
-  "16x9",
-  "1x1",
-  "3x4",
-  "4x3",
-}
 
 export interface GenerateInfo {
   motto?: string;
