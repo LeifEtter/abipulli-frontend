@@ -5,7 +5,7 @@ import { OnboardingErrors } from "./onboardingProvider";
 
 export interface GenerateInfo {
   motto?: string;
-  graduationYear?: number;
+  graduationYear?: string;
   description?: string;
   generatedDescription?: string;
   comment?: string;
