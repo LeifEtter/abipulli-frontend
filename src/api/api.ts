@@ -1,7 +1,10 @@
 import axios from "axios";
 import { ApiError } from "./ApiError";
 
-// Create an axios instance with default config
+/**
+ * Axios instance configured for API requests.
+ * Handles base URL, headers, credentials, and error interception.
+ */
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL || "http://localhost:55116",
   headers: {
@@ -22,7 +25,6 @@ api.interceptors.response.use(
     if (error.response.data.error != null) {
       return Promise.reject(new ApiError(error.response.data.error));
     }
-    // Let actual network errors (timeouts, no response, etc.) bubble up
     return Promise.reject(error);
   }
 );
