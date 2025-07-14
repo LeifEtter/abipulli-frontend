@@ -8,7 +8,9 @@ export const Route = createFileRoute("/login")({
 
 function RouteComponent() {
   const [email, setEmail] = useState<string | null>(null);
+  const [emailError, setEmailError] = useState<string | null>();
   const [password, setPassword] = useState<string | null>(null);
+  const [passwordError, setPasswordError] = useState<string | null>(null);
 
   const { login, error, isLoading } = useAuth();
 
@@ -27,6 +29,7 @@ function RouteComponent() {
         value={email ?? ""}
         label="Email"
         required
+        error={emailError}
       />
       <InputField
         className="w-8/12 max-w-72 mt-4"
@@ -34,7 +37,8 @@ function RouteComponent() {
         value={password ?? ""}
         label="Passwort"
         required
-        error={"Password is wrong"}
+        type="password"
+        error={passwordError}
       />
       {/* <p className="text-blue-500 font-semibold mt-2">Passwort Vergessen</p> */}
       <button
@@ -42,7 +46,7 @@ function RouteComponent() {
           try {
             if (email && password) await login({ email, password });
           } catch (error) {
-            console.log(error);
+            setPasswordError("Email oder Password ist falsch");
           }
         }}
         className="w-8/12 max-w-72 mt-16 mb-4 cursor-pointer bg-abipulli-green shadow-abipulli-sm py-1.5 px-4 rounded-md border font-semibold text-md hover:translate-y-2 hover:shadow-none"
