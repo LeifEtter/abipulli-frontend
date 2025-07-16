@@ -35,7 +35,7 @@ function RouteComponent() {
       >
         <InputField
           className="w-8/12 max-w-72"
-          onChange={(e) => setEmail(e.target.value)}
+          onChange={(v) => setEmail(v)}
           value={email ?? ""}
           label="Email"
           required
@@ -43,7 +43,7 @@ function RouteComponent() {
         />
         <InputField
           className="w-8/12 max-w-72 mt-4"
-          onChange={(e) => setPassword(e.target.value)}
+          onChange={(v) => setPassword(v)}
           value={password ?? ""}
           label="Passwort"
           required

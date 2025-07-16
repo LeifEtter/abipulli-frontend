@@ -43,18 +43,18 @@ function RouteComponent() {
           label="Motto"
           value={motto ?? ""}
           className="mt-8"
-          onChange={(e) => {
+          onChange={(v) => {
             clearError("motto");
-            saveProgressLocally({ motto: e.target.value });
+            saveProgressLocally({ motto: v });
           }}
           error={errorState.motto}
         />
         <InputField
           label="Jahrgang"
           value={graduationYear?.toString() ?? ""}
-          onChange={(e) => {
+          onChange={(v) => {
             clearError("graduationYear");
-            saveProgressLocally({ graduationYear: e.target.value });
+            saveProgressLocally({ graduationYear: v });
           }}
           error={errorState.graduationYear}
         />

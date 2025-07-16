@@ -52,9 +52,9 @@ function RouteComponent() {
         label="Generierte Beschreibung"
         multiline
         minLines={3}
-        onChange={(e) =>
+        onChange={(v) =>
           saveProgressLocally({
-            generatedDescription: e.target.value,
+            generatedDescription: v,
           })
         }
         value={generatedDescription ?? ""}
@@ -68,9 +68,9 @@ function RouteComponent() {
         <InputField
           className="mt-4 mb-4 basis-80"
           label="Schlage Verbesserungen vor"
-          onChange={(e) => {
+          onChange={(v) => {
             clearError("comment");
-            saveProgressLocally({ comment: e.target.value });
+            saveProgressLocally({ comment: v });
           }}
           value={comment ?? ""}
           error={errorState.comment}

@@ -101,9 +101,9 @@ function RouteComponent() {
         label="Beschreibe dein Bild"
         multiline
         minLines={3}
-        onChange={(e) => {
+        onChange={(v) => {
           clearError("description");
-          saveProgressLocally({ description: e.target.value });
+          saveProgressLocally({ description: v });
         }}
         value={description ?? ""}
         error={errorState.description}
