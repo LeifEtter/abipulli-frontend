@@ -1,6 +1,11 @@
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { Gender, MobileCountryCode } from "abipulli-types";
+import { createFileRoute } from "@tanstack/react-router";
+import {
+  Gender,
+  GenderSchema,
+  MobileCountryCode,
+  MobileCountryCodeSchema,
+} from "abipulli-types";
 import { useState } from "react";
 import { BasicButton } from "src/components/Buttons/BasicButton";
 import { DatePicker } from "src/components/Inputs/DatePicker";
@@ -18,19 +23,18 @@ export const Route = createFileRoute("/onboarding/personal")({
 });
 
 function RouteComponent() {
-  const genderOptions: SelectOption[] = ["weiblich", "männlich", "divers"].map(
+  const genderOptions: SelectOption<Gender>[] = GenderSchema.options.map(
     (gender) => ({
-      value: gender,
-      label: gender.capitalize(),
+      value: gender.value as Gender,
+      label: gender.value.capitalize(),
     })
   );
 
-  const phoneCountryOptions: SelectOption[] = ["+49", "+41", "+43"].map(
-    (phoneCountry) => ({
-      value: phoneCountry,
-      label: phoneCountry,
-    })
-  );
+  const mobileCountryCodeOptions: SelectOption<MobileCountryCode>[] =
+    MobileCountryCodeSchema.options.map((phoneCountry) => ({
+      value: phoneCountry.value as MobileCountryCode,
+      label: phoneCountry.value,
+    }));
 
   const [repeatPassword, setRepeatPassword] = useState<string | null>(null);
   const [repeatPasswordError, setRepeatPasswordError] = useState<string | null>(
@@ -38,30 +42,24 @@ function RouteComponent() {
   );
 
   const {
-    firstName,
-    lastName,
-    birthdate,
-    mobileCountryCode,
-    mobileNumber,
-    email,
-    gender,
-    password,
-    errorState,
-    saveProgressLocally,
+    userInfo,
+    setUserInfo,
+    userErrors,
+    submitUserInfo,
+    submitOrderInfo,
+    clearUserError,
     submitProgress,
-    saveToLocalStorage,
-    retrieveFromLocalStorage,
   } = useOnboardingInfo();
 
-  const passwordStrength = (): number => {
-    if (!password) return 0;
+  const passwordStrength = (pw: string | undefined): number => {
+    if (!pw) return 0;
     let points: number = 0;
 
-    points += password?.length * 2;
-    if (password.length < 4) return points > 100 ? 100 : points;
-    if (password.match(/[!@#$%^&*()_+]/g)) points += 25;
-    if (password.match(/[A-Z]/g)) points += 25;
-    if (password.match(/[0-9]/g)) points += 25;
+    points += pw.length * 2;
+    if (pw.length < 4) return points > 100 ? 100 : points;
+    if (pw.match(/[!@#$%^&*()_+]/g)) points += 25;
+    if (pw.match(/[A-Z]/g)) points += 25;
+    if (pw.match(/[0-9]/g)) points += 25;
     return points > 100 ? 100 : points;
   };
 
@@ -79,31 +77,30 @@ function RouteComponent() {
           className="flex flex-wrap gap-4 mt-4"
           aria-label="Persönliche Daten Formular"
         >
-          <SelectField
+          <SelectField<Gender>
             className="basis-35"
             label="Geschlecht"
             options={genderOptions}
             chosenOption={
-              genderOptions.filter((option) => option.value == gender)[0]
+              genderOptions.find((e) => e.value == userInfo.gender) ??
+              genderOptions[0]
             }
-            onChange={(e) =>
-              saveProgressLocally({ gender: e!.value as Gender })
-            }
+            onChange={(e) => e && setUserInfo({ gender: e.value as Gender })}
           />
           <InputField
             className="basis-50"
-            onChange={(e) => saveProgressLocally({ firstName: e.target.value })}
+            onChange={(v) => setUserInfo({ firstName: v })}
             placeholder="Max"
-            value={firstName ?? ""}
-            error={errorState.firstName}
+            value={userInfo.firstName ?? ""}
+            error={userErrors.firstName}
             label="Name"
             required
           />
           <InputField
-            onChange={(e) => saveProgressLocally({ lastName: e.target.value })}
+            onChange={(v) => setUserInfo({ lastName: v })}
             placeholder="Mustermann"
-            value={lastName ?? ""}
-            error={errorState.lastName}
+            value={userInfo.lastName ?? ""}
+            error={userErrors.lastName}
             label="Nachname"
             required
           />
@@ -111,29 +108,23 @@ function RouteComponent() {
             className="flex flex-row gap-2 flex-12/12"
             aria-label="Mobilnummer und Geburtstag"
           >
-            <SelectField
+            <SelectField<MobileCountryCode>
               className="basis-24"
               label="Vorwahl"
-              options={phoneCountryOptions}
+              options={mobileCountryCodeOptions}
               chosenOption={
-                phoneCountryOptions.filter(
-                  (option) => option.value == mobileCountryCode
-                )[0]
+                mobileCountryCodeOptions.find(
+                  (e) => e.value == userInfo.mobileCountryCode
+                ) ?? mobileCountryCodeOptions[0]
               }
-              onChange={(e) =>
-                saveProgressLocally({
-                  mobileCountryCode: e!.value as MobileCountryCode,
-                })
-              }
+              onChange={(e) => setUserInfo({ mobileCountryCode: e?.value })}
             />
             <InputField
               className="basis-30"
-              onChange={(e) =>
-                saveProgressLocally({ mobileNumber: e.target.value })
-              }
-              error={errorState.mobileNumber}
+              onChange={(v) => setUserInfo({ mobileNumber: v })}
+              error={userErrors.mobileNumber}
               placeholder="1744206955"
-              value={mobileNumber ?? ""}
+              value={userInfo.mobileNumber ?? ""}
               label="Mobilnummer"
               required
             />
@@ -141,22 +132,22 @@ function RouteComponent() {
               idPrefix="birthday"
               label="Geburtstag"
               value={
-                birthdate
-                  ? convertToDateValue(birthdate)
+                userInfo.birthdate
+                  ? convertToDateValue(userInfo.birthdate)
                   : convertToDateValue(new Date())
               }
               onChange={(e) =>
-                saveProgressLocally({ birthdate: new Date(e.target.value) })
+                setUserInfo({ birthdate: new Date(e.target.value) })
               }
             />
           </div>
           <div className="w-full flex flex-row">
             <InputField
               className="basis-50 flex-1/2 max-w-80"
-              onChange={(e) => saveProgressLocally({ email: e.target.value })}
+              onChange={(v) => setUserInfo({ email: v })}
               placeholder="max.mustermann@gmail.com"
-              value={email ?? ""}
-              error={errorState.email}
+              value={userInfo.email ?? ""}
+              error={userErrors.email}
               label="Email"
               required
             />
@@ -168,12 +159,10 @@ function RouteComponent() {
             <div>
               <InputField
                 className="flex-2/6 basis-30"
-                onChange={(e) =>
-                  saveProgressLocally({ password: e.target.value })
-                }
+                onChange={(v) => setUserInfo({ password: v })}
                 placeholder="SuperSicher@1234"
-                error={errorState.password}
-                value={password ?? ""}
+                error={userErrors.password}
+                value={userInfo.password ?? ""}
                 label="Passwort"
                 type="password"
                 required
@@ -182,14 +171,14 @@ function RouteComponent() {
                 <div
                   className="h-0.5 bg-green-500 w-9/12"
                   style={{
-                    width: `${passwordStrength()}%`,
+                    width: `${passwordStrength(userInfo.password)}%`,
                   }}
                 ></div>
               </div>
             </div>
             <InputField
               className="flex-2/6 basis-30"
-              onChange={(e) => setRepeatPassword(e.target.value)}
+              onChange={(v) => setRepeatPassword(v)}
               placeholder="SuperSicher@1234"
               value={repeatPassword ?? ""}
               label="Passwort Wiederholen"
@@ -203,7 +192,10 @@ function RouteComponent() {
           <ClickToLogin className="self-end" to="/login" />
           <BasicButton
             shadow
-            onClick={() => submitProgress()}
+            onClick={() => {
+              submitOrderInfo();
+              submitUserInfo();
+            }}
             type={ButtonType.Button}
             icon={faArrowRight}
             aria-label="Einreichen"

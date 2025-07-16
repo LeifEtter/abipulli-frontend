@@ -1,11 +1,11 @@
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { CountryCode } from "abipulli-types";
+import { CountryCode, CountryCodeSchema } from "abipulli-types";
 import { BasicButton } from "src/components/Buttons/BasicButton";
 import { DatePicker } from "src/components/Inputs/DatePicker";
 import { InputField } from "src/components/Inputs/InputField";
-import { SelectField } from "src/components/Inputs/SelectField";
+import { SelectField, SelectOption } from "src/components/Inputs/SelectField";
 import { ClickToLogin } from "src/components/Onboarding/ClickToLogin";
 import { PageDescription } from "src/components/Texts/PageDescription";
 import { PageTitle } from "src/components/Texts/PageTitle";
@@ -18,31 +18,18 @@ export const Route = createFileRoute("/onboarding/schule")({
   component: RouteComponent,
 });
 
-const countryCodes = ["DE", "CH", "AT"];
-
 function RouteComponent() {
-  const selectOptions = countryCodes.map((countryCode) => ({
-    value: countryCode,
-    label: countryCode,
+  const countryCodeOptions = CountryCodeSchema.options.map<
+    SelectOption<CountryCode>
+  >((countryCode) => ({
+    value: countryCode.value,
+    label: countryCode.value,
   }));
 
   const showSnackbar = useSnackbar();
 
-  const {
-    countryCode,
-    school,
-    city,
-    grade,
-    graduationYear,
-    deadline,
-    errorState,
-    clearError,
-    setError,
-    saveProgressLocally,
-    submitProgress,
-    saveToLocalStorage,
-    retrieveFromLocalStorage,
-  } = useOnboardingInfo();
+  const { orderInfo, orderErrors, setOrderInfo, submitProgress } =
+    useOnboardingInfo();
 
   return (
     <main aria-label="Onboarding Schule">
@@ -58,35 +45,34 @@ function RouteComponent() {
           className="flex flex-row gap-2 mt-10"
           aria-label="Schulinfos Formular"
         >
-          <SelectField
+          <SelectField<CountryCode>
             label="Land"
-            options={selectOptions}
+            options={countryCodeOptions}
             chosenOption={
-              selectOptions.filter((option) => option.value == countryCode)[0]
+              countryCodeOptions.find(
+                (option) => option.value == orderInfo.schoolCountryCode
+              ) ?? countryCodeOptions[0]
             }
             onChange={(e) =>
-              saveProgressLocally({
-                countryCode: e!.value as CountryCode,
+              setOrderInfo({
+                schoolCountryCode: e?.value,
               })
             }
           />
           <InputField
             className="flex-6/12"
-            onChange={(e) => {
-              clearError("school");
-              saveProgressLocally({ school: e.target.value });
-            }}
+            onChange={(v) => setOrderInfo({ school: v })}
             placeholder="Bsp.: Otto-Schott-Gymnasium"
-            value={school ?? ""}
+            value={orderInfo.school ?? ""}
             label="Schule"
             required
-            error={errorState.school}
+            error={orderErrors.school}
           />
           <InputField
             className="flex-4/12"
-            onChange={(e) => saveProgressLocally({ city: e.target.value })}
+            onChange={(v) => setOrderInfo({ schoolCity: v })}
             placeholder="Bsp.: Mainz"
-            value={city ?? ""}
+            value={orderInfo.schoolCity ?? ""}
             label="Stadt"
             required
           />
@@ -96,24 +82,21 @@ function RouteComponent() {
           className="flex gap-2 mt-4"
           aria-label="Jahrgang und Abijahrgang Formular"
         >
-          <InputField
+          <InputField<number | undefined>
             className="flex-1/12 max-w-16"
-            onChange={(e) =>
-              saveProgressLocally({ grade: parseInt(e.target.value) })
-            }
+            onChange={(v) => setOrderInfo({ currentGrade: v })}
             placeholder="12"
-            value={grade ? grade.toString() : ""}
+            value={orderInfo.currentGrade ?? 12}
             label="Stufe"
             required
           />
-          <InputField
+          <InputField<number | undefined>
             className="flex-9/12 max-w-26"
-            onChange={(e) =>
-              saveProgressLocally({ graduationYear: parseInt(e.target.value) })
-            }
+            onChange={(v) => setOrderInfo({ graduationYear: v })}
             placeholder="2025"
+            type="number"
             maxLength={4}
-            value={graduationYear ? graduationYear.toString() : ""}
+            value={orderInfo.graduationYear ?? 2025}
             label="Abijahrgang"
             required
           />
@@ -123,13 +106,11 @@ function RouteComponent() {
           className="flex mt-4"
           label={"Wunschtermin Lieferung"}
           value={
-            deadline
-              ? convertToDateValue(deadline)
+            orderInfo.deadline
+              ? convertToDateValue(orderInfo.deadline)
               : convertToDateValue(new Date())
           }
-          onChange={(e) =>
-            saveProgressLocally({ deadline: new Date(e.target.value) })
-          }
+          onChange={(e) => setOrderInfo({ deadline: new Date(e.target.value) })}
         />
         <div className="flex w-full justify-between h-20 mt-2 items-start">
           <ClickToLogin className="self-end" to="/login" />
