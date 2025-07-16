@@ -1,76 +1,122 @@
 import { ReactElement, useEffect, useState } from "react";
 import { OnboardingContext } from "./onboardingContext";
-import { OnboardingInfo, OnboardingInfoSchema } from "abipulli-types";
+import {
+  OnboardingInfo,
+  OnboardingInfoSchema,
+  Order,
+  OrderSchema,
+  User,
+  UserSchema,
+} from "abipulli-types";
+import { ZodSafeParseResult } from "zod";
+import { UserApi } from "src/api/endpoints/user";
 
-export type OnboardingErrors = {
-  [K in keyof OnboardingInfo]?: string | null;
-};
+// export type OnboardingErrors = {
+//   [K in keyof OnboardingInfo]?: string | null;
+// };
+
+export type UserErrors = { [K in keyof Partial<User>]?: string };
+export type OrderErrors = { [K in keyof Partial<Order>]?: string };
 
 export const OnboardingProvider = ({
   children,
 }: {
   children: React.ReactNode;
 }): ReactElement => {
-  const [state, setState] = useState<Partial<OnboardingInfo>>({
-    email: undefined,
-    password: undefined,
-    deadline: undefined,
-    mobileNumber: undefined,
-    grade: undefined,
-    graduationYear: undefined,
-    city: undefined,
-    countryCode: undefined,
-    firstName: undefined,
-    lastName: undefined,
-    school: undefined,
-    birthdate: undefined,
-  });
+  const [userInfo, setUserInfo] = useState<Partial<User>>({});
+  const [userErrors, setUserErrors] = useState<UserErrors>({});
+  const [orderInfo, setOrderInfo] = useState<Partial<Order>>({});
+  const [orderErrors, setOrderErrors] = useState<OrderErrors>({});
 
-  const [errorState, setErrorState] = useState<OnboardingErrors>({});
-
-  const validate = () => {
-    let newErrorState: OnboardingErrors = {};
-    for (const [key, value] of Object.entries(state)) {
-      newErrorState = {
-        ...newErrorState,
-        [key]: "Bitte fülle dieses Feld aus",
-      };
+  const validateUserInfo = async () => {
+    const parseResult = UserSchema.omit({
+      id: true,
+      createdAt: true,
+      updatedAt: true,
+    }).safeParse(userInfo);
+    if (!parseResult.success) {
+      // const errors = parseResult.error;
+      // console.log(errors);
+      return;
     }
-    setErrorState(newErrorState);
+    const user: Omit<User, "id" | "createdAt" | "updatedAt"> = parseResult.data;
+    // Call API
   };
 
-  const clearError = (key: keyof OnboardingErrors) => {
-    setErrorState((prev) => ({ ...prev, [key]: undefined }));
+  const validateOrderInfo = async () => {
+    const parseResult = OrderSchema.omit({
+      id: true,
+      createdAt: true,
+      updatedAt: true,
+    }).safeParse(orderInfo);
+    console.log("PARSED");
+    if (!parseResult.success) {
+      for (let error of parseResult.error.issues) {
+        console.log("ERROR");
+        console.log(error);
+      }
+      return;
+    }
+    const order: Omit<Order, "id" | "createdAt" | "updatedAt"> =
+      parseResult.data;
+    // Call API
   };
 
-  const setError = ([k, v]: [k: keyof OnboardingErrors, v: string]) => {
-    setErrorState((prev) => ({ ...prev, [k]: v }));
-  };
+  // const [errorState, setErrorState] = useState<OnboardingErrors>({});
 
-  //TODO save onboarding process in localstorage
-  const saveProgressLocally = (state: Partial<OnboardingInfo>) => {
-    setState((prev) => ({ ...prev, ...state }));
-  };
+  // const validate = () => {
+  //   let newErrorState: OnboardingErrors = {};
+  //   for (const [key, value] of Object.entries(state)) {
+  //     newErrorState = {
+  //       ...newErrorState,
+  //       [key]: "Bitte fülle dieses Feld aus",
+  //     };
+  //   }
+  //   setErrorState(newErrorState);
+  // };
 
-  const saveToLocalStorage = () => {
-    const { password, ...stateWithoutPassword } = state;
-    const stringifiedState = JSON.stringify(stateWithoutPassword);
-    localStorage.setItem("onboardingInfo", stringifiedState);
-  };
+  const clearUserError = (key: keyof UserErrors) =>
+    setUserErrors((prev) => ({ ...prev, [key]: undefined }));
 
-  const retrieveFromLocalStorage = (): boolean => {
-    const raw: string | null = localStorage.getItem("onboardingInfo");
-    if (!raw) return false;
-    const parsed = JSON.parse(raw);
-    const result = OnboardingInfoSchema.partial().nullable().safeParse(parsed);
-    if (!result.success) return false;
-    setState((prev) => ({ ...prev, ...result.data }));
-    return true;
-  };
+  const clearOrderError = (key: keyof OrderErrors) =>
+    setOrderErrors((prev) => ({ ...prev, [key]: undefined }));
+
+  // const setError = ([k, v]: [k: keyof OnboardingErrors, v: string]) => {
+  //   setErrorState((prev) => ({ ...prev, [k]: v }));
+  // };
+
+  // //TODO save onboarding process in localstorage
+  // const saveProgressLocally = (state: Partial<OnboardingInfo>) => {
+  //   setState((prev) => ({ ...prev, ...state }));
+  // };
+
+  // const saveToLocalStorage = () => {
+  //   const { password, ...stateWithoutPassword } = state;
+  //   const stringifiedState = JSON.stringify(stateWithoutPassword);
+  //   localStorage.setItem("onboardingInfo", stringifiedState);
+  // };
+
+  // const retrieveFromLocalStorage = (): boolean => {
+  //   const raw: string | null = localStorage.getItem("onboardingInfo");
+  //   if (!raw) return false;
+  //   const parsed = JSON.parse(raw);
+  //   const result = OnboardingInfoSchema.partial().nullable().safeParse(parsed);
+  //   if (!result.success) return false;
+  //   setState((prev) => ({ ...prev, ...result.data }));
+  //   return true;
+  // };
 
   //TODO submit onboarding progress to backend
   const submitProgress = () => {
-    validate();
+    // Validate
+  };
+
+  const submitUserInfo = () => {
+    validateUserInfo();
+  };
+
+  const submitOrderInfo = () => {
+    validateOrderInfo();
   };
 
   // TODO get progress from backend
@@ -83,15 +129,37 @@ export const OnboardingProvider = ({
   return (
     <OnboardingContext.Provider
       value={{
-        ...state,
-        errorState,
-        clearError,
-        saveProgressLocally,
+        userInfo,
+        setUserInfo: (e: Partial<User>) => {
+          setUserInfo((prev) => ({ ...prev, ...e }));
+          setUserErrors((prev) => ({
+            ...prev,
+            [Object.keys(e)[0]]: undefined,
+          }));
+        },
+        userErrors,
+        clearUserError,
+        orderInfo,
+        setOrderInfo: (e: Partial<Order>) => {
+          setOrderInfo((prev) => ({ ...prev, ...e }));
+          setOrderErrors((prev) => ({
+            ...prev,
+            [Object.keys(e)[0]]: undefined,
+          }));
+        },
+        orderErrors,
+        clearOrderError,
+        // ...state,
+        // errorState,
+        // clearError,
+        // saveProgressLocally,
         submitProgress,
         getProgress,
-        setError,
-        saveToLocalStorage,
-        retrieveFromLocalStorage,
+        // setError,
+        // saveToLocalStorage,
+        // retrieveFromLocalStorage,
+        submitUserInfo,
+        submitOrderInfo,
       }}
     >
       {children}
