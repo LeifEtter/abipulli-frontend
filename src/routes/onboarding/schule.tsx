@@ -28,8 +28,13 @@ function RouteComponent() {
 
   const showSnackbar = useSnackbar();
 
-  const { orderInfo, orderErrors, setOrderInfo, submitProgress } =
-    useOnboardingInfo();
+  const {
+    orderInfo,
+    orderErrors,
+    setOrderInfo,
+    submitProgress,
+    submitOrderInfo,
+  } = useOnboardingInfo();
 
   return (
     <main aria-label="Onboarding Schule">
@@ -73,6 +78,7 @@ function RouteComponent() {
             onChange={(v) => setOrderInfo({ schoolCity: v })}
             placeholder="Bsp.: Mainz"
             value={orderInfo.schoolCity ?? ""}
+            error={orderErrors.schoolCity}
             label="Stadt"
             required
           />
@@ -87,6 +93,7 @@ function RouteComponent() {
             onChange={(v) => setOrderInfo({ currentGrade: v })}
             placeholder="12"
             value={orderInfo.currentGrade ?? 12}
+            error={orderErrors.currentGrade}
             label="Stufe"
             required
           />
@@ -97,6 +104,7 @@ function RouteComponent() {
             type="number"
             maxLength={4}
             value={orderInfo.graduationYear ?? 2025}
+            error={orderErrors.graduationYear}
             label="Abijahrgang"
             required
           />
@@ -116,8 +124,10 @@ function RouteComponent() {
           <ClickToLogin className="self-end" to="/login" />
           <BasicButton
             shadow
-            type={ButtonType.Link}
-            to="/onboarding/personal"
+            type={ButtonType.Button}
+            onClick={() => submitOrderInfo()}
+            // type={ButtonType.Link}
+            // to="/onboarding/personal"
             icon={faArrowRight}
             aria-label="Nächster Schritt"
           >
