@@ -1,19 +1,14 @@
 import { ReactElement, useEffect, useState } from "react";
 import { OnboardingContext } from "./onboardingContext";
 import {
-  OnboardingInfo,
-  OnboardingInfoSchema,
   Order,
-  OrderSchema,
+  OrderCreateParams,
+  OrderCreateParamsSchema,
   User,
-  UserSchema,
+  UserCreateParams,
+  UserCreateParamsSchema,
 } from "abipulli-types";
-import { ZodSafeParseResult } from "zod";
-import { UserApi } from "src/api/endpoints/user";
-
-// export type OnboardingErrors = {
-//   [K in keyof OnboardingInfo]?: string | null;
-// };
+// import { UserApi } from "src/api/endpoints/user";
 
 export type UserErrors = { [K in keyof Partial<User>]?: string };
 export type OrderErrors = { [K in keyof Partial<Order>]?: string };
@@ -28,38 +23,41 @@ export const OnboardingProvider = ({
   const [orderInfo, setOrderInfo] = useState<Partial<Order>>({});
   const [orderErrors, setOrderErrors] = useState<OrderErrors>({});
 
+  // Replace with normal ZodIssue when it becomes available i guess
+  const getErrorString = (issue: any): string => {
+    console.log(issue);
+    return "";
+  };
+
   const validateUserInfo = async () => {
-    const parseResult = UserSchema.omit({
-      id: true,
-      createdAt: true,
-      updatedAt: true,
-    }).safeParse(userInfo);
+    const parseResult = UserCreateParamsSchema.safeParse(userInfo);
     if (!parseResult.success) {
-      // const errors = parseResult.error;
-      // console.log(errors);
-      return;
+      let newErrors = {};
+      for (const error of parseResult.error.issues) {
+        newErrors = {
+          ...newErrors,
+          [error.path[0] as keyof UserCreateParams]: getErrorString(error),
+        };
+      }
+      return setUserErrors(newErrors);
     }
-    const user: Omit<User, "id" | "createdAt" | "updatedAt"> = parseResult.data;
-    // Call API
+    const user: UserCreateParams = parseResult.data;
   };
 
   const validateOrderInfo = async () => {
-    const parseResult = OrderSchema.omit({
-      id: true,
-      createdAt: true,
-      updatedAt: true,
-    }).safeParse(orderInfo);
-    console.log("PARSED");
+    const parseResult = OrderCreateParamsSchema.safeParse(orderInfo);
     if (!parseResult.success) {
-      for (let error of parseResult.error.issues) {
-        console.log("ERROR");
-        console.log(error);
+      let newErrors = {};
+      for (const error of parseResult.error.issues) {
+        newErrors = {
+          ...newErrors,
+          [error.path[0] as keyof OrderCreateParams]: getErrorString(error),
+        };
       }
-      return;
+      return setOrderErrors(newErrors);
     }
-    const order: Omit<Order, "id" | "createdAt" | "updatedAt"> =
-      parseResult.data;
-    // Call API
+    const order: OrderCreateParams = parseResult.data;
+    // API
   };
 
   const clearUserError = (key: keyof UserErrors) =>
