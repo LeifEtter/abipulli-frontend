@@ -62,19 +62,6 @@ export const OnboardingProvider = ({
     // Call API
   };
 
-  // const [errorState, setErrorState] = useState<OnboardingErrors>({});
-
-  // const validate = () => {
-  //   let newErrorState: OnboardingErrors = {};
-  //   for (const [key, value] of Object.entries(state)) {
-  //     newErrorState = {
-  //       ...newErrorState,
-  //       [key]: "Bitte fülle dieses Feld aus",
-  //     };
-  //   }
-  //   setErrorState(newErrorState);
-  // };
-
   const clearUserError = (key: keyof UserErrors) =>
     setUserErrors((prev) => ({ ...prev, [key]: undefined }));
 
