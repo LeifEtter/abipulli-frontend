@@ -1,5 +1,5 @@
-import { OnboardingInfo, Order, User } from "abipulli-types";
-import { createContext, Dispatch, SetStateAction } from "react";
+import { Order, User } from "abipulli-types";
+import { createContext } from "react";
 import { OrderErrors, UserErrors } from "./onboardingProvider";
 
 export interface OnboardingContextType {
@@ -10,7 +10,7 @@ export interface OnboardingContextType {
 
   orderInfo: Partial<Order>;
   setOrderInfo: (e: Partial<Order>) => void;
-  orderErrors: UserErrors;
+  orderErrors: OrderErrors;
   clearOrderError: (key: keyof OrderErrors) => void;
 
   // saveProgressLocally: (state: Partial<OnboardingInfo>) => void;
