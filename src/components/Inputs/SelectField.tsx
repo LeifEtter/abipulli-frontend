@@ -14,6 +14,7 @@ interface SelectFieldProps<T> {
     actionMeta: ActionMeta<SelectOption<T>>
   ) => void;
   className?: string;
+  idPrefix: string;
 }
 
 export const SelectField = <T,>({
@@ -22,16 +23,17 @@ export const SelectField = <T,>({
   chosenOption,
   onChange,
   className,
+  idPrefix,
 }: SelectFieldProps<T>) => (
   <div className={className}>
-    <label htmlFor="select-country-code" className="text-lg font-medium">
+    <label htmlFor={`select-${idPrefix}`} className="text-lg font-medium">
       {label}
       <span className="text-abipulli-green-strong" aria-label="Pflichtfeld">
         *
       </span>
     </label>
     <Select
-      inputId="select-country-code"
+      inputId={`select-${idPrefix}`}
       options={options}
       value={chosenOption}
       onChange={onChange}
