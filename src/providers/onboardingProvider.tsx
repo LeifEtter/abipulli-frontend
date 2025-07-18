@@ -8,8 +8,8 @@ import {
   UserCreateParams,
   UserCreateParamsSchema,
 } from "abipulli-types";
-// import { UserApi } from "src/api/endpoints/user";
-
+import { UserApi } from "src/api/endpoints/user";
+import { OrderApi } from "src/api/endpoints/order";
 export type UserErrors = { [K in keyof Partial<User>]?: string };
 export type OrderErrors = { [K in keyof Partial<Order>]?: string };
 
@@ -18,97 +18,81 @@ export const OnboardingProvider = ({
 }: {
   children: React.ReactNode;
 }): ReactElement => {
-  const [userInfo, setUserInfo] = useState<Partial<User>>({});
+  const [userInfo, setUserInfo] = useState<Partial<User>>({
+    gender: "weiblich",
+    mobileCountryCode: "+49",
+    birthdate: new Date(),
+  });
   const [userErrors, setUserErrors] = useState<UserErrors>({});
-  const [orderInfo, setOrderInfo] = useState<Partial<Order>>({});
+  const [orderInfo, setOrderInfo] = useState<Partial<Order>>({
+    deadline: new Date(),
+    schoolCountryCode: "DE",
+    graduationYear: 2025,
+  });
   const [orderErrors, setOrderErrors] = useState<OrderErrors>({});
 
-  // Replace with normal ZodIssue when it becomes available i guess
-  const getErrorString = (issue: any): string => {
-    console.log(issue);
-    return "";
-  };
-
-  const validateUserInfo = async () => {
+  const validateUserInfo = (): boolean => {
     const parseResult = UserCreateParamsSchema.safeParse(userInfo);
     if (!parseResult.success) {
       let newErrors = {};
       for (const error of parseResult.error.issues) {
         newErrors = {
           ...newErrors,
-          [error.path[0] as keyof UserCreateParams]: getErrorString(error),
+          [error.path[0] as keyof UserCreateParams]: error.message,
         };
       }
-      return setUserErrors(newErrors);
+      setUserErrors(newErrors);
+      return false;
     }
-    const user: UserCreateParams = parseResult.data;
+    return true;
   };
 
-  const validateOrderInfo = async () => {
+  const validateOrderInfo = (): boolean => {
     const parseResult = OrderCreateParamsSchema.safeParse(orderInfo);
     if (!parseResult.success) {
       let newErrors = {};
       for (const error of parseResult.error.issues) {
         newErrors = {
           ...newErrors,
-          [error.path[0] as keyof OrderCreateParams]: getErrorString(error),
+          [error.path[0] as keyof OrderCreateParams]: error.message,
         };
       }
-      return setOrderErrors(newErrors);
+      setOrderErrors(newErrors);
+      return false;
     }
-    const order: OrderCreateParams = parseResult.data;
-    // API
+    return true;
   };
 
-  const clearUserError = (key: keyof UserErrors) =>
-    setUserErrors((prev) => ({ ...prev, [key]: undefined }));
-
-  const clearOrderError = (key: keyof OrderErrors) =>
-    setOrderErrors((prev) => ({ ...prev, [key]: undefined }));
-
-  // const setError = ([k, v]: [k: keyof OnboardingErrors, v: string]) => {
-  //   setErrorState((prev) => ({ ...prev, [k]: v }));
-  // };
-
-  // //TODO save onboarding process in localstorage
-  // const saveProgressLocally = (state: Partial<OnboardingInfo>) => {
-  //   setState((prev) => ({ ...prev, ...state }));
-  // };
-
-  // const saveToLocalStorage = () => {
-  //   const { password, ...stateWithoutPassword } = state;
-  //   const stringifiedState = JSON.stringify(stateWithoutPassword);
-  //   localStorage.setItem("onboardingInfo", stringifiedState);
-  // };
-
-  // const retrieveFromLocalStorage = (): boolean => {
-  //   const raw: string | null = localStorage.getItem("onboardingInfo");
-  //   if (!raw) return false;
-  //   const parsed = JSON.parse(raw);
-  //   const result = OnboardingInfoSchema.partial().nullable().safeParse(parsed);
-  //   if (!result.success) return false;
-  //   setState((prev) => ({ ...prev, ...result.data }));
-  //   return true;
-  // };
-
-  //TODO submit onboarding progress to backend
-  const submitProgress = () => {
-    // Validate
+  const saveOrderInfoToLocalStorage = () => {
+    const stringifiedState = JSON.stringify(orderInfo);
+    localStorage.setItem("orderInfo", stringifiedState);
   };
 
-  const submitUserInfo = () => {
-    validateUserInfo();
+  const retrieveOrderInfoFromLocalStorage = () => {
+    const raw: string | null = localStorage.getItem("orderInfo");
+    if (!raw) return;
+    const result = OrderCreateParamsSchema.partial()
+      .nullable()
+      .safeParse(JSON.parse(raw));
+    if (result.data) setOrderInfo(result.data);
   };
 
-  const submitOrderInfo = () => {
-    validateOrderInfo();
+  const submitRegister = async (): Promise<void> => {
+    const user: UserCreateParams | undefined =
+      UserCreateParamsSchema.safeParse(userInfo).data;
+    if (!user) throw "Nutzer Account konnte nicht erstellt werden";
+    await UserApi.create(user);
   };
 
-  // TODO get progress from backend
-  const getProgress = () => {};
+  const submitOrder = async (): Promise<void> => {
+    const order: OrderCreateParams | undefined =
+      OrderCreateParamsSchema.safeParse(orderInfo).data;
+    if (!order) throw "Schuldaten konnten nicht übermittelt werden";
+    await OrderApi.create(order);
+  };
 
   useEffect(() => {
-    // TODO initialize stuff
+    retrieveOrderInfoFromLocalStorage();
   }, []);
 
   return (
@@ -123,7 +107,6 @@ export const OnboardingProvider = ({
           }));
         },
         userErrors,
-        clearUserError,
         orderInfo,
         setOrderInfo: (e: Partial<Order>) => {
           setOrderInfo((prev) => ({ ...prev, ...e }));
@@ -133,18 +116,12 @@ export const OnboardingProvider = ({
           }));
         },
         orderErrors,
-        clearOrderError,
-        // ...state,
-        // errorState,
-        // clearError,
-        // saveProgressLocally,
-        submitProgress,
-        getProgress,
-        // setError,
-        // saveToLocalStorage,
-        // retrieveFromLocalStorage,
-        submitUserInfo,
-        submitOrderInfo,
+        saveOrderInfoToLocalStorage,
+        retrieveOrderInfoFromLocalStorage,
+        validateOrderInfo,
+        validateUserInfo,
+        submitOrder,
+        submitRegister,
       }}
     >
       {children}
