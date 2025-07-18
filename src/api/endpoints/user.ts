@@ -3,6 +3,7 @@ import {
   UserChangePasswordParams,
   UserCheckAuthResponse,
   UserCheckAuthResult,
+  UserCreateParams,
   UserLoginParams,
   UserLoginResponse,
   UserLoginResult,
@@ -62,5 +63,9 @@ export const UserApi = {
    */
   changePassword: async (body: UserChangePasswordParams): Promise<void> => {
     const res = await api.patch("/user/me/password", body);
+  },
+  create: async (body: UserCreateParams): Promise<void> => {
+    const res = await api.post("/user/register", body);
+    console.log(res.data);
   },
 };
