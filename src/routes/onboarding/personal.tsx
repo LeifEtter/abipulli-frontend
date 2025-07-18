@@ -130,7 +130,8 @@ function RouteComponent() {
             />
             <DatePicker
               idPrefix="birthday"
-              label="Geburtstag"
+              className="flex"
+              label={"Geburtstag"}
               value={
                 userInfo.birthdate
                   ? convertToDateValue(userInfo.birthdate)
