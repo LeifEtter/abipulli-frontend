@@ -10,7 +10,9 @@ export function RouteComponent() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    navigate({ to: "/onboarding/schule" });
+    if (location.pathname === "/onboarding") {
+      navigate({ to: "/onboarding/schule", replace: true });
+    }
   }, []);
 
   return (
