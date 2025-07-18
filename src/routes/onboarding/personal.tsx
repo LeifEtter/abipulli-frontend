@@ -1,5 +1,5 @@
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import {
   Gender,
   GenderSchema,
@@ -14,9 +14,12 @@ import { SelectField, SelectOption } from "src/components/Inputs/SelectField";
 import { ClickToLogin } from "src/components/Onboarding/ClickToLogin";
 import { PageDescription } from "src/components/Texts/PageDescription";
 import { PageTitle } from "src/components/Texts/PageTitle";
+import { useAuth } from "src/hooks/useAuth";
 import { useOnboardingInfo } from "src/hooks/useOnboardingInfo";
+import { useSnackbar } from "src/hooks/useSnackbar";
 import { ButtonType } from "src/types/ButtonType";
 import { convertToDateValue } from "src/utilities/date";
+import { objectEmpty } from "src/utilities/Objects/objectEmpty";
 
 export const Route = createFileRoute("/onboarding/personal")({
   component: RouteComponent,
@@ -45,11 +48,12 @@ function RouteComponent() {
     userInfo,
     setUserInfo,
     userErrors,
-    submitUserInfo,
-    submitOrderInfo,
-    clearUserError,
-    submitProgress,
+    orderErrors,
+    submitOrder,
+    submitRegister,
   } = useOnboardingInfo();
+
+  const { login } = useAuth();
 
   const passwordStrength = (pw: string | undefined): number => {
     if (!pw) return 0;
@@ -62,6 +66,9 @@ function RouteComponent() {
     if (pw.match(/[0-9]/g)) points += 25;
     return points > 100 ? 100 : points;
   };
+
+  const navigate = useNavigate();
+  const showSnackbar = useSnackbar();
 
   return (
     <main aria-label="Onboarding Persönliche Daten">
@@ -195,9 +202,28 @@ function RouteComponent() {
           <ClickToLogin className="self-end" to="/login" />
           <BasicButton
             shadow
-            onClick={() => {
-              submitOrderInfo();
-              submitUserInfo();
+            onClick={async () => {
+              try {
+                if (userInfo.password != repeatPassword)
+                  return setRepeatPasswordError(
+                    "Passwörter stimmen nicht überein"
+                  );
+                if (!objectEmpty(orderErrors))
+                  return navigate({ to: "/onboarding/schule" });
+                await submitRegister();
+                await login({
+                  email: userInfo.email!,
+                  password: userInfo.password!,
+                });
+                await submitOrder();
+                navigate({ to: "/generieren" });
+              } catch (error) {
+                console.log(error);
+                showSnackbar({
+                  type: "error",
+                  message: "Irgendwas ist schiefgelaufen",
+                });
+              }
             }}
             type={ButtonType.Button}
             icon={faArrowRight}
