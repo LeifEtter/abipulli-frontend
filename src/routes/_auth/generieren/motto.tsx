@@ -35,7 +35,7 @@ function RouteComponent() {
         Wir haben noch zwei kurze Fragen zum Jahrgang
       </PageDescription>
       <form
-        onClick={(e) => e.preventDefault()}
+        onSubmit={(e) => e.preventDefault()}
         className="flex flex-col gap-4 w-full items-center"
         aria-label="Motto und Jahrgang Formular"
       >

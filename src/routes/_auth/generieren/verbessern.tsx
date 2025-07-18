@@ -61,7 +61,7 @@ function RouteComponent() {
         error={errorState.generatedDescription}
       />
       <form
-        onClick={(e) => e.preventDefault()}
+        onSubmit={(e) => e.preventDefault()}
         className="flex flex-row items-center"
         aria-label="Kommentar Formular"
       >

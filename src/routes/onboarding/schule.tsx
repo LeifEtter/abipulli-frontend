@@ -46,7 +46,7 @@ function RouteComponent() {
           unverbindlich!
         </PageDescription>
         <div
-          onClick={(e) => e.preventDefault()}
+          onSubmit={(e) => e.preventDefault()}
           className="flex flex-row gap-2 mt-10"
           aria-label="Schulinfos Formular"
         >

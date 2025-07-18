@@ -73,7 +73,7 @@ function RouteComponent() {
           keine Angst!
         </PageDescription>
         <form
-          onClick={(e) => e.preventDefault()}
+          onSubmit={(e) => e.preventDefault()}
           className="flex flex-wrap gap-4 mt-4"
           aria-label="Persönliche Daten Formular"
         >

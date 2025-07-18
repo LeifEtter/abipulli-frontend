@@ -29,7 +29,7 @@ function RouteComponent() {
         Einloggen
       </h1>
       <form
-        onClick={(e) => e.preventDefault()}
+        onSubmit={(e) => e.preventDefault()}
         className="w-full flex flex-col items-center"
         aria-label="Login Formular"
       >
