@@ -34,6 +34,13 @@ export const UserApi = {
     return res.data.data!;
   },
   /**
+   * Logs Out and delete cookie
+   * @returns Promise resolving to the logout result
+   */
+  logout: async (): Promise<void> => {
+    const res = await api.get<string>("/user/logout");
+  },
+  /**
    * Deletes the current user's account.
    * @returns Promise resolving when the account is deleted
    */
