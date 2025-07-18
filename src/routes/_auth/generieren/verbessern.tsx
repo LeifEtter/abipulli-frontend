@@ -52,25 +52,25 @@ function RouteComponent() {
         label="Generierte Beschreibung"
         multiline
         minLines={3}
-        onChange={(e) =>
+        onChange={(v) =>
           saveProgressLocally({
-            generatedDescription: e.target.value,
+            generatedDescription: v,
           })
         }
         value={generatedDescription ?? ""}
         error={errorState.generatedDescription}
       />
       <form
-        onClick={(e) => e.preventDefault()}
+        onSubmit={(e) => e.preventDefault()}
         className="flex flex-row items-center"
         aria-label="Kommentar Formular"
       >
         <InputField
           className="mt-4 mb-4 basis-80"
           label="Schlage Verbesserungen vor"
-          onChange={(e) => {
+          onChange={(v) => {
             clearError("comment");
-            saveProgressLocally({ comment: e.target.value });
+            saveProgressLocally({ comment: v });
           }}
           value={comment ?? ""}
           error={errorState.comment}

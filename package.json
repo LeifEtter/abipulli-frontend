@@ -20,7 +20,7 @@
     "@tanstack/react-router": "^1.120.2",
     "@tanstack/react-router-devtools": "^1.120.2",
     "@types/node": "^24.0.10",
-    "abipulli-types": "^1.0.42",
+    "abipulli-types": "^1.0.45",
     "axios": "^1.9.0",
     "framer-motion": "^12.23.0",
     "konva": "^9.3.20",
@@ -30,7 +30,8 @@
     "react-konva": "^19.0.4",
     "react-select": "^5.10.1",
     "tailwindcss": "^4.1.4",
-    "use-image": "^1.1.4"
+    "use-image": "^1.1.4",
+    "zod": "^4.0.5"
   },
   "devDependencies": {
     "@eslint/js": "^9.22.0",

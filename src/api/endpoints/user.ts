@@ -3,6 +3,7 @@ import {
   UserChangePasswordParams,
   UserCheckAuthResponse,
   UserCheckAuthResult,
+  UserCreateParams,
   UserLoginParams,
   UserLoginResponse,
   UserLoginResult,
@@ -34,6 +35,13 @@ export const UserApi = {
     return res.data.data!;
   },
   /**
+   * Logs Out and delete cookie
+   * @returns Promise resolving to the logout result
+   */
+  logout: async (): Promise<void> => {
+    const res = await api.get<string>("/user/logout");
+  },
+  /**
    * Deletes the current user's account.
    * @returns Promise resolving when the account is deleted
    */
@@ -55,5 +63,9 @@ export const UserApi = {
    */
   changePassword: async (body: UserChangePasswordParams): Promise<void> => {
     const res = await api.patch("/user/me/password", body);
+  },
+  create: async (body: UserCreateParams): Promise<void> => {
+    const res = await api.post("/user/register", body);
+    console.log(res.data);
   },
 };

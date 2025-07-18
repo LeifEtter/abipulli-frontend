@@ -1,11 +1,11 @@
 import { HTMLInputTypeAttribute } from "react";
 import { SmallLabel } from "../Texts/SmallLabel";
 
-interface InputFieldProps {
-  value: string;
-  onChange: (
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => void;
+interface InputFieldProps<
+  T extends string | number | readonly string[] | undefined,
+> {
+  value: T;
+  onChange: (value: T) => void;
   placeholder?: string;
   label?: string;
   multiline?: boolean;
@@ -21,7 +21,9 @@ interface InputFieldProps {
   defaultValue?: string;
 }
 
-export const InputField = ({
+export const InputField = <
+  T extends string | number | readonly string[] | undefined,
+>({
   value,
   onChange,
   placeholder,
@@ -37,7 +39,7 @@ export const InputField = ({
   error = null,
   disabled,
   defaultValue,
-}: InputFieldProps) => {
+}: InputFieldProps<T>) => {
   const inputId = id ?? `input-${label}`;
   return (
     <div className={"flex flex-col" + " " + className}>
@@ -60,7 +62,7 @@ export const InputField = ({
           className="border-1 border-abipulli-grey-border rounded-sm py-1 px-3"
           placeholder={placeholder}
           value={value}
-          onChange={onChange}
+          onChange={(e) => onChange(e.target.value as T)}
           rows={minLines}
           required={!!required}
           disabled={!!disabled}
@@ -76,7 +78,7 @@ export const InputField = ({
           className={`border-1 border-abipulli-grey-border rounded-sm py-1.5 px-3 w-full ${error !== null ? "animate-[var(--animation-shake)] border-red-400 border" : ""} ${disabled && "bg-gray-100 text-gray-400"}`}
           placeholder={placeholder}
           value={value}
-          onChange={onChange}
+          onChange={(e) => onChange(e.target.value as T)}
           required={!!required}
           disabled={!!disabled}
           defaultValue={defaultValue}

@@ -35,7 +35,7 @@ function RouteComponent() {
         Wir haben noch zwei kurze Fragen zum Jahrgang
       </PageDescription>
       <form
-        onClick={(e) => e.preventDefault()}
+        onSubmit={(e) => e.preventDefault()}
         className="flex flex-col gap-4 w-full items-center"
         aria-label="Motto und Jahrgang Formular"
       >
@@ -43,18 +43,18 @@ function RouteComponent() {
           label="Motto"
           value={motto ?? ""}
           className="mt-8"
-          onChange={(e) => {
+          onChange={(v) => {
             clearError("motto");
-            saveProgressLocally({ motto: e.target.value });
+            saveProgressLocally({ motto: v });
           }}
           error={errorState.motto}
         />
         <InputField
           label="Jahrgang"
           value={graduationYear?.toString() ?? ""}
-          onChange={(e) => {
+          onChange={(v) => {
             clearError("graduationYear");
-            saveProgressLocally({ graduationYear: e.target.value });
+            saveProgressLocally({ graduationYear: v });
           }}
           error={errorState.graduationYear}
         />

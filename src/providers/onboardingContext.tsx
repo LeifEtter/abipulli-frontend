@@ -1,16 +1,24 @@
-import { OnboardingInfo } from "abipulli-types";
+import { Order, User } from "abipulli-types";
 import { createContext } from "react";
-import { OnboardingErrors } from "./onboardingProvider";
+import { OrderErrors, UserErrors } from "./onboardingProvider";
 
-export interface OnboardingContextType extends Partial<OnboardingInfo> {
-  errorState: OnboardingErrors;
-  clearError: (key: keyof OnboardingErrors) => void;
-  setError: ([k, v]: [k: keyof OnboardingErrors, v: string]) => void;
-  saveProgressLocally: (state: Partial<OnboardingInfo>) => void;
-  submitProgress: () => void;
-  getProgress: () => void;
-  saveToLocalStorage: () => void;
-  retrieveFromLocalStorage: () => void;
+export interface OnboardingContextType {
+  userInfo: Partial<User>;
+  setUserInfo: (e: Partial<User>) => void;
+  userErrors: UserErrors;
+
+  orderInfo: Partial<Order>;
+  setOrderInfo: (e: Partial<Order>) => void;
+  orderErrors: OrderErrors;
+
+  validateUserInfo: () => boolean;
+  validateOrderInfo: () => boolean;
+
+  submitRegister: () => Promise<void>;
+  submitOrder: () => Promise<void>;
+
+  saveOrderInfoToLocalStorage: () => void;
+  retrieveOrderInfoFromLocalStorage: () => void;
 }
 
 export const OnboardingContext = createContext<OnboardingContextType | null>(

@@ -43,21 +43,15 @@ export const UserFactory = {
     firstName: faker.person.firstName(),
     lastName: faker.person.lastName(),
     verified: verified ?? true,
-    school: faker.location.city(),
     gender: faker.helpers.arrayElement(["male", "female", "diverse"]) as Gender,
     mobileCountryCode: faker.helpers.arrayElement([
       "+49",
       "+41",
       "+43",
     ]) as MobileCountryCode,
-    grade: faker.number.int({ min: 11, max: 13 }),
-    graduationYear: faker.number.int({ min: 2025, max: 2026 }),
     mobileNumber: faker.phone
       .number({ style: "international" })
       .replace("+", ""),
     birthdate: faker.date.past({ years: 20 }),
-    countryCode: faker.helpers.arrayElement(["DE", "CH", "AT"]) as CountryCode,
-    city: faker.location.city(),
-    deadline: faker.date.future({ years: 1 }),
   }),
 };

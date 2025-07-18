@@ -17,10 +17,10 @@ export const Route = createFileRoute("/_auth/account")({
 });
 
 interface InputInfo {
-  value: string | null;
-  error: string | null;
+  value: string | undefined;
+  error: string | undefined;
 }
-const InputInfoInit = { value: null, error: null };
+const InputInfoInit = { value: undefined, error: undefined };
 
 function RouteComponent() {
   const { user, logout } = useAuth();
@@ -52,10 +52,8 @@ function RouteComponent() {
       <InputField
         className="mt-4"
         label="Email"
-        value={email.value ?? ""}
-        onChange={(e) =>
-          setEmail((prev) => ({ ...prev, value: e.target.value }))
-        }
+        value={email.value}
+        onChange={(v) => setEmail((prev) => ({ ...prev, value: v }))}
         error={email.error}
         disabled
       />
@@ -65,18 +63,14 @@ function RouteComponent() {
           className="basis-60"
           label="Altes Passwort"
           value={oldPass.value ?? ""}
-          onChange={(e) =>
-            setOldPass((prev) => ({ ...prev, value: e.target.value }))
-          }
+          onChange={(v) => setOldPass((prev) => ({ ...prev, value: v }))}
           error={oldPass.error}
         />
         <InputField
           className="basis-60"
           label="Neues Passwort"
           value={newPass.value ?? ""}
-          onChange={(e) =>
-            setNewPass((prev) => ({ ...prev, value: e.target.value }))
-          }
+          onChange={(v) => setNewPass((prev) => ({ ...prev, value: v }))}
           error={newPass.error}
         />
       </div>
