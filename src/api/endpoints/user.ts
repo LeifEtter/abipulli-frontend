@@ -66,6 +66,5 @@ export const UserApi = {
   },
   create: async (body: UserCreateParams): Promise<void> => {
     const res = await api.post("/user/register", body);
-    console.log(res.data);
   },
 };
