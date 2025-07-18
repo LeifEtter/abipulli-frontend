@@ -33,6 +33,7 @@ export const AuthProvider = ({ children }: AuthProviderProps): ReactElement => {
   const logout = useCallback(async () => {
     setState((prev) => ({ ...prev, isLoading: true, error: null }));
     try {
+      await UserApi.logout();
       setState({ user: null, error: null, isLoading: false });
     } catch (error) {
       setError("Logout failed");
