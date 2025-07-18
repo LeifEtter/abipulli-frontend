@@ -80,6 +80,7 @@ function RouteComponent() {
           <SelectField<Gender>
             className="basis-35"
             label="Geschlecht"
+            idPrefix="gender"
             options={genderOptions}
             chosenOption={
               genderOptions.find((e) => e.value == userInfo.gender) ??
@@ -110,6 +111,7 @@ function RouteComponent() {
           >
             <SelectField<MobileCountryCode>
               className="basis-24"
+              idPrefix="mobile"
               label="Vorwahl"
               options={mobileCountryCodeOptions}
               chosenOption={
