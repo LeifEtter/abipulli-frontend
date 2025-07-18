@@ -125,7 +125,11 @@ function RouteComponent() {
           <BasicButton
             shadow
             type={ButtonType.Button}
-            onClick={() => submitOrderInfo()}
+            onClick={() => {
+              if (validateOrderInfo() == false) return;
+              saveOrderInfoToLocalStorage();
+              navigate({ to: "/onboarding/personal" });
+            }}
             // type={ButtonType.Link}
             // to="/onboarding/personal"
             icon={faArrowRight}
