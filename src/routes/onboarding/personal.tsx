@@ -51,6 +51,8 @@ function RouteComponent() {
     orderErrors,
     submitOrder,
     submitRegister,
+    validateOrderInfo,
+    validateUserInfo,
   } = useOnboardingInfo();
 
   const { login } = useAuth();
@@ -208,8 +210,14 @@ function RouteComponent() {
                   return setRepeatPasswordError(
                     "Passwörter stimmen nicht überein"
                   );
-                if (!objectEmpty(orderErrors))
+
+                const orderValidateInfo = validateOrderInfo();
+                // if (!objectEmpty(orderErrors))
+                //   return navigate({ to: "/onboarding/schule" });
+                if (!orderValidateInfo)
                   return navigate({ to: "/onboarding/schule" });
+                const userValidateResult = validateUserInfo();
+                if (!userValidateResult) return;
                 await submitRegister();
                 await login({
                   email: userInfo.email!,
