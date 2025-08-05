@@ -1,5 +1,6 @@
-import axios from "axios";
+import axios, { isAxiosError } from "axios";
 import { ApiError } from "./ApiError";
+import { errorMessages } from "abipulli-types";
 
 /**
  * Axios instance configured for API requests.
@@ -21,7 +22,14 @@ api.interceptors.response.use(
     return response;
   },
   (error) => {
-    console.log(error.response.data.error);
+    if (isAxiosError(error) && error.code == "ERR_NETWORK") {
+      return Promise.reject(
+        new ApiError({
+          code: 404,
+          info: errorMessages.backendConnectionError,
+        })
+      );
+    }
     if (error.response.data.error != null) {
       return Promise.reject(new ApiError(error.response.data.error));
     }
