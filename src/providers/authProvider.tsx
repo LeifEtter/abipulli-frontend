@@ -1,5 +1,5 @@
 import { useState, useEffect, ReactElement, useCallback } from "react";
-import { User, UserLoginParams } from "abipulli-types";
+import { errorMessages, User, UserLoginParams } from "abipulli-types";
 import { AuthContext } from "./authContext";
 import { UserApi } from "src/api/endpoints/user";
 import { ApiError } from "src/api/ApiError";
@@ -21,7 +21,7 @@ export const AuthProvider = ({ children }: AuthProviderProps): ReactElement => {
     isLoading: true,
   });
 
-  const setError = (error: string) => {
+  const setError = (error: ApiError) => {
     setState((prev) => ({ ...prev, error, isLoading: false }));
   };
 
@@ -37,7 +37,11 @@ export const AuthProvider = ({ children }: AuthProviderProps): ReactElement => {
       await UserApi.logout();
       setState({ user: null, error: null, isLoading: false });
     } catch (error) {
-      setError("Logout failed");
+      if (error instanceof ApiError) {
+        setError(error);
+      } else {
+        setError(new ApiError({ code: 400, info: "Logout Fehlgeschlagen" }));
+      }
     }
   }, []);
 
@@ -47,7 +51,11 @@ export const AuthProvider = ({ children }: AuthProviderProps): ReactElement => {
         const { id } = await UserApi.retrieveUserId();
         setState({ user: { id }, error: null, isLoading: false });
       } catch (error) {
-        setError("Authentication failed");
+        if (error instanceof ApiError) {
+          setError(error);
+        } else {
+          setError(new ApiError({ code: 400, info: "Logout Fehlgeschlagen" }));
+        }
       }
     };
 
