@@ -2,6 +2,7 @@ import { useState, useEffect, ReactElement, useCallback } from "react";
 import { User, UserLoginParams } from "abipulli-types";
 import { AuthContext } from "./authContext";
 import { UserApi } from "src/api/endpoints/user";
+import { ApiError } from "src/api/ApiError";
 
 interface AuthProviderProps {
   children: React.ReactNode;
@@ -9,7 +10,7 @@ interface AuthProviderProps {
 
 export interface AuthState {
   user: Partial<User> | null;
-  error: string | null;
+  error: ApiError | null;
   isLoading: boolean;
 }
 
