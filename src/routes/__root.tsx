@@ -5,6 +5,10 @@ import TreeBG from "src/assets/background/tree-bg.png";
 import { AbiPulliLogo } from "src/components/Misc/AbipulliLogo";
 import { SidebarMobile } from "src/components/Sidebar/SidebarMobile";
 import { Sidebar } from "src/components/Sidebar/Sidebar";
+import { MiscApi } from "src/api/endpoints/misc";
+import { ApiError } from "src/api/ApiError";
+import { useSnackbar } from "src/hooks/useSnackbar";
+import { JSX, useEffect } from "react";
 
 interface RouterContext {
   auth: AuthContextType;
@@ -25,6 +29,25 @@ const BackgroundImages: React.FC = () => (
     /> */}
   </div>
 );
+
+const BackendAvailable = (): JSX.Element => {
+  const showSnackbar = useSnackbar();
+
+  useEffect(() => {
+    const checkAvailability = async () => {
+      try {
+        await MiscApi.test();
+      } catch (error) {
+        if (error instanceof ApiError) {
+          showSnackbar({ message: error.message, type: "error" });
+        }
+      }
+    };
+    checkAvailability();
+  }, []);
+
+  return <Outlet />;
+};
 
 export const Route = createRootRouteWithContext<RouterContext>()({
   component: () => (
@@ -50,7 +73,7 @@ export const Route = createRootRouteWithContext<RouterContext>()({
           className="flex-1 sm:flex-8/12 z-10 flex"
           aria-label="Seiteninhalt"
         >
-          <Outlet />
+          <BackendAvailable />
         </section>
       </div>
       <BackgroundImages />
