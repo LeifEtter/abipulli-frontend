@@ -125,7 +125,7 @@ function RouteComponent() {
           selectDesign={(id) => selectDesignById(id)}
         />
       )}
-      <div className="mx-2 lg:mx-16 xl:mx-30">
+      <div className="mx-2 lg:mx-16 xl:mx-30 border-3 ">
         {!design && <CanvasPlaceholder />}
         {design && (
           <Stage
