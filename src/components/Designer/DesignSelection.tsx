@@ -5,6 +5,7 @@ import { JSX } from "react";
 import { Design } from "abipulli-types";
 import { Center } from "../Misc/Center";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { ButtonType } from "src/types/ButtonType";
 
 interface DesignSelectionProps {
   designs: Design[];
@@ -64,7 +65,12 @@ export const DesignSelection = ({
     </div>
 
     <div className="absolute hidden xl:flex bottom-4 flex-row w-full justify-center">
-      <BasicButton icon={faPlus} ariaLabel="Neues Design hinzufügen">
+      <BasicButton
+        type={ButtonType.Link}
+        to="/designer/chooseType"
+        icon={faPlus}
+        ariaLabel="Neues Design hinzufügen"
+      >
         Neues Design
       </BasicButton>
     </div>
