@@ -1,9 +1,13 @@
 import { faSave } from "@fortawesome/free-solid-svg-icons";
 import { useWindowWidth } from "@react-hook/window-size";
-import { createFileRoute } from "@tanstack/react-router";
+import {
+  createFileRoute,
+  useNavigate,
+  useParams,
+} from "@tanstack/react-router";
 import { Design, Image, ImageWithPositionAndScale } from "abipulli-types";
 import { KonvaEventObject } from "konva/lib/Node";
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import { Layer, Stage } from "react-konva";
 import { BasicButton } from "src/components/Buttons/BasicButton";
 import {
@@ -23,7 +27,7 @@ import { FrontBackButton } from "src/components/Buttons/FrontBackButton";
 import { SizeType } from "src/types/canvas/sizeType";
 import { useAuth } from "src/hooks/useAuth";
 
-export const Route = createFileRoute("/_auth/designer")({
+export const Route = createFileRoute("/_auth/designer/")({
   component: RouteComponent,
 });
 
