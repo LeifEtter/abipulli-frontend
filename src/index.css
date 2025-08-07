@@ -40,6 +40,7 @@
 
   --shadow-abipulli: #1a1919 0px 10px 0px 0px;
   --shadow-abipulli-sm: #1a1919 0px 4px 0px 0px;
+  --shadow-abipulli-xs: #1a1919 0px 2px 0px 0px;
 
   --color-ap-medium-grey-half-opacity: oklch(0.32 0.0507 261.01 / 20%);
 }
