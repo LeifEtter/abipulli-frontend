@@ -142,7 +142,7 @@ function RouteComponent() {
           >
             <Layer>
               <StaticImage
-                src={design.preferredPullover!.image.url}
+                src={design.preferredPullover!.frontImage.url}
                 width={designCanvasSize.width - 20}
                 onClick={(e: KonvaEventObject<MouseEvent>) => {
                   checkDeselect(e);

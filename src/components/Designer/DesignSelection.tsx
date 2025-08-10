@@ -57,7 +57,7 @@ export const DesignSelection = ({
             <DesignTab
               onSelect={() => selectDesign(e.id)}
               selected={selectedDesign && selectedDesign.id == e.id}
-              image={e.preferredPullover!.image.url}
+              image={e.preferredPullover!.frontImage.url}
             />
           </div>
         ))}
