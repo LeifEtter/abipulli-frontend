@@ -142,7 +142,11 @@ function RouteComponent() {
           >
             <Layer>
               <StaticImage
-                src={design.preferredPullover!.frontImage.url}
+                src={
+                  viewingSide == ViewingSide.Front
+                    ? design.preferredPullover!.frontImage.url
+                    : design.preferredPullover!.backImage.url
+                }
                 width={designCanvasSize.width - 20}
                 onClick={(e: KonvaEventObject<MouseEvent>) => {
                   checkDeselect(e);
@@ -151,36 +155,42 @@ function RouteComponent() {
                 aria-label="Pullover Hintergrund"
               />
               {!designImagesAreLoading &&
-                designImages.map((image) => (
-                  <ResizableImage
-                    key={`design-image-${designImages.indexOf(image)}`}
-                    width={image.width}
-                    height={image.height}
-                    onDelete={() => onDeleteImage(image)}
-                    originalPos={{
-                      x: image.positionX!,
-                      y: image.positionY!,
-                    }}
-                    originalSize={{
-                      width: image.width,
-                      height: image.height,
-                    }}
-                    canvasSize={designCanvasSize}
-                    originalScale={{ x: image.scaleX!, y: image.scaleY! }}
-                    src={image.url}
-                    isSelected={
-                      selectedImage != null &&
-                      designImages.indexOf(image) ==
-                        designImages.indexOf(selectedImage)
-                    }
-                    onSelect={() => selectImage(image)}
-                    onPositionChange={(pos) =>
-                      onImagePositionChange(pos, image)
-                    }
-                    onScaleChange={(scale) => onScaleChange(scale, image)}
-                    aria-label={`Designbild ${designImages.indexOf(image) + 1}`}
-                  />
-                ))}
+                designImages
+                  .filter((e) =>
+                    viewingSide == ViewingSide.Front
+                      ? !e.isBackside
+                      : e.isBackside
+                  )
+                  .map((image) => (
+                    <ResizableImage
+                      key={`design-image-${designImages.indexOf(image)}`}
+                      width={image.width}
+                      height={image.height}
+                      onDelete={() => onDeleteImage(image)}
+                      originalPos={{
+                        x: image.positionX!,
+                        y: image.positionY!,
+                      }}
+                      originalSize={{
+                        width: image.width,
+                        height: image.height,
+                      }}
+                      canvasSize={designCanvasSize}
+                      originalScale={{ x: image.scaleX!, y: image.scaleY! }}
+                      src={image.url}
+                      isSelected={
+                        selectedImage != null &&
+                        designImages.indexOf(image) ==
+                          designImages.indexOf(selectedImage)
+                      }
+                      onSelect={() => selectImage(image)}
+                      onPositionChange={(pos) =>
+                        onImagePositionChange(pos, image)
+                      }
+                      onScaleChange={(scale) => onScaleChange(scale, image)}
+                      aria-label={`Designbild ${designImages.indexOf(image) + 1}`}
+                    />
+                  ))}
             </Layer>
           </Stage>
         )}
@@ -222,7 +232,12 @@ function RouteComponent() {
                   message: "Wähle ein Design aus bevor du ein Bild hinzufügst",
                 });
               }
-              addImageToDesign(image, designCanvasSize, design.id);
+              addImageToDesign(
+                image,
+                designCanvasSize,
+                design.id,
+                viewingSide == ViewingSide.Back
+              );
             }}
             images={userImages}
           />
