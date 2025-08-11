@@ -31,6 +31,9 @@ export const Route = createFileRoute("/_auth/designer/chooseType")({
 
 function RouteComponent() {
   const [pullovers, setPullovers] = useState<Pullover[]>();
+
+  const navigate = useNavigate();
+
   const onSelectPullover = async (pulloverId: number) => {
     try {
       const params: DesignCreateParams = {
