@@ -26,7 +26,8 @@ import { Route as AuthGenerierenVerbessernImport } from './routes/_auth/generier
 import { Route as AuthGenerierenReferenzImport } from './routes/_auth/generieren/referenz'
 import { Route as AuthGenerierenMottoImport } from './routes/_auth/generieren/motto'
 import { Route as AuthGenerierenBeschreibungImport } from './routes/_auth/generieren/beschreibung'
-import { Route as AuthDesignerChooseTypeImport } from './routes/_auth/designer/chooseType'
+import { Route as AuthDesignerOrderIdIndexImport } from './routes/_auth/designer/$orderId/index'
+import { Route as AuthDesignerOrderIdChooseTypeImport } from './routes/_auth/designer/$orderId/chooseType'
 
 // Create/Update Routes
 
@@ -121,11 +122,18 @@ const AuthGenerierenBeschreibungRoute = AuthGenerierenBeschreibungImport.update(
   } as any,
 )
 
-const AuthDesignerChooseTypeRoute = AuthDesignerChooseTypeImport.update({
-  id: '/designer/chooseType',
-  path: '/designer/chooseType',
+const AuthDesignerOrderIdIndexRoute = AuthDesignerOrderIdIndexImport.update({
+  id: '/designer/$orderId/',
+  path: '/designer/$orderId/',
   getParentRoute: () => AuthRouteRoute,
 } as any)
+
+const AuthDesignerOrderIdChooseTypeRoute =
+  AuthDesignerOrderIdChooseTypeImport.update({
+    id: '/designer/$orderId/chooseType',
+    path: '/designer/$orderId/chooseType',
+    getParentRoute: () => AuthRouteRoute,
+  } as any)
 
 // Populate the FileRoutesByPath interface
 
@@ -187,13 +195,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof OnboardingSchuleImport
       parentRoute: typeof OnboardingRouteImport
     }
-    '/_auth/designer/chooseType': {
-      id: '/_auth/designer/chooseType'
-      path: '/designer/chooseType'
-      fullPath: '/designer/chooseType'
-      preLoaderRoute: typeof AuthDesignerChooseTypeImport
-      parentRoute: typeof AuthRouteImport
-    }
     '/_auth/generieren/beschreibung': {
       id: '/_auth/generieren/beschreibung'
       path: '/beschreibung'
@@ -243,6 +244,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthVorschauIndexImport
       parentRoute: typeof AuthRouteImport
     }
+    '/_auth/designer/$orderId/chooseType': {
+      id: '/_auth/designer/$orderId/chooseType'
+      path: '/designer/$orderId/chooseType'
+      fullPath: '/designer/$orderId/chooseType'
+      preLoaderRoute: typeof AuthDesignerOrderIdChooseTypeImport
+      parentRoute: typeof AuthRouteImport
+    }
+    '/_auth/designer/$orderId/': {
+      id: '/_auth/designer/$orderId/'
+      path: '/designer/$orderId'
+      fullPath: '/designer/$orderId'
+      preLoaderRoute: typeof AuthDesignerOrderIdIndexImport
+      parentRoute: typeof AuthRouteImport
+    }
   }
 }
 
@@ -268,19 +283,21 @@ const AuthGenerierenRouteRouteWithChildren =
 interface AuthRouteRouteChildren {
   AuthGenerierenRouteRoute: typeof AuthGenerierenRouteRouteWithChildren
   AuthAccountRoute: typeof AuthAccountRoute
-  AuthDesignerChooseTypeRoute: typeof AuthDesignerChooseTypeRoute
   AuthVorschauImageIdRoute: typeof AuthVorschauImageIdRoute
   AuthDesignerIndexRoute: typeof AuthDesignerIndexRoute
   AuthVorschauIndexRoute: typeof AuthVorschauIndexRoute
+  AuthDesignerOrderIdChooseTypeRoute: typeof AuthDesignerOrderIdChooseTypeRoute
+  AuthDesignerOrderIdIndexRoute: typeof AuthDesignerOrderIdIndexRoute
 }
 
 const AuthRouteRouteChildren: AuthRouteRouteChildren = {
   AuthGenerierenRouteRoute: AuthGenerierenRouteRouteWithChildren,
   AuthAccountRoute: AuthAccountRoute,
-  AuthDesignerChooseTypeRoute: AuthDesignerChooseTypeRoute,
   AuthVorschauImageIdRoute: AuthVorschauImageIdRoute,
   AuthDesignerIndexRoute: AuthDesignerIndexRoute,
   AuthVorschauIndexRoute: AuthVorschauIndexRoute,
+  AuthDesignerOrderIdChooseTypeRoute: AuthDesignerOrderIdChooseTypeRoute,
+  AuthDesignerOrderIdIndexRoute: AuthDesignerOrderIdIndexRoute,
 }
 
 const AuthRouteRouteWithChildren = AuthRouteRoute._addFileChildren(
@@ -310,7 +327,6 @@ export interface FileRoutesByFullPath {
   '/account': typeof AuthAccountRoute
   '/onboarding/personal': typeof OnboardingPersonalRoute
   '/onboarding/schule': typeof OnboardingSchuleRoute
-  '/designer/chooseType': typeof AuthDesignerChooseTypeRoute
   '/generieren/beschreibung': typeof AuthGenerierenBeschreibungRoute
   '/generieren/motto': typeof AuthGenerierenMottoRoute
   '/generieren/referenz': typeof AuthGenerierenReferenzRoute
@@ -318,6 +334,8 @@ export interface FileRoutesByFullPath {
   '/vorschau/$imageId': typeof AuthVorschauImageIdRoute
   '/designer': typeof AuthDesignerIndexRoute
   '/vorschau': typeof AuthVorschauIndexRoute
+  '/designer/$orderId/chooseType': typeof AuthDesignerOrderIdChooseTypeRoute
+  '/designer/$orderId': typeof AuthDesignerOrderIdIndexRoute
 }
 
 export interface FileRoutesByTo {
@@ -329,7 +347,6 @@ export interface FileRoutesByTo {
   '/account': typeof AuthAccountRoute
   '/onboarding/personal': typeof OnboardingPersonalRoute
   '/onboarding/schule': typeof OnboardingSchuleRoute
-  '/designer/chooseType': typeof AuthDesignerChooseTypeRoute
   '/generieren/beschreibung': typeof AuthGenerierenBeschreibungRoute
   '/generieren/motto': typeof AuthGenerierenMottoRoute
   '/generieren/referenz': typeof AuthGenerierenReferenzRoute
@@ -337,6 +354,8 @@ export interface FileRoutesByTo {
   '/vorschau/$imageId': typeof AuthVorschauImageIdRoute
   '/designer': typeof AuthDesignerIndexRoute
   '/vorschau': typeof AuthVorschauIndexRoute
+  '/designer/$orderId/chooseType': typeof AuthDesignerOrderIdChooseTypeRoute
+  '/designer/$orderId': typeof AuthDesignerOrderIdIndexRoute
 }
 
 export interface FileRoutesById {
@@ -349,7 +368,6 @@ export interface FileRoutesById {
   '/_auth/account': typeof AuthAccountRoute
   '/onboarding/personal': typeof OnboardingPersonalRoute
   '/onboarding/schule': typeof OnboardingSchuleRoute
-  '/_auth/designer/chooseType': typeof AuthDesignerChooseTypeRoute
   '/_auth/generieren/beschreibung': typeof AuthGenerierenBeschreibungRoute
   '/_auth/generieren/motto': typeof AuthGenerierenMottoRoute
   '/_auth/generieren/referenz': typeof AuthGenerierenReferenzRoute
@@ -357,6 +375,8 @@ export interface FileRoutesById {
   '/_auth/vorschau/$imageId': typeof AuthVorschauImageIdRoute
   '/_auth/designer/': typeof AuthDesignerIndexRoute
   '/_auth/vorschau/': typeof AuthVorschauIndexRoute
+  '/_auth/designer/$orderId/chooseType': typeof AuthDesignerOrderIdChooseTypeRoute
+  '/_auth/designer/$orderId/': typeof AuthDesignerOrderIdIndexRoute
 }
 
 export interface FileRouteTypes {
@@ -370,7 +390,6 @@ export interface FileRouteTypes {
     | '/account'
     | '/onboarding/personal'
     | '/onboarding/schule'
-    | '/designer/chooseType'
     | '/generieren/beschreibung'
     | '/generieren/motto'
     | '/generieren/referenz'
@@ -378,6 +397,8 @@ export interface FileRouteTypes {
     | '/vorschau/$imageId'
     | '/designer'
     | '/vorschau'
+    | '/designer/$orderId/chooseType'
+    | '/designer/$orderId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -388,7 +409,6 @@ export interface FileRouteTypes {
     | '/account'
     | '/onboarding/personal'
     | '/onboarding/schule'
-    | '/designer/chooseType'
     | '/generieren/beschreibung'
     | '/generieren/motto'
     | '/generieren/referenz'
@@ -396,6 +416,8 @@ export interface FileRouteTypes {
     | '/vorschau/$imageId'
     | '/designer'
     | '/vorschau'
+    | '/designer/$orderId/chooseType'
+    | '/designer/$orderId'
   id:
     | '__root__'
     | '/'
@@ -406,7 +428,6 @@ export interface FileRouteTypes {
     | '/_auth/account'
     | '/onboarding/personal'
     | '/onboarding/schule'
-    | '/_auth/designer/chooseType'
     | '/_auth/generieren/beschreibung'
     | '/_auth/generieren/motto'
     | '/_auth/generieren/referenz'
@@ -414,6 +435,8 @@ export interface FileRouteTypes {
     | '/_auth/vorschau/$imageId'
     | '/_auth/designer/'
     | '/_auth/vorschau/'
+    | '/_auth/designer/$orderId/chooseType'
+    | '/_auth/designer/$orderId/'
   fileRoutesById: FileRoutesById
 }
 
@@ -455,10 +478,11 @@ export const routeTree = rootRoute
       "children": [
         "/_auth/generieren",
         "/_auth/account",
-        "/_auth/designer/chooseType",
         "/_auth/vorschau/$imageId",
         "/_auth/designer/",
-        "/_auth/vorschau/"
+        "/_auth/vorschau/",
+        "/_auth/designer/$orderId/chooseType",
+        "/_auth/designer/$orderId/"
       ]
     },
     "/onboarding": {
@@ -493,10 +517,6 @@ export const routeTree = rootRoute
       "filePath": "onboarding/schule.tsx",
       "parent": "/onboarding"
     },
-    "/_auth/designer/chooseType": {
-      "filePath": "_auth/designer/chooseType.tsx",
-      "parent": "/_auth"
-    },
     "/_auth/generieren/beschreibung": {
       "filePath": "_auth/generieren/beschreibung.tsx",
       "parent": "/_auth/generieren"
@@ -523,6 +543,14 @@ export const routeTree = rootRoute
     },
     "/_auth/vorschau/": {
       "filePath": "_auth/vorschau/index.tsx",
+      "parent": "/_auth"
+    },
+    "/_auth/designer/$orderId/chooseType": {
+      "filePath": "_auth/designer/$orderId/chooseType.tsx",
+      "parent": "/_auth"
+    },
+    "/_auth/designer/$orderId/": {
+      "filePath": "_auth/designer/$orderId/index.tsx",
       "parent": "/_auth"
     }
   }
