@@ -42,6 +42,20 @@ function RouteComponent() {
       console.error(error);
     }
   };
+
+  useEffect(() => {
+    const getPullovers = async () => {
+      try {
+        const pullovers = await PulloverApi.getAll();
+        setPullovers(pullovers);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    getPullovers();
+  }, []);
+
   return (
     <div className="card">
       <PageTitle>Wähle ein Pullover Typ/Farbe fürs neue Design</PageTitle>
