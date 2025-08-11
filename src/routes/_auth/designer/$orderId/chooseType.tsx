@@ -1,4 +1,9 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import {
+  createFileRoute,
+  useNavigate,
+  useParams,
+  useSearch,
+} from "@tanstack/react-router";
 import { DesignCreateParams, Pullover } from "abipulli-types";
 import { useEffect, useState } from "react";
 import { DesignApi } from "src/api/endpoints/design";
@@ -15,32 +20,38 @@ const PulloverModelCard = ({
   pullover: Pullover;
   onSelectPullover: (pulloverId: number) => void;
 }) => (
-  <div>
-    <button
-      onClick={() => onSelectPullover(pullover.id)}
-      className="hover:cursor-pointer hover:scale-110 duration-100 hover:bg-abipulli-green hover:shadow-abipulli hover:border-2 p-2 rounded-xl"
-    >
-      <img className="w-40" src={pullover.frontImage.url} />
-    </button>
-  </div>
+  <button
+    onClick={() => onSelectPullover(pullover.id)}
+    className="hover:cursor-pointer hover:scale-110 duration-100 hover:bg-abipulli-green hover:shadow-abipulli hover:border-2 p-2 rounded-xl"
+  >
+    <img className="w-40" src={pullover.frontImage.url} />
+  </button>
 );
 
-export const Route = createFileRoute("/_auth/designer/chooseType")({
+export const Route = createFileRoute("/_auth/designer/$orderId/chooseType")({
   component: RouteComponent,
 });
 
 function RouteComponent() {
   const [pullovers, setPullovers] = useState<Pullover[]>();
+  const [orderId, setOrderId] = useState<number>();
 
   const navigate = useNavigate();
+  const params = useParams({ strict: false });
 
   const onSelectPullover = async (pulloverId: number) => {
     try {
+      console.log(pulloverId);
+      if (!orderId) return;
       const params: DesignCreateParams = {
         preferredPulloverId: pulloverId,
       };
-      await DesignApi.createDesign(16, params);
-      navigate({ to: "/designer" });
+      const design = await DesignApi.createDesign(orderId, params);
+      console.log(design);
+      navigate({
+        to: "/designer/$orderId",
+        search: { selectedDesignId: design.id },
+      });
     } catch (error) {
       console.error(error);
     }
@@ -57,7 +68,8 @@ function RouteComponent() {
     };
 
     getPullovers();
-  }, []);
+    setOrderId(params.orderId);
+  }, [params]);
 
   return (
     <div className="card">
@@ -77,6 +89,7 @@ function RouteComponent() {
             .filter((e) => e.basePrice == 30)
             .map((pullover) => (
               <PulloverModelCard
+                key={`pullover-model-card-${pullover.id}`}
                 onSelectPullover={onSelectPullover}
                 pullover={pullover}
               />
@@ -95,6 +108,7 @@ function RouteComponent() {
             .filter((e) => e.basePrice == 40)
             .map((pullover) => (
               <PulloverModelCard
+                key={`pullover-model-card-${pullover.id}`}
                 onSelectPullover={onSelectPullover}
                 pullover={pullover}
               />
