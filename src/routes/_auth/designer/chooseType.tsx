@@ -1,5 +1,9 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { DesignCreateParams, Pullover } from "abipulli-types";
+import { useEffect, useState } from "react";
+import { DesignApi } from "src/api/endpoints/design";
+import { OrderApi } from "src/api/endpoints/order";
+import { PulloverApi } from "src/api/endpoints/pullover";
 import { MediumLabel } from "src/components/Texts/MediumLabel";
 import { PageDescription } from "src/components/Texts/PageDescription";
 import { PageTitle } from "src/components/Texts/PageTitle";
@@ -27,6 +31,17 @@ export const Route = createFileRoute("/_auth/designer/chooseType")({
 
 function RouteComponent() {
   const [pullovers, setPullovers] = useState<Pullover[]>();
+  const onSelectPullover = async (pulloverId: number) => {
+    try {
+      const params: DesignCreateParams = {
+        preferredPulloverId: pulloverId,
+      };
+      await DesignApi.createDesign(16, params);
+      navigate({ to: "/designer" });
+    } catch (error) {
+      console.error(error);
+    }
+  };
   return (
     <div className="card">
       <PageTitle>Wähle ein Pullover Typ/Farbe fürs neue Design</PageTitle>
