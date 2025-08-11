@@ -33,7 +33,7 @@ function RouteComponent() {
       <PageDescription>
         Dies kannst du selbstverständlich später im Designer ändern
       </PageDescription>
-      <div className="flex flex-row gap-2">
+      <div className="flex flex-row gap-2 mt-8">
         <MediumLabel text="Normal" />
         <div className="shadow-abipulli-xs border-2 border-abipulli-offblack rounded-md font-semibold bg-abipulli-green px-1">
           30€
@@ -51,7 +51,7 @@ function RouteComponent() {
             ))}
       </div>
 
-      <div className="flex flex-row font-bold gap-2">
+      <div className="flex flex-row font-bold gap-2 mt-8">
         <MediumLabel text="Heavy" />
         <div className="shadow-abipulli-xs border-2 border-abipulli-offblack rounded-md font-semibold bg-abipulli-green px-1">
           40€
