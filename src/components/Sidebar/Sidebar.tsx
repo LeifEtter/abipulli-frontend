@@ -153,7 +153,7 @@ export const Sidebar: React.FC = () => {
             label="Bestellabschluss"
             description="Bestelle deinen AbiPulli"
             to="/bestellen"
-            locked={user == null}
+            locked={true}
             selected={location.pathname == "/bestellen"}
             overrideCollapsed={overrideCollapsed()}
           />
@@ -161,29 +161,27 @@ export const Sidebar: React.FC = () => {
       </div>
       <div className="h-4" aria-hidden="true" />
       <div
-        className={`card p-2 px-4 w-24 ${!overrideCollapsed() && "lg:w-80"} group/navbar hover:w-80 transition-[width] duration-150 ease-in-out`}
+        className={`card flex flex-col items-start p-2 px-4 w-24 ${!overrideCollapsed() && "lg:w-80"} group/navbar hover:w-80 transition-[width] duration-150 ease-in-out`}
       >
-        <div>
-          {user ? (
-            <SidebarTile
-              icon={faFaceSmile}
-              label="Benutzerkonto"
-              description="Verwalte deine Daten"
-              to="/account"
-              selected={location.pathname == "/account"}
-              overrideCollapsed={overrideCollapsed()}
-            />
-          ) : (
-            <SidebarTile
-              icon={faKey}
-              label="Anmelden"
-              description="Logge dich ein"
-              to="/login"
-              selected={location.pathname == "/login"}
-              overrideCollapsed={overrideCollapsed()}
-            />
-          )}
-        </div>
+        {user ? (
+          <SidebarTile
+            icon={faFaceSmile}
+            label="Benutzerkonto"
+            description="Verwalte deine Daten"
+            to="/account"
+            selected={location.pathname == "/account"}
+            overrideCollapsed={overrideCollapsed()}
+          />
+        ) : (
+          <SidebarTile
+            icon={faKey}
+            label="Anmelden"
+            description="Logge dich ein"
+            to="/login"
+            selected={location.pathname == "/login"}
+            overrideCollapsed={overrideCollapsed()}
+          />
+        )}
       </div>
     </nav>
   );
