@@ -135,7 +135,7 @@ export const Sidebar: React.FC = () => {
             label="Designer"
             description="Vergleiche Bild Elemente"
             to="/designer"
-            selected={location.pathname == "/designer"}
+            selected={location.pathname.includes("/designer")}
             overrideCollapsed={overrideCollapsed()}
             locked={user == null}
           />
