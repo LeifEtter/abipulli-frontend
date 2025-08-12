@@ -29,6 +29,11 @@ export const ReferenceImagePicker = ({
       className="flex flex-wrap gap-2 mt-4 justify-center"
       aria-label="Bilderliste"
     >
+      {images.length == 0 && (
+        <p className="text-center mt-12 font-medium text-gray-400">
+          Du hast noch keine Bilder generiert
+        </p>
+      )}
       {images.map((image) => {
         const imageChosen: boolean =
           chosenImage != undefined && chosenImage.id == image.id;
