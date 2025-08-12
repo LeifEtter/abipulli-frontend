@@ -12,6 +12,7 @@
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as LoginImport } from './routes/login'
+import { Route as FreischaltenImport } from './routes/freischalten'
 import { Route as OnboardingRouteImport } from './routes/onboarding/route'
 import { Route as AuthRouteImport } from './routes/_auth/route'
 import { Route as IndexImport } from './routes/index'
@@ -35,6 +36,12 @@ import { Route as AuthDesignerOrderIdChooseTypeImport } from './routes/_auth/des
 const LoginRoute = LoginImport.update({
   id: '/login',
   path: '/login',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const FreischaltenRoute = FreischaltenImport.update({
+  id: '/freischalten',
+  path: '/freischalten',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -166,6 +173,13 @@ declare module '@tanstack/react-router' {
       path: '/onboarding'
       fullPath: '/onboarding'
       preLoaderRoute: typeof OnboardingRouteImport
+      parentRoute: typeof rootRoute
+    }
+    '/freischalten': {
+      id: '/freischalten'
+      path: '/freischalten'
+      fullPath: '/freischalten'
+      preLoaderRoute: typeof FreischaltenImport
       parentRoute: typeof rootRoute
     }
     '/login': {
@@ -339,6 +353,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '': typeof AuthRouteRouteWithChildren
   '/onboarding': typeof OnboardingRouteRouteWithChildren
+  '/freischalten': typeof FreischaltenRoute
   '/login': typeof LoginRoute
   '/generieren': typeof AuthGenerierenRouteRouteWithChildren
   '/account': typeof AuthAccountRoute
@@ -360,6 +375,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '': typeof AuthRouteRouteWithChildren
   '/onboarding': typeof OnboardingRouteRouteWithChildren
+  '/freischalten': typeof FreischaltenRoute
   '/login': typeof LoginRoute
   '/generieren': typeof AuthGenerierenRouteRouteWithChildren
   '/account': typeof AuthAccountRoute
@@ -382,6 +398,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_auth': typeof AuthRouteRouteWithChildren
   '/onboarding': typeof OnboardingRouteRouteWithChildren
+  '/freischalten': typeof FreischaltenRoute
   '/login': typeof LoginRoute
   '/_auth/generieren': typeof AuthGenerierenRouteRouteWithChildren
   '/_auth/account': typeof AuthAccountRoute
@@ -405,6 +422,7 @@ export interface FileRouteTypes {
     | '/'
     | ''
     | '/onboarding'
+    | '/freischalten'
     | '/login'
     | '/generieren'
     | '/account'
@@ -425,6 +443,7 @@ export interface FileRouteTypes {
     | '/'
     | ''
     | '/onboarding'
+    | '/freischalten'
     | '/login'
     | '/generieren'
     | '/account'
@@ -445,6 +464,7 @@ export interface FileRouteTypes {
     | '/'
     | '/_auth'
     | '/onboarding'
+    | '/freischalten'
     | '/login'
     | '/_auth/generieren'
     | '/_auth/account'
@@ -467,6 +487,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthRouteRoute: typeof AuthRouteRouteWithChildren
   OnboardingRouteRoute: typeof OnboardingRouteRouteWithChildren
+  FreischaltenRoute: typeof FreischaltenRoute
   LoginRoute: typeof LoginRoute
 }
 
@@ -474,6 +495,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthRouteRoute: AuthRouteRouteWithChildren,
   OnboardingRouteRoute: OnboardingRouteRouteWithChildren,
+  FreischaltenRoute: FreischaltenRoute,
   LoginRoute: LoginRoute,
 }
 
@@ -490,6 +512,7 @@ export const routeTree = rootRoute
         "/",
         "/_auth",
         "/onboarding",
+        "/freischalten",
         "/login"
       ]
     },
@@ -515,6 +538,9 @@ export const routeTree = rootRoute
         "/onboarding/personal",
         "/onboarding/schule"
       ]
+    },
+    "/freischalten": {
+      "filePath": "freischalten.tsx"
     },
     "/login": {
       "filePath": "login.tsx"

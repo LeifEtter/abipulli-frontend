@@ -224,7 +224,7 @@ function RouteComponent() {
                   password: userInfo.password!,
                 });
                 await submitOrder();
-                navigate({ to: "/generieren" });
+                navigate({ to: "/freischalten" });
               } catch (error) {
                 console.log(error);
                 showSnackbar({
