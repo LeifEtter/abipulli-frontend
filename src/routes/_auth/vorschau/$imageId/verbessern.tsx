@@ -10,10 +10,12 @@ import { createFileRoute, useParams } from "@tanstack/react-router";
 import { Image } from "abipulli-types";
 import Konva from "konva";
 import { KonvaEventObject, Node, NodeConfig } from "konva/lib/Node";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { JSX, useEffect, useMemo, useRef, useState } from "react";
 import { Layer, Stage, Image as KonvaImage } from "react-konva";
 import { ImageApi } from "src/api/endpoints/image";
+import { BasicButton } from "src/components/Buttons/BasicButton";
 import { StaticImage } from "src/components/Designer/CanvasImages";
+import { InputField } from "src/components/Inputs/InputField";
 import { PageDescription } from "src/components/Texts/PageDescription";
 import { PageTitle } from "src/components/Texts/PageTitle";
 
@@ -27,6 +29,7 @@ function RouteComponent() {
   const isDrawing = useRef<boolean>(false);
   const imageRef = useRef<any>(null); // Konva.Image or null
   const lastPos = useRef<{ x: number; y: number } | null>(null);
+  const [improvementText, setImprovementText] = useState<string>();
 
   const { canvas, context } = useMemo(() => {
     const canvas = document.createElement("canvas");
@@ -145,28 +148,44 @@ function RouteComponent() {
             beschreibe genau wie du es verbessern willst.
           </PageDescription>
         </div>
+        <div className="flex flex-col">
+          <Toolbar />
+          {image ? (
+            <div className="flex flex-row gap-2 items-start">
+              <div className="bg-white p-6 rounded-2xl">
+                <Stage
+                  width={450}
+                  height={450}
+                  onMouseDown={handleMouseDown}
+                  onMousemove={handleMouseMove}
+                  onMouseup={handleMouseUp}
+                  onTouchStart={handleMouseDown}
+                  onTouchMove={handleMouseMove}
+                  onTouchEnd={handleMouseUp}
+                >
+                  <Layer>
+                    <StaticImage width={450} src={image.url} />
+                    <KonvaImage ref={imageRef} image={canvas} x={0} y={0} />
+                  </Layer>
+                </Stage>
+              </div>
+              <div className="card p-6 flex flex-col items-center">
+                <InputField<string>
+                  value={improvementText ?? ""}
+                  onChange={(e) => setImprovementText(e)}
+                  label="Wie soll es verbessert werden?"
+                  multiline={true}
+                  minLines={3}
+                />
+                <BasicButton icon={faMagicWandSparkles} className="mt-4">
+                  Bild Verbessern
+                </BasicButton>
+              </div>
+            </div>
+          ) : (
+            <div>Bild konnte nicht geladen werden.</div>
+          )}
         </div>
-        {image ? (
-          <div className="bg-white p-6 rounded-2xl">
-            <Stage
-              width={450}
-              height={450}
-              onMouseDown={handleMouseDown}
-              onMousemove={handleMouseMove}
-              onMouseup={handleMouseUp}
-              onTouchStart={handleMouseDown}
-              onTouchMove={handleMouseMove}
-              onTouchEnd={handleMouseUp}
-            >
-              <Layer>
-                <StaticImage width={450} src={image.url} />
-                <KonvaImage ref={imageRef} image={canvas} x={0} y={0} />
-              </Layer>
-            </Stage>
-          </div>
-        ) : (
-          <div>Bild konnte nicht geladen werden.</div>
-        )}
       </div>
     </>
   );
