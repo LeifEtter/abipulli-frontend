@@ -22,7 +22,7 @@ export const PreviewDesign = ({
     >
       <Center>
         <img
-          src={pullover.image.url}
+          src={pullover.frontImage.url}
           className="w-10/12 max-w-sm"
           alt="Pullover Vorschau"
           aria-label="Pullover Vorschau"

@@ -10,7 +10,7 @@ import { FrontBackButton } from "src/components/Buttons/FrontBackButton";
 import { useSnackbar } from "src/hooks/useSnackbar";
 import { ButtonType } from "src/types/ButtonType";
 import { ViewingSide } from "src/types/ViewingSide";
-export const Route = createFileRoute("/_auth/vorschau/$imageId")({
+export const Route = createFileRoute("/_auth/vorschau/$imageId/")({
   component: RouteComponent,
 });
 
@@ -97,7 +97,7 @@ function RouteComponent() {
           </DescriptionButton>
           <DescriptionButton
             type={ButtonType.Link}
-            to="/"
+            to={`/vorschau/${imageId}/verbessern`}
             icon={faSliders}
             shadow
             className="w-70"

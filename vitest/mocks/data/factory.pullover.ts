@@ -4,7 +4,8 @@ import { Pullover } from "abipulli-types";
 
 export const PulloverFactory = {
   pullover: ({ id }: { id?: number }): Pullover => {
-    const imageId = uniqueId();
+    const frontImageId = uniqueId();
+    const backImageId = uniqueId();
     return {
       id: id ?? uniqueId(),
       name: "Pullover" + faker.helpers.arrayElement(["Heavy", "Normal"]),
@@ -13,15 +14,24 @@ export const PulloverFactory = {
       basePrice: faker.number.int({ min: 20, max: 100 }),
       createdAt: faker.date.past(),
       updatedAt: faker.date.past(),
-      image: {
-        id: imageId,
+      frontImage: {
+        id: frontImageId,
         createdAt: faker.date.past(),
         url: getRandomPulloverImageUrl(),
         uuid: crypto.randomUUID(),
         width: 500,
         height: 500,
       },
-      imageId: imageId,
+      frontImageId: frontImageId,
+      backImage: {
+        id: backImageId,
+        createdAt: faker.date.past(),
+        url: getRandomPulloverImageUrl(),
+        uuid: crypto.randomUUID(),
+        width: 500,
+        height: 500,
+      },
+      backImageId: backImageId,
     };
   },
 };

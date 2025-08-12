@@ -42,7 +42,6 @@ export const StaticImage: React.FC<StaticImageParams> = ({
 
   return (
     <Image
-      stroke={"3"}
       onClick={onClick}
       image={image}
       height={width * imageRatio}

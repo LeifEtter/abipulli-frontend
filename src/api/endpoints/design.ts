@@ -3,6 +3,7 @@ import {
   AddImageToDesignResponse,
   ApiResponse,
   Design,
+  DesignCreateParams,
   DesignResponse,
   DesignsResponse,
   ImagesForDesignResponse,
@@ -16,6 +17,17 @@ import { AxiosResponse } from "axios";
  * Api methods for managing images and design images
  */
 export const DesignApi = {
+  createDesign: async (
+    orderNumber: number,
+    params: DesignCreateParams
+  ): Promise<Design> => {
+    const res = await api.post(`/order/${orderNumber}/design/`, params);
+    const designResponse: DesignResponse = res.data;
+    return designResponse.data!;
+  },
+  deleteDesign: async (designId: number, orderId: number): Promise<void> => {
+    const res = await api.delete(`/order/${orderId}/design/${designId}`);
+  },
   retrieveAllDesigns: async (userId: number): Promise<Design[]> => {
     const res = await api.get(`/design/me`);
     const designsRes: DesignsResponse = res.data;

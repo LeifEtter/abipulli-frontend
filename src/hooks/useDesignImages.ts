@@ -17,7 +17,8 @@ export const useDesignImages = (designId?: number) => {
   const addImageToDesign = async (
     image: Image,
     designCanvasSize: SizeType,
-    designId: number
+    designId: number,
+    isBackside: boolean
   ) => {
     let scale: number;
     const widthDiff = image.width - designCanvasSize.width * 0.5;
@@ -38,6 +39,7 @@ export const useDesignImages = (designId?: number) => {
           positionY: 0,
           scaleX: scale,
           scaleY: scale,
+          isBackside: isBackside,
         },
       });
     if (newImage) setDesignImages([...designImages, newImage]);
