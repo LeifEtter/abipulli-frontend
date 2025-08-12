@@ -32,6 +32,7 @@ export const ImageFactory = {
     return {
       ...ImageFactory.image({}),
       imageToDesignId: imageToDesignId ?? uniqueId(),
+      isBackside: false,
       scaleX: faker.number.float({ min: 0.5, max: 1 }),
       scaleY: faker.number.float({ min: 0.5, max: 1 }),
       positionX: faker.number.int({ min: 0, max: 500 }),

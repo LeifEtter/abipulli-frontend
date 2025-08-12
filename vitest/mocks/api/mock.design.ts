@@ -55,6 +55,7 @@ export const MockDesignApi = {
   }): Promise<ImageWithPositionAndScale> => ({
     ...ImageFactory.image({ userId: getTestUserId() }),
     imageToDesignId: imageToDesignId,
+    isBackside: false,
     ...manipulateImageParams,
   }),
   removeImageFromDesign: async (
