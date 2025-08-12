@@ -153,7 +153,7 @@ function RouteComponent() {
           orderId={params["orderId"]!}
         />
       )}
-      <div className="mx-2 lg:mx-16 xl:mx-30 border-3 ">
+      <div className="mx-2 lg:mx-16 xl:mx-30">
         {!design && <CanvasPlaceholder />}
         {design && (
           <Stage
