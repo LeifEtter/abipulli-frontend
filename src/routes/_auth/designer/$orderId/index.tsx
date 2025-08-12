@@ -27,6 +27,7 @@ import { ViewingSide } from "src/types/ViewingSide";
 import { FrontBackButton } from "src/components/Buttons/FrontBackButton";
 import { SizeType } from "src/types/canvas/sizeType";
 import { useAuth } from "src/hooks/useAuth";
+import { DesignApi } from "src/api/endpoints/design";
 
 export const Route = createFileRoute("/_auth/designer/$orderId/")({
   component: RouteComponent,
@@ -56,11 +57,22 @@ function RouteComponent() {
   const { user, isLoading } = useAuth();
   const userId = user?.id;
   const designsHook = useDesigns(userId ?? undefined);
-  const { designs, designsAreLoading, designsError } = designsHook;
+  const { designs, fetchDesigns, designsAreLoading, designsError } =
+    designsHook;
 
   const selectDesignById = (id: number) => {
     const design: Design | null = designs.filter((e) => e.id == id)[0];
     setDesign(design);
+  };
+
+  const onDeleteDesign = async (id: number) => {
+    try {
+      await DesignApi.deleteDesign(id, params.orderId);
+      await fetchDesigns();
+      setDesign(null);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const checkDeselect = (e: KonvaEventObject<MouseEvent | TouchEvent>) => {
@@ -134,6 +146,7 @@ function RouteComponent() {
     <main className="flex flex-row w-full" aria-label="Designer">
       {!designsAreLoading && (
         <DesignSelection
+          deleteDesign={onDeleteDesign}
           designs={designs}
           selectedDesign={design ?? undefined}
           selectDesign={(id) => selectDesignById(id)}
