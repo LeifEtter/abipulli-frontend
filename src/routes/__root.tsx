@@ -56,11 +56,11 @@ export const Route = createRootRouteWithContext<RouterContext>()({
       className=""
       aria-label="AbiPulli App Hauptbereich"
     >
-      <div className="relative w-full" aria-label="Logo Bereich">
+      <div className="relative w-full flex pl-8 pt-4" aria-label="Logo Bereich">
         <AbiPulliLogo />
       </div>
       <div
-        className="flex flex-row mt-16 gap-0 sm:gap-4 items-start px-4"
+        className="flex flex-row mt-12 gap-0 sm:gap-4 items-start px-4"
         aria-label="Seitenlayout"
       >
         <nav className="block sm:hidden" aria-label="Mobile Navigation">
