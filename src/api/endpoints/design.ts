@@ -25,6 +25,9 @@ export const DesignApi = {
     const designResponse: DesignResponse = res.data;
     return designResponse.data!;
   },
+  deleteDesign: async (designId: number, orderId: number): Promise<void> => {
+    const res = await api.delete(`/order/${orderId}/design/${designId}`);
+  },
   retrieveAllDesigns: async (userId: number): Promise<Design[]> => {
     const res = await api.get(`/design/me`);
     const designsRes: DesignsResponse = res.data;
