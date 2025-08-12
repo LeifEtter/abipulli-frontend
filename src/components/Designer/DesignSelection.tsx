@@ -1,4 +1,4 @@
-import { faPenFancy, faPlus } from "@fortawesome/free-solid-svg-icons";
+import { faPenFancy, faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { BasicButton } from "../Buttons/BasicButton";
 import { DesignTab } from "./DesignTab";
 import { JSX, useEffect, useRef } from "react";
@@ -11,6 +11,7 @@ import { Link } from "@tanstack/react-router";
 interface DesignSelectionProps {
   designs: Design[];
   selectDesign: (id: number) => void;
+  deleteDesign: (id: number) => void;
   selectedDesign: Design | undefined;
   orderId: number;
 }
@@ -18,6 +19,7 @@ interface DesignSelectionProps {
 export const DesignSelection = ({
   designs,
   selectDesign,
+  deleteDesign,
   selectedDesign,
   orderId,
 }: DesignSelectionProps): JSX.Element => {
@@ -65,13 +67,21 @@ export const DesignSelection = ({
         <div className="flex flex-col items-center gap-2 mt-2">
           {designs.map((e, i) => (
             <div
-              className="w-3/4 max-w-40"
+              className="relative w-3/4 max-w-40"
               role="listitem"
               key={`design-tab-${i}`}
               ref={
                 selectedDesign && selectedDesign.id == e.id ? selectedRef : null
               }
             >
+              {selectedDesign && selectedDesign.id == e.id && (
+                <button
+                  onClick={() => deleteDesign(e.id)}
+                  className="absolute right-0 border-1 overflow-hidden top-0 w-8 h-8 flex items-center justify-center rounded-md bg-red-200 hover:cursor-pointer"
+                >
+                  <FontAwesomeIcon icon={faTrash} />
+                </button>
+              )}
               <DesignTab
                 onSelect={() => selectDesign(e.id)}
                 selected={selectedDesign && selectedDesign.id == e.id}
