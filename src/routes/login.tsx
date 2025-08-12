@@ -15,6 +15,12 @@ function RouteComponent() {
   const { login, isLoading, user } = useAuth();
   const navigate = useNavigate();
 
+  useEffect(() => {
+    if (!isLoading && user != null) {
+      navigate({ to: "/designer" });
+    }
+  }, [user, isLoading]);
+
   return (
     <main
       className="card w-11/12 sm:w-10/12 md:w-8/12 pb-8 max-w-140 flex flex-col items-center"
