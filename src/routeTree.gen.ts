@@ -21,12 +21,13 @@ import { Route as AuthAccountImport } from './routes/_auth/account'
 import { Route as AuthGenerierenRouteImport } from './routes/_auth/generieren/route'
 import { Route as AuthVorschauIndexImport } from './routes/_auth/vorschau/index'
 import { Route as AuthDesignerIndexImport } from './routes/_auth/designer/index'
-import { Route as AuthVorschauImageIdImport } from './routes/_auth/vorschau/$imageId'
 import { Route as AuthGenerierenVerbessernImport } from './routes/_auth/generieren/verbessern'
 import { Route as AuthGenerierenReferenzImport } from './routes/_auth/generieren/referenz'
 import { Route as AuthGenerierenMottoImport } from './routes/_auth/generieren/motto'
 import { Route as AuthGenerierenBeschreibungImport } from './routes/_auth/generieren/beschreibung'
+import { Route as AuthVorschauImageIdIndexImport } from './routes/_auth/vorschau/$imageId/index'
 import { Route as AuthDesignerOrderIdIndexImport } from './routes/_auth/designer/$orderId/index'
+import { Route as AuthVorschauImageIdVerbessernImport } from './routes/_auth/vorschau/$imageId/verbessern'
 import { Route as AuthDesignerOrderIdChooseTypeImport } from './routes/_auth/designer/$orderId/chooseType'
 
 // Create/Update Routes
@@ -90,12 +91,6 @@ const AuthDesignerIndexRoute = AuthDesignerIndexImport.update({
   getParentRoute: () => AuthRouteRoute,
 } as any)
 
-const AuthVorschauImageIdRoute = AuthVorschauImageIdImport.update({
-  id: '/vorschau/$imageId',
-  path: '/vorschau/$imageId',
-  getParentRoute: () => AuthRouteRoute,
-} as any)
-
 const AuthGenerierenVerbessernRoute = AuthGenerierenVerbessernImport.update({
   id: '/verbessern',
   path: '/verbessern',
@@ -122,11 +117,24 @@ const AuthGenerierenBeschreibungRoute = AuthGenerierenBeschreibungImport.update(
   } as any,
 )
 
+const AuthVorschauImageIdIndexRoute = AuthVorschauImageIdIndexImport.update({
+  id: '/vorschau/$imageId/',
+  path: '/vorschau/$imageId/',
+  getParentRoute: () => AuthRouteRoute,
+} as any)
+
 const AuthDesignerOrderIdIndexRoute = AuthDesignerOrderIdIndexImport.update({
   id: '/designer/$orderId/',
   path: '/designer/$orderId/',
   getParentRoute: () => AuthRouteRoute,
 } as any)
+
+const AuthVorschauImageIdVerbessernRoute =
+  AuthVorschauImageIdVerbessernImport.update({
+    id: '/vorschau/$imageId/verbessern',
+    path: '/vorschau/$imageId/verbessern',
+    getParentRoute: () => AuthRouteRoute,
+  } as any)
 
 const AuthDesignerOrderIdChooseTypeRoute =
   AuthDesignerOrderIdChooseTypeImport.update({
@@ -223,13 +231,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthGenerierenVerbessernImport
       parentRoute: typeof AuthGenerierenRouteImport
     }
-    '/_auth/vorschau/$imageId': {
-      id: '/_auth/vorschau/$imageId'
-      path: '/vorschau/$imageId'
-      fullPath: '/vorschau/$imageId'
-      preLoaderRoute: typeof AuthVorschauImageIdImport
-      parentRoute: typeof AuthRouteImport
-    }
     '/_auth/designer/': {
       id: '/_auth/designer/'
       path: '/designer'
@@ -251,11 +252,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthDesignerOrderIdChooseTypeImport
       parentRoute: typeof AuthRouteImport
     }
+    '/_auth/vorschau/$imageId/verbessern': {
+      id: '/_auth/vorschau/$imageId/verbessern'
+      path: '/vorschau/$imageId/verbessern'
+      fullPath: '/vorschau/$imageId/verbessern'
+      preLoaderRoute: typeof AuthVorschauImageIdVerbessernImport
+      parentRoute: typeof AuthRouteImport
+    }
     '/_auth/designer/$orderId/': {
       id: '/_auth/designer/$orderId/'
       path: '/designer/$orderId'
       fullPath: '/designer/$orderId'
       preLoaderRoute: typeof AuthDesignerOrderIdIndexImport
+      parentRoute: typeof AuthRouteImport
+    }
+    '/_auth/vorschau/$imageId/': {
+      id: '/_auth/vorschau/$imageId/'
+      path: '/vorschau/$imageId'
+      fullPath: '/vorschau/$imageId'
+      preLoaderRoute: typeof AuthVorschauImageIdIndexImport
       parentRoute: typeof AuthRouteImport
     }
   }
@@ -283,21 +298,23 @@ const AuthGenerierenRouteRouteWithChildren =
 interface AuthRouteRouteChildren {
   AuthGenerierenRouteRoute: typeof AuthGenerierenRouteRouteWithChildren
   AuthAccountRoute: typeof AuthAccountRoute
-  AuthVorschauImageIdRoute: typeof AuthVorschauImageIdRoute
   AuthDesignerIndexRoute: typeof AuthDesignerIndexRoute
   AuthVorschauIndexRoute: typeof AuthVorschauIndexRoute
   AuthDesignerOrderIdChooseTypeRoute: typeof AuthDesignerOrderIdChooseTypeRoute
+  AuthVorschauImageIdVerbessernRoute: typeof AuthVorschauImageIdVerbessernRoute
   AuthDesignerOrderIdIndexRoute: typeof AuthDesignerOrderIdIndexRoute
+  AuthVorschauImageIdIndexRoute: typeof AuthVorschauImageIdIndexRoute
 }
 
 const AuthRouteRouteChildren: AuthRouteRouteChildren = {
   AuthGenerierenRouteRoute: AuthGenerierenRouteRouteWithChildren,
   AuthAccountRoute: AuthAccountRoute,
-  AuthVorschauImageIdRoute: AuthVorschauImageIdRoute,
   AuthDesignerIndexRoute: AuthDesignerIndexRoute,
   AuthVorschauIndexRoute: AuthVorschauIndexRoute,
   AuthDesignerOrderIdChooseTypeRoute: AuthDesignerOrderIdChooseTypeRoute,
+  AuthVorschauImageIdVerbessernRoute: AuthVorschauImageIdVerbessernRoute,
   AuthDesignerOrderIdIndexRoute: AuthDesignerOrderIdIndexRoute,
+  AuthVorschauImageIdIndexRoute: AuthVorschauImageIdIndexRoute,
 }
 
 const AuthRouteRouteWithChildren = AuthRouteRoute._addFileChildren(
@@ -331,11 +348,12 @@ export interface FileRoutesByFullPath {
   '/generieren/motto': typeof AuthGenerierenMottoRoute
   '/generieren/referenz': typeof AuthGenerierenReferenzRoute
   '/generieren/verbessern': typeof AuthGenerierenVerbessernRoute
-  '/vorschau/$imageId': typeof AuthVorschauImageIdRoute
   '/designer': typeof AuthDesignerIndexRoute
   '/vorschau': typeof AuthVorschauIndexRoute
   '/designer/$orderId/chooseType': typeof AuthDesignerOrderIdChooseTypeRoute
+  '/vorschau/$imageId/verbessern': typeof AuthVorschauImageIdVerbessernRoute
   '/designer/$orderId': typeof AuthDesignerOrderIdIndexRoute
+  '/vorschau/$imageId': typeof AuthVorschauImageIdIndexRoute
 }
 
 export interface FileRoutesByTo {
@@ -351,11 +369,12 @@ export interface FileRoutesByTo {
   '/generieren/motto': typeof AuthGenerierenMottoRoute
   '/generieren/referenz': typeof AuthGenerierenReferenzRoute
   '/generieren/verbessern': typeof AuthGenerierenVerbessernRoute
-  '/vorschau/$imageId': typeof AuthVorschauImageIdRoute
   '/designer': typeof AuthDesignerIndexRoute
   '/vorschau': typeof AuthVorschauIndexRoute
   '/designer/$orderId/chooseType': typeof AuthDesignerOrderIdChooseTypeRoute
+  '/vorschau/$imageId/verbessern': typeof AuthVorschauImageIdVerbessernRoute
   '/designer/$orderId': typeof AuthDesignerOrderIdIndexRoute
+  '/vorschau/$imageId': typeof AuthVorschauImageIdIndexRoute
 }
 
 export interface FileRoutesById {
@@ -372,11 +391,12 @@ export interface FileRoutesById {
   '/_auth/generieren/motto': typeof AuthGenerierenMottoRoute
   '/_auth/generieren/referenz': typeof AuthGenerierenReferenzRoute
   '/_auth/generieren/verbessern': typeof AuthGenerierenVerbessernRoute
-  '/_auth/vorschau/$imageId': typeof AuthVorschauImageIdRoute
   '/_auth/designer/': typeof AuthDesignerIndexRoute
   '/_auth/vorschau/': typeof AuthVorschauIndexRoute
   '/_auth/designer/$orderId/chooseType': typeof AuthDesignerOrderIdChooseTypeRoute
+  '/_auth/vorschau/$imageId/verbessern': typeof AuthVorschauImageIdVerbessernRoute
   '/_auth/designer/$orderId/': typeof AuthDesignerOrderIdIndexRoute
+  '/_auth/vorschau/$imageId/': typeof AuthVorschauImageIdIndexRoute
 }
 
 export interface FileRouteTypes {
@@ -394,11 +414,12 @@ export interface FileRouteTypes {
     | '/generieren/motto'
     | '/generieren/referenz'
     | '/generieren/verbessern'
-    | '/vorschau/$imageId'
     | '/designer'
     | '/vorschau'
     | '/designer/$orderId/chooseType'
+    | '/vorschau/$imageId/verbessern'
     | '/designer/$orderId'
+    | '/vorschau/$imageId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -413,11 +434,12 @@ export interface FileRouteTypes {
     | '/generieren/motto'
     | '/generieren/referenz'
     | '/generieren/verbessern'
-    | '/vorschau/$imageId'
     | '/designer'
     | '/vorschau'
     | '/designer/$orderId/chooseType'
+    | '/vorschau/$imageId/verbessern'
     | '/designer/$orderId'
+    | '/vorschau/$imageId'
   id:
     | '__root__'
     | '/'
@@ -432,11 +454,12 @@ export interface FileRouteTypes {
     | '/_auth/generieren/motto'
     | '/_auth/generieren/referenz'
     | '/_auth/generieren/verbessern'
-    | '/_auth/vorschau/$imageId'
     | '/_auth/designer/'
     | '/_auth/vorschau/'
     | '/_auth/designer/$orderId/chooseType'
+    | '/_auth/vorschau/$imageId/verbessern'
     | '/_auth/designer/$orderId/'
+    | '/_auth/vorschau/$imageId/'
   fileRoutesById: FileRoutesById
 }
 
@@ -478,11 +501,12 @@ export const routeTree = rootRoute
       "children": [
         "/_auth/generieren",
         "/_auth/account",
-        "/_auth/vorschau/$imageId",
         "/_auth/designer/",
         "/_auth/vorschau/",
         "/_auth/designer/$orderId/chooseType",
-        "/_auth/designer/$orderId/"
+        "/_auth/vorschau/$imageId/verbessern",
+        "/_auth/designer/$orderId/",
+        "/_auth/vorschau/$imageId/"
       ]
     },
     "/onboarding": {
@@ -533,10 +557,6 @@ export const routeTree = rootRoute
       "filePath": "_auth/generieren/verbessern.tsx",
       "parent": "/_auth/generieren"
     },
-    "/_auth/vorschau/$imageId": {
-      "filePath": "_auth/vorschau/$imageId.tsx",
-      "parent": "/_auth"
-    },
     "/_auth/designer/": {
       "filePath": "_auth/designer/index.tsx",
       "parent": "/_auth"
@@ -549,8 +569,16 @@ export const routeTree = rootRoute
       "filePath": "_auth/designer/$orderId/chooseType.tsx",
       "parent": "/_auth"
     },
+    "/_auth/vorschau/$imageId/verbessern": {
+      "filePath": "_auth/vorschau/$imageId/verbessern.tsx",
+      "parent": "/_auth"
+    },
     "/_auth/designer/$orderId/": {
       "filePath": "_auth/designer/$orderId/index.tsx",
+      "parent": "/_auth"
+    },
+    "/_auth/vorschau/$imageId/": {
+      "filePath": "_auth/vorschau/$imageId/index.tsx",
       "parent": "/_auth"
     }
   }
