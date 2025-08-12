@@ -1,6 +1,7 @@
 import {
   faBrush,
   faEraser,
+  faMagicWandSparkles,
   faPaintbrush,
   faRemove,
 } from "@fortawesome/free-solid-svg-icons";
@@ -106,6 +107,34 @@ function RouteComponent() {
     getImage();
   }, [imageId]);
 
+  const Toolbar = () => (
+    <div className="flex flex-row justify-start mt-6 mb-2 gap-2">
+      <div
+        onClick={() => setTool("brush")}
+        className={`${tool == "brush" ? "bg-black text-white" : "bg-white text-black"} flex flex-row items-center gap-2 py-1 px-2 rounded-md cursor-pointer shadow-md`}
+      >
+        <FontAwesomeIcon icon={faBrush} className="text-xl" />
+        <p className="text-xl font-semibold ">Markieren</p>
+      </div>
+      <div
+        onClick={() => setTool("eraser")}
+        className={`${tool == "eraser" ? "bg-black text-white" : "bg-white text-black"} flex flex-row items-center gap-2 py-1 px-2 rounded-md cursor-pointer shadow-md`}
+      >
+        <FontAwesomeIcon icon={faEraser} className="text-xl" />
+        <p className="text-xl font-semibold ">Entmarkieren</p>
+      </div>
+      <div className="flex flex-row items-center gap-2 bg-white rounded-md justify-start py-1 px-2 shadow-md">
+        <p className="font-semibold text-xl">Breite:</p>
+        <input
+          type="number"
+          value={strokeWidth}
+          className="rounded-md special-shadow pl-1 border-2 w-14 bg-gray-100 font-semibold"
+          onChange={(e) => setStrokeWidth(parseInt(e.target.value ?? 50))}
+        />
+      </div>
+    </div>
+  );
+
   return (
     <>
       <div className="flex flex-col items-start">
@@ -116,30 +145,6 @@ function RouteComponent() {
             beschreibe genau wie du es verbessern willst.
           </PageDescription>
         </div>
-        <div className="flex flex-row justify-start mt-6 mb-2 gap-2">
-          <div
-            onClick={() => setTool("brush")}
-            className={`${tool == "brush" ? "bg-black text-white" : "bg-white text-black"} flex flex-row items-center gap-2 py-1 px-2 rounded-md cursor-pointer shadow-md`}
-          >
-            <FontAwesomeIcon icon={faBrush} className="text-xl" />
-            <p className="text-xl font-semibold ">Markieren</p>
-          </div>
-          <div
-            onClick={() => setTool("eraser")}
-            className={`${tool == "eraser" ? "bg-black text-white" : "bg-white text-black"} flex flex-row items-center gap-2 py-1 px-2 rounded-md cursor-pointer shadow-md`}
-          >
-            <FontAwesomeIcon icon={faEraser} className="text-xl" />
-            <p className="text-xl font-semibold ">Entmarkieren</p>
-          </div>
-          <div className="flex flex-row items-center gap-2 bg-white rounded-md justify-start py-1 px-2">
-            <p className="font-semibold text-xl">Breite:</p>
-            <input
-              type="number"
-              value={strokeWidth}
-              className="rounded-md special-shadow pl-1 border-2 w-14 bg-gray-100 font-semibold"
-              onChange={(e) => setStrokeWidth(parseInt(e.target.value ?? 50))}
-            />
-          </div>
         </div>
         {image ? (
           <div className="bg-white p-6 rounded-2xl">
