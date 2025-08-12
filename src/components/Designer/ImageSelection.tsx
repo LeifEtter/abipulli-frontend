@@ -4,6 +4,7 @@ import { BasicButton } from "../Buttons/BasicButton";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { ImageCard } from "./ImageCard";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { ButtonType } from "src/types/ButtonType";
 
 interface ImageSelectionProps {
   images: Image[];
@@ -68,7 +69,12 @@ export const ImageSelection = ({ images, onClick }: ImageSelectionProps) => {
         ))}
       </div>
       <div className="hidden md:flex bottom-4 justify-center w-full px-4">
-        <BasicButton icon={faPlus} aria-label="Neues Bild Element erstellen">
+        <BasicButton
+          type={ButtonType.Link}
+          icon={faPlus}
+          aria-label="Neues Bild Element erstellen"
+          to={`/generieren`}
+        >
           Bild Element Erstellen
         </BasicButton>
       </div>
