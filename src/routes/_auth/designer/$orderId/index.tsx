@@ -228,7 +228,7 @@ function RouteComponent() {
             currentViewingSide={viewingSide}
           />
         </div>
-        <div
+        {/* <div
           className="flex justify-center mt-4"
           role="group"
           aria-label="Design speichern"
@@ -241,7 +241,7 @@ function RouteComponent() {
           >
             Speichern
           </BasicButton>
-        </div>
+        </div> */}
       </div>
       <div
         className={`absolute md:relative z-20 flex-row transition-all right-0 duration-75`}
