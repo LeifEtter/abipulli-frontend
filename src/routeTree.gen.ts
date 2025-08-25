@@ -11,11 +11,13 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as rootOldImport } from './routes/__root.old'
 import { Route as LoginImport } from './routes/login'
 import { Route as FreischaltenImport } from './routes/freischalten'
 import { Route as OnboardingRouteImport } from './routes/onboarding/route'
 import { Route as AuthRouteImport } from './routes/_auth/route'
 import { Route as IndexImport } from './routes/index'
+import { Route as NewdesignerIndexImport } from './routes/newdesigner/index'
 import { Route as OnboardingSchuleImport } from './routes/onboarding/schule'
 import { Route as OnboardingPersonalImport } from './routes/onboarding/personal'
 import { Route as AuthAccountImport } from './routes/_auth/account'
@@ -32,6 +34,12 @@ import { Route as AuthVorschauImageIdVerbessernImport } from './routes/_auth/vor
 import { Route as AuthDesignerOrderIdChooseTypeImport } from './routes/_auth/designer/$orderId/chooseType'
 
 // Create/Update Routes
+
+const rootOldRoute = rootOldImport.update({
+  id: '/__root/old',
+  path: '/old',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const LoginRoute = LoginImport.update({
   id: '/login',
@@ -59,6 +67,12 @@ const AuthRouteRoute = AuthRouteImport.update({
 const IndexRoute = IndexImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const NewdesignerIndexRoute = NewdesignerIndexImport.update({
+  id: '/newdesigner/',
+  path: '/newdesigner/',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -196,6 +210,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthGenerierenRouteImport
       parentRoute: typeof AuthRouteImport
     }
+    '/__root/old': {
+      id: '/__root/old'
+      path: '/old'
+      fullPath: '/old'
+      preLoaderRoute: typeof rootOldImport
+      parentRoute: typeof rootRoute
+    }
     '/_auth/account': {
       id: '/_auth/account'
       path: '/account'
@@ -216,6 +237,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/onboarding/schule'
       preLoaderRoute: typeof OnboardingSchuleImport
       parentRoute: typeof OnboardingRouteImport
+    }
+    '/newdesigner/': {
+      id: '/newdesigner/'
+      path: '/newdesigner'
+      fullPath: '/newdesigner'
+      preLoaderRoute: typeof NewdesignerIndexImport
+      parentRoute: typeof rootRoute
     }
     '/_auth/generieren/beschreibung': {
       id: '/_auth/generieren/beschreibung'
@@ -356,9 +384,11 @@ export interface FileRoutesByFullPath {
   '/freischalten': typeof FreischaltenRoute
   '/login': typeof LoginRoute
   '/generieren': typeof AuthGenerierenRouteRouteWithChildren
+  '/old': typeof rootOldRoute
   '/account': typeof AuthAccountRoute
   '/onboarding/personal': typeof OnboardingPersonalRoute
   '/onboarding/schule': typeof OnboardingSchuleRoute
+  '/newdesigner': typeof NewdesignerIndexRoute
   '/generieren/beschreibung': typeof AuthGenerierenBeschreibungRoute
   '/generieren/motto': typeof AuthGenerierenMottoRoute
   '/generieren/referenz': typeof AuthGenerierenReferenzRoute
@@ -378,9 +408,11 @@ export interface FileRoutesByTo {
   '/freischalten': typeof FreischaltenRoute
   '/login': typeof LoginRoute
   '/generieren': typeof AuthGenerierenRouteRouteWithChildren
+  '/old': typeof rootOldRoute
   '/account': typeof AuthAccountRoute
   '/onboarding/personal': typeof OnboardingPersonalRoute
   '/onboarding/schule': typeof OnboardingSchuleRoute
+  '/newdesigner': typeof NewdesignerIndexRoute
   '/generieren/beschreibung': typeof AuthGenerierenBeschreibungRoute
   '/generieren/motto': typeof AuthGenerierenMottoRoute
   '/generieren/referenz': typeof AuthGenerierenReferenzRoute
@@ -401,9 +433,11 @@ export interface FileRoutesById {
   '/freischalten': typeof FreischaltenRoute
   '/login': typeof LoginRoute
   '/_auth/generieren': typeof AuthGenerierenRouteRouteWithChildren
+  '/__root/old': typeof rootOldRoute
   '/_auth/account': typeof AuthAccountRoute
   '/onboarding/personal': typeof OnboardingPersonalRoute
   '/onboarding/schule': typeof OnboardingSchuleRoute
+  '/newdesigner/': typeof NewdesignerIndexRoute
   '/_auth/generieren/beschreibung': typeof AuthGenerierenBeschreibungRoute
   '/_auth/generieren/motto': typeof AuthGenerierenMottoRoute
   '/_auth/generieren/referenz': typeof AuthGenerierenReferenzRoute
@@ -425,9 +459,11 @@ export interface FileRouteTypes {
     | '/freischalten'
     | '/login'
     | '/generieren'
+    | '/old'
     | '/account'
     | '/onboarding/personal'
     | '/onboarding/schule'
+    | '/newdesigner'
     | '/generieren/beschreibung'
     | '/generieren/motto'
     | '/generieren/referenz'
@@ -446,9 +482,11 @@ export interface FileRouteTypes {
     | '/freischalten'
     | '/login'
     | '/generieren'
+    | '/old'
     | '/account'
     | '/onboarding/personal'
     | '/onboarding/schule'
+    | '/newdesigner'
     | '/generieren/beschreibung'
     | '/generieren/motto'
     | '/generieren/referenz'
@@ -467,9 +505,11 @@ export interface FileRouteTypes {
     | '/freischalten'
     | '/login'
     | '/_auth/generieren'
+    | '/__root/old'
     | '/_auth/account'
     | '/onboarding/personal'
     | '/onboarding/schule'
+    | '/newdesigner/'
     | '/_auth/generieren/beschreibung'
     | '/_auth/generieren/motto'
     | '/_auth/generieren/referenz'
@@ -489,6 +529,8 @@ export interface RootRouteChildren {
   OnboardingRouteRoute: typeof OnboardingRouteRouteWithChildren
   FreischaltenRoute: typeof FreischaltenRoute
   LoginRoute: typeof LoginRoute
+  rootOldRoute: typeof rootOldRoute
+  NewdesignerIndexRoute: typeof NewdesignerIndexRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
@@ -497,6 +539,8 @@ const rootRouteChildren: RootRouteChildren = {
   OnboardingRouteRoute: OnboardingRouteRouteWithChildren,
   FreischaltenRoute: FreischaltenRoute,
   LoginRoute: LoginRoute,
+  rootOldRoute: rootOldRoute,
+  NewdesignerIndexRoute: NewdesignerIndexRoute,
 }
 
 export const routeTree = rootRoute
@@ -513,7 +557,9 @@ export const routeTree = rootRoute
         "/_auth",
         "/onboarding",
         "/freischalten",
-        "/login"
+        "/login",
+        "/__root/old",
+        "/newdesigner/"
       ]
     },
     "/": {
@@ -555,6 +601,9 @@ export const routeTree = rootRoute
         "/_auth/generieren/verbessern"
       ]
     },
+    "/__root/old": {
+      "filePath": "__root.old.tsx"
+    },
     "/_auth/account": {
       "filePath": "_auth/account.tsx",
       "parent": "/_auth"
@@ -566,6 +615,9 @@ export const routeTree = rootRoute
     "/onboarding/schule": {
       "filePath": "onboarding/schule.tsx",
       "parent": "/onboarding"
+    },
+    "/newdesigner/": {
+      "filePath": "newdesigner/index.tsx"
     },
     "/_auth/generieren/beschreibung": {
       "filePath": "_auth/generieren/beschreibung.tsx",
