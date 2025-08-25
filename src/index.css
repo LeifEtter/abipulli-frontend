@@ -22,6 +22,9 @@
   --color-abipulli-grey-border: #d5d7da;
   --color-abipulli-offblack: #1e1e1e;
 
+  --color-abipulli-dark-beige: #edeae4;
+  --color-abipulli-light-beige: #f6f4f0;
+
   --color-ap-new-green: #c7e2be;
   --color-ap-new-beige: #f0eae0;
   --color-ap-new-dark-beige: #dfd6c9;
@@ -93,5 +96,6 @@ body,
 #root {
   height: 100%;
   margin: 0;
-  background-color: var(--color-abipulli-green-light);
+  /* background-color: var(--color-abipulli-green-light); */
+  background-color: var(--color-abipulli-dark-beige);
 }
