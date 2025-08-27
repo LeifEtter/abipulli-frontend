@@ -24,6 +24,14 @@ function RouteComponent() {
   ];
   const [tabSelected, setTabSelected] = useState<TabOption>(tabs[0]);
 
+  const images: { src: string; label: string }[] = [
+    { src: AbipulliHat, label: "Image69" },
+    { src: AbipulliHat, label: "Image69" },
+    { src: AbipulliHat, label: "Image69" },
+    { src: AbipulliHat, label: "Image69" },
+    { src: AbipulliHat, label: "Image69" },
+  ];
+
   return (
     <div className="flex flex-row h-full w-full">
       <section
@@ -40,11 +48,31 @@ function RouteComponent() {
           <SidebarIcon iconSource={TextIcon} label="Texte" />
           <SidebarIcon iconSource={NameIcon} label="Namen" />
         </div>
-        <TabSwitcher
-          tabs={tabs}
-          tabSelected={tabSelected}
-          setTabSelected={(tab: TabOption) => setTabSelected(tab)}
-        />
+        <div className="w-full px-4">
+          <TabSwitcher
+            tabs={tabs}
+            tabSelected={tabSelected}
+            setTabSelected={(tab: TabOption) => setTabSelected(tab)}
+          />
+          <div>
+            <button className="bg-white border-1 border-black w-full rounded-xl text-center font-semibold p-3">
+              Generate Image
+            </button>
+            <div className="grid grid-cols-2 gap-4 mt-4">
+              {images.map((image) => (
+                <div>
+                  <img
+                    className="border-12 border-white rounded-md bg-white"
+                    src={image.src}
+                  />
+                  <div className="flex flex-row mt-1">
+                    <p className="font-medium text-sm">{image.label}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
       </section>
       <section className="flex flex-col w-full h-full">
         <div className="w-full bg-white border-b-2 border-b-abipulli-gray flex items-center px-4 gap-4 py-4">
