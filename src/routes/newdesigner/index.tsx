@@ -10,27 +10,12 @@ import FrontArrow from "src/assets/icons/front-arrow-icon.svg";
 import DottedBackground from "src/assets/background/dotted-background-2.svg";
 import ExamplePullover from "src/assets/pullovers/sand-front.png";
 import { Center } from "src/components/Misc/Center";
+import { ToolButton } from "src/components/NewDesigner/ToolButton";
 import { SidebarIcon } from "src/components/NewDesigner/SidebarIcon";
 
 export const Route = createFileRoute("/newdesigner/")({
   component: RouteComponent,
 });
-
-interface ToolButtonProps {
-  iconSource: string;
-  label: string;
-  onClick: () => void;
-}
-
-const ToolButton = ({ iconSource, label, onClick }: ToolButtonProps) => (
-  <div className="flex flex-row items-center border-abipulli-darker-beige border rounded-lg hover:scale-105 hover:bg-gray-800 hover:text-white duration-125 hover:border-black cursor-pointer ">
-    <img
-      src={iconSource}
-      className="border-r border-abipulli-darker-beige p-2"
-    />
-    <p className="py-1 px-2 font-medium">{label}</p>
-  </div>
-);
 
 function RouteComponent() {
   const [tabSelected, setTabSelected] = useState<string>("My Generated Images");
