@@ -16,12 +16,12 @@ export const TabSwitcher = ({
   tabSelected,
   setTabSelected,
 }: TabSwitcherProps): JSX.Element => (
-  <div className="w-full px-6 py-6">
-    <div className="flex flex-row">
+  <div className="w-full mt-10 mb-5">
+    <div className="flex flex-row justify-between w-full">
       {tabs.map((tab) => (
         <button
           key={`tab-${tab.id}`}
-          className="w-1/2 cursor-pointer"
+          className="w-1/2 cursor-pointer flex justify-start"
           onClick={() => setTabSelected(tab)}
         >
           <p className="text-left font-semibold">{tab.label}</p>
