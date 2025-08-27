@@ -107,6 +107,22 @@ function RouteComponent() {
             onClick={() => {}}
           />
         </div>
+        <div
+          className="w-full bg-cover h-11/12 flex justify-center"
+          style={{
+            backgroundImage: `url(${DottedBackground})`,
+          }}
+        >
+          <img
+            src={ExamplePullover}
+            alt=""
+            className="h-9/12 mt-20 object-cover"
+            // style={{
+            //   WebkitFilter: "drop-shadow(2px 2px 10px rgba(0, 0, 0, 0.1))",
+            //   filter: "drop-shadow(2px 2px 10px rgba(0, 0, 0, 0.1))",
+            // }}
+          />
+        </div>
       </section>
     </div>
   );
