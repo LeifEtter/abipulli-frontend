@@ -9,7 +9,6 @@ import BackArrow from "src/assets/icons/back-arrow-icon.svg";
 import FrontArrow from "src/assets/icons/front-arrow-icon.svg";
 import DottedBackground from "src/assets/background/dotted-background-2.svg";
 import ExamplePullover from "src/assets/pullovers/sand-front.png";
-import { Center } from "src/components/Misc/Center";
 import { ToolButton } from "src/components/NewDesigner/ToolButton";
 import { SidebarIcon } from "src/components/NewDesigner/SidebarIcon";
 
@@ -17,8 +16,49 @@ export const Route = createFileRoute("/newdesigner/")({
   component: RouteComponent,
 });
 
+interface TabOption {
+  id: number;
+  label: string;
+}
+
+interface TabSwitcherProps {
+  tabs: TabOption[];
+  tabSelected: TabOption;
+  setTabSelected: (tab: TabOption) => void;
+}
+
+const TabSwitcher = ({
+  tabs,
+  tabSelected,
+  setTabSelected,
+}: TabSwitcherProps) => (
+  <div className="w-full px-6 py-6">
+    <div className="flex flex-row">
+      {tabs.map((tab) => (
+        <button
+          key={`tab-${tab.id}`}
+          className="w-1/2 cursor-pointer"
+          onClick={() => setTabSelected(tab)}
+        >
+          <p className="text-left font-semibold">{tab.label}</p>
+        </button>
+      ))}
+    </div>
+    <div
+      className={`relative h-0.5 w-full top-1 flex flex-row ${tabSelected.id == 0 ? "justify-start" : "justify-end"} duration-100 mt-2`}
+    >
+      <div className={`w-5/12 bg-gray-600 duration-100 z-20`} />
+      <div className="bg-gray-200 w-full absolute h-0.5" />
+    </div>
+  </div>
+);
+
 function RouteComponent() {
-  const [tabSelected, setTabSelected] = useState<string>("My Generated Images");
+  const tabs: TabOption[] = [
+    { id: 0, label: "Meine Bilder" },
+    { id: 1, label: "Bibliothek" },
+  ];
+  const [tabSelected, setTabSelected] = useState<TabOption>(tabs[0]);
 
   return (
     <div className="flex flex-row h-full w-full">
@@ -36,28 +76,11 @@ function RouteComponent() {
           <SidebarIcon iconSource={TextIcon} label="Texte" />
           <SidebarIcon iconSource={NameIcon} label="Namen" />
         </div>
-        <div className="w-full px-6 py-6">
-          <div className="flex flex-row">
-            <button
-              className="w-1/2 cursor-pointer"
-              onClick={() => setTabSelected("My Generated Images")}
-            >
-              <p className="text-left font-semibold">Meine Bilder</p>
-            </button>
-            <button
-              className="w-1/2 cursor-pointer"
-              onClick={() => setTabSelected("Library")}
-            >
-              <p className="text-left font-semibold">Library</p>
-            </button>
-          </div>
-          <div
-            className={`relative h-0.5 w-full top-1 flex flex-row  ${tabSelected == "My Generated Images" ? "justify-start" : "justify-end"} duration-100 mt-2`}
-          >
-            <div className={`w-5/12 bg-gray-600 duration-100 z-20`} />
-            <div className="bg-gray-200 w-full absolute h-0.5" />
-          </div>
-        </div>
+        <TabSwitcher
+          tabs={tabs}
+          tabSelected={tabSelected}
+          setTabSelected={(tab: TabOption) => setTabSelected(tab)}
+        />
       </section>
       <section className="flex flex-col w-full h-full">
         <div className="w-full bg-white border-b-2 border-b-abipulli-gray flex items-center px-4 gap-4 py-4">
