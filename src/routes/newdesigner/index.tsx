@@ -27,7 +27,7 @@ const SidebarIcon = ({
   label,
 }: SidebarIconProps): JSX.Element => (
   <div className="flex flex-col items-center gap-1">
-    <div className="border border-abipulli-dark-beige h-12 w-12">
+    <div className="border border-abipulli-dark-beige h-12 w-12 rounded-md">
       <Center>
         <img src={iconSource} className="w-8/12 h-8/12" />
       </Center>
@@ -89,13 +89,13 @@ function RouteComponent() {
           <div
             className={`relative h-0.5 w-full top-1 flex flex-row  ${tabSelected == "My Generated Images" ? "justify-start" : "justify-end"} duration-100 mt-2`}
           >
-            <div className={`w-6/12 bg-gray-600 duration-100 z-20`} />
+            <div className={`w-5/12 bg-gray-600 duration-100 z-20`} />
             <div className="bg-gray-200 w-full absolute h-0.5" />
           </div>
         </div>
       </section>
-      <section className="flex flex-col w-full">
-        <div className="w-full h-16 bg-white border-b-2 border-b-abipulli-gray flex items-center px-4 gap-4">
+      <section className="flex flex-col w-full h-full">
+        <div className="w-full bg-white border-b-2 border-b-abipulli-gray flex items-center px-4 gap-4 py-4">
           <ToolButton
             iconSource={BackArrow}
             label="Rückgängig"
