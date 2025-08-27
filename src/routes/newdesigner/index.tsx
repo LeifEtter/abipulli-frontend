@@ -10,31 +10,11 @@ import FrontArrow from "src/assets/icons/front-arrow-icon.svg";
 import DottedBackground from "src/assets/background/dotted-background-2.svg";
 import ExamplePullover from "src/assets/pullovers/sand-front.png";
 import { Center } from "src/components/Misc/Center";
+import { SidebarIcon } from "src/components/NewDesigner/SidebarIcon";
 
 export const Route = createFileRoute("/newdesigner/")({
   component: RouteComponent,
 });
-
-interface SidebarIconProps {
-  selected?: boolean;
-  iconSource: string;
-  label: string;
-}
-
-const SidebarIcon = ({
-  selected = false,
-  iconSource,
-  label,
-}: SidebarIconProps): JSX.Element => (
-  <div className="flex flex-col items-center gap-1">
-    <div className="border border-abipulli-dark-beige h-12 w-12 rounded-md">
-      <Center>
-        <img src={iconSource} className="w-8/12 h-8/12" />
-      </Center>
-    </div>
-    <p className="text-xs font-medium">{label}</p>
-  </div>
-);
 
 interface ToolButtonProps {
   iconSource: string;
