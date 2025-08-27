@@ -7,6 +7,8 @@ import ImageIcon from "src/assets/icons/image-icon.svg";
 import AbipulliHat from "src/assets/icons/abipulli-logo.png";
 import BackArrow from "src/assets/icons/back-arrow-icon.svg";
 import FrontArrow from "src/assets/icons/front-arrow-icon.svg";
+import DottedBackground from "src/assets/background/dotted-background-2.svg";
+import ExamplePullover from "src/assets/pullovers/sand-front.png";
 import { Center } from "src/components/Misc/Center";
 
 export const Route = createFileRoute("/newdesigner/")({
