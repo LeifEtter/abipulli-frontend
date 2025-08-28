@@ -93,20 +93,34 @@ function RouteComponent() {
             backgroundImage: `url(${DottedBackground})`,
           }}
         >
-          <img
-            src={ExamplePullover}
-            alt=""
-            className="h-9/12 mt-20 object-cover"
-            // style={{
-            //   WebkitFilter: "drop-shadow(2px 2px 10px rgba(0, 0, 0, 0.1))",
-            //   filter: "drop-shadow(2px 2px 10px rgba(0, 0, 0, 0.1))",
-            // }}
-          />
           <div className="w-full p-2">
             <FrontBackButton
               currentViewingSide={viewingSide}
               switchViewingSide={(side: ViewingSide) => setViewingSide(side)}
             />
+          </div>
+          <div className="flex justify-center items-center grow ">
+            <img src={ExamplePullover} alt="" className="max-h-160" />
+          </div>
+          <div
+            id="finished-designs-bar"
+            className="flex flex-row w-full justify-center gap-4"
+          >
+            {[{ src: ExamplePullover }, { src: ExamplePullover }].map(
+              (pullover) => (
+                <div className="relative w-30 h-30 border-2 border-abipulli-gray p-2 flex justify-center bg-abipulli-dark-beige rounded-md cursor-pointer hover:scale-105 duration-125">
+                  <div className="absolute top-1 right-1 bg-white w-8 h-8 p-1.5 flex justify-center items-center rounded-lg">
+                    <img src={TrashIcon} alt="" className="w-full h-full" />
+                  </div>
+                  <img src={pullover.src} />
+                </div>
+              )
+            )}
+            <button className="w-30 h-30 bg-abipulli-darker-beige rounded-md p-9 cursor-pointer hover:scale-105 duration-125">
+              <Center>
+                <img src={PlusIcon} className="w-full h-full" />
+              </Center>
+            </button>
           </div>
         </div>
       </section>
