@@ -9,9 +9,16 @@ import BackArrow from "src/assets/icons/back-arrow-icon.svg";
 import FrontArrow from "src/assets/icons/front-arrow-icon.svg";
 import DottedBackground from "src/assets/background/dotted-background-2.svg";
 import ExamplePullover from "src/assets/pullovers/sand-front.png";
+import TrashIcon from "src/assets/icons/trash-icon.svg";
+import PlusIcon from "src/assets/icons/plus-icon.svg";
 import { ToolButton } from "src/components/NewDesigner/ToolButton";
 import { SidebarIcon } from "src/components/NewDesigner/SidebarIcon";
 import { TabOption, TabSwitcher } from "src/components/NewDesigner/TabSwitcher";
+import { FrontBackButton } from "src/components/Buttons/FrontBackButton";
+import { ViewingSide } from "src/types/ViewingSide";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { Center } from "src/components/Misc/Center";
 
 export const Route = createFileRoute("/newdesigner/")({
   component: RouteComponent,
@@ -31,6 +38,10 @@ function RouteComponent() {
     { src: AbipulliHat, label: "Image69" },
     { src: AbipulliHat, label: "Image69" },
   ];
+
+  const [viewingSide, setViewingSide] = useState<ViewingSide>(
+    ViewingSide.Front
+  );
 
   return (
     <div className="flex flex-row h-full w-full">
@@ -55,7 +66,7 @@ function RouteComponent() {
             setTabSelected={(tab: TabOption) => setTabSelected(tab)}
           />
           <div>
-            <button className="bg-white border-1 border-black w-full rounded-xl text-center font-semibold p-3">
+            <button className="bg-white border border-black w-full rounded-xl text-center font-semibold p-3">
               Generate Image
             </button>
             <div className="grid grid-cols-2 gap-4 mt-4">
@@ -74,7 +85,7 @@ function RouteComponent() {
           </div>
         </div>
       </section>
-      <section className="flex flex-col w-full h-full">
+      <section className="flex flex-col w-full pb-8">
         <div className="w-full bg-white border-b-2 border-b-abipulli-gray flex items-center px-4 gap-4 py-4">
           <ToolButton
             iconSource={BackArrow}
@@ -88,7 +99,8 @@ function RouteComponent() {
           />
         </div>
         <div
-          className="w-full bg-cover h-11/12 flex justify-center"
+          id="editing-section"
+          className="w-full bg-cover flex flex-col justify-between relative h-full"
           style={{
             backgroundImage: `url(${DottedBackground})`,
           }}
