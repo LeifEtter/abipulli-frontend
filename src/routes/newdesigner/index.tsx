@@ -18,13 +18,24 @@ import { SidebarIcon } from "src/components/NewDesigner/SidebarIcon";
 import { TabOption, TabSwitcher } from "src/components/NewDesigner/TabSwitcher";
 import { FrontBackButton } from "src/components/Buttons/FrontBackButton";
 import { ViewingSide } from "src/types/ViewingSide";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { Center } from "src/components/Misc/Center";
+import { SelectField, SelectOption } from "src/components/Inputs/SelectField";
 
 export const Route = createFileRoute("/newdesigner/")({
   component: RouteComponent,
 });
+
+interface ActionPanelProps {
+  children: JSX.Element[] | JSX.Element;
+}
+
+const ActionPanel = ({ children }: ActionPanelProps) => (
+  <div className="rounded-xl bg-white border-10 w-50 h-50 duration-100 shadow-ap-special-shadow p-2">
+    <h3>Text Styling</h3>
+    <div className="w-full h-0.5 bg-gray-200 mt-2" />
+    {children}
+  </div>
+);
 
 function RouteComponent() {
   const tabs: TabOption[] = [
@@ -46,6 +57,15 @@ function RouteComponent() {
   );
 
   const [zoom, setZoom] = useState<number>(100);
+
+  const fontOptions: SelectOption<string>[] = [
+    { label: "Poppins", value: "poppins" },
+    { label: "Arial", value: "arial" },
+  ];
+
+  const [chosenFont, setChosenFont] = useState<SelectOption<string>>(
+    fontOptions[0]
+  );
 
   return (
     <div className="flex flex-row h-full w-full">
@@ -149,6 +169,17 @@ function RouteComponent() {
                 <img src={PlusIcon} className="w-full h-full" />
               </Center>
             </button>
+          </div>
+          <div className="absolute right-0 top-0">
+            <ActionPanel>
+              <SelectField<string>
+                idPrefix="select-font"
+                label="Font Auswählen"
+                options={fontOptions}
+                chosenOption={chosenFont}
+                onChange={(e) => e && setChosenFont(e)}
+              />
+            </ActionPanel>
           </div>
         </div>
       </section>
