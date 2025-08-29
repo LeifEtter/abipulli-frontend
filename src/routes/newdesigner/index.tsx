@@ -11,6 +11,8 @@ import DottedBackground from "src/assets/background/dotted-background-2.svg";
 import ExamplePullover from "src/assets/pullovers/sand-front.png";
 import TrashIcon from "src/assets/icons/trash-icon.svg";
 import PlusIcon from "src/assets/icons/plus-icon.svg";
+import PlusSmallIcon from "src/assets/icons/plus-small.svg";
+import MinusIcon from "src/assets/icons/minus-icon.svg";
 import { ToolButton } from "src/components/NewDesigner/ToolButton";
 import { SidebarIcon } from "src/components/NewDesigner/SidebarIcon";
 import { TabOption, TabSwitcher } from "src/components/NewDesigner/TabSwitcher";
@@ -42,6 +44,8 @@ function RouteComponent() {
   const [viewingSide, setViewingSide] = useState<ViewingSide>(
     ViewingSide.Front
   );
+
+  const [zoom, setZoom] = useState<number>(100);
 
   return (
     <div className="flex flex-row h-full w-full">
@@ -97,6 +101,18 @@ function RouteComponent() {
             label="Wiederholen"
             onClick={() => {}}
           />
+          <div className="grow" />
+          <div>Zoom</div>
+          <div
+            id="zoom-switcher"
+            className="flex flex-row items-center gap-2 border-2 rounded-xl border-gray-300 h-10 px-2"
+          >
+            <img src={MinusIcon} className="w-4 h-4" />
+            <div className="h-full bg-gray-300 w-0.5" />
+            <p className="font-medium text-gray-500">{zoom}%</p>
+            <div className="h-full bg-gray-300 w-0.5" />
+            <img src={PlusSmallIcon} className="w-4 h-4" />
+          </div>
         </div>
         <div
           id="editing-section"
