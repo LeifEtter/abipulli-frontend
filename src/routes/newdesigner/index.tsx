@@ -20,22 +20,11 @@ import { FrontBackButton } from "src/components/Buttons/FrontBackButton";
 import { ViewingSide } from "src/types/ViewingSide";
 import { Center } from "src/components/Misc/Center";
 import { SelectField, SelectOption } from "src/components/Inputs/SelectField";
+import { ActionPanel } from "src/components/NewDesigner/ActionPanel";
 
 export const Route = createFileRoute("/newdesigner/")({
   component: RouteComponent,
 });
-
-interface ActionPanelProps {
-  children: JSX.Element[] | JSX.Element;
-}
-
-const ActionPanel = ({ children }: ActionPanelProps) => (
-  <div className="rounded-xl bg-white border-10 w-50 h-50 duration-100 shadow-ap-special-shadow p-2">
-    <h3>Text Styling</h3>
-    <div className="w-full h-0.5 bg-gray-200 mt-2" />
-    {children}
-  </div>
-);
 
 function RouteComponent() {
   const tabs: TabOption[] = [
