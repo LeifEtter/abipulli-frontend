@@ -11,8 +11,6 @@ import DottedBackground from "src/assets/background/dotted-background-2.svg";
 import ExamplePullover from "src/assets/pullovers/sand-front.png";
 import TrashIcon from "src/assets/icons/trash-icon.svg";
 import PlusIcon from "src/assets/icons/plus-icon.svg";
-import PlusSmallIcon from "src/assets/icons/plus-small.svg";
-import MinusIcon from "src/assets/icons/minus-icon.svg";
 import { ToolButton } from "src/components/NewDesigner/ToolButton";
 import { SidebarIcon } from "src/components/NewDesigner/SidebarIcon";
 import { TabOption, TabSwitcher } from "src/components/NewDesigner/TabSwitcher";
@@ -21,6 +19,7 @@ import { ViewingSide } from "src/types/ViewingSide";
 import { Center } from "src/components/Misc/Center";
 import { SelectField, SelectOption } from "src/components/Inputs/SelectField";
 import { ActionPanel } from "src/components/NewDesigner/ActionPanel";
+import { ZoomSwitcher } from "src/components/NewDesigner/ZoomSwitcher";
 
 export const Route = createFileRoute("/newdesigner/")({
   component: RouteComponent,
@@ -112,16 +111,7 @@ function RouteComponent() {
           />
           <div className="grow" />
           <div>Zoom</div>
-          <div
-            id="zoom-switcher"
-            className="flex flex-row items-center gap-2 border-2 rounded-xl border-gray-300 h-10 px-2"
-          >
-            <img src={MinusIcon} className="w-4 h-4" />
-            <div className="h-full bg-gray-300 w-0.5" />
-            <p className="font-medium text-gray-500">{zoom}%</p>
-            <div className="h-full bg-gray-300 w-0.5" />
-            <img src={PlusSmallIcon} className="w-4 h-4" />
-          </div>
+          <ZoomSwitcher zoom={100} />
         </div>
         <div
           id="editing-section"
