@@ -11,7 +11,7 @@ export const ActionPanel = ({
   title,
   description,
 }: ActionPanelProps) => (
-  <div className="rounded-xl bg-abipulli-light-beige w-50 h-50 duration-100 shadow-ap-special-shadow p-6 min-w-sm">
+  <div className="rounded-xl bg-abipulli-light-beige duration-100 shadow-ap-special-shadow p-6 min-w-sm">
     <h3 className="font-semibold text-xl">{title}</h3>
     <p className="text-md">{description}</p>
     <div className="w-full h-0.5 bg-gray-200 mt-2" />
