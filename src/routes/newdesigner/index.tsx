@@ -27,6 +27,7 @@ import { StaticImage } from "src/components/Designer/CanvasImages";
 import { ChooseReferenceImage } from "src/components/NewDesigner/ImageGenActionPanel/ChooseReference";
 import { ImagesTab } from "src/components/NewDesigner/Tabs/ImagesTab";
 import { DesignsBar } from "src/components/NewDesigner/DesignsBar";
+import { EditableTextField } from "src/components/NewDesigner/EditableTextField";
 
 export const Route = createFileRoute("/newdesigner/")({
   component: RouteComponent,
@@ -107,10 +108,7 @@ function RouteComponent() {
         </div>
         <div
           id="editing-section"
-          className="w-full bg-cover flex flex-col justify-between relative h-full"
-          style={{
-            backgroundImage: `url(${DottedBackground})`,
-          }}
+          className={`w-full bg-cover flex flex-col justify-between relative h-full dotted-background`}
         >
           <div className="w-full p-2">
             <FrontBackButton

@@ -67,6 +67,10 @@
     height: 2px;
     background-color: var(--color-abipulli-gray);
   }
+
+  .dotted-background {
+    background-image: url("src/assets/background/dotted-background-2.svg");
+  }
 }
 
 @theme {
