@@ -9,8 +9,6 @@ import BackArrow from "src/assets/icons/back-arrow-icon.svg";
 import FrontArrow from "src/assets/icons/front-arrow-icon.svg";
 import DottedBackground from "src/assets/background/dotted-background-2.svg";
 import ExamplePullover from "src/assets/pullovers/sand-front.png";
-import TrashIcon from "src/assets/icons/trash-icon.svg";
-import PlusIcon from "src/assets/icons/plus-icon.svg";
 import { ToolButton } from "src/components/NewDesigner/ToolButton";
 import { SidebarIcon } from "src/components/NewDesigner/SidebarIcon";
 import { TabOption, TabSwitcher } from "src/components/NewDesigner/TabSwitcher";
@@ -28,6 +26,7 @@ import { BasicButton } from "src/components/Buttons/BasicButton";
 import { StaticImage } from "src/components/Designer/CanvasImages";
 import { ChooseReferenceImage } from "src/components/NewDesigner/ImageGenActionPanel/ChooseReference";
 import { ImagesTab } from "src/components/NewDesigner/Tabs/ImagesTab";
+import { DesignsBar } from "src/components/NewDesigner/DesignsBar";
 
 export const Route = createFileRoute("/newdesigner/")({
   component: RouteComponent,
@@ -138,28 +137,8 @@ function RouteComponent() {
                 <Text x={60} y={60} text="Hey" fontFamily="Onest" />
               </Layer>
             </Stage>
-            {/* <img src={ExamplePullover} alt="" className="max-h-160" /> */}
           </div>
-          <div
-            id="finished-designs-bar"
-            className="flex flex-row w-full justify-center gap-4"
-          >
-            {[{ src: ExamplePullover }, { src: ExamplePullover }].map(
-              (pullover) => (
-                <div className="relative w-30 h-30 border-2 border-abipulli-gray p-2 flex justify-center bg-abipulli-dark-beige rounded-md cursor-pointer hover:scale-105 duration-125">
-                  <div className="absolute top-1 right-1 bg-white w-8 h-8 p-1.5 flex justify-center items-center rounded-lg">
-                    <img src={TrashIcon} alt="" className="w-full h-full" />
-                  </div>
-                  <img src={pullover.src} />
-                </div>
-              )
-            )}
-            <button className="w-30 h-30 bg-abipulli-darker-beige rounded-md p-9 cursor-pointer hover:scale-105 duration-125">
-              <Center>
-                <img src={PlusIcon} className="w-full h-full" />
-              </Center>
-            </button>
-          </div>
+          <DesignsBar designs={[]} />
           <div className="absolute right-0 top-0">
             <ChooseReferenceImage
               previousGeneratedImages={[]}
