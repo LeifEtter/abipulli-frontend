@@ -119,17 +119,7 @@ function RouteComponent() {
             />
           </div>
           <div className="flex justify-start items-center grow border">
-            {/* <div
-              draggable
-              contentEditable
-              className="absolute border min-w-30 empty:before:content-[attr(data-placeholder)] empty:before:text-gray-400 empty:before:pointer-events-none empty:before:absolute whitespace-pre-wrap"
-              data-placeholder="asdasd"
-              role="textbox"
-              aria-label="text"
-              onSelect={() => {}}
-              onInput={() => {}}
-              style={{}}
-            /> */}
+            <EditableTextField />
             <Stage className="border" width={500} height={500}>
               <Layer>
                 <Rect x={0} y={0} width={50} height={50} fill="red" />
