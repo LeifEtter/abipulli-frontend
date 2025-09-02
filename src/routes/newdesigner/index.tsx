@@ -79,22 +79,9 @@ function RouteComponent() {
           <ImagesTab images={images} />
         </div>
       </section>
+
       <section className="flex flex-col w-full pb-8">
-        <div className="w-full bg-white border-b-2 border-b-abipulli-gray flex items-center px-4 gap-4 py-4">
-          <ToolButton
-            iconSource={BackArrow}
-            label="Rückgängig"
-            onClick={() => {}}
-          />
-          <ToolButton
-            iconSource={FrontArrow}
-            label="Wiederholen"
-            onClick={() => {}}
-          />
-          <div className="grow" />
-          <div>Zoom</div>
-          <ZoomSwitcher zoom={100} />
-        </div>
+        <Toolbar />
         <div
           id="editing-section"
           className={`w-full bg-cover flex flex-col justify-between relative h-full dotted-background`}
