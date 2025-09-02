@@ -27,35 +27,12 @@ import { Image, Layer, Rect, Stage, Text } from "react-konva";
 import { BasicButton } from "src/components/Buttons/BasicButton";
 import { StaticImage } from "src/components/Designer/CanvasImages";
 import { ChooseReferenceImage } from "src/components/NewDesigner/ImageGenActionPanel/ChooseReference";
+import { ImagesTab } from "src/components/NewDesigner/Tabs/ImagesTab";
 
 export const Route = createFileRoute("/newdesigner/")({
   component: RouteComponent,
 });
 
-const ImagesTab = ({
-  images,
-}: {
-  images: { src: string; label: string }[];
-}) => (
-  <div>
-    <button className="bg-white border border-black w-full rounded-xl text-center font-semibold p-3">
-      Generate Image
-    </button>
-    <div className="grid grid-cols-2 gap-4 mt-4">
-      {images.map((image) => (
-        <div>
-          <img
-            className="border-12 border-white rounded-md bg-white"
-            src={image.src}
-          />
-          <div className="flex flex-row mt-1">
-            <p className="font-medium text-sm">{image.label}</p>
-          </div>
-        </div>
-      ))}
-    </div>
-  </div>
-);
 function RouteComponent() {
   const tabs: TabOption[] = [
     { id: 0, label: "Meine Bilder" },
