@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { JSX, useState } from "react";
+import { useState } from "react";
 import NameIcon from "src/assets/icons/name-icon.svg";
 import TextIcon from "src/assets/icons/text-icon.svg";
 import PulloverIcon from "src/assets/icons/pullover-icon.svg";
@@ -17,9 +17,15 @@ import { TabOption, TabSwitcher } from "src/components/NewDesigner/TabSwitcher";
 import { FrontBackButton } from "src/components/Buttons/FrontBackButton";
 import { ViewingSide } from "src/types/ViewingSide";
 import { Center } from "src/components/Misc/Center";
-import { SelectField, SelectOption } from "src/components/Inputs/SelectField";
+import { SelectOption } from "src/components/Inputs/SelectField";
 import { ActionPanel } from "src/components/NewDesigner/ActionPanel";
 import { ZoomSwitcher } from "src/components/NewDesigner/ZoomSwitcher";
+import { NewImageDropper } from "src/components/NewDesigner/NewImageDropper";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faRotate } from "@fortawesome/free-solid-svg-icons";
+import { Image, Layer, Rect, Stage, Text } from "react-konva";
+import { BasicButton } from "src/components/Buttons/BasicButton";
+import { StaticImage } from "src/components/Designer/CanvasImages";
 
 export const Route = createFileRoute("/newdesigner/")({
   component: RouteComponent,
@@ -54,6 +60,8 @@ function RouteComponent() {
   const [chosenFont, setChosenFont] = useState<SelectOption<string>>(
     fontOptions[0]
   );
+
+  const [referenceImage, setReferenceImage] = useState<File>();
 
   return (
     <div className="flex flex-row h-full w-full">
@@ -126,8 +134,8 @@ function RouteComponent() {
               switchViewingSide={(side: ViewingSide) => setViewingSide(side)}
             />
           </div>
-          <div className="flex justify-center items-center grow border">
-            <div
+          <div className="flex justify-start items-center grow border">
+            {/* <div
               draggable
               contentEditable
               className="absolute border min-w-30 empty:before:content-[attr(data-placeholder)] empty:before:text-gray-400 empty:before:pointer-events-none empty:before:absolute whitespace-pre-wrap"
@@ -137,8 +145,15 @@ function RouteComponent() {
               onSelect={() => {}}
               onInput={() => {}}
               style={{}}
-            />
-            <img src={ExamplePullover} alt="" className="max-h-160" />
+            /> */}
+            <Stage className="border" width={500} height={500}>
+              <Layer>
+                <Rect x={0} y={0} width={50} height={50} fill="red" />
+                <StaticImage src={ExamplePullover} width={500} />
+                <Text x={60} y={60} text="Hey" fontFamily="Onest" />
+              </Layer>
+            </Stage>
+            {/* <img src={ExamplePullover} alt="" className="max-h-160" /> */}
           </div>
           <div
             id="finished-designs-bar"
@@ -161,14 +176,80 @@ function RouteComponent() {
             </button>
           </div>
           <div className="absolute right-0 top-0">
-            <ActionPanel>
-              <SelectField<string>
+            <ActionPanel
+              title="Bild Generieren"
+              description="Wähle ein Referenzbild für das Bild das du generieren willst. Dies gibt den Style vor."
+            >
+              {/* <SelectField<string>
                 idPrefix="select-font"
                 label="Font Auswählen"
                 options={fontOptions}
                 chosenOption={chosenFont}
                 onChange={(e) => e && setChosenFont(e)}
-              />
+              /> */}
+              <p className="font-semibold text-abipulli-black text-xl mt-4 mb-2">
+                Eigenes Referenz Bild
+              </p>
+              {referenceImage ? (
+                <div className="h-50 w-full flex justify-center border overflow-hidden relative bg-white border-abipulli-gray rounded-xl">
+                  <img
+                    className="object-contain"
+                    src={URL.createObjectURL(referenceImage!)}
+                  />
+                  <div className="absolute right-0 top-0 flex gap-2 items-center bg-abipulli-dark-beige rounded-sm py-1 px-2 shadow-sm">
+                    <p className="font-semibold">Ändern</p>
+                    <FontAwesomeIcon icon={faRotate} />
+                  </div>
+                </div>
+              ) : (
+                <NewImageDropper
+                  onDrop={(acceptedFiles) =>
+                    setReferenceImage(acceptedFiles[0])
+                  }
+                  onDropRejected={() => {}}
+                  maxImageAmount={1}
+                  maxImageSizeInMB={15}
+                />
+              )}
+              <div className="flex flex-row items-center mt-2">
+                <div className="separator flex-5/12" />
+                <div className="flex-2/12 text-center text-abipulli-black">
+                  or
+                </div>
+                <div className="separator flex-5/12"></div>
+              </div>
+              <p className="font-semibold text-abipulli-black text-xl mt-4 mb-2">
+                Von zuvor generierten Bildern wählen
+              </p>
+              <div className="grid grid-cols-3 gap-4 mt-4">
+                {[
+                  { src: AbipulliHat, chosen: false },
+                  { src: AbipulliHat, chosen: false },
+                  { src: AbipulliHat, chosen: false },
+                  { src: AbipulliHat, chosen: true },
+                ].map((img, idx) => (
+                  <button
+                    onClick={() => {}}
+                    className={`rounded-md cursor-pointer ${img.chosen ? "border border-black shadow-md" : ""}`}
+                  >
+                    <img
+                      className={`border-12 border-white rounded-md bg-white h-full hover:border-gray-300`}
+                      src={img.src}
+                    />
+                    <div className="flex flex-row mt-1">
+                      <p className="font-medium text-sm">{""}</p>
+                    </div>
+                  </button>
+                ))}
+              </div>
+              <button className="text-center w-full py-2" onClick={() => {}}>
+                <p>Alle Bilder Anzeigen</p>
+              </button>
+              <div className="separator mb-4" />
+              <div className="flex flex-row justify-between">
+                <BasicButton>Zurück</BasicButton>
+                <BasicButton>Fortfahren</BasicButton>
+              </div>
             </ActionPanel>
           </div>
         </div>
