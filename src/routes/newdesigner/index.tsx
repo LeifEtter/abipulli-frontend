@@ -1,24 +1,12 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
-
 import AbipulliHat from "src/assets/icons/abipulli-logo.png";
-
-import DottedBackground from "src/assets/background/dotted-background-2.svg";
 import ExamplePullover from "src/assets/pullovers/sand-front.png";
-import { ToolButton } from "src/components/NewDesigner/ToolButton";
-import { SidebarIcon } from "src/components/NewDesigner/SidebarIcon";
 import { TabOption, TabSwitcher } from "src/components/NewDesigner/TabSwitcher";
 import { FrontBackButton } from "src/components/Buttons/FrontBackButton";
 import { ViewingSide } from "src/types/ViewingSide";
-import { Center } from "src/components/Misc/Center";
 import { SelectOption } from "src/components/Inputs/SelectField";
-import { ActionPanel } from "src/components/NewDesigner/ActionPanel";
-import { ZoomSwitcher } from "src/components/NewDesigner/ZoomSwitcher";
-import { NewImageDropper } from "src/components/NewDesigner/NewImageDropper";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faRotate } from "@fortawesome/free-solid-svg-icons";
-import { Image, Layer, Rect, Stage, Text } from "react-konva";
-import { BasicButton } from "src/components/Buttons/BasicButton";
+import { Layer, Rect, Stage, Text } from "react-konva";
 import { StaticImage } from "src/components/Designer/CanvasImages";
 import { ChooseReferenceImage } from "src/components/NewDesigner/ImageGenActionPanel/ChooseReference";
 import { ImagesTab } from "src/components/NewDesigner/Tabs/ImagesTab";
@@ -79,7 +67,6 @@ function RouteComponent() {
           <ImagesTab images={images} />
         </div>
       </section>
-
       <section className="flex flex-col w-full pb-8">
         <Toolbar />
         <div
