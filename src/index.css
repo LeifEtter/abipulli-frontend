@@ -62,6 +62,11 @@
     box-shadow: var(--shadow-ap-special-shadow);
     padding: calc(var(--spacing) * 12);
   }
+
+  .separator {
+    height: 2px;
+    background-color: var(--color-abipulli-gray);
+  }
 }
 
 @theme {
