@@ -1,12 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
-import NameIcon from "src/assets/icons/name-icon.svg";
-import TextIcon from "src/assets/icons/text-icon.svg";
-import PulloverIcon from "src/assets/icons/pullover-icon.svg";
-import ImageIcon from "src/assets/icons/image-icon.svg";
+
 import AbipulliHat from "src/assets/icons/abipulli-logo.png";
-import BackArrow from "src/assets/icons/back-arrow-icon.svg";
-import FrontArrow from "src/assets/icons/front-arrow-icon.svg";
+
 import DottedBackground from "src/assets/background/dotted-background-2.svg";
 import ExamplePullover from "src/assets/pullovers/sand-front.png";
 import { ToolButton } from "src/components/NewDesigner/ToolButton";
@@ -28,6 +24,8 @@ import { ChooseReferenceImage } from "src/components/NewDesigner/ImageGenActionP
 import { ImagesTab } from "src/components/NewDesigner/Tabs/ImagesTab";
 import { DesignsBar } from "src/components/NewDesigner/DesignsBar";
 import { EditableTextField } from "src/components/NewDesigner/EditableTextField";
+import { Toolbar } from "src/components/NewDesigner/Toolbar";
+import { SidebarNav } from "src/components/NewDesigner/SidebarNav";
 
 export const Route = createFileRoute("/newdesigner/")({
   component: RouteComponent,
@@ -71,16 +69,7 @@ function RouteComponent() {
         id="sidebar"
         className="h-full w-4/12 shadow-abipulli-sidebar bg-abipulli-light-beige flex flex-row"
       >
-        <div
-          id="button-section"
-          className="h-full flex flex-col items-center gap-4 pt-8 p-4"
-        >
-          <img src={AbipulliHat} className="w-8" />
-          <SidebarIcon iconSource={PulloverIcon} label="Pullover" />
-          <SidebarIcon iconSource={ImageIcon} label="Bilder" />
-          <SidebarIcon iconSource={TextIcon} label="Texte" />
-          <SidebarIcon iconSource={NameIcon} label="Namen" />
-        </div>
+        <SidebarNav />
         <div className="w-full px-4">
           <TabSwitcher
             tabs={tabs}
