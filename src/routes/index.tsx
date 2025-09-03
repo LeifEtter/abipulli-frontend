@@ -15,7 +15,7 @@ function RouteComponent() {
       if (user) {
         navigate({ to: "/designer" });
       } else {
-        navigate({ to: "/onboarding" });
+        navigate({ to: "/newdesigner" });
       }
     }
   }, [user, isLoading]);
