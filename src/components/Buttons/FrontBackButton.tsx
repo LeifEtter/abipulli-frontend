@@ -3,6 +3,7 @@ import { ViewingSide } from "src/types/ViewingSide";
 interface FrontBackButtonProps {
   switchViewingSide: (side: ViewingSide) => void;
   currentViewingSide: ViewingSide;
+  className: string;
 }
 
 /**
@@ -14,9 +15,10 @@ interface FrontBackButtonProps {
 export const FrontBackButton = ({
   switchViewingSide,
   currentViewingSide,
+  className,
 }: FrontBackButtonProps) => (
   <div
-    className="flex justify-center relative border-black border-2 bg-white rounded-4xl h-12 font-semibold [&>*]:cursor-pointer min-w-40 max-w-50"
+    className={`${className} flex justify-center relative border-black border-2 bg-white rounded-4xl h-12 font-semibold [&>*]:cursor-pointer min-w-40 max-w-50`}
     role="group"
     aria-label="Ansicht wechseln"
   >
