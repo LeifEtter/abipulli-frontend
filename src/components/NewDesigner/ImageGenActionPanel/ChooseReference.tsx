@@ -4,6 +4,9 @@ import { ActionPanel } from "../ActionPanel";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRotate } from "@fortawesome/free-solid-svg-icons";
 import { NewImageDropper } from "../NewImageDropper";
+import { useState } from "react";
+import { useGenerateInfo } from "src/hooks/useGenerateInfo";
+import { GenerateInfoContextType } from "src/providers/generateContext";
 
 interface ChooseReferenceImage {
   chosenReferenceImage: string;
@@ -18,6 +21,14 @@ export const ChooseReferenceImage = ({
   setReferenceImage,
   setUploadedReferenceImage,
 }: ChooseReferenceImage) => {
+  const [uploadedImage, setUploadedImage] = useState<File>();
+
+  const [chosenImage, setChosenImage] = useState<Image>();
+
+  const { saveProgressLocally }: GenerateInfoContextType = useGenerateInfo();
+
+  // submit reference image
+
   return (
     <ActionPanel
       title="Bild Generieren"
@@ -26,7 +37,7 @@ export const ChooseReferenceImage = ({
       <p className="font-semibold text-abipulli-black text-xl mt-4 mb-2">
         Eigenes Referenz Bild
       </p>
-      {chosenReferenceImage ? (
+      {uploadedImage ? (
         <div className="h-50 w-full flex justify-center border overflow-hidden relative bg-white border-abipulli-gray rounded-xl">
           <img className="object-contain" src={chosenReferenceImage} />
           <div className="absolute right-0 top-0 flex gap-2 items-center bg-abipulli-dark-beige rounded-sm py-1 px-2 shadow-sm">
@@ -38,7 +49,7 @@ export const ChooseReferenceImage = ({
         <NewImageDropper
           onDrop={(acceptedFiles) => {
             if (acceptedFiles[0] instanceof File)
-              setUploadedReferenceImage(acceptedFiles[0]);
+              setUploadedImage(acceptedFiles[0]);
           }}
           onDropRejected={() => {}}
           maxImageAmount={1}
@@ -56,7 +67,7 @@ export const ChooseReferenceImage = ({
       <div className="grid grid-cols-3 gap-4 mt-4">
         {previousGeneratedImages.map((img, idx) => (
           <button
-            onClick={() => {}}
+            onClick={() => setChosenImage(img)}
             className={`rounded-md cursor-pointer ${img.userId ? "border border-black shadow-md" : ""}`}
           >
             <img
@@ -75,15 +86,17 @@ export const ChooseReferenceImage = ({
       <div className="separator mb-4" />
       <div className="flex flex-row justify-between">
         <BasicButton>Zurück</BasicButton>
-        <BasicButton>Fortfahren</BasicButton>
+        <BasicButton
+          onClick={() => {
+            saveProgressLocally({
+              referenceFile: uploadedImage,
+              referenceImage: chosenImage,
+            });
+          }}
+        >
+          Fortfahren
+        </BasicButton>
       </div>
     </ActionPanel>
   );
 };
-
-// [
-//         { src: AbipulliHat, chosen: false },
-//         { src: AbipulliHat, chosen: false },
-//         { src: AbipulliHat, chosen: false },
-//         { src: AbipulliHat, chosen: true },
-//       ]
