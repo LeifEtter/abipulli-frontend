@@ -14,6 +14,9 @@ import { DesignsBar } from "src/components/NewDesigner/DesignsBar";
 import { EditableTextField } from "src/components/NewDesigner/EditableTextField";
 import { Toolbar } from "src/components/NewDesigner/Toolbar";
 import { SidebarNav } from "src/components/NewDesigner/SidebarNav";
+import { useGenerateInfo } from "src/hooks/useGenerateInfo";
+import { GenerateInfoContextType } from "src/providers/generateContext";
+import { GenerateInfoProvider } from "src/providers/generateProvider";
 
 export const Route = createFileRoute("/newdesigner/")({
   component: RouteComponent,
@@ -91,12 +94,14 @@ function RouteComponent() {
           </div>
           <DesignsBar designs={[]} />
           <div className="absolute right-0 top-0">
-            <ChooseReferenceImage
-              previousGeneratedImages={[]}
-              chosenReferenceImage={""}
-              setReferenceImage={() => {}}
-              setUploadedReferenceImage={() => {}}
-            />
+            <GenerateInfoProvider>
+              <ChooseReferenceImage
+                previousGeneratedImages={[]}
+                chosenReferenceImage={""}
+                setReferenceImage={() => {}}
+                setUploadedReferenceImage={() => {}}
+              />
+            </GenerateInfoProvider>
           </div>
         </div>
       </section>
