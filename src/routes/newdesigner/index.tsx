@@ -76,12 +76,11 @@ function RouteComponent() {
           id="editing-section"
           className={`w-full bg-cover flex flex-col justify-between relative h-full dotted-background`}
         >
-          <div className="w-full p-2">
-            <FrontBackButton
-              currentViewingSide={viewingSide}
-              switchViewingSide={(side: ViewingSide) => setViewingSide(side)}
-            />
-          </div>
+          <FrontBackButton
+            className="mt-2 ml-2"
+            currentViewingSide={viewingSide}
+            switchViewingSide={(side: ViewingSide) => setViewingSide(side)}
+          />
           <div className="flex justify-start items-center grow border">
             <EditableTextField />
             <Stage className="border" width={500} height={500}>
