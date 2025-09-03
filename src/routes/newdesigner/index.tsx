@@ -67,8 +67,8 @@ function RouteComponent() {
           <ImagesTab images={images} />
         </div>
       </section>
-      <section className="flex flex-col w-full pb-8">
-        <Toolbar />
+      <section id="main-section" className="flex flex-col w-full pb-8">
+        <Toolbar zoom={zoom} setZoom={setZoom} />
         <div
           id="editing-section"
           className={`w-full bg-cover flex flex-col justify-between relative h-full dotted-background`}
