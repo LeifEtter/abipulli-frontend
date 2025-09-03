@@ -31,10 +31,6 @@ function RouteComponent() {
 
   const images: { src: string; label: string }[] = [
     { src: AbipulliHat, label: "Image69" },
-    { src: AbipulliHat, label: "Image69" },
-    { src: AbipulliHat, label: "Image69" },
-    { src: AbipulliHat, label: "Image69" },
-    { src: AbipulliHat, label: "Image69" },
   ];
 
   const [viewingSide, setViewingSide] = useState<ViewingSide>(
@@ -51,8 +47,6 @@ function RouteComponent() {
   const [chosenFont, setChosenFont] = useState<SelectOption<string>>(
     fontOptions[0]
   );
-
-  const [referenceImage, setReferenceImage] = useState<File>();
 
   return (
     <div className="flex flex-row h-full w-full">
@@ -73,7 +67,6 @@ function RouteComponent() {
       <section id="main-section" className="flex flex-col w-full pb-8">
         <Toolbar zoom={zoom} setZoom={setZoom} />
         <div
-          id="editing-section"
           className={`w-full bg-cover flex flex-col justify-between relative h-full dotted-background`}
         >
           <FrontBackButton
