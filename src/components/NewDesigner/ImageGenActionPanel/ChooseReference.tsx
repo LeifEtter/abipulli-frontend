@@ -23,13 +23,6 @@ export const ChooseReferenceImage = ({
       title="Bild Generieren"
       description="Wähle ein Referenzbild für das Bild das du generieren willst. Dies gibt den Style vor."
     >
-      {/* <SelectField<string>
-                idPrefix="select-font"
-                label="Font Auswählen"
-                options={fontOptions}
-                chosenOption={chosenFont}
-                onChange={(e) => e && setChosenFont(e)}
-              /> */}
       <p className="font-semibold text-abipulli-black text-xl mt-4 mb-2">
         Eigenes Referenz Bild
       </p>
