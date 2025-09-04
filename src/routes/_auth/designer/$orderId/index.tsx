@@ -223,10 +223,10 @@ function RouteComponent() {
           role="group"
           aria-label="Ansicht wechseln"
         >
-          <FrontBackButton
+          {/* <FrontBackButton
             switchViewingSide={(side: ViewingSide) => setViewingSide(side)}
             currentViewingSide={viewingSide}
-          />
+          /> */}
         </div>
         {/* <div
           className="flex justify-center mt-4"
