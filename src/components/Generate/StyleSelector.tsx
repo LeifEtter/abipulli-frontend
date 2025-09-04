@@ -11,7 +11,7 @@ export const StyleSelector = ({
   onSelect,
   id,
 }: StyleSelectorProps) => (
-  <nav className="flex gap-2" id={id} aria-label="Stil Auswahl">
+  <nav className="flex gap-2 flex-wrap" id={id} aria-label="Stil Auswahl">
     {Object.entries(selectedStyles).map(([k, v]) => (
       <button
         key={`style-button-${k}`}
