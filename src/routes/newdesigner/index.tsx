@@ -14,9 +14,11 @@ import { DesignsBar } from "src/components/NewDesigner/DesignsBar";
 import { EditableTextField } from "src/components/NewDesigner/EditableTextField";
 import { Toolbar } from "src/components/NewDesigner/Toolbar";
 import { SidebarNav } from "src/components/NewDesigner/SidebarNav";
-import { useGenerateInfo } from "src/hooks/useGenerateInfo";
-import { GenerateInfoContextType } from "src/providers/generateContext";
 import { GenerateInfoProvider } from "src/providers/generateProvider";
+import { ImageFactory } from "vitest/mocks/data/factory.image";
+import { MainInfo } from "src/components/NewDesigner/ImageGenActionPanel/MainInfo";
+import { Description } from "src/components/NewDesigner/ImageGenActionPanel/Description";
+import { ImproveDescription } from "src/components/NewDesigner/ImageGenActionPanel/ImproveDescription";
 
 export const Route = createFileRoute("/newdesigner/")({
   component: RouteComponent,
@@ -47,6 +49,11 @@ function RouteComponent() {
   const [chosenFont, setChosenFont] = useState<SelectOption<string>>(
     fontOptions[0]
   );
+
+  const [generateTab, setGenerateTab] = useState<number>(0);
+  const nextGenerateTab = () => setGenerateTab((prev) => prev + 1);
+  const previousGenerateTab = () =>
+    setGenerateTab((prev) => (prev == 0 ? 0 : prev - 1));
 
   return (
     <div className="flex flex-row h-full w-full">
@@ -87,12 +94,33 @@ function RouteComponent() {
           <DesignsBar designs={[]} />
           <div className="absolute right-0 top-0">
             <GenerateInfoProvider>
-              <ChooseReferenceImage
-                previousGeneratedImages={[]}
-                chosenReferenceImage={""}
-                setReferenceImage={() => {}}
-                setUploadedReferenceImage={() => {}}
-              />
+              {generateTab == 0 && (
+                <ChooseReferenceImage
+                  previousGeneratedImages={[
+                    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14,
+                  ].map((id) => ImageFactory.image({ id: id }))}
+                  previousTab={previousGenerateTab}
+                  nextTab={nextGenerateTab}
+                />
+              )}
+              {generateTab == 1 && (
+                <MainInfo
+                  nextTab={nextGenerateTab}
+                  previousTab={previousGenerateTab}
+                />
+              )}
+              {generateTab == 2 && (
+                <Description
+                  nextTab={nextGenerateTab}
+                  previousTab={previousGenerateTab}
+                />
+              )}
+              {generateTab == 3 && (
+                <ImproveDescription
+                  nextTab={nextGenerateTab}
+                  previousTab={previousGenerateTab}
+                />
+              )}
             </GenerateInfoProvider>
           </div>
         </div>
