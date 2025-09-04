@@ -2,6 +2,15 @@ import { faker } from "@faker-js/faker";
 import { Image, ImageWithPositionAndScale } from "abipulli-types";
 import { getRandomUrl, uniqueId } from "./utils";
 
+const exampleImageUrls: string[] = [
+  "https://abipulli.nbg1.your-objectstorage.com/DO_NOT_DELETE/Examples/1.png",
+  "https://abipulli.nbg1.your-objectstorage.com/DO_NOT_DELETE/Examples/2.png",
+  "https://abipulli.nbg1.your-objectstorage.com/DO_NOT_DELETE/Examples/3.png",
+  "https://abipulli.nbg1.your-objectstorage.com/DO_NOT_DELETE/Examples/4.png",
+  "https://abipulli.nbg1.your-objectstorage.com/DO_NOT_DELETE/Examples/5.png",
+  "https://abipulli.nbg1.your-objectstorage.com/DO_NOT_DELETE/Examples/6.png",
+];
+
 export const ImageFactory = {
   image: ({
     id,
@@ -14,7 +23,8 @@ export const ImageFactory = {
   }): Image => {
     return {
       id: id ?? uniqueId(),
-      url: getRandomUrl(),
+      // url: getRandomUrl(),
+      url: faker.helpers.arrayElement(exampleImageUrls),
       createdAt: faker.date.past(),
       generated: generated ?? faker.helpers.arrayElement([true, false]),
       prompt: faker.word.words(10),
