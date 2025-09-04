@@ -11,6 +11,7 @@ export interface GenerateInfo {
   styleTags: string[];
   referenceFile?: File;
   referenceImage?: Image;
+  schoolName?: string;
 }
 
 export type GenerateErrors = {

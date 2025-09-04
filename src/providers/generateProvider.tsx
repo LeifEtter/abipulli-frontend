@@ -26,6 +26,7 @@ export const GenerateInfoProvider = ({
     comment: undefined,
     referenceFile: undefined,
     referenceImage: undefined,
+    schoolName: undefined,
   });
 
   const [errorState, setErrorState] = useState<GenerateErrors>({});
