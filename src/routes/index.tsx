@@ -7,18 +7,22 @@ export const Route = createFileRoute("/")({
 });
 
 function RouteComponent() {
-  const { user, isLoading } = useAuth();
+  // const { user, isLoading } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!isLoading) {
-      if (user) {
-        navigate({ to: "/designer" });
-      } else {
-        navigate({ to: "/newdesigner" });
-      }
-    }
-  }, [user, isLoading]);
+    navigate({ to: "/newdesigner" });
+  });
+
+  // useEffect(() => {
+  //   if (!isLoading) {
+  //     if (user) {
+  //       navigate({ to: "/designer" });
+  //     } else {
+  //       navigate({ to: "/newdesigner" });
+  //     }
+  //   }
+  // }, [user, isLoading]);
 
   return <div>Hello "/"!!</div>;
 }
