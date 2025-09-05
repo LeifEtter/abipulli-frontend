@@ -19,6 +19,8 @@ import { ImageFactory } from "vitest/mocks/data/factory.image";
 import { MainInfo } from "src/components/NewDesigner/ImageGenActionPanel/MainInfo";
 import { Description } from "src/components/NewDesigner/ImageGenActionPanel/Description";
 import { ImproveDescription } from "src/components/NewDesigner/ImageGenActionPanel/ImproveDescription";
+import { Image } from "abipulli-types";
+import { ImproveImagePanel } from "src/components/NewDesigner/ImproveImagePanel";
 
 export const Route = createFileRoute("/newdesigner/")({
   component: RouteComponent,
@@ -50,10 +52,14 @@ function RouteComponent() {
     fontOptions[0]
   );
 
-  const [generateTab, setGenerateTab] = useState<number>(0);
+  const [generateTab, setGenerateTab] = useState<number>(-1);
   const nextGenerateTab = () => setGenerateTab((prev) => prev + 1);
   const previousGenerateTab = () =>
     setGenerateTab((prev) => (prev == 0 ? 0 : prev - 1));
+
+  const [viewingImage, setViewingImage] = useState<Image>(
+    ImageFactory.image({})
+  );
 
   return (
     <div className="flex flex-row h-full w-full">
@@ -92,7 +98,7 @@ function RouteComponent() {
             </Stage>
           </div>
           <DesignsBar designs={[]} />
-          <div className="absolute right-0 top-0">
+          <div className="absolute right-5 top-5">
             <GenerateInfoProvider>
               {generateTab == 0 && (
                 <ChooseReferenceImage
@@ -121,6 +127,7 @@ function RouteComponent() {
                   previousTab={previousGenerateTab}
                 />
               )}
+              {viewingImage && <ImproveImagePanel image={viewingImage} />}
             </GenerateInfoProvider>
           </div>
         </div>
