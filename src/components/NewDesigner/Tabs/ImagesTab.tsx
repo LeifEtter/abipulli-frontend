@@ -8,8 +8,8 @@ export const ImagesTab = ({
       Generate Image
     </button>
     <div className="grid grid-cols-2 gap-4 mt-4">
-      {images.map((image) => (
-        <div>
+      {images.map((image, idx) => (
+        <div key={`image-tab-${idx}`}>
           <img
             className="border-12 border-white rounded-md bg-white"
             src={image.src}
