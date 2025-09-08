@@ -333,6 +333,7 @@ export const ImproveImagePanel = ({ image }: ImproveImagePanelProps) => {
         >
           <Layer>
             <KonvaImage
+              ref={imgRef}
               image={canvasImage}
               onClick={() => {}}
               width={imageSize.width}
@@ -340,7 +341,7 @@ export const ImproveImagePanel = ({ image }: ImproveImagePanelProps) => {
               x={imagePos.x}
               y={imagePos.y}
             />
-            <KonvaImage ref={imageRef} image={canvas} x={0} y={0} />
+            <KonvaImage ref={maskRef} image={canvas} x={0} y={0} />
           </Layer>
         </Stage>
       </div>
