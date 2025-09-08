@@ -21,7 +21,10 @@ interface ImproveImagePanelProps {
 export const ImproveImagePanel = ({ image }: ImproveImagePanelProps) => {
   const [improvement, setImprovement] = useState<string>();
 
-  const [canvasImage] = useImage(image.url!);
+  const [canvasImage] = useImage(
+    "https://abipulli.nbg1.your-objectstorage.com/DO_NOT_DELETE/Examples/new.png",
+    "anonymous"
+  );
 
   const CANVAS_SIZE: SizeType = { width: 400, height: 400 };
 
