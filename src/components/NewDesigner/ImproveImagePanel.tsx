@@ -352,7 +352,15 @@ export const ImproveImagePanel = ({ image }: ImproveImagePanelProps) => {
         value={improvement}
       />
       <button
-        onClick={() => {}}
+        onClick={async () => {
+          const mask = await exportMaskedPNG();
+
+          const link = document.createElement("a");
+          link.href = mask ?? "";
+          link.download = "masked.png";
+          link.click();
+          console.log(mask);
+        }}
         className="bg-white border flex flex-row justify-center items-center gap-4 p-3 rounded-xl w-full mt-4"
       >
         <img className="w-6" src={StarsIcon} />
