@@ -97,14 +97,14 @@ export const ImproveImagePanel = ({ image }: ImproveImagePanelProps) => {
   ) => {
     if (
       !isDrawing.current ||
-      !imageRef.current ||
+      !maskRef.current ||
       !context ||
       !lastPos.current ||
       !e.target.getStage()
     )
       return;
     context.lineWidth = strokeWidth;
-    const image = imageRef.current;
+    const image = maskRef.current;
     const stage: Konva.Stage = e.target.getStage()!;
 
     context.globalCompositeOperation =
