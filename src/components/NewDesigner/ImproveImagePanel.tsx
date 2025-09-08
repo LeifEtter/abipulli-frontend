@@ -67,7 +67,7 @@ export const ImproveImagePanel = ({ image }: ImproveImagePanelProps) => {
   const [tool, setTool] = useState<string>("brush");
   const [strokeWidth, setStrokeWidth] = useState<number>(50);
   const isDrawing = useRef<boolean>(false);
-  const imageRef = useRef<any>(null); // Konva.Image or null
+  const maskRef = useRef<any>(null); // Konva.Image or null
   const lastPos = useRef<{ x: number; y: number } | null>(null);
 
   const { canvas, context } = useMemo(() => {
