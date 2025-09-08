@@ -35,6 +35,7 @@ export const ImproveImagePanel = ({ image }: ImproveImagePanelProps) => {
 
   const [imagePos, setImagePos] = useState<PositionType>({ x: 0, y: 0 });
 
+  const imgRef = useRef<Konva.Image>(null);
 
   useEffect(() => {
     if (!canvasImage) return;
