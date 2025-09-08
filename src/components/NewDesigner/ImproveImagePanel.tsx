@@ -35,7 +35,6 @@ export const ImproveImagePanel = ({ image }: ImproveImagePanelProps) => {
 
   const [imagePos, setImagePos] = useState<PositionType>({ x: 0, y: 0 });
 
-  const [brushSize, setBrushSize] = useState<number>(50);
 
   useEffect(() => {
     if (!canvasImage) return;
