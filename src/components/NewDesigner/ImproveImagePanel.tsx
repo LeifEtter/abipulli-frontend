@@ -13,6 +13,8 @@ import useImage from "use-image";
 import { SizeType } from "src/types/canvas/sizeType";
 import { PositionType } from "src/types/canvas/positionType";
 import { BasicButton } from "../Buttons/BasicButton";
+import { canvasToMask } from "src/utilities/Conversion/canvasToMask";
+import { canvasToBlackMask } from "src/utilities/Conversion/canvasToBlackMask";
 
 interface ImproveImagePanelProps {
   image: Image;
@@ -131,147 +133,6 @@ export const ImproveImagePanel = ({ image }: ImproveImagePanelProps) => {
     image.getLayer?.()?.batchDraw?.();
   };
 
-  async function exportMaskedPNG(): Promise<string | undefined> {
-    if (!canvasImage) return;
-
-    // Natural/original pixel size of the source image
-    const natW =
-      (canvasImage as any).naturalWidth ?? image.width ?? canvasImage.width;
-    const natH =
-      (canvasImage as any).naturalHeight ?? image.height ?? canvasImage.height;
-
-    // Build a natural-sized mask canvas
-    const maskNat = document.createElement("canvas");
-    maskNat.width = natW;
-    maskNat.height = natH;
-    const mctx = maskNat.getContext("2d")!;
-
-    // Crop the brush canvas to the displayed photo rectangle on the Stage
-    const sx = Math.max(0, imagePos.x);
-    const sy = Math.max(0, imagePos.y);
-    const sWidth = Math.max(
-      0,
-      Math.min(CANVAS_SIZE.width - sx, imageSize.width)
-    );
-    const sHeight = Math.max(
-      0,
-      Math.min(CANVAS_SIZE.height - sy, imageSize.height)
-    );
-
-    if (sWidth <= 0 || sHeight <= 0) return;
-
-    // Draw that crop into the natural-sized mask
-    mctx.drawImage(
-      canvas, // source = your brush canvas (Stage-sized)
-      sx, // source x (stage coords)
-      sy, // source y
-      sWidth, // source w
-      sHeight, // source h
-      0, // dest x
-      0, // dest y
-      natW, // dest w (scale to natural)
-      natH // dest h
-    );
-
-    // Output canvas at natural size
-    const out = document.createElement("canvas");
-    out.width = natW;
-    out.height = natH;
-    const octx = out.getContext("2d")!;
-
-    console.log("All good");
-
-    // Draw the original photo at full resolution
-    octx.drawImage(canvasImage, 0, 0, natW, natH);
-
-    // Keep only painted parts
-    octx.globalCompositeOperation = "destination-in";
-    octx.drawImage(maskNat, 0, 0);
-    octx.globalCompositeOperation = "source-over";
-
-    console.log("All good still");
-
-    return out.toDataURL("image/png");
-  }
-
-  async function exportIdeogramMask(opts?: {
-    format?: "image/png" | "image/jpeg" | "image/webp"; // default png
-    quality?: number; // 0..1, only for jpeg/webp
-  }): Promise<Blob | undefined> {
-    if (!canvasImage) return;
-
-    const natW =
-      (canvasImage as any).naturalWidth ?? image.width ?? canvasImage.width;
-    const natH =
-      (canvasImage as any).naturalHeight ?? image.height ?? canvasImage.height;
-
-    // The photo is displayed at (imagePos) with size (imageSize) inside a Stage-sized brush canvas.
-    // Compute the crop of the brush canvas that overlaps the photo on the Stage:
-    const sx = Math.max(0, imagePos.x);
-    const sy = Math.max(0, imagePos.y);
-    const sWidth = Math.max(
-      0,
-      Math.min(CANVAS_SIZE.width - sx, imageSize.width)
-    );
-    const sHeight = Math.max(
-      0,
-      Math.min(CANVAS_SIZE.height - sy, imageSize.height)
-    );
-    if (sWidth <= 0 || sHeight <= 0) return;
-
-    // Create a natural-sized mask canvas
-    const mask = document.createElement("canvas");
-    mask.width = natW;
-    mask.height = natH;
-    const mctx = mask.getContext("2d")!;
-
-    // === Build a binary mask: BLACK where brush has alpha, WHITE elsewhere ===
-    // Fill BLACK everywhere first
-    mctx.fillStyle = "#000";
-    mctx.fillRect(0, 0, natW, natH);
-
-    // Keep black only where the brush has alpha (use brush alpha as a stencil)
-    mctx.globalCompositeOperation = "destination-in";
-    mctx.imageSmoothingEnabled = true; // smoother scaling
-    mctx.drawImage(
-      canvas, // source: Stage-sized brush canvas
-      sx,
-      sy, // crop within stage coords
-      sWidth,
-      sHeight,
-      0,
-      0, // dest origin
-      natW,
-      natH // scale to natural size
-    );
-
-    // Turn all remaining transparent pixels (i.e., where no brush) into WHITE
-    mctx.globalCompositeOperation = "destination-over";
-    mctx.fillStyle = "#fff";
-    mctx.fillRect(0, 0, natW, natH);
-
-    // Reset comp op
-    mctx.globalCompositeOperation = "source-over";
-
-    // Encode as requested format (PNG safest for crisp BW; JPEG/WebP shrink size if needed)
-    const format = opts?.format ?? "image/png";
-    const quality = opts?.quality ?? 0.92;
-
-    const blob: Blob = await new Promise((resolve) =>
-      mask.toBlob((b) => resolve(b as Blob), format, quality)
-    );
-
-    // Optional: sanity clamp to <= 10MB (Ideogram’s limit). If too big, try WebP/JPEG at lower quality.
-    if (blob.size > 10 * 1024 * 1024 && format === "image/png") {
-      // retry with webp
-      const fallback: Blob = await new Promise((resolve) =>
-        mask.toBlob((b) => resolve(b as Blob), "image/webp", 0.85)
-      );
-      return fallback;
-    }
-    return blob;
-  }
-
   return (
     <ActionPanel
       title="Verbessere dein Bild"
@@ -354,7 +215,14 @@ export const ImproveImagePanel = ({ image }: ImproveImagePanelProps) => {
       />
       <button
         onClick={async () => {
-          const mask = await exportMaskedPNG();
+          if (!canvasImage) return;
+          const mask = await canvasToMask({
+            imageDimensions: { width: image.width, height: image.height },
+            imagePosition: imagePos,
+            canvasImage: canvasImage,
+            canvas: canvas,
+            canvasDimensions: CANVAS_SIZE,
+          });
 
           const link = document.createElement("a");
           link.href = mask ?? "";
@@ -369,7 +237,14 @@ export const ImproveImagePanel = ({ image }: ImproveImagePanelProps) => {
       </button>
       <button
         onClick={async () => {
-          const result: Blob | undefined = await exportIdeogramMask();
+          if (!canvasImage) return;
+          const result: Blob | undefined = await canvasToBlackMask({
+            imageDimensions: { width: image.width, height: image.height },
+            imagePosition: imagePos,
+            canvasImage: canvasImage,
+            canvas: canvas,
+            canvasDimensions: CANVAS_SIZE,
+          });
           if (!result) return;
           const url = URL.createObjectURL(result);
           // preview in <img src={url} />
