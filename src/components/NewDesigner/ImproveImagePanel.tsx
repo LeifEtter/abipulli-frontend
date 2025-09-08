@@ -71,18 +71,16 @@ export const ImproveImagePanel = ({ image }: ImproveImagePanelProps) => {
   const lastPos = useRef<{ x: number; y: number } | null>(null);
 
   const { canvas, context } = useMemo(() => {
-    const canvas = document.createElement("canvas");
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight - 25;
-    const context = canvas.getContext("2d");
-    if (context) {
-      context.strokeStyle = "#df4b26";
-      context.globalAlpha = 1;
-      context.lineJoin = "round";
-      context.lineWidth = strokeWidth;
-    }
-    return { canvas, context };
-  }, []);
+    const c = document.createElement("canvas");
+    c.width = CANVAS_SIZE.width;
+    c.height = CANVAS_SIZE.height;
+    const ctx = c.getContext("2d")!;
+    ctx.strokeStyle = "#ffffff";
+    ctx.globalAlpha = 1;
+    ctx.lineJoin = "round";
+    ctx.lineWidth = strokeWidth;
+    return { canvas: c, context: ctx };
+  }, [CANVAS_SIZE.width, CANVAS_SIZE.height]);
 
   const handleMouseDown = (e: any) => {
     isDrawing.current = true;
