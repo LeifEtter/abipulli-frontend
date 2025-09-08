@@ -358,6 +358,21 @@ export const ImproveImagePanel = ({ image }: ImproveImagePanelProps) => {
         <img className="w-6" src={StarsIcon} />
         <p className="font-semibold">Bild Verbessern</p>
       </button>
+      <button
+        onClick={async () => {
+          const result: Blob | undefined = await exportIdeogramMask();
+          if (!result) return;
+          const url = URL.createObjectURL(result);
+          // preview in <img src={url} />
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = "ideogram-mask.png";
+          a.click();
+          URL.revokeObjectURL(url);
+        }}
+      >
+        Download
+      </button>
       {/* <div className="separator mt-4" /> */}
     </ActionPanel>
   );
