@@ -69,7 +69,7 @@ export const ChooseReferenceImage = ({
       <div className="relative">
         <div className="grid grid-cols-3 gap-4 mt-4 overflow-scroll h-96 pb-6">
           {previousGeneratedImages.map((img, idx) => (
-            <div className="flex flex-col">
+            <div key={`prev-generated-image-${idx}`} className="flex flex-col">
               <button
                 onClick={() => setChosenImage(img)}
                 className={`group relative rounded-md aspect-square cursor-pointer ${img == chosenImage ? "border-2 border-gray-400 shadow-lg" : ""}`}
@@ -117,7 +117,7 @@ export const ChooseReferenceImage = ({
             previousTab();
           }}
         >
-          Zurück
+          Schließen
         </BasicButton>
         <BasicButton
           onClick={() => {
