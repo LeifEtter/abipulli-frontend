@@ -1,10 +1,9 @@
 import { Image } from "abipulli-types";
 import { ActionPanel } from "./ActionPanel";
 import EraserIcon from "src/assets/icons/eraser-icon.svg";
-import { Center } from "../Misc/Center";
 import StarsIcon from "src/assets/icons/stars-icon.svg";
 import { InputField } from "../Inputs/InputField";
-import { JSX, useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Stage, Layer, Image as KonvaImage } from "react-konva";
 import Konva from "konva";
 import { KonvaEventObject, Node, NodeConfig } from "konva/lib/Node";
@@ -12,9 +11,9 @@ import { ImproveButton } from "./ImproveButton";
 import useImage from "use-image";
 import { SizeType } from "src/types/canvas/sizeType";
 import { PositionType } from "src/types/canvas/positionType";
-import { BasicButton } from "../Buttons/BasicButton";
 import { canvasToMask } from "src/utilities/Conversion/canvasToMask";
 import { canvasToBlackMask } from "src/utilities/Conversion/canvasToBlackMask";
+import { Vector2d } from "konva/lib/types";
 
 interface ImproveImagePanelProps {
   image: Image;
@@ -69,7 +68,7 @@ export const ImproveImagePanel = ({ image }: ImproveImagePanelProps) => {
   const [tool, setTool] = useState<string>("brush");
   const [strokeWidth, setStrokeWidth] = useState<number>(50);
   const isDrawing = useRef<boolean>(false);
-  const maskRef = useRef<any>(null); // Konva.Image or null
+  const maskRef = useRef<Konva.Image>(null);
   const lastPos = useRef<{ x: number; y: number } | null>(null);
 
   const { canvas, context } = useMemo(() => {
@@ -84,46 +83,47 @@ export const ImproveImagePanel = ({ image }: ImproveImagePanelProps) => {
     return { canvas: c, context: ctx };
   }, [CANVAS_SIZE.width, CANVAS_SIZE.height]);
 
-  const handleMouseDown = (e: any) => {
+  const handleMouseDown = (
+    e: KonvaEventObject<MouseEvent | TouchEvent, Node<NodeConfig>>
+  ) => {
+    const stage: Konva.Stage | null = e.target.getStage();
+    if (!stage) return;
     isDrawing.current = true;
-    const stage = e.target?.getStage?.();
-    lastPos.current = stage?.getPointerPosition?.() ?? null;
+    lastPos.current = stage.getPointerPosition();
   };
 
-  const handleMouseUp = () => {
-    isDrawing.current = false;
-  };
+  const handleMouseUp = () => (isDrawing.current = false);
 
   const handleMouseMove = (
     e: KonvaEventObject<MouseEvent | TouchEvent, Node<NodeConfig>>
   ) => {
+    const stage: Konva.Stage | null = e.target.getStage();
     if (
       !isDrawing.current ||
       !maskRef.current ||
       !context ||
       !lastPos.current ||
-      !e.target.getStage()
+      !stage
     )
       return;
     context.lineWidth = strokeWidth;
     const image = maskRef.current;
-    const stage: Konva.Stage = e.target.getStage()!;
 
     context.globalCompositeOperation =
       tool === "eraser" ? "destination-out" : "source-over";
     context.beginPath();
 
     const localPos = {
-      x: lastPos.current.x - (image.x?.() ?? 0),
-      y: lastPos.current.y - (image.y?.() ?? 0),
+      x: lastPos.current.x - (image.x() ?? 0),
+      y: lastPos.current.y - (image.y() ?? 0),
     };
     context.moveTo(localPos.x, localPos.y);
 
-    const pos = stage.getPointerPosition?.();
+    const pos: Vector2d | null = stage.getPointerPosition();
     if (!pos) return;
     const newLocalPos = {
-      x: pos.x - (image.x?.() ?? 0),
-      y: pos.y - (image.y?.() ?? 0),
+      x: pos.x - (image.x() ?? 0),
+      y: pos.y - (image.y() ?? 0),
     };
     context.lineTo(newLocalPos.x, newLocalPos.y);
     context.closePath();
