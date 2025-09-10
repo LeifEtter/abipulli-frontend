@@ -52,8 +52,8 @@ function RouteComponent() {
     fontOptions[0]
   );
 
-  const [generateTab, setGenerateTab] = useState<number | undefined>();
-  const nextGenerateTab = () => setGenerateTab((prev) => prev ?? 0 + 1);
+  const [generateTab, setGenerateTab] = useState<number>();
+  const nextGenerateTab = () => setGenerateTab((prev) => prev! + 1);
   const previousGenerateTab = () =>
     setGenerateTab((prev) => (prev == 0 ? 0 : (prev ?? 0 - 1)));
 
