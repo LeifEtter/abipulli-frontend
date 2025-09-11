@@ -3,7 +3,7 @@ import { ActionPanel } from "./ActionPanel";
 import EraserIcon from "src/assets/icons/eraser-icon.svg";
 import StarsIcon from "src/assets/icons/stars-icon.svg";
 import { InputField } from "../Inputs/InputField";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { use, useEffect, useMemo, useRef, useState } from "react";
 import { Stage, Layer, Image as KonvaImage } from "react-konva";
 import Konva from "konva";
 import { KonvaEventObject, Node, NodeConfig } from "konva/lib/Node";
@@ -16,23 +16,22 @@ import { canvasToBlackMask } from "src/utilities/Conversion/canvasToBlackMask";
 import { Vector2d } from "konva/lib/types";
 
 interface ImproveImagePanelProps {
-  image: Image;
+  image: Image | undefined;
 }
 
 export const ImproveImagePanel = ({ image }: ImproveImagePanelProps) => {
   const [improvement, setImprovement] = useState<string>();
 
-  const [canvasImage] = useImage(
-    "https://abipulli.nbg1.your-objectstorage.com/DO_NOT_DELETE/Examples/new.png",
-    "anonymous"
-  );
+  const [canvasImage] = useImage(image ? image.url : "", "anonymous");
 
   const CANVAS_SIZE: SizeType = { width: 400, height: 400 };
 
-  const [imageSize, setImageSize] = useState<SizeType>({
-    width: image.width,
-    height: image.height,
-  });
+  const [imageSize, setImageSize] = useState<SizeType>();
+
+  useEffect(() => {
+    if (!image) return;
+    setImageSize({ width: image.width, height: image.height });
+  }, [image]);
 
   const [imagePos, setImagePos] = useState<PositionType>({ x: 0, y: 0 });
 
