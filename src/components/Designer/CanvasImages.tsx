@@ -159,8 +159,6 @@ export const ResizableImage = ({
             //! Implement Rotation
             ref={trRef}
             flipEnabled={false}
-            enabledAnchors={["middle-right", "bottom-right", "bottom-center"]}
-            rotateEnabled={false}
             anchorStyleFunc={(anchor) => {
               if (anchor.name().includes("rotate")) {
                 anchor.position({
@@ -181,6 +179,9 @@ export const ResizableImage = ({
 
               if (!deleteVisible) anchor.hide();
             }}
+            enabledAnchors={["bottom-right"]}
+            rotateEnabled={true}
+            rotateLineVisible={false}
             aria-label="Bildgröße ändern"
             role="group"
           />
