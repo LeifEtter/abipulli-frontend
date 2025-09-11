@@ -134,7 +134,7 @@ export const ResizableImage = ({
           scale={viewData.scale}
           x={viewData.pos.x}
           y={viewData.pos.y}
-          draggable
+          draggable={isSelected}
           aria-label="Bild verschieben und skalieren"
           role="img"
           onDragStart={() => setDeleteVisible(false)}
