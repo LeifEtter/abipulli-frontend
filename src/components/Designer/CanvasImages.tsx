@@ -9,6 +9,7 @@ import { ScaleType } from "src/types/canvas/scaleType";
 import { SizeType } from "src/types/canvas/sizeType";
 import ResizeIcon from "src/assets/icons/resize-icon.svg";
 import RotateIcon from "src/assets/icons/rotate-icon.svg";
+import CopyIcon from "src/assets/icons/copy-icon.svg";
 
 interface StaticImageParams {
   src: string;
@@ -96,6 +97,7 @@ export const ResizableImage = ({
 }: ResizableImageProps) => {
   const [image] = useImage(src);
   const [trashImage] = useImage("/src/assets/icons/trash-icon.svg");
+  const [copyImage] = useImage(CopyIcon);
   const [rotateImage] = useImage(RotateIcon);
   const [resizeImage] = useImage(ResizeIcon);
   const imageRef = useRef<KonvaImage>(null);
@@ -165,7 +167,34 @@ export const ResizableImage = ({
             setDeleteVisible(true);
           }}
         />
-
+        {isSelected && deleteVisible && (
+          <Group>
+            <Rect
+              fillEnabled={false}
+              x={viewData.pos.x - 25}
+              y={viewData.pos.y - 25}
+              width={image!.width * viewData.scale.x + 50}
+              height={image!.height * viewData.scale.y + 50}
+              strokeWidth={1}
+              stroke={"blue"}
+            />
+            <Rect
+              x={viewData.pos.x - 35}
+              y={viewData.pos.y + image!.height * viewData.scale.y + 10}
+              width={25}
+              height={25}
+              cornerRadius={3}
+              fill={"white"}
+            />
+            <Image
+              image={copyImage}
+              x={viewData.pos.x - 30}
+              y={viewData.pos.y + image!.height * viewData.scale.y + 15}
+              width={15}
+              height={15}
+            />
+          </Group>
+        )}
         {isSelected && (
           <Transformer
             //! Implement Rotation
