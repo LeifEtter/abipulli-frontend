@@ -41,13 +41,11 @@ function RouteComponent() {
 
   const onSelectPullover = async (pulloverId: number) => {
     try {
-      console.log(pulloverId);
       if (!orderId) return;
       const params: DesignCreateParams = {
         preferredPulloverId: pulloverId,
       };
       const design = await DesignApi.createDesign(orderId, params);
-      console.log(design);
       navigate({
         to: "/designer/$orderId",
         search: { selectedDesignId: design.id },

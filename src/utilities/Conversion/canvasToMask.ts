@@ -67,8 +67,6 @@ export async function canvasToMask({
   out.height = natH;
   const octx = out.getContext("2d")!;
 
-  console.log("All good");
-
   // Draw the original photo at full resolution
   octx.drawImage(canvasImage, 0, 0, natW, natH);
 
@@ -76,8 +74,6 @@ export async function canvasToMask({
   octx.globalCompositeOperation = "destination-in";
   octx.drawImage(maskNat, 0, 0);
   octx.globalCompositeOperation = "source-over";
-
-  console.log("All good still");
 
   return out.toDataURL("image/png");
 }
