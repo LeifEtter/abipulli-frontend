@@ -188,40 +188,38 @@ function RouteComponent() {
             />
           </div>
           <DesignsBar designs={[]} />
-          <div className="absolute right-5 top-5">
-            <GenerateInfoProvider>
-              {generateTab == 1 && (
-                <ChooseReferenceImage
-                  previousGeneratedImages={[
-                    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14,
-                  ].map((id) => ImageFactory.image({ id: id }))}
-                  previousTab={previousGenerateTab}
-                  nextTab={nextGenerateTab}
-                />
-              )}
-              {generateTab == 2 && (
-                <MainInfo
-                  nextTab={nextGenerateTab}
-                  previousTab={previousGenerateTab}
-                />
-              )}
-              {generateTab == 3 && (
-                <Description
-                  nextTab={nextGenerateTab}
-                  previousTab={previousGenerateTab}
-                />
-              )}
-              {generateTab == 4 && (
-                <ImproveDescription
-                  nextTab={nextGenerateTab}
-                  previousTab={previousGenerateTab}
-                />
-              )}
-              {viewingImage && !generateTab && (
-                <ImproveImagePanel image={viewingImage} />
-              )}
-            </GenerateInfoProvider>
-          </div>
+          {/* <div className="absolute right-4 top-2"> */}
+          <GenerateInfoProvider>
+            {generateTab == 1 && (
+              <ChooseReferenceImage
+                previousGeneratedImages={[
+                  1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14,
+                ].map((id) => ImageFactory.image({ id: id }))}
+                previousTab={previousGenerateTab}
+                nextTab={nextGenerateTab}
+              />
+            )}
+            {generateTab == 2 && (
+              <MainInfo
+                nextTab={nextGenerateTab}
+                previousTab={previousGenerateTab}
+              />
+            )}
+            {generateTab == 3 && (
+              <Description
+                nextTab={nextGenerateTab}
+                previousTab={previousGenerateTab}
+              />
+            )}
+            {generateTab == 4 && (
+              <ImproveDescription
+                nextTab={nextGenerateTab}
+                previousTab={previousGenerateTab}
+              />
+            )}
+            <ImproveImagePanel image={selectedImage} />
+          </GenerateInfoProvider>
+          {/* </div> */}
         </div>
       </section>
     </div>

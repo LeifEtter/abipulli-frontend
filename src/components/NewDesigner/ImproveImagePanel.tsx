@@ -136,6 +136,7 @@ export const ImproveImagePanel = ({ image }: ImproveImagePanelProps) => {
     <ActionPanel
       title="Verbessere dein Bild"
       description="Markiere den Teil den du verbessert haben willst und schreibe wie es verbessert werden soll"
+      hide={image == undefined}
     >
       <p className="mt-2 font-semibold mb-2">Werkzeuge</p>
       <div className="flex flex-row items-center">
@@ -192,15 +193,19 @@ export const ImproveImagePanel = ({ image }: ImproveImagePanelProps) => {
           onTouchEnd={handleMouseUp}
         >
           <Layer>
-            <KonvaImage
-              ref={imgRef}
-              image={canvasImage}
-              onClick={() => {}}
-              width={imageSize.width}
-              height={imageSize.height}
-              x={imagePos.x}
-              y={imagePos.y}
-            />
+            {image && imageSize ? (
+              <KonvaImage
+                ref={imgRef}
+                image={canvasImage}
+                onClick={() => {}}
+                width={imageSize!.width}
+                height={imageSize!.height}
+                x={imagePos.x}
+                y={imagePos.y}
+              />
+            ) : (
+              <></>
+            )}
             <KonvaImage ref={maskRef} image={canvas} x={0} y={0} />
           </Layer>
         </Stage>
@@ -214,7 +219,7 @@ export const ImproveImagePanel = ({ image }: ImproveImagePanelProps) => {
       />
       <button
         onClick={async () => {
-          if (!canvasImage) return;
+          if (!canvasImage || !image) return;
           const mask = await canvasToMask({
             imageDimensions: { width: image.width, height: image.height },
             imagePosition: imagePos,
@@ -235,7 +240,7 @@ export const ImproveImagePanel = ({ image }: ImproveImagePanelProps) => {
       </button>
       <button
         onClick={async () => {
-          if (!canvasImage) return;
+          if (!canvasImage || !image) return;
           const result: Blob | undefined = await canvasToBlackMask({
             imageDimensions: { width: image.width, height: image.height },
             imagePosition: imagePos,
