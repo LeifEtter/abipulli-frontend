@@ -204,19 +204,19 @@ export const ResizableImage = ({
             tabIndex={0}
           >
             <Rect
-              width={40}
-              height={40}
-              cornerRadius={6}
+              width={25}
+              height={25}
+              cornerRadius={3}
               fill={"white"}
-              x={viewData.pos.x - 20}
-              y={viewData.pos.y - 20}
+              x={viewData.pos.x - 35}
+              y={viewData.pos.y - 35}
             />
             <Image
               image={trashImage}
-              width={30}
-              height={30}
-              x={viewData.pos.x - 15}
-              y={viewData.pos.y - 15}
+              width={15}
+              height={15}
+              x={viewData.pos.x - 30}
+              y={viewData.pos.y - 30}
               aria-label="Papierkorb Icon"
               role="img"
             />
