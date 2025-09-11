@@ -76,12 +76,23 @@ function RouteComponent() {
             tabSelected={tabSelected}
             setTabSelected={(tab: TabOption) => setTabSelected(tab)}
           />
-          <ImagesTab
-            generateImage={() => {
-              setGenerateTab(1);
-            }}
-            images={images}
-          />
+          {!userImagesAreLoading && userImages && (
+            <ImagesTab
+              addImage={(image: Image) => {
+                if (!design) return;
+                addImageToDesign(
+                  image,
+                  designCanvasSize,
+                  design.id,
+                  viewingSide == ViewingSide.Back
+                );
+              }}
+              generateImage={() => {
+                setGenerateTab(1);
+              }}
+              userImages={userImages}
+            />
+          )}
         </div>
       </section>
       <section id="main-section" className="flex flex-col w-full pb-8">
