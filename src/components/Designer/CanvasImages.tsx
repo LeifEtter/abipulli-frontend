@@ -118,6 +118,13 @@ export const ResizableImage = ({
       <Fragment>
         <Image
           onClick={onSelect}
+          onMouseOver={(e) => {
+            if (isSelected) {
+              e.target.getStage()!.container().style.cursor = "grab";
+            } else {
+              e.target.getStage()!.container().style.cursor = "pointer";
+            }
+          }}
           onTap={onSelect}
           ref={imageRef}
           image={image}
