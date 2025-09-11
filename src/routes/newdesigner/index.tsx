@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AbipulliHat from "src/assets/icons/abipulli-logo.png";
 import ExamplePullover from "src/assets/pullovers/sand-front.png";
 import { TabOption, TabSwitcher } from "src/components/NewDesigner/TabSwitcher";
@@ -7,7 +7,10 @@ import { FrontBackButton } from "src/components/Buttons/FrontBackButton";
 import { ViewingSide } from "src/types/ViewingSide";
 import { SelectOption } from "src/components/Inputs/SelectField";
 import { Layer, Rect, Stage, Text } from "react-konva";
-import { StaticImage } from "src/components/Designer/CanvasImages";
+import {
+  ResizableImage,
+  StaticImage,
+} from "src/components/Designer/CanvasImages";
 import { ChooseReferenceImage } from "src/components/NewDesigner/ImageGenActionPanel/ChooseReference";
 import { ImagesTab } from "src/components/NewDesigner/Tabs/ImagesTab";
 import { DesignsBar } from "src/components/NewDesigner/DesignsBar";
@@ -19,8 +22,18 @@ import { ImageFactory } from "vitest/mocks/data/factory.image";
 import { MainInfo } from "src/components/NewDesigner/ImageGenActionPanel/MainInfo";
 import { Description } from "src/components/NewDesigner/ImageGenActionPanel/Description";
 import { ImproveDescription } from "src/components/NewDesigner/ImageGenActionPanel/ImproveDescription";
-import { Image } from "abipulli-types";
+import { Design, Image, ImageWithPositionAndScale } from "abipulli-types";
 import { ImproveImagePanel } from "src/components/NewDesigner/ImproveImagePanel";
+import { useAuth } from "src/hooks/useAuth";
+import { useDesignImages } from "src/hooks/useDesignImages";
+import { useDesigns } from "src/hooks/useDesigns";
+import { useSnackbar } from "src/hooks/useSnackbar";
+import { useWindowWidth } from "@react-hook/window-size";
+import { SizeType } from "src/types/canvas/sizeType";
+import { PositionType } from "src/types/canvas/positionType";
+import { ScaleType } from "src/types/canvas/scaleType";
+import { NewDesignerCanvas } from "src/components/NewDesigner/NewDesignerCanvas";
+import { useUserImages } from "src/hooks/useUserImages";
 
 export const Route = createFileRoute("/newdesigner/")({
   component: RouteComponent,
@@ -62,6 +75,60 @@ function RouteComponent() {
   // );
 
   const [viewingImage, setViewingImage] = useState<Image>();
+
+  const [selectedImage, selectImage] = useState<ImageWithPositionAndScale>();
+
+  const { user } = useAuth();
+  const { designs, designsAreLoading, designsError } = useDesigns(user?.id);
+  const {
+    designImages,
+    designImagesAreLoading,
+    designImagesError,
+    changeImagePosition,
+    changeImageScale,
+    addImageToDesign,
+    removeImageFromDesign,
+  } = useDesignImages(designs[0] ? designs[0].id : undefined);
+
+  const [design, setDesign] = useState<Design>();
+
+  const showSnackbar = useSnackbar();
+
+  const width = useWindowWidth();
+  const [designCanvasSize, setDesignCanvasSize] = useState<SizeType>({
+    width: 600,
+    height: 700,
+  });
+
+  const { userImages, userImagesAreLoading, userImagesError } = useUserImages();
+
+  const onDeleteImage = async (image: ImageWithPositionAndScale) => {
+    if (!design)
+      return showSnackbar({
+        message: "Kein Design ausgewählt",
+        type: "error",
+      });
+    await removeImageFromDesign(image, design.id);
+  };
+
+  const onImagePositionChange = (
+    pos: PositionType,
+    image: ImageWithPositionAndScale
+  ) =>
+    changeImagePosition({
+      pos,
+      imageToDesignId: image.imageToDesignId,
+    });
+
+  const onScaleChange = (scale: ScaleType, image: ImageWithPositionAndScale) =>
+    changeImageScale({
+      scale,
+      imageToDesignId: image.imageToDesignId,
+    });
+
+  useEffect(() => {
+    if (designs && designs[0]) setDesign(designs[0]);
+  }, [designs, designImages]);
 
   return (
     <div className="flex flex-row h-full w-full">
