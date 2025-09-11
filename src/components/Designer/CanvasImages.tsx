@@ -161,6 +161,17 @@ export const ResizableImage = ({
             flipEnabled={false}
             enabledAnchors={["middle-right", "bottom-right", "bottom-center"]}
             rotateEnabled={false}
+              if (anchor.name() == "bottom-right _anchor") {
+                anchor.setPosition({
+                  x: anchor.position().x + 15,
+                  y: anchor.position().y + 15,
+                });
+              }
+              anchor.fill("white");
+              anchor.strokeWidth(0);
+              anchor.size({ width: 25, height: 25 });
+              anchor.cornerRadius(3);
+
             aria-label="Bildgröße ändern"
             role="group"
           />
