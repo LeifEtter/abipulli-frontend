@@ -161,6 +161,13 @@ export const ResizableImage = ({
             flipEnabled={false}
             enabledAnchors={["middle-right", "bottom-right", "bottom-center"]}
             rotateEnabled={false}
+            anchorStyleFunc={(anchor) => {
+              if (anchor.name().includes("rotate")) {
+                anchor.position({
+                  x: image!.width * viewData.scale.x + 15,
+                  y: -30,
+                });
+              }
               if (anchor.name() == "bottom-right _anchor") {
                 anchor.setPosition({
                   x: anchor.position().x + 15,
