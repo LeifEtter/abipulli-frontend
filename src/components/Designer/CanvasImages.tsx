@@ -12,6 +12,7 @@ interface StaticImageParams {
   src: string;
   width: number;
   onClick?: (e: KonvaEventObject<MouseEvent>) => void;
+  name?: string;
 }
 
 /**
@@ -26,6 +27,7 @@ export const StaticImage: React.FC<StaticImageParams> = ({
   src,
   width,
   onClick,
+  name,
 }) => {
   const [image] = useImage(src);
 
@@ -42,6 +44,7 @@ export const StaticImage: React.FC<StaticImageParams> = ({
 
   return (
     <Image
+      name={name}
       onClick={onClick}
       image={image}
       height={width * imageRatio}
