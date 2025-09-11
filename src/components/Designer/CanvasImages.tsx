@@ -179,6 +179,8 @@ export const ResizableImage = ({
               anchor.size({ width: 25, height: 25 });
               anchor.cornerRadius(3);
 
+              if (!deleteVisible) anchor.hide();
+            }}
             aria-label="Bildgröße ändern"
             role="group"
           />
