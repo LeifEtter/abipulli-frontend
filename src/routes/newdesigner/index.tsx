@@ -96,13 +96,18 @@ function RouteComponent() {
           />
           <div className="flex justify-start items-center grow border">
             <EditableTextField />
-            <Stage className="border" width={500} height={500}>
-              <Layer>
-                <Rect x={0} y={0} width={50} height={50} fill="red" />
-                <StaticImage src={ExamplePullover} width={500} />
-                <Text x={60} y={60} text="Hey" fontFamily="Onest" />
-              </Layer>
-            </Stage>
+            <NewDesignerCanvas
+              designCanvasSize={designCanvasSize}
+              viewingSide={viewingSide}
+              selectImage={selectImage}
+              deselectImage={() => selectImage(undefined)}
+              selectedImage={selectedImage}
+              onDeleteImage={onDeleteImage}
+              onImagePositionChange={onImagePositionChange}
+              onScaleChange={onScaleChange}
+              designImages={designImages}
+              designImagesAreLoading={designImagesAreLoading}
+            />
           </div>
           <DesignsBar designs={[]} />
           <div className="absolute right-5 top-5">
