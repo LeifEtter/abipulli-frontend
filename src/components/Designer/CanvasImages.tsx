@@ -8,6 +8,7 @@ import { PositionType } from "src/types/canvas/positionType";
 import { ScaleType } from "src/types/canvas/scaleType";
 import { SizeType } from "src/types/canvas/sizeType";
 import ResizeIcon from "src/assets/icons/resize-icon.svg";
+import RotateIcon from "src/assets/icons/rotate-icon.svg";
 
 interface StaticImageParams {
   src: string;
@@ -95,6 +96,7 @@ export const ResizableImage = ({
 }: ResizableImageProps) => {
   const [image] = useImage(src);
   const [trashImage] = useImage("/src/assets/icons/trash-icon.svg");
+  const [rotateImage] = useImage(RotateIcon);
   const [resizeImage] = useImage(ResizeIcon);
   const imageRef = useRef<KonvaImage>(null);
   const trRef = useRef<Konva.Transformer>(null);
@@ -194,6 +196,16 @@ export const ResizableImage = ({
             rotateLineVisible={false}
             aria-label="Bildgröße ändern"
             role="group"
+          />
+        )}
+        {deleteVisible && isSelected && (
+          <Image
+            image={rotateImage}
+            x={viewData.pos.x + image!.width * viewData.scale.x + 15}
+            y={viewData.pos.y - 30}
+            width={15}
+            height={15}
+            fillEnabled={false}
           />
         )}
         {deleteVisible && isSelected && (
