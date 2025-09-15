@@ -138,8 +138,22 @@ function RouteComponent() {
     <div className="flex flex-row h-full w-full">
       <section
         id="sidebar"
-        className="h-full w-4/12 shadow-abipulli-sidebar bg-abipulli-light-beige flex flex-row"
+        className="h-full shadow-abipulli-sidebar bg-white flex flex-row relative"
       >
+        {isDraggingOver && (
+          <div className="absolute w-full h-full bg-gray-400/70 z-20 p-2 pointer-events-none">
+            <div className="w-full h-full border-2 border-dashed border-gray-500 rounded-md flex flex-col justify-center items-center ">
+              <DropHereIcon
+                className="stroke-gray-700"
+                width={50}
+                height={50}
+              />
+              <p className="font-semibold text-xl mt-4">
+                Zieh dein Bild hier rein
+              </p>
+            </div>
+          </div>
+        )}
         <SidebarNav />
         <div className="w-full px-4">
           <TabSwitcher
