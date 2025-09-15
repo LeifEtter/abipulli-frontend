@@ -104,7 +104,12 @@ function RouteComponent() {
     height: 700,
   });
 
-  const { userImages, userImagesAreLoading, userImagesError } = useUserImages();
+  const {
+    userImages,
+    userImagesAreLoading,
+    userImagesError,
+    refetch: refetchUserImages,
+  } = useUserImages();
 
   const onDeleteImage = async (image: ImageWithPositionAndScale) => {
     if (!design)
