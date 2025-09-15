@@ -16,23 +16,23 @@ export const TabSwitcher = ({
   tabSelected,
   setTabSelected,
 }: TabSwitcherProps): JSX.Element => (
-  <div className="w-full mt-10 mb-5">
-    <div className="flex flex-row justify-between w-full">
+  <div className="flex flex-col relative">
+    <div className="w-full flex [&>button]:w-1/2 [&>button]:h-10">
       {tabs.map((tab) => (
         <button
           key={`tab-${tab.id}`}
-          className="w-1/2 cursor-pointer flex justify-start"
           onClick={() => setTabSelected(tab)}
+          className={
+            tabSelected.id == tab.id ? "cursor-default" : "cursor-pointer"
+          }
         >
           <p className="text-left font-semibold">{tab.label}</p>
         </button>
       ))}
     </div>
+    <div className="absolute w-11/12 h-0.5 bg-gray-200 bottom-0" />
     <div
-      className={`relative h-0.5 w-full top-1 flex flex-row ${tabSelected.id == 0 ? "justify-start" : "justify-end"} duration-100 mt-2`}
-    >
-      <div className={`w-5/12 bg-gray-600 duration-100 z-20`} />
-      <div className="bg-gray-200 w-full absolute h-0.5" />
-    </div>
+      className={`${tabSelected.id == 0 ? "left-0" : "left-1/2"} duration-75 absolute w-5/12 h-0.5 bg-gray-600 bottom-0`}
+    />
   </div>
 );

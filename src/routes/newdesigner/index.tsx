@@ -160,12 +160,26 @@ function RouteComponent() {
           </div>
         )}
         <SidebarNav />
-        <div className="w-full px-4">
-          <TabSwitcher
-            tabs={tabs}
-            tabSelected={tabSelected}
-            setTabSelected={(tab: TabOption) => setTabSelected(tab)}
-          />
+        <div
+          className={`px-4 max-w-lg ${selectedImage ? "w-0 lg:w-80" : "w-30 md:w-50 lg:w-80 xl:w-100"} flex flex-col duration-100 h-full`}
+        >
+          <div
+            className={`${selectedImage ? "hidden lg:block" : ""} mt-10 mb-4`}
+          >
+            <TabSwitcher
+              tabs={tabs}
+              tabSelected={tabSelected}
+              setTabSelected={(tab: TabOption) => {
+                setTabSelected(tab);
+                if (tab.id == 0) {
+                  setImageTabSelected(ImageTabs.USER);
+                } else {
+                  setImageTabSelected(ImageTabs.GENERAL);
+                }
+              }}
+            />
+          </div>
+
           {!userImagesAreLoading && userImages && (
             <div className={`${selectedImage ? "hidden lg:flex" : ""} h-full`}>
               <ImagesTab
