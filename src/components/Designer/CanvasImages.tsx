@@ -16,6 +16,7 @@ interface StaticImageParams {
   width: number;
   onClick?: (e: KonvaEventObject<MouseEvent>) => void;
   name?: string;
+  parentWidth?: number;
 }
 
 /**
@@ -31,6 +32,7 @@ export const StaticImage: React.FC<StaticImageParams> = ({
   width,
   onClick,
   name,
+  parentWidth,
 }) => {
   const [image] = useImage(src);
 
@@ -44,7 +46,7 @@ export const StaticImage: React.FC<StaticImageParams> = ({
       setImageRatio(ratio);
     }
   }, [image, width, imageRatio]);
-
+  if (!image) return;
   return (
     <Image
       name={name}
@@ -52,7 +54,7 @@ export const StaticImage: React.FC<StaticImageParams> = ({
       image={image}
       height={width * imageRatio}
       width={width}
-      x={0}
+      x={parentWidth ? parentWidth / 2 - width / 2 : 0}
       y={0}
     />
   );
@@ -71,6 +73,7 @@ interface ResizableImageProps {
   onScaleChange: (scale: ScaleType) => void;
   onDelete: () => void;
   src: string;
+  zoom: number;
 }
 
 interface ViewData {
@@ -94,6 +97,7 @@ export const ResizableImage = ({
   onScaleChange,
   onDelete,
   src,
+  zoom,
 }: ResizableImageProps) => {
   const [image] = useImage(src);
   const [trashImage] = useImage("/src/assets/icons/trash-icon.svg");
@@ -141,9 +145,13 @@ export const ResizableImage = ({
           draggable={isSelected}
           aria-label="Bild verschieben und skalieren"
           role="img"
-          onDragStart={() => setDeleteVisible(false)}
-          onTransformStart={() => setDeleteVisible(false)}
+          onMouseDown={(e) =>
+            (e.target.getStage()!.container().style.cursor = "grabbing")
+          }
+          onDragStart={(e) => setDeleteVisible(false)}
+          onTransformStart={(e) => setDeleteVisible(false)}
           onDragEnd={(e: KonvaEventObject<DragEvent>) => {
+            e.target.getStage()!.container().style.cursor = "grab";
             onPositionChange({ x: e.target.x(), y: e.target.y() });
             setViewData({
               ...viewData,
@@ -185,6 +193,7 @@ export const ResizableImage = ({
               height={25}
               cornerRadius={3}
               fill={"white"}
+              scale={{ x: 1 / zoom, y: 1 / zoom }}
             />
             <Image
               image={copyImage}
@@ -192,6 +201,7 @@ export const ResizableImage = ({
               y={viewData.pos.y + image!.height * viewData.scale.y + 15}
               width={15}
               height={15}
+              scale={{ x: 1 / zoom, y: 1 / zoom }}
             />
           </Group>
         )}
@@ -203,14 +213,14 @@ export const ResizableImage = ({
             anchorStyleFunc={(anchor) => {
               if (anchor.name().includes("rotate")) {
                 anchor.position({
-                  x: image!.width * viewData.scale.x + 15,
-                  y: -30,
+                  x: image!.width * viewData.scale.x * zoom + 15 * zoom,
+                  y: -30 * zoom,
                 });
               }
               if (anchor.name() == "bottom-right _anchor") {
                 anchor.setPosition({
-                  x: anchor.position().x + 15,
-                  y: anchor.position().y + 15,
+                  x: anchor.position().x + 15 * zoom,
+                  y: anchor.position().y + 15 * zoom,
                 });
               }
               anchor.fill("white");
@@ -235,6 +245,7 @@ export const ResizableImage = ({
             width={15}
             height={15}
             fillEnabled={false}
+            scale={{ x: 1 / zoom, y: 1 / zoom }}
           />
         )}
         {deleteVisible && isSelected && (
@@ -245,6 +256,7 @@ export const ResizableImage = ({
             y={viewData.pos.y + image!.height * viewData.scale.y + 15}
             width={15}
             height={15}
+            scale={{ x: 1 / zoom, y: 1 / zoom }}
           />
         )}
         {deleteVisible && isSelected && (
@@ -262,6 +274,7 @@ export const ResizableImage = ({
               fill={"white"}
               x={viewData.pos.x - 35}
               y={viewData.pos.y - 35}
+              scale={{ x: 1 / zoom, y: 1 / zoom }}
             />
             <Image
               image={trashImage}
@@ -271,6 +284,7 @@ export const ResizableImage = ({
               y={viewData.pos.y - 30}
               aria-label="Papierkorb Icon"
               role="img"
+              scale={{ x: 1 / zoom, y: 1 / zoom }}
             />
           </Group>
         )}

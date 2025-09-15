@@ -185,6 +185,7 @@ function RouteComponent() {
               onScaleChange={onScaleChange}
               designImages={designImages}
               designImagesAreLoading={designImagesAreLoading}
+              zoom={zoom}
             />
           </div>
           <DesignsBar designs={[]} />

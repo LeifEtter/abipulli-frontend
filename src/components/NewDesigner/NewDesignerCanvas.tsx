@@ -22,6 +22,7 @@ interface NewDesignerCanvasProps {
   ) => void;
   onScaleChange: (scale: ScaleType, image: ImageWithPositionAndScale) => void;
   onDeleteImage: (image: ImageWithPositionAndScale) => void;
+  zoom: number;
 }
 
 export const NewDesignerCanvas = ({
@@ -35,6 +36,7 @@ export const NewDesignerCanvas = ({
   onImagePositionChange,
   onScaleChange,
   onDeleteImage,
+  zoom,
 }: NewDesignerCanvasProps) => {
   const checkDeselect = (e: KonvaEventObject<MouseEvent | TouchEvent>) => {
     const clickedOnEmpty =
@@ -49,16 +51,22 @@ export const NewDesignerCanvas = ({
 
   return (
     <Stage
-      className="border"
       width={designCanvasSize.width}
       height={designCanvasSize.height}
       onMouseDown={checkDeselect}
       onTouchStart={checkDeselect}
       onMouseOver={checkResetCursor}
+      scale={{ x: zoom / 100, y: zoom / 100 }}
+      draggable
     >
       <Layer>
         {/* <Rect x={0} y={0} width={50} height={50} fill="red" /> */}
-        <StaticImage src={ExamplePullover} width={500} name="pullover-image" />
+        <StaticImage
+          src={ExamplePullover}
+          width={500}
+          name="pullover-image"
+          parentWidth={designCanvasSize.width}
+        />
         {!designImagesAreLoading &&
           designImages
             .filter((e) =>
@@ -67,6 +75,7 @@ export const NewDesignerCanvas = ({
             .map((image) => {
               return (
                 <ResizableImage
+                  zoom={zoom / 100}
                   key={`design-image-${designImages.indexOf(image)}`}
                   width={image.width}
                   height={image.height}
