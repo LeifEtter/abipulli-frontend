@@ -40,6 +40,10 @@ export const Route = createFileRoute("/newdesigner/")({
 });
 
 function RouteComponent() {
+  const [isDraggingOver, setIsDraggingOver] = useState<boolean>(false);
+
+  const [imageIsUploading, setImageIsUploading] = useState<boolean>(false);
+
   const tabs: TabOption[] = [
     { id: 0, label: "Meine Bilder" },
     { id: 1, label: "Bibliothek" },
@@ -144,21 +148,32 @@ function RouteComponent() {
             setTabSelected={(tab: TabOption) => setTabSelected(tab)}
           />
           {!userImagesAreLoading && userImages && (
-            <ImagesTab
-              addImage={(image: Image) => {
-                if (!design) return;
-                addImageToDesign(
-                  image,
-                  designCanvasSize,
-                  design.id,
-                  viewingSide == ViewingSide.Back
-                );
-              }}
-              generateImage={() => {
-                setGenerateTab(1);
-              }}
-              userImages={userImages}
-            />
+            <div className={`${selectedImage ? "hidden lg:flex" : ""} h-full`}>
+              <ImagesTab
+                isDraggingOver={isDraggingOver}
+                setIsDraggingOver={setIsDraggingOver}
+                addImage={(image: Image) => {
+                  if (!design) return;
+                  addImageToDesign(
+                    image,
+                    designCanvasSize,
+                    design.id,
+                    viewingSide == ViewingSide.Back
+                  );
+                }}
+                generateImage={() => setGenerateTab(1)}
+                userImages={userImages}
+                onDropAccepted={async (images) => {
+                  setIsDraggingOver(false);
+                  setImageIsUploading(true);
+                  await ImageApi.upload(images[0]);
+                  setImageIsUploading(false);
+                  refetchUserImages();
+                }}
+                imageIsUploading={imageIsUploading}
+                imageTabChoice={imageTabSelected}
+              />
+            </div>
           )}
         </div>
       </section>
