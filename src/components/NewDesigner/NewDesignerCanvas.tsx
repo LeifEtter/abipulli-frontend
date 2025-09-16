@@ -23,6 +23,7 @@ interface NewDesignerCanvasProps {
   onScaleChange: (scale: ScaleType, image: ImageWithPositionAndScale) => void;
   onDeleteImage: (image: ImageWithPositionAndScale) => void;
   zoom: number;
+  deselectUserImage: () => void;
 }
 
 export const NewDesignerCanvas = ({
@@ -37,11 +38,15 @@ export const NewDesignerCanvas = ({
   onScaleChange,
   onDeleteImage,
   zoom,
+  deselectUserImage,
 }: NewDesignerCanvasProps) => {
   const checkDeselect = (e: KonvaEventObject<MouseEvent | TouchEvent>) => {
     const clickedOnEmpty =
       e.target === e.target.getStage() || e.target.name() == "pullover-image";
-    if (clickedOnEmpty) deselectImage();
+    if (clickedOnEmpty) {
+      deselectImage();
+      deselectUserImage();
+    }
   };
 
   const checkResetCursor = (e: KonvaEventObject<MouseEvent | TouchEvent>) => {

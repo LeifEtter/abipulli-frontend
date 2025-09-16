@@ -227,7 +227,9 @@ function RouteComponent() {
           <div
             className="flex ml-0 lg:ml-20 xl:ml-30 items-center grow"
             onClick={(e) =>
-              e.currentTarget == e.target && selectImage(undefined)
+              e.currentTarget == e.target &&
+              selectImage(undefined) &&
+              selectUserImage(undefined)
             }
           >
             {/* <EditableTextField /> */}
@@ -243,6 +245,7 @@ function RouteComponent() {
               designImages={designImages}
               designImagesAreLoading={designImagesAreLoading}
               zoom={zoom}
+              deselectUserImage={() => selectUserImage(undefined)}
             />
           </div>
           <DesignsBar designs={[]} />
