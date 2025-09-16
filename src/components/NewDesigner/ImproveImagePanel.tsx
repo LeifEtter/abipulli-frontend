@@ -1,4 +1,4 @@
-import { Image } from "abipulli-types";
+import { Image, ImageWithPositionAndScale } from "abipulli-types";
 import { ActionPanel } from "./ActionPanel";
 import EraserIcon from "src/assets/icons/eraser-icon.svg";
 import StarsIcon from "src/assets/icons/stars-icon.svg";
@@ -16,7 +16,7 @@ import { canvasToBlackMask } from "src/utilities/Conversion/canvasToBlackMask";
 import { Vector2d } from "konva/lib/types";
 
 interface ImproveImagePanelProps {
-  image: Image | undefined;
+  image: Image | ImageWithPositionAndScale | undefined;
 }
 
 export const ImproveImagePanel = ({ image }: ImproveImagePanelProps) => {

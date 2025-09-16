@@ -4,6 +4,7 @@ import Dropzone from "react-dropzone";
 import { ImageApi } from "src/api/endpoints/image";
 import { LoadingSpinner } from "src/components/Misc/LoadingSpinner";
 import DeleteIcon from "src/assets/icons/trash-icon.svg";
+import EditIcon from "src/assets/icons/edit-icon.svg";
 import { Center } from "src/components/Misc/Center";
 
 export enum ImageTabs {
@@ -20,6 +21,7 @@ interface ImagesTabProps {
   imageIsUploading: boolean;
   imageTabChoice: ImageTabs;
   deleteImage: (imageId: number) => Promise<void>;
+  selectImage: (image: Image) => void;
 }
 
 export const ImagesTab = ({
@@ -32,6 +34,7 @@ export const ImagesTab = ({
   imageIsUploading,
   imageTabChoice = ImageTabs.USER,
   deleteImage,
+  selectImage,
 }: ImagesTabProps) => (
   <Dropzone
     accept={{
@@ -85,6 +88,14 @@ export const ImagesTab = ({
                     <div className="mt-2 flex flex-row justify-center items-center gap-1.5">
                       <p>Image42</p>
                       <div className="grow" />
+                      <div
+                        className="h-6 w-6 bg-white rounded-md cursor-pointer"
+                        onClick={() => selectImage(image)}
+                      >
+                        <Center>
+                          <img src={EditIcon} className="w-4 h-4" />
+                        </Center>
+                      </div>
 
                       <div
                         className="h-6 w-6 bg-white rounded-md cursor-pointer"

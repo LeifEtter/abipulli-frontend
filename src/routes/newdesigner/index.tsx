@@ -17,7 +17,12 @@ import { ImageFactory } from "vitest/mocks/data/factory.image";
 import { MainInfo } from "src/components/NewDesigner/ImageGenActionPanel/MainInfo";
 import { Description } from "src/components/NewDesigner/ImageGenActionPanel/Description";
 import { ImproveDescription } from "src/components/NewDesigner/ImageGenActionPanel/ImproveDescription";
-import { Design, Image, ImageWithPositionAndScale } from "abipulli-types";
+import {
+  Design,
+  Image,
+  ImageWithPositionAndScale,
+  ImageWithPositionAndScaleSchema,
+} from "abipulli-types";
 import { ImproveImagePanel } from "src/components/NewDesigner/ImproveImagePanel";
 import { useAuth } from "src/hooks/useAuth";
 import { useDesignImages } from "src/hooks/useDesignImages";
@@ -72,6 +77,8 @@ function RouteComponent() {
     setGenerateTab((prev) => (prev == 0 ? 0 : prev! - 1));
 
   const [selectedImage, selectImage] = useState<ImageWithPositionAndScale>();
+
+  const [selectedUserImage, selectUserImage] = useState<Image>();
 
   const { user } = useAuth();
   const { designs, designsAreLoading, designsError } = useDesigns(user?.id);
@@ -268,7 +275,7 @@ function RouteComponent() {
                 previousTab={previousGenerateTab}
               />
             )}
-            <ImproveImagePanel image={selectedImage} />
+            <ImproveImagePanel image={selectedImage ?? selectedUserImage} />
           </GenerateInfoProvider>
           {/* </div> */}
         </div>
