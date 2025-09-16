@@ -84,4 +84,7 @@ export const ImageApi = {
     const imageResponse: ImageResponse = res.data;
     return imageResponse.data!;
   },
+  delete: async (id: number): Promise<void> => {
+    const res = await api.delete(`/image/${id}`);
+  },
 };
