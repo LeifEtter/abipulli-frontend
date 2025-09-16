@@ -196,6 +196,11 @@ function RouteComponent() {
                 }}
                 imageIsUploading={imageIsUploading}
                 imageTabChoice={imageTabSelected}
+                deleteImage={async (imageId) => {
+                  await ImageApi.delete(imageId);
+                  refetchUserImages();
+                }}
+                selectImage={selectUserImage}
               />
             </div>
           )}

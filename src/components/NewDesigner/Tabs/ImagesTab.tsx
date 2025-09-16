@@ -3,6 +3,8 @@ import { useState } from "react";
 import Dropzone from "react-dropzone";
 import { ImageApi } from "src/api/endpoints/image";
 import { LoadingSpinner } from "src/components/Misc/LoadingSpinner";
+import DeleteIcon from "src/assets/icons/trash-icon.svg";
+import { Center } from "src/components/Misc/Center";
 
 export enum ImageTabs {
   USER,
@@ -17,6 +19,7 @@ interface ImagesTabProps {
   onDropAccepted: (files: File[]) => void;
   imageIsUploading: boolean;
   imageTabChoice: ImageTabs;
+  deleteImage: (imageId: number) => Promise<void>;
 }
 
 export const ImagesTab = ({
@@ -28,6 +31,7 @@ export const ImagesTab = ({
   onDropAccepted,
   imageIsUploading,
   imageTabChoice = ImageTabs.USER,
+  deleteImage,
 }: ImagesTabProps) => (
   <Dropzone
     accept={{
@@ -67,12 +71,30 @@ export const ImagesTab = ({
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-4">
               {imageTabChoice == ImageTabs.USER ? (
                 userImages.map((image, idx) => (
-                  <div
-                    key={`image-tab-${idx}`}
-                    className="cursor-pointer border-8 border-abipulli-dark-beige aspect-square rounded-md overflow-hidden"
-                    onClick={() => addImage(image)}
-                  >
-                    <img className="object-cover" src={image.url} />
+                  <div>
+                    <div
+                      key={`image-tab-${idx}`}
+                      className="cursor-pointer border-12 border-white aspect-square rounded-md overflow-hidden"
+                      onClick={() => addImage(image)}
+                    >
+                      <img
+                        className="object-cover w-full h-full"
+                        src={image.url}
+                      />
+                    </div>
+                    <div className="mt-2 flex flex-row justify-center items-center gap-1.5">
+                      <p>Image42</p>
+                      <div className="grow" />
+
+                      <div
+                        className="h-6 w-6 bg-white rounded-md cursor-pointer"
+                        onClick={() => deleteImage(image.id)}
+                      >
+                        <Center>
+                          <img src={DeleteIcon} className="w-4 h-4" />
+                        </Center>
+                      </div>
+                    </div>
                   </div>
                 ))
               ) : (
