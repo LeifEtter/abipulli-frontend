@@ -141,7 +141,7 @@ function RouteComponent() {
     <div className="flex flex-row h-full w-full">
       <section
         id="sidebar"
-        className="h-full shadow-abipulli-sidebar bg-white flex flex-row relative"
+        className="h-full shadow-abipulli-sidebar bg-abipulli-beige flex flex-row relative"
       >
         {isDraggingOver && (
           <div className="absolute w-full h-full bg-gray-400/70 z-20 p-2 pointer-events-none">
