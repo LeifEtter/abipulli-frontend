@@ -15,11 +15,12 @@ import { Route as rootOldImport } from './routes/__root.old'
 import { Route as LoginImport } from './routes/login'
 import { Route as FreischaltenImport } from './routes/freischalten'
 import { Route as OnboardingRouteImport } from './routes/onboarding/route'
+import { Route as NewdesignerRouteImport } from './routes/newdesigner/route'
 import { Route as AuthRouteImport } from './routes/_auth/route'
 import { Route as IndexImport } from './routes/index'
-import { Route as NewdesignerIndexImport } from './routes/newdesigner/index'
 import { Route as OnboardingSchuleImport } from './routes/onboarding/schule'
 import { Route as OnboardingPersonalImport } from './routes/onboarding/personal'
+import { Route as NewdesignerImagesImport } from './routes/newdesigner/images'
 import { Route as AuthAccountImport } from './routes/_auth/account'
 import { Route as AuthGenerierenRouteImport } from './routes/_auth/generieren/route'
 import { Route as AuthVorschauIndexImport } from './routes/_auth/vorschau/index'
@@ -59,6 +60,12 @@ const OnboardingRouteRoute = OnboardingRouteImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const NewdesignerRouteRoute = NewdesignerRouteImport.update({
+  id: '/newdesigner',
+  path: '/newdesigner',
+  getParentRoute: () => rootRoute,
+} as any)
+
 const AuthRouteRoute = AuthRouteImport.update({
   id: '/_auth',
   getParentRoute: () => rootRoute,
@@ -67,12 +74,6 @@ const AuthRouteRoute = AuthRouteImport.update({
 const IndexRoute = IndexImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const NewdesignerIndexRoute = NewdesignerIndexImport.update({
-  id: '/newdesigner/',
-  path: '/newdesigner/',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -86,6 +87,12 @@ const OnboardingPersonalRoute = OnboardingPersonalImport.update({
   id: '/personal',
   path: '/personal',
   getParentRoute: () => OnboardingRouteRoute,
+} as any)
+
+const NewdesignerImagesRoute = NewdesignerImagesImport.update({
+  id: '/images',
+  path: '/images',
+  getParentRoute: () => NewdesignerRouteRoute,
 } as any)
 
 const AuthAccountRoute = AuthAccountImport.update({
@@ -182,6 +189,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRoute
     }
+    '/newdesigner': {
+      id: '/newdesigner'
+      path: '/newdesigner'
+      fullPath: '/newdesigner'
+      preLoaderRoute: typeof NewdesignerRouteImport
+      parentRoute: typeof rootRoute
+    }
     '/onboarding': {
       id: '/onboarding'
       path: '/onboarding'
@@ -224,6 +238,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthAccountImport
       parentRoute: typeof AuthRouteImport
     }
+    '/newdesigner/images': {
+      id: '/newdesigner/images'
+      path: '/images'
+      fullPath: '/newdesigner/images'
+      preLoaderRoute: typeof NewdesignerImagesImport
+      parentRoute: typeof NewdesignerRouteImport
+    }
     '/onboarding/personal': {
       id: '/onboarding/personal'
       path: '/personal'
@@ -237,13 +258,6 @@ declare module '@tanstack/react-router' {
       fullPath: '/onboarding/schule'
       preLoaderRoute: typeof OnboardingSchuleImport
       parentRoute: typeof OnboardingRouteImport
-    }
-    '/newdesigner/': {
-      id: '/newdesigner/'
-      path: '/newdesigner'
-      fullPath: '/newdesigner'
-      preLoaderRoute: typeof NewdesignerIndexImport
-      parentRoute: typeof rootRoute
     }
     '/_auth/generieren/beschreibung': {
       id: '/_auth/generieren/beschreibung'
@@ -363,6 +377,17 @@ const AuthRouteRouteWithChildren = AuthRouteRoute._addFileChildren(
   AuthRouteRouteChildren,
 )
 
+interface NewdesignerRouteRouteChildren {
+  NewdesignerImagesRoute: typeof NewdesignerImagesRoute
+}
+
+const NewdesignerRouteRouteChildren: NewdesignerRouteRouteChildren = {
+  NewdesignerImagesRoute: NewdesignerImagesRoute,
+}
+
+const NewdesignerRouteRouteWithChildren =
+  NewdesignerRouteRoute._addFileChildren(NewdesignerRouteRouteChildren)
+
 interface OnboardingRouteRouteChildren {
   OnboardingPersonalRoute: typeof OnboardingPersonalRoute
   OnboardingSchuleRoute: typeof OnboardingSchuleRoute
@@ -380,15 +405,16 @@ const OnboardingRouteRouteWithChildren = OnboardingRouteRoute._addFileChildren(
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '': typeof AuthRouteRouteWithChildren
+  '/newdesigner': typeof NewdesignerRouteRouteWithChildren
   '/onboarding': typeof OnboardingRouteRouteWithChildren
   '/freischalten': typeof FreischaltenRoute
   '/login': typeof LoginRoute
   '/generieren': typeof AuthGenerierenRouteRouteWithChildren
   '/old': typeof rootOldRoute
   '/account': typeof AuthAccountRoute
+  '/newdesigner/images': typeof NewdesignerImagesRoute
   '/onboarding/personal': typeof OnboardingPersonalRoute
   '/onboarding/schule': typeof OnboardingSchuleRoute
-  '/newdesigner': typeof NewdesignerIndexRoute
   '/generieren/beschreibung': typeof AuthGenerierenBeschreibungRoute
   '/generieren/motto': typeof AuthGenerierenMottoRoute
   '/generieren/referenz': typeof AuthGenerierenReferenzRoute
@@ -404,15 +430,16 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '': typeof AuthRouteRouteWithChildren
+  '/newdesigner': typeof NewdesignerRouteRouteWithChildren
   '/onboarding': typeof OnboardingRouteRouteWithChildren
   '/freischalten': typeof FreischaltenRoute
   '/login': typeof LoginRoute
   '/generieren': typeof AuthGenerierenRouteRouteWithChildren
   '/old': typeof rootOldRoute
   '/account': typeof AuthAccountRoute
+  '/newdesigner/images': typeof NewdesignerImagesRoute
   '/onboarding/personal': typeof OnboardingPersonalRoute
   '/onboarding/schule': typeof OnboardingSchuleRoute
-  '/newdesigner': typeof NewdesignerIndexRoute
   '/generieren/beschreibung': typeof AuthGenerierenBeschreibungRoute
   '/generieren/motto': typeof AuthGenerierenMottoRoute
   '/generieren/referenz': typeof AuthGenerierenReferenzRoute
@@ -429,15 +456,16 @@ export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
   '/_auth': typeof AuthRouteRouteWithChildren
+  '/newdesigner': typeof NewdesignerRouteRouteWithChildren
   '/onboarding': typeof OnboardingRouteRouteWithChildren
   '/freischalten': typeof FreischaltenRoute
   '/login': typeof LoginRoute
   '/_auth/generieren': typeof AuthGenerierenRouteRouteWithChildren
   '/__root/old': typeof rootOldRoute
   '/_auth/account': typeof AuthAccountRoute
+  '/newdesigner/images': typeof NewdesignerImagesRoute
   '/onboarding/personal': typeof OnboardingPersonalRoute
   '/onboarding/schule': typeof OnboardingSchuleRoute
-  '/newdesigner/': typeof NewdesignerIndexRoute
   '/_auth/generieren/beschreibung': typeof AuthGenerierenBeschreibungRoute
   '/_auth/generieren/motto': typeof AuthGenerierenMottoRoute
   '/_auth/generieren/referenz': typeof AuthGenerierenReferenzRoute
@@ -455,15 +483,16 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | ''
+    | '/newdesigner'
     | '/onboarding'
     | '/freischalten'
     | '/login'
     | '/generieren'
     | '/old'
     | '/account'
+    | '/newdesigner/images'
     | '/onboarding/personal'
     | '/onboarding/schule'
-    | '/newdesigner'
     | '/generieren/beschreibung'
     | '/generieren/motto'
     | '/generieren/referenz'
@@ -478,15 +507,16 @@ export interface FileRouteTypes {
   to:
     | '/'
     | ''
+    | '/newdesigner'
     | '/onboarding'
     | '/freischalten'
     | '/login'
     | '/generieren'
     | '/old'
     | '/account'
+    | '/newdesigner/images'
     | '/onboarding/personal'
     | '/onboarding/schule'
-    | '/newdesigner'
     | '/generieren/beschreibung'
     | '/generieren/motto'
     | '/generieren/referenz'
@@ -501,15 +531,16 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/_auth'
+    | '/newdesigner'
     | '/onboarding'
     | '/freischalten'
     | '/login'
     | '/_auth/generieren'
     | '/__root/old'
     | '/_auth/account'
+    | '/newdesigner/images'
     | '/onboarding/personal'
     | '/onboarding/schule'
-    | '/newdesigner/'
     | '/_auth/generieren/beschreibung'
     | '/_auth/generieren/motto'
     | '/_auth/generieren/referenz'
@@ -526,21 +557,21 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthRouteRoute: typeof AuthRouteRouteWithChildren
+  NewdesignerRouteRoute: typeof NewdesignerRouteRouteWithChildren
   OnboardingRouteRoute: typeof OnboardingRouteRouteWithChildren
   FreischaltenRoute: typeof FreischaltenRoute
   LoginRoute: typeof LoginRoute
   rootOldRoute: typeof rootOldRoute
-  NewdesignerIndexRoute: typeof NewdesignerIndexRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthRouteRoute: AuthRouteRouteWithChildren,
+  NewdesignerRouteRoute: NewdesignerRouteRouteWithChildren,
   OnboardingRouteRoute: OnboardingRouteRouteWithChildren,
   FreischaltenRoute: FreischaltenRoute,
   LoginRoute: LoginRoute,
   rootOldRoute: rootOldRoute,
-  NewdesignerIndexRoute: NewdesignerIndexRoute,
 }
 
 export const routeTree = rootRoute
@@ -555,11 +586,11 @@ export const routeTree = rootRoute
       "children": [
         "/",
         "/_auth",
+        "/newdesigner",
         "/onboarding",
         "/freischalten",
         "/login",
-        "/__root/old",
-        "/newdesigner/"
+        "/__root/old"
       ]
     },
     "/": {
@@ -576,6 +607,12 @@ export const routeTree = rootRoute
         "/_auth/vorschau/$imageId/verbessern",
         "/_auth/designer/$orderId/",
         "/_auth/vorschau/$imageId/"
+      ]
+    },
+    "/newdesigner": {
+      "filePath": "newdesigner/route.tsx",
+      "children": [
+        "/newdesigner/images"
       ]
     },
     "/onboarding": {
@@ -608,6 +645,10 @@ export const routeTree = rootRoute
       "filePath": "_auth/account.tsx",
       "parent": "/_auth"
     },
+    "/newdesigner/images": {
+      "filePath": "newdesigner/images.tsx",
+      "parent": "/newdesigner"
+    },
     "/onboarding/personal": {
       "filePath": "onboarding/personal.tsx",
       "parent": "/onboarding"
@@ -615,9 +656,6 @@ export const routeTree = rootRoute
     "/onboarding/schule": {
       "filePath": "onboarding/schule.tsx",
       "parent": "/onboarding"
-    },
-    "/newdesigner/": {
-      "filePath": "newdesigner/index.tsx"
     },
     "/_auth/generieren/beschreibung": {
       "filePath": "_auth/generieren/beschreibung.tsx",
