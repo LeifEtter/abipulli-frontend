@@ -35,7 +35,7 @@ export const ImproveDescription = ({
   };
 
   return (
-    <ActionPanel title="" description="">
+    <ActionPanel title="" description="" hide={false}>
       <InputField
         className="mt-4"
         label="Beschreibung"

@@ -20,7 +20,7 @@ export const MainInfo = ({ previousTab, nextTab }: MainInfoProps) => {
     useGenerateInfo();
 
   return (
-    <ActionPanel title="" description="">
+    <ActionPanel title="" description="" hide={false}>
       <Toggle
         isActive={showMotto}
         toggleActive={() => setShowMotto((prev) => !prev)}
@@ -56,7 +56,7 @@ export const MainInfo = ({ previousTab, nextTab }: MainInfoProps) => {
         value={"Motto"}
         onChange={(value) => saveProgressLocally({ schoolName: value })}
       />
-      <div className="flex grow flex-grow"></div>
+      <div className="flex grow" />
       <div className="separator my-3" />
       <div className="flex flex-row justify-between">
         <BasicButton

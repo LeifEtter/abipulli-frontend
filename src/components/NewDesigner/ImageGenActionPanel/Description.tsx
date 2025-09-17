@@ -32,7 +32,7 @@ export const Description = ({ previousTab, nextTab }: DescriptionProps) => {
   };
 
   return (
-    <ActionPanel title="" description="">
+    <ActionPanel title="" description="" hide={false}>
       <InputField
         label="Beschreibung"
         multiline={true}

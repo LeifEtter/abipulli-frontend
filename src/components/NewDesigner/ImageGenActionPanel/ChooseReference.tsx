@@ -29,6 +29,7 @@ export const ChooseReferenceImage = ({
     <ActionPanel
       title="Bild Generieren"
       description="Wähle ein Referenzbild für das Bild das du generieren willst. Dies gibt den Style vor."
+      hide={false}
     >
       <p className="font-semibold text-abipulli-black text-xl mt-4 mb-2">
         Eigenes Referenz Bild
@@ -82,9 +83,9 @@ export const ChooseReferenceImage = ({
                   className={`w-full h-full absolute bg-black top-0 left-0 rounded-md opacity-0 ${img != chosenImage && "hover:opacity-10"} scale-105`}
                 />
               </button>
-              <div className="flex flex-row">
+              {/* <div className="flex flex-row">
                 <p className="font-medium text-sm">Hey</p>
-              </div>
+              </div> */}
             </div>
           ))}
         </div>
