@@ -12,8 +12,10 @@ export const SidebarIcon = ({
   iconSource,
   label,
 }: SidebarIconProps): JSX.Element => (
-  <div className="flex flex-col items-center gap-1">
-    <div className="border border-abipulli-dark-beige h-12 w-12 rounded-md">
+  <div className="flex flex-col items-center gap-1 cursor-pointer">
+    <div
+      className={`h-12 w-12 rounded-md ${selected && "bg-abipulli-gray border-1 border-gray-500"}`}
+    >
       <Center>
         <img src={iconSource} className="w-8/12 h-8/12" />
       </Center>

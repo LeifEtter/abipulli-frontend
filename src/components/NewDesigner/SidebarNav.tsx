@@ -4,16 +4,52 @@ import TextIcon from "src/assets/icons/text-icon.svg";
 import PulloverIcon from "src/assets/icons/pullover-icon.svg";
 import ImageIcon from "src/assets/icons/image-icon.svg";
 import AbipulliHat from "src/assets/icons/abipulli-logo.png";
+import { useState } from "react";
 
-export const SidebarNav = () => (
-  <div
-    id="button-section"
-    className="h-full flex flex-col items-center gap-4 pt-8 p-4"
-  >
-    <img src={AbipulliHat} className="w-8" />
-    <SidebarIcon iconSource={PulloverIcon} label="Pullover" />
-    <SidebarIcon iconSource={ImageIcon} label="Bilder" />
-    <SidebarIcon iconSource={TextIcon} label="Texte" />
-    <SidebarIcon iconSource={NameIcon} label="Namen" />
-  </div>
-);
+export interface SidebarTab {
+  label: string;
+  icon: string;
+  selected?: boolean;
+}
+
+const tabs: SidebarTab[] = [
+  {
+    label: "Pullover",
+    icon: PulloverIcon,
+  },
+  {
+    label: "Bilder",
+    icon: ImageIcon,
+  },
+  {
+    label: "Texte",
+    icon: TextIcon,
+  },
+  {
+    label: "Namen",
+    icon: NameIcon,
+  },
+];
+
+export const SidebarNav = () => {
+  const [sidebarTabs, setSidebarTabs] = useState<SidebarTab[]>(
+    tabs.map((tab) => ({ ...tab, selected: false }))
+  );
+
+  return (
+    <div
+      id="button-section"
+      className="h-full flex flex-col items-center gap-4 pt-8 p-4"
+    >
+      <img src={AbipulliHat} className="w-8" />
+      {sidebarTabs.map((tabs) => (
+        <SidebarIcon
+          key={`sidebar-button-${tabs.label}`}
+          iconSource={tabs.icon}
+          label={tabs.label}
+          selected={tabs.selected}
+        />
+      ))}
+    </div>
+  );
+};
