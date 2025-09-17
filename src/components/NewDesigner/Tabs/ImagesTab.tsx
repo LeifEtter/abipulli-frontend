@@ -8,9 +8,10 @@ import EditIcon from "src/assets/icons/edit-icon.svg";
 import { Center } from "src/components/Misc/Center";
 
 export enum ImageTabs {
-  USER,
-  GENERAL,
+  USER = "Deine Bilder",
+  GENERAL = "Bibliothek",
 }
+
 interface ImagesTabProps {
   userImages: Image[];
   generateImage: () => void;
