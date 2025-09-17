@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Outlet } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { TabOption, TabSwitcher } from "src/components/NewDesigner/TabSwitcher";
 import { FrontBackButton } from "src/components/Buttons/FrontBackButton";
@@ -36,8 +36,13 @@ import { NewDesignerCanvas } from "src/components/NewDesigner/NewDesignerCanvas"
 import { useUserImages } from "src/hooks/useUserImages";
 import { DropHereIcon } from "src/assets/icons/drop-here-icon";
 import { ImageApi } from "src/api/endpoints/image";
+import NameIcon from "src/assets/icons/name-icon.svg";
+import TextIcon from "src/assets/icons/text-icon.svg";
+import PulloverIcon from "src/assets/icons/pullover-icon.svg";
+import ImageIcon from "src/assets/icons/image-icon.svg";
+import AbipulliHat from "src/assets/icons/abipulli-logo.png";
 
-export const Route = createFileRoute("/newdesigner/")({
+export const Route = createFileRoute("/newdesigner")({
   component: RouteComponent,
 });
 
@@ -158,9 +163,21 @@ function RouteComponent() {
           </div>
         )}
         <SidebarNav />
+        {/* <div
+          id="button-section"
+          className="h-full flex flex-col items-center gap-4 pt-8 p-4"
+        >
+          <img src={AbipulliHat} className="w-8" />
+          {[].map()}
+          <SidebarIcon iconSource={PulloverIcon} label="Pullover" />
+          <SidebarIcon iconSource={ImageIcon} label="Bilder" />
+          <SidebarIcon iconSource={TextIcon} label="Texte" />
+          <SidebarIcon iconSource={NameIcon} label="Namen" />
+        </div> */}
         <div
           className={`px-4 max-w-lg ${selectedImage ? "w-0 lg:w-80" : "w-30 md:w-50 lg:w-80 xl:w-100"} flex flex-col duration-100 h-full`}
         >
+          {/* <Outlet /> */}
           <div
             className={`${selectedImage ? "hidden lg:block" : ""} mt-10 mb-4`}
           >
