@@ -17,12 +17,7 @@ import { ImageFactory } from "vitest/mocks/data/factory.image";
 import { MainInfo } from "src/components/NewDesigner/ImageGenActionPanel/MainInfo";
 import { Description } from "src/components/NewDesigner/ImageGenActionPanel/Description";
 import { ImproveDescription } from "src/components/NewDesigner/ImageGenActionPanel/ImproveDescription";
-import {
-  Design,
-  Image,
-  ImageWithPositionAndScale,
-  ImageWithPositionAndScaleSchema,
-} from "abipulli-types";
+import { Design, Image, ImageWithPositionAndScale } from "abipulli-types";
 import { ImproveImagePanel } from "src/components/NewDesigner/ImproveImagePanel";
 import { useAuth } from "src/hooks/useAuth";
 import { useDesignImages } from "src/hooks/useDesignImages";
@@ -40,7 +35,6 @@ import NameIcon from "src/assets/icons/name-icon.svg";
 import TextIcon from "src/assets/icons/text-icon.svg";
 import PulloverIcon from "src/assets/icons/pullover-icon.svg";
 import ImageIcon from "src/assets/icons/image-icon.svg";
-import AbipulliHat from "src/assets/icons/abipulli-logo.png";
 
 export interface SidebarTab {
   label: string;
@@ -197,58 +191,55 @@ function RouteComponent() {
           callback={(tab) => setSidebarTabSelected(tab)}
         />
         <div
-          className={`px-4 max-w-lg ${selectedImage ? "w-0 lg:w-80" : "w-30 md:w-50 lg:w-80 xl:w-100"} flex flex-col duration-100 h-full`}
+          className={`duration-100 h-full flex flex-col px-4 max-w-lg ${selectedImage ? "w-0 lg:w-80" : "w-30 md:w-50 lg:w-80 xl:w-100"}`}
         >
-          {/* <Outlet /> */}
-          <div
-            className={`${selectedImage ? "hidden lg:block" : ""} mt-10 mb-4`}
+          <TabSwitcher
+            className={`${selectedImage && "hidden lg:block"} mt-4`}
+            tabs={tabs}
+            tabSelected={tabSelected}
+            setTabSelected={(tab: TabOption) => {
+              setTabSelected(tab);
+              tab.id == 0
+                ? setImageTabSelected(ImageTabs.USER)
+                : setImageTabSelected(ImageTabs.GENERAL);
+            }}
+          />
+          <button
+            onClick={() => setGenerateTab(1)}
+            className="mt-2 cursor-pointer bg-white w-full rounded-xl text-center font-semibold p-3 border"
           >
-            <TabSwitcher
-              tabs={tabs}
-              tabSelected={tabSelected}
-              setTabSelected={(tab: TabOption) => {
-                setTabSelected(tab);
-                if (tab.id == 0) {
-                  setImageTabSelected(ImageTabs.USER);
-                } else {
-                  setImageTabSelected(ImageTabs.GENERAL);
-                }
-              }}
-            />
-          </div>
-
+            Bild Generieren
+          </button>
           {!userImagesAreLoading && userImages && (
-            <div className={`${selectedImage ? "hidden lg:flex" : ""} h-full`}>
-              <ImagesTab
-                isDraggingOver={isDraggingOver}
-                setIsDraggingOver={setIsDraggingOver}
-                addImage={(image: Image) => {
-                  if (!design) return;
-                  addImageToDesign(
-                    image,
-                    designCanvasSize,
-                    design.id,
-                    viewingSide == ViewingSide.Back
-                  );
-                }}
-                generateImage={() => setGenerateTab(1)}
-                userImages={userImages}
-                onDropAccepted={async (images) => {
-                  setIsDraggingOver(false);
-                  setImageIsUploading(true);
-                  await ImageApi.upload(images[0]);
-                  setImageIsUploading(false);
-                  refetchUserImages();
-                }}
-                imageIsUploading={imageIsUploading}
-                imageTabChoice={imageTabSelected}
-                deleteImage={async (imageId) => {
-                  await ImageApi.delete(imageId);
-                  refetchUserImages();
-                }}
-                selectImage={selectUserImage}
-              />
-            </div>
+            <ImagesTab
+              className={`${selectedImage ? "hidden lg:flex" : ""} overflow-auto flex-1 pt-2`}
+              isDraggingOver={isDraggingOver}
+              setIsDraggingOver={setIsDraggingOver}
+              addImage={(image: Image) => {
+                if (!design) return;
+                addImageToDesign(
+                  image,
+                  designCanvasSize,
+                  design.id,
+                  viewingSide == ViewingSide.Back
+                );
+              }}
+              userImages={userImages}
+              onDropAccepted={async (images) => {
+                setIsDraggingOver(false);
+                setImageIsUploading(true);
+                await ImageApi.upload(images[0]);
+                setImageIsUploading(false);
+                refetchUserImages();
+              }}
+              imageIsUploading={imageIsUploading}
+              imageTabChoice={imageTabSelected}
+              deleteImage={async (imageId) => {
+                await ImageApi.delete(imageId);
+                refetchUserImages();
+              }}
+              selectImage={selectUserImage}
+            />
           )}
         </div>
       </section>
