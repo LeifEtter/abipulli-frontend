@@ -42,6 +42,31 @@ import PulloverIcon from "src/assets/icons/pullover-icon.svg";
 import ImageIcon from "src/assets/icons/image-icon.svg";
 import AbipulliHat from "src/assets/icons/abipulli-logo.png";
 
+export interface SidebarTab {
+  label: string;
+  icon: string;
+  selected?: boolean;
+}
+
+const SIDEBAR_TABS: SidebarTab[] = [
+  {
+    label: "Pullover",
+    icon: PulloverIcon,
+  },
+  {
+    label: "Bilder",
+    icon: ImageIcon,
+  },
+  {
+    label: "Texte",
+    icon: TextIcon,
+  },
+  {
+    label: "Namen",
+    icon: NameIcon,
+  },
+];
+
 export const Route = createFileRoute("/newdesigner")({
   component: RouteComponent,
 });
@@ -53,6 +78,10 @@ function RouteComponent() {
 
   const [imageTabSelected, setImageTabSelected] = useState<ImageTabs>(
     ImageTabs.USER
+  );
+
+  const [sidebarTabSelected, setSidebarTabSelected] = useState<SidebarTab>(
+    SIDEBAR_TABS[0]
   );
 
   const tabs: TabOption[] = [
@@ -162,18 +191,11 @@ function RouteComponent() {
             </div>
           </div>
         )}
-        <SidebarNav />
-        {/* <div
-          id="button-section"
-          className="h-full flex flex-col items-center gap-4 pt-8 p-4"
-        >
-          <img src={AbipulliHat} className="w-8" />
-          {[].map()}
-          <SidebarIcon iconSource={PulloverIcon} label="Pullover" />
-          <SidebarIcon iconSource={ImageIcon} label="Bilder" />
-          <SidebarIcon iconSource={TextIcon} label="Texte" />
-          <SidebarIcon iconSource={NameIcon} label="Namen" />
-        </div> */}
+        <SidebarNav
+          tabs={SIDEBAR_TABS}
+          tabSelected={sidebarTabSelected}
+          callback={(tab) => setSidebarTabSelected(tab)}
+        />
         <div
           className={`px-4 max-w-lg ${selectedImage ? "w-0 lg:w-80" : "w-30 md:w-50 lg:w-80 xl:w-100"} flex flex-col duration-100 h-full`}
         >
