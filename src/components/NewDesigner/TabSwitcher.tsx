@@ -9,14 +9,16 @@ interface TabSwitcherProps {
   tabs: TabOption[];
   tabSelected: TabOption;
   setTabSelected: (tab: TabOption) => void;
+  className: string;
 }
 
 export const TabSwitcher = ({
   tabs,
   tabSelected,
   setTabSelected,
+  className,
 }: TabSwitcherProps): JSX.Element => (
-  <div className="flex flex-col relative">
+  <div className={`${className} flex flex-col relative`}>
     <div className="w-full flex [&>button]:w-1/2 [&>button]:h-10">
       {tabs.map((tab) => (
         <button
