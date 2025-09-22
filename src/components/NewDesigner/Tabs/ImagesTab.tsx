@@ -27,7 +27,7 @@ interface ImagesTabProps {
   setIsDraggingOver: (isDraggingOver: boolean) => void;
   onDropAccepted: (files: File[]) => void;
   imageIsUploading: boolean;
-  imageTabChoice: ImageTabs;
+  imageTabChoice: number;
   deleteImage: (imageId: number) => Promise<void>;
   selectImage: (image: Image) => void;
   className: string;
@@ -40,7 +40,7 @@ export const ImagesTab = ({
   setIsDraggingOver,
   onDropAccepted,
   imageIsUploading,
-  imageTabChoice = ImageTabs.USER,
+  imageTabChoice = 0,
   deleteImage,
   selectImage,
   className,
@@ -61,7 +61,7 @@ export const ImagesTab = ({
       >
         <input {...getInputProps()} />
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-          {imageTabChoice == ImageTabs.USER ? (
+          {imageTabChoice == 0 ? (
             userImages.map((image, idx) => (
               <div key={`image-tab-${idx}`}>
                 <div
