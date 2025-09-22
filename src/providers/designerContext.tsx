@@ -6,6 +6,8 @@ import { DesignerData } from "./designerProvider";
 
 export interface DesignerContextType extends DesignerData {
   updateState: (state: Partial<DesignerData>) => void;
+  nextGenerateTab: () => void;
+  previousGenerateTab: () => void;
 }
 
 export const DesignerContext = createContext<DesignerContextType | null>(null);
