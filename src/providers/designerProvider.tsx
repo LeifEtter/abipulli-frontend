@@ -10,6 +10,8 @@ export interface DesignerData {
   selectedImage?: Image;
   isDroppingImage: boolean;
   isUploadingImage: boolean;
+  generateTab?: number;
+  userImage?: Image;
 }
 
 export const DesignerProvider = ({
@@ -19,18 +21,35 @@ export const DesignerProvider = ({
 }): ReactElement => {
   const [state, setState] = useState<DesignerData>({
     viewingSide: ViewingSide.Front,
-    designCanvasSize: { width: 500, height: 500 },
+    designCanvasSize: {
+      width: 600,
+      height: 700,
+    },
     selectedImage: undefined,
     isDroppingImage: false,
     isUploadingImage: false,
+    generateTab: undefined,
+    userImage: undefined,
   });
 
   const updateState = (state: Partial<DesignerData>) => {
     setState((prev) => ({ ...prev, ...state }));
   };
 
+  const nextGenerateTab = () => {
+    if (state.generateTab == 4) return;
+    updateState({ generateTab: state.generateTab ?? 0 + 1 });
+  };
+
+  const previousGenerateTab = () => {
+    if (!state.generateTab || state.generateTab) return;
+    updateState({ generateTab: state.generateTab - 1 });
+  };
+
   return (
-    <DesignerContext.Provider value={{ ...state, updateState }}>
+    <DesignerContext.Provider
+      value={{ ...state, updateState, nextGenerateTab, prevousGenerateTab }}
+    >
       {children}
     </DesignerContext.Provider>
   );
