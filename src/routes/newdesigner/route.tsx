@@ -66,40 +66,19 @@ export const Route = createFileRoute("/newdesigner")({
 });
 
 function RouteComponent() {
-  const [isDraggingOver, setIsDraggingOver] = useState<boolean>(false);
-
-  const [imageIsUploading, setImageIsUploading] = useState<boolean>(false);
-
-  const [imageTabSelected, setImageTabSelected] = useState<ImageTabs>(
-    ImageTabs.USER
-  );
-
-  const [sidebarTabSelected, setSidebarTabSelected] = useState<SidebarTab>(
-    SIDEBAR_TABS[0]
-  );
-
-  const tabs: TabOption[] = [
-    { id: 0, label: "Meine Bilder" },
-    { id: 1, label: "Bibliothek" },
-  ];
-  const [tabSelected, setTabSelected] = useState<TabOption>(tabs[0]);
-
-  const [viewingSide, setViewingSide] = useState<ViewingSide>(
-    ViewingSide.Front
-  );
+  const designId = 5;
 
   const [zoom, setZoom] = useState<number>(100);
 
-  const fontOptions: SelectOption<string>[] = [
-    { label: "Poppins", value: "poppins" },
-    { label: "Arial", value: "arial" },
-  ];
+  // const fontOptions: SelectOption<string>[] = [
+  //   { label: "Poppins", value: "poppins" },
+  //   { label: "Arial", value: "arial" },
+  // ];
 
-  const [chosenFont, setChosenFont] = useState<SelectOption<string>>(
-    fontOptions[0]
-  );
+  // const [chosenFont, setChosenFont] = useState<SelectOption<string>>(
+  //   fontOptions[0]
+  // );
 
-  const [generateTab, setGenerateTab] = useState<number>();
   const nextGenerateTab = () => setGenerateTab((prev) => prev! + 1);
   const previousGenerateTab = () =>
     setGenerateTab((prev) => (prev == 0 ? 0 : prev! - 1));
@@ -120,22 +99,7 @@ function RouteComponent() {
     removeImageFromDesign,
   } = useDesignImages(designs[0] ? designs[0].id : undefined);
 
-  const [design, setDesign] = useState<Design>();
-
   const showSnackbar = useSnackbar();
-
-  const width = useWindowWidth();
-  const [designCanvasSize, setDesignCanvasSize] = useState<SizeType>({
-    width: 600,
-    height: 700,
-  });
-
-  const {
-    userImages,
-    userImagesAreLoading,
-    userImagesError,
-    refetch: refetchUserImages,
-  } = useUserImages();
 
   const onDeleteImage = async (image: ImageWithPositionAndScale) => {
     if (!design)
@@ -190,58 +154,7 @@ function RouteComponent() {
           tabSelected={sidebarTabSelected}
           callback={(tab) => setSidebarTabSelected(tab)}
         />
-        <div
-          className={`duration-100 h-full flex flex-col px-4 max-w-lg ${selectedImage ? "w-0 lg:w-80" : "w-30 md:w-50 lg:w-80 xl:w-100"}`}
-        >
-          <TabSwitcher
-            className={`${selectedImage && "hidden lg:block"} mt-4`}
-            tabs={tabs}
-            tabSelected={tabSelected}
-            setTabSelected={(tab: TabOption) => {
-              setTabSelected(tab);
-              tab.id == 0
-                ? setImageTabSelected(ImageTabs.USER)
-                : setImageTabSelected(ImageTabs.GENERAL);
-            }}
-          />
-          <button
-            onClick={() => setGenerateTab(1)}
-            className="mt-2 cursor-pointer bg-white w-full rounded-xl text-center font-semibold p-3 border"
-          >
-            Bild Generieren
-          </button>
-          {!userImagesAreLoading && userImages && (
-            <ImagesTab
-              className={`${selectedImage ? "hidden lg:flex" : ""} overflow-auto flex-1 pt-2`}
-              isDraggingOver={isDraggingOver}
-              setIsDraggingOver={setIsDraggingOver}
-              addImage={(image: Image) => {
-                if (!design) return;
-                addImageToDesign(
-                  image,
-                  designCanvasSize,
-                  design.id,
-                  viewingSide == ViewingSide.Back
-                );
-              }}
-              userImages={userImages}
-              onDropAccepted={async (images) => {
-                setIsDraggingOver(false);
-                setImageIsUploading(true);
-                await ImageApi.upload(images[0]);
-                setImageIsUploading(false);
-                refetchUserImages();
-              }}
-              imageIsUploading={imageIsUploading}
-              imageTabChoice={imageTabSelected}
-              deleteImage={async (imageId) => {
-                await ImageApi.delete(imageId);
-                refetchUserImages();
-              }}
-              selectImage={selectUserImage}
-            />
-          )}
-        </div>
+        <Outlet />
       </section>
       <section id="main-section" className="flex flex-col w-full pb-8">
         <Toolbar zoom={zoom} setZoom={setZoom} />
