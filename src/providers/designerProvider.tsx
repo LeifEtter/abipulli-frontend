@@ -2,7 +2,7 @@ import { ReactElement, useState } from "react";
 import { DesignerContext } from "./designerContext";
 import { ViewingSide } from "src/types/ViewingSide";
 import { SizeType } from "src/types/canvas/sizeType";
-import { Image } from "abipulli-types";
+import { Image, ImageWithPositionAndScale } from "abipulli-types";
 
 export interface DesignerData {
   viewingSide: ViewingSide;
@@ -44,6 +44,14 @@ export const DesignerProvider = ({
   const previousGenerateTab = () => {
     if (!state.generateTab || state.generateTab) return;
     updateState({ generateTab: state.generateTab - 1 });
+  };
+
+  const selectImage = (image: ImageWithPositionAndScale) => {
+    updateState({ image: image });
+  };
+
+  const selectUserImage = (image: Image) => {
+    updateState({ userImage: image });
   };
 
   return (
