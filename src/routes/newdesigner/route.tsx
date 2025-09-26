@@ -35,6 +35,7 @@ import NameIcon from "src/assets/icons/name-icon.svg";
 import TextIcon from "src/assets/icons/text-icon.svg";
 import PulloverIcon from "src/assets/icons/pullover-icon.svg";
 import ImageIcon from "src/assets/icons/image-icon.svg";
+import { useDesigner } from "src/hooks/useDesigner";
 
 export interface SidebarTab {
   label: string;
@@ -92,13 +93,6 @@ function RouteComponent() {
   //   fontOptions[0]
   // );
 
-  const nextGenerateTab = () => setGenerateTab((prev) => prev! + 1);
-  const previousGenerateTab = () =>
-    setGenerateTab((prev) => (prev == 0 ? 0 : prev! - 1));
-
-  const [selectedImage, selectImage] = useState<ImageWithPositionAndScale>();
-
-  const [selectedUserImage, selectUserImage] = useState<Image>();
 
   const { user } = useAuth();
   const { designs, designsAreLoading, designsError } = useDesigns(user?.id);
