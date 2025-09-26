@@ -47,7 +47,7 @@ export const DesignerProvider = ({
   };
 
   const selectImage = (image: ImageWithPositionAndScale) => {
-    updateState({ image: image });
+    updateState({ selectedImage: image });
   };
 
   const selectUserImage = (image: Image) => {
@@ -56,7 +56,14 @@ export const DesignerProvider = ({
 
   return (
     <DesignerContext.Provider
-      value={{ ...state, updateState, nextGenerateTab, prevousGenerateTab }}
+      value={{
+        ...state,
+        updateState,
+        nextGenerateTab,
+        previousGenerateTab,
+        selectImage,
+        selectUserImage,
+      }}
     >
       {children}
     </DesignerContext.Provider>
