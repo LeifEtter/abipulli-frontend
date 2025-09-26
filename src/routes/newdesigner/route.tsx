@@ -93,6 +93,7 @@ function RouteComponent() {
   //   fontOptions[0]
   // );
 
+  const [design, setDesign] = useState<Design>();
 
   const { user } = useAuth();
   const { designs, designsAreLoading, designsError } = useDesigns(user?.id);
@@ -142,7 +143,7 @@ function RouteComponent() {
         id="sidebar"
         className="h-full shadow-abipulli-sidebar bg-abipulli-beige flex flex-row relative"
       >
-        {isDraggingOver && (
+        {isDroppingImage && (
           <div className="absolute w-full h-full bg-gray-400/70 z-20 p-2 pointer-events-none">
             <div className="w-full h-full border-2 border-dashed border-gray-500 rounded-md flex flex-col justify-center items-center ">
               <DropHereIcon
@@ -228,7 +229,7 @@ function RouteComponent() {
                 previousTab={previousGenerateTab}
               />
             )}
-            <ImproveImagePanel image={selectedImage ?? selectedUserImage} />
+            <ImproveImagePanel image={selectedImage ?? userImage} />
           </GenerateInfoProvider>
           {/* </div> */}
         </div>
