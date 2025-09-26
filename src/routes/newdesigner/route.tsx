@@ -66,6 +66,19 @@ export const Route = createFileRoute("/newdesigner")({
 });
 
 function RouteComponent() {
+  const {
+    designCanvasSize,
+    selectedImage,
+    userImage,
+    isDroppingImage,
+    viewingSide,
+    generateTab,
+    nextGenerateTab,
+    previousGenerateTab,
+    selectImage,
+    selectUserImage,
+  } = useDesigner();
+
   const designId = 5;
 
   const [zoom, setZoom] = useState<number>(100);
