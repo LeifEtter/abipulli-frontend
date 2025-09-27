@@ -31,24 +31,29 @@ export interface SidebarTab {
   label: string;
   icon: string;
   selected?: boolean;
+  url: string;
 }
 
 const SIDEBAR_TABS: SidebarTab[] = [
   {
     label: "Pullover",
     icon: PulloverIcon,
+    url: "pullover",
   },
   {
     label: "Bilder",
     icon: ImageIcon,
+    url: "images",
   },
   {
     label: "Texte",
     icon: TextIcon,
+    url: "texts",
   },
   {
     label: "Namen",
     icon: NameIcon,
+    url: "names",
   },
 ];
 
