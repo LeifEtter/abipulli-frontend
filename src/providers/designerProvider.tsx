@@ -54,6 +54,10 @@ export const DesignerProvider = ({
     updateState({ userImage: image });
   };
 
+  const setViewingSide = (side: ViewingSide) => {
+    updateState({ viewingSide: side });
+  };
+
   return (
     <DesignerContext.Provider
       value={{
@@ -63,6 +67,7 @@ export const DesignerProvider = ({
         previousGenerateTab,
         selectImage,
         selectUserImage,
+        setViewingSide,
       }}
     >
       {children}

@@ -10,6 +10,7 @@ export interface DesignerContextType extends DesignerData {
   previousGenerateTab: () => void;
   selectImage: (image?: ImageWithPositionAndScale) => void;
   selectUserImage: (image?: Image) => void;
+  setViewingSide: (side: ViewingSide) => void;
 }
 
 export const DesignerContext = createContext<DesignerContextType | null>(null);

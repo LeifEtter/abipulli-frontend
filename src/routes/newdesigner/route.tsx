@@ -83,6 +83,7 @@ function RouteComponent() {
     previousGenerateTab,
     selectImage,
     selectUserImage,
+    setViewingSide,
   } = useDesigner();
 
   const designId = 5;
