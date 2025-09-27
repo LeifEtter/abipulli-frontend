@@ -62,6 +62,8 @@ export const Route = createFileRoute("/newdesigner")({
 });
 
 function RouteComponent() {
+  const navigate = useNavigate();
+
   const {
     designCanvasSize,
     selectedImage,
@@ -155,7 +157,7 @@ function RouteComponent() {
         <SidebarNav
           tabs={SIDEBAR_TABS}
           tabSelected={sidebarTabSelected}
-          callback={(tab) => setSidebarTabSelected(tab)}
+          callback={(tab) => navigate({ to: `/newdesigner/${tab.url}` })}
         />
         <Outlet />
       </section>
