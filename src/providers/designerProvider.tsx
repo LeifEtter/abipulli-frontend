@@ -7,7 +7,7 @@ import { Image, ImageWithPositionAndScale } from "abipulli-types";
 export interface DesignerData {
   viewingSide: ViewingSide;
   designCanvasSize: SizeType;
-  selectedImage?: Image;
+  selectedImage?: ImageWithPositionAndScale;
   isDroppingImage: boolean;
   isUploadingImage: boolean;
   generateTab?: number;
