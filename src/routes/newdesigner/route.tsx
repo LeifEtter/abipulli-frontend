@@ -1,14 +1,8 @@
-import { createFileRoute, Outlet } from "@tanstack/react-router";
+import { createFileRoute, Outlet, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { TabOption, TabSwitcher } from "src/components/NewDesigner/TabSwitcher";
 import { FrontBackButton } from "src/components/Buttons/FrontBackButton";
 import { ViewingSide } from "src/types/ViewingSide";
-import { SelectOption } from "src/components/Inputs/SelectField";
 import { ChooseReferenceImage } from "src/components/NewDesigner/ImageGenActionPanel/ChooseReference";
-import {
-  ImagesTab,
-  ImageTabs,
-} from "src/components/NewDesigner/Tabs/ImagesTab";
 import { DesignsBar } from "src/components/NewDesigner/DesignsBar";
 import { Toolbar } from "src/components/NewDesigner/Toolbar";
 import { SidebarNav } from "src/components/NewDesigner/SidebarNav";
@@ -17,20 +11,16 @@ import { ImageFactory } from "vitest/mocks/data/factory.image";
 import { MainInfo } from "src/components/NewDesigner/ImageGenActionPanel/MainInfo";
 import { Description } from "src/components/NewDesigner/ImageGenActionPanel/Description";
 import { ImproveDescription } from "src/components/NewDesigner/ImageGenActionPanel/ImproveDescription";
-import { Design, Image, ImageWithPositionAndScale } from "abipulli-types";
+import { Design, ImageWithPositionAndScale } from "abipulli-types";
 import { ImproveImagePanel } from "src/components/NewDesigner/ImproveImagePanel";
 import { useAuth } from "src/hooks/useAuth";
 import { useDesignImages } from "src/hooks/useDesignImages";
 import { useDesigns } from "src/hooks/useDesigns";
 import { useSnackbar } from "src/hooks/useSnackbar";
-import { useWindowWidth } from "@react-hook/window-size";
-import { SizeType } from "src/types/canvas/sizeType";
 import { PositionType } from "src/types/canvas/positionType";
 import { ScaleType } from "src/types/canvas/scaleType";
 import { NewDesignerCanvas } from "src/components/NewDesigner/NewDesignerCanvas";
-import { useUserImages } from "src/hooks/useUserImages";
 import { DropHereIcon } from "src/assets/icons/drop-here-icon";
-import { ImageApi } from "src/api/endpoints/image";
 import NameIcon from "src/assets/icons/name-icon.svg";
 import TextIcon from "src/assets/icons/text-icon.svg";
 import PulloverIcon from "src/assets/icons/pullover-icon.svg";
