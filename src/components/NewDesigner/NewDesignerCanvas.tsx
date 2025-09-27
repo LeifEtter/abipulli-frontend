@@ -62,7 +62,7 @@ export const NewDesignerCanvas = ({
       onTouchStart={checkDeselect}
       onMouseOver={checkResetCursor}
       scale={{ x: zoom / 100, y: zoom / 100 }}
-      draggable
+      // draggable
     >
       <Layer>
         {/* <Rect x={0} y={0} width={50} height={50} fill="red" /> */}
