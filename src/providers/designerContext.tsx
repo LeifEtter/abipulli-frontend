@@ -8,8 +8,8 @@ export interface DesignerContextType extends DesignerData {
   updateState: (state: Partial<DesignerData>) => void;
   nextGenerateTab: () => void;
   previousGenerateTab: () => void;
-  selectImage: (image: ImageWithPositionAndScale) => void;
-  selectUserImage: (image: Image) => void;
+  selectImage: (image?: ImageWithPositionAndScale) => void;
+  selectUserImage: (image?: Image) => void;
 }
 
 export const DesignerContext = createContext<DesignerContextType | null>(null);

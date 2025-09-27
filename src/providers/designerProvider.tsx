@@ -46,11 +46,11 @@ export const DesignerProvider = ({
     updateState({ generateTab: state.generateTab - 1 });
   };
 
-  const selectImage = (image: ImageWithPositionAndScale) => {
+  const selectImage = (image?: ImageWithPositionAndScale) => {
     updateState({ selectedImage: image });
   };
 
-  const selectUserImage = (image: Image) => {
+  const selectUserImage = (image?: Image) => {
     updateState({ userImage: image });
   };
 
