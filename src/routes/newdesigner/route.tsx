@@ -1,4 +1,10 @@
-import { createFileRoute, Outlet, useNavigate } from "@tanstack/react-router";
+import {
+  createFileRoute,
+  Outlet,
+  useLocation,
+  useNavigate,
+  useRouter,
+} from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { FrontBackButton } from "src/components/Buttons/FrontBackButton";
 import { ViewingSide } from "src/types/ViewingSide";
@@ -63,6 +69,8 @@ export const Route = createFileRoute("/newdesigner")({
 
 function RouteComponent() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const currentPath = location.href.split("/").slice(-1)[0];
 
   const {
     designCanvasSize,
@@ -156,7 +164,7 @@ function RouteComponent() {
         )}
         <SidebarNav
           tabs={SIDEBAR_TABS}
-          tabSelected={sidebarTabSelected}
+          tabSelected={SIDEBAR_TABS.filter((tab) => tab.url == currentPath)[0]}
           callback={(tab) => navigate({ to: `/newdesigner/${tab.url}` })}
         />
         <Outlet />
