@@ -187,6 +187,7 @@ function RouteComponent() {
                   )
                   .map((image) => (
                     <ResizableImage
+                      zoom={1}
                       key={`design-image-${designImages.indexOf(image)}`}
                       width={image.width}
                       height={image.height}
