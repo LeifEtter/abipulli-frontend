@@ -3,6 +3,7 @@ import {
   Outlet,
   useLocation,
   useNavigate,
+  useParams,
   useRouter,
 } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
@@ -63,7 +64,7 @@ const SIDEBAR_TABS: SidebarTab[] = [
   },
 ];
 
-export const Route = createFileRoute("/newdesigner")({
+export const Route = createFileRoute("/newdesigner/$designId")({
   component: RouteComponent,
 });
 
@@ -71,6 +72,7 @@ function RouteComponent() {
   const navigate = useNavigate();
   const location = useLocation();
   const currentPath = location.href.split("/").slice(-1)[0];
+  const params = useParams({ strict: false });
 
   const {
     designCanvasSize,
@@ -85,8 +87,6 @@ function RouteComponent() {
     selectUserImage,
     setViewingSide,
   } = useDesigner();
-
-  const designId = 5;
 
   const [zoom, setZoom] = useState<number>(100);
 
@@ -140,7 +140,8 @@ function RouteComponent() {
     });
 
   useEffect(() => {
-    if (designs && designs[0]) setDesign(designs[0]);
+    if (designs && designs[0])
+      setDesign(designs.filter((design) => design.id == params["designId"])[0]);
   }, [designs, designImages]);
 
   return (
@@ -166,7 +167,9 @@ function RouteComponent() {
         <SidebarNav
           tabs={SIDEBAR_TABS}
           tabSelected={SIDEBAR_TABS.filter((tab) => tab.url == currentPath)[0]}
-          callback={(tab) => navigate({ to: `/newdesigner/${tab.url}` })}
+          callback={(tab) =>
+            navigate({ to: `/newdesigner/${params.designId}/${tab.url}` })
+          }
         />
         <Outlet />
       </section>

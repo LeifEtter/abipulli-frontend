@@ -18,7 +18,7 @@ const TABS: TabOption[] = [
   { id: 1, label: "Bibliothek" },
 ];
 
-export const Route = createFileRoute("/newdesigner/images")({
+export const Route = createFileRoute("/newdesigner/$designId/images")({
   component: RouteComponent,
 });
 
