@@ -1,6 +1,6 @@
 import { JSX } from "react";
 import { Center } from "../Misc/Center";
-import { SidebarTab } from "src/routes/newdesigner/route";
+import { SidebarTab } from "src/routes/newdesigner/$designId/route";
 
 interface SidebarIconProps {
   selected?: boolean;
