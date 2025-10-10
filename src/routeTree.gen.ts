@@ -28,6 +28,7 @@ import { Route as AuthGenerierenBeschreibungImport } from './routes/_auth/generi
 import { Route as AuthDesignerDesignIdRouteImport } from './routes/_auth/designer/$designId/route'
 import { Route as AuthVorschauImageIdIndexImport } from './routes/_auth/vorschau/$imageId/index'
 import { Route as AuthVorschauImageIdVerbessernImport } from './routes/_auth/vorschau/$imageId/verbessern'
+import { Route as AuthDesignerDesignIdPulloverImport } from './routes/_auth/designer/$designId/pullover'
 import { Route as AuthDesignerDesignIdImagesImport } from './routes/_auth/designer/$designId/images'
 
 // Create/Update Routes
@@ -134,6 +135,13 @@ const AuthVorschauImageIdVerbessernRoute =
     id: '/vorschau/$imageId/verbessern',
     path: '/vorschau/$imageId/verbessern',
     getParentRoute: () => AuthRouteRoute,
+  } as any)
+
+const AuthDesignerDesignIdPulloverRoute =
+  AuthDesignerDesignIdPulloverImport.update({
+    id: '/pullover',
+    path: '/pullover',
+    getParentRoute: () => AuthDesignerDesignIdRouteRoute,
   } as any)
 
 const AuthDesignerDesignIdImagesRoute = AuthDesignerDesignIdImagesImport.update(
@@ -260,6 +268,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthDesignerDesignIdImagesImport
       parentRoute: typeof AuthDesignerDesignIdRouteImport
     }
+    '/_auth/designer/$designId/pullover': {
+      id: '/_auth/designer/$designId/pullover'
+      path: '/pullover'
+      fullPath: '/designer/$designId/pullover'
+      preLoaderRoute: typeof AuthDesignerDesignIdPulloverImport
+      parentRoute: typeof AuthDesignerDesignIdRouteImport
+    }
     '/_auth/vorschau/$imageId/verbessern': {
       id: '/_auth/vorschau/$imageId/verbessern'
       path: '/vorschau/$imageId/verbessern'
@@ -298,11 +313,13 @@ const AuthGenerierenRouteRouteWithChildren =
 
 interface AuthDesignerDesignIdRouteRouteChildren {
   AuthDesignerDesignIdImagesRoute: typeof AuthDesignerDesignIdImagesRoute
+  AuthDesignerDesignIdPulloverRoute: typeof AuthDesignerDesignIdPulloverRoute
 }
 
 const AuthDesignerDesignIdRouteRouteChildren: AuthDesignerDesignIdRouteRouteChildren =
   {
     AuthDesignerDesignIdImagesRoute: AuthDesignerDesignIdImagesRoute,
+    AuthDesignerDesignIdPulloverRoute: AuthDesignerDesignIdPulloverRoute,
   }
 
 const AuthDesignerDesignIdRouteRouteWithChildren =
@@ -363,6 +380,7 @@ export interface FileRoutesByFullPath {
   '/generieren/verbessern': typeof AuthGenerierenVerbessernRoute
   '/vorschau': typeof AuthVorschauIndexRoute
   '/designer/$designId/images': typeof AuthDesignerDesignIdImagesRoute
+  '/designer/$designId/pullover': typeof AuthDesignerDesignIdPulloverRoute
   '/vorschau/$imageId/verbessern': typeof AuthVorschauImageIdVerbessernRoute
   '/vorschau/$imageId': typeof AuthVorschauImageIdIndexRoute
 }
@@ -384,6 +402,7 @@ export interface FileRoutesByTo {
   '/generieren/verbessern': typeof AuthGenerierenVerbessernRoute
   '/vorschau': typeof AuthVorschauIndexRoute
   '/designer/$designId/images': typeof AuthDesignerDesignIdImagesRoute
+  '/designer/$designId/pullover': typeof AuthDesignerDesignIdPulloverRoute
   '/vorschau/$imageId/verbessern': typeof AuthVorschauImageIdVerbessernRoute
   '/vorschau/$imageId': typeof AuthVorschauImageIdIndexRoute
 }
@@ -406,6 +425,7 @@ export interface FileRoutesById {
   '/_auth/generieren/verbessern': typeof AuthGenerierenVerbessernRoute
   '/_auth/vorschau/': typeof AuthVorschauIndexRoute
   '/_auth/designer/$designId/images': typeof AuthDesignerDesignIdImagesRoute
+  '/_auth/designer/$designId/pullover': typeof AuthDesignerDesignIdPulloverRoute
   '/_auth/vorschau/$imageId/verbessern': typeof AuthVorschauImageIdVerbessernRoute
   '/_auth/vorschau/$imageId/': typeof AuthVorschauImageIdIndexRoute
 }
@@ -429,6 +449,7 @@ export interface FileRouteTypes {
     | '/generieren/verbessern'
     | '/vorschau'
     | '/designer/$designId/images'
+    | '/designer/$designId/pullover'
     | '/vorschau/$imageId/verbessern'
     | '/vorschau/$imageId'
   fileRoutesByTo: FileRoutesByTo
@@ -449,6 +470,7 @@ export interface FileRouteTypes {
     | '/generieren/verbessern'
     | '/vorschau'
     | '/designer/$designId/images'
+    | '/designer/$designId/pullover'
     | '/vorschau/$imageId/verbessern'
     | '/vorschau/$imageId'
   id:
@@ -469,6 +491,7 @@ export interface FileRouteTypes {
     | '/_auth/generieren/verbessern'
     | '/_auth/vorschau/'
     | '/_auth/designer/$designId/images'
+    | '/_auth/designer/$designId/pullover'
     | '/_auth/vorschau/$imageId/verbessern'
     | '/_auth/vorschau/$imageId/'
   fileRoutesById: FileRoutesById
@@ -560,7 +583,8 @@ export const routeTree = rootRoute
       "filePath": "_auth/designer/$designId/route.tsx",
       "parent": "/_auth",
       "children": [
-        "/_auth/designer/$designId/images"
+        "/_auth/designer/$designId/images",
+        "/_auth/designer/$designId/pullover"
       ]
     },
     "/_auth/generieren/beschreibung": {
@@ -585,6 +609,10 @@ export const routeTree = rootRoute
     },
     "/_auth/designer/$designId/images": {
       "filePath": "_auth/designer/$designId/images.tsx",
+      "parent": "/_auth/designer/$designId"
+    },
+    "/_auth/designer/$designId/pullover": {
+      "filePath": "_auth/designer/$designId/pullover.tsx",
       "parent": "/_auth/designer/$designId"
     },
     "/_auth/vorschau/$imageId/verbessern": {
