@@ -2,7 +2,7 @@ import { SidebarIcon } from "./SidebarIcon";
 
 import AbipulliHat from "src/assets/icons/abipulli-logo.png";
 import { useState } from "react";
-import { SidebarTab } from "src/routes/newdesigner/$designId/route";
+import { SidebarTab } from "src/routes/_auth/designer/$designId/route";
 import { Divider } from "../Misc/Divider";
 
 interface SidebarNavProps {

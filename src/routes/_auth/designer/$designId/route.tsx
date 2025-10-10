@@ -64,7 +64,7 @@ const SIDEBAR_TABS: SidebarTab[] = [
   },
 ];
 
-export const Route = createFileRoute("/newdesigner/$designId")({
+export const Route = createFileRoute("/_auth/designer/$designId")({
   component: RouteComponent,
 });
 
@@ -168,12 +168,12 @@ function RouteComponent() {
           tabs={SIDEBAR_TABS}
           tabSelected={SIDEBAR_TABS.filter((tab) => tab.url == currentPath)[0]}
           callback={(tab) =>
-            navigate({ to: `/newdesigner/${params.designId}/${tab.url}` })
+            navigate({ to: `/designer/${params.designId}/${tab.url}` })
           }
         />
         <Outlet />
       </section>
-      <section id="main-section" className="flex flex-col w-full pb-8">
+      <section id="main-section" className="flex flex-col w-full pb-8 border">
         <Toolbar zoom={zoom} setZoom={setZoom} />
         <div
           className={`w-full bg-cover flex flex-col justify-between relative h-full dotted-background`}

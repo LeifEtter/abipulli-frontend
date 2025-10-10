@@ -29,5 +29,10 @@
       "src/*": ["src/*"]
     }
   },
-  "include": ["src", "vitest"]
+  "include": [
+    "src",
+    "vitest",
+    ".OLD_FILES/designer",
+    ".OLD_FILES/__root.old.tsx"
+  ]
 }

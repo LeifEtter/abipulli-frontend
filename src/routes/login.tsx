@@ -21,7 +21,7 @@ function RouteComponent() {
 
   useEffect(() => {
     if (!isLoading && user != null) {
-      navigate({ to: "/newdesigner" });
+      navigate({ to: "/designer" });
     }
   }, [user, isLoading]);
 
