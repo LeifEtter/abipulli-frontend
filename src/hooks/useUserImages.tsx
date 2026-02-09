@@ -1,5 +1,5 @@
 import { Image } from "abipulli-types";
-import { useCallback, useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { ImageApi } from "src/api/endpoints/image";
 
 interface UseUserImagesReturn {
@@ -10,36 +10,28 @@ interface UseUserImagesReturn {
 }
 
 export const useUserImages = (): UseUserImagesReturn => {
-  const [userImages, setUserImages] = useState<Image[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
-
-  const fetchUserImages = useCallback(async () => {
-    setError(null);
-    setIsLoading(true);
-    try {
+  const {
+    data: userImages = [],
+    isLoading,
+    error,
+    refetch,
+  } = useQuery({
+    queryKey: ["userImages"],
+    queryFn: async () => {
       const images: Image[] = await ImageApi.fetchUsersImages();
-      images.sort(
+      return images.sort(
         (a, b) =>
-          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
       );
-      setUserImages(images);
-      setIsLoading(false);
-    } catch (error) {
-      setUserImages([]);
-      setError("Couldn't fetch User Images");
-      setIsLoading(false);
-    }
-  }, []);
-
-  useEffect(() => {
-    fetchUserImages();
-  }, [fetchUserImages]);
+    },
+  });
 
   return {
     userImages,
     userImagesAreLoading: isLoading,
-    userImagesError: error,
-    refetch: fetchUserImages,
+    userImagesError: error ? "Couldn't fetch User Images" : null,
+    refetch: async () => {
+      await refetch();
+    },
   };
 };
