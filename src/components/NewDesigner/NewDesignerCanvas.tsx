@@ -18,7 +18,7 @@ interface NewDesignerCanvasProps {
   deselectImage: () => void;
   onImagePositionChange: (
     pos: PositionType,
-    image: ImageWithPositionAndScale
+    image: ImageWithPositionAndScale,
   ) => void;
   onScaleChange: (scale: ScaleType, image: ImageWithPositionAndScale) => void;
   onDeleteImage: (image: ImageWithPositionAndScale) => void;
@@ -75,7 +75,7 @@ export const NewDesignerCanvas = ({
         {!designImagesAreLoading &&
           designImages
             .filter((e) =>
-              viewingSide == ViewingSide.Front ? !e.isBackside : e.isBackside
+              viewingSide == ViewingSide.Front ? !e.isBackside : e.isBackside,
             )
             .map((image) => {
               return (

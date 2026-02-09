@@ -83,7 +83,7 @@ export const ImproveImagePanel = ({ image }: ImproveImagePanelProps) => {
   }, [CANVAS_SIZE.width, CANVAS_SIZE.height]);
 
   const handleMouseDown = (
-    e: KonvaEventObject<MouseEvent | TouchEvent, Node<NodeConfig>>
+    e: KonvaEventObject<MouseEvent | TouchEvent, Node<NodeConfig>>,
   ) => {
     const stage: Konva.Stage | null = e.target.getStage();
     if (!stage) return;
@@ -94,7 +94,7 @@ export const ImproveImagePanel = ({ image }: ImproveImagePanelProps) => {
   const handleMouseUp = () => (isDrawing.current = false);
 
   const handleMouseMove = (
-    e: KonvaEventObject<MouseEvent | TouchEvent, Node<NodeConfig>>
+    e: KonvaEventObject<MouseEvent | TouchEvent, Node<NodeConfig>>,
   ) => {
     const stage: Konva.Stage | null = e.target.getStage();
     if (
