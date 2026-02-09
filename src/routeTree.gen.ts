@@ -19,18 +19,22 @@ import { Route as IndexImport } from './routes/index'
 import { Route as OnboardingSchuleImport } from './routes/onboarding/schule'
 import { Route as OnboardingPersonalImport } from './routes/onboarding/personal'
 import { Route as AuthAccountImport } from './routes/_auth/account'
+import { Route as AuthOrderRouteImport } from './routes/_auth/order/route'
 import { Route as AuthGenerierenRouteImport } from './routes/_auth/generieren/route'
 import { Route as AuthVorschauIndexImport } from './routes/_auth/vorschau/index'
+import { Route as AuthOrderIndexImport } from './routes/_auth/order/index'
 import { Route as AuthHomeIndexImport } from './routes/_auth/home/index'
 import { Route as AuthGenerierenVerbessernImport } from './routes/_auth/generieren/verbessern'
 import { Route as AuthGenerierenReferenzImport } from './routes/_auth/generieren/referenz'
 import { Route as AuthGenerierenMottoImport } from './routes/_auth/generieren/motto'
 import { Route as AuthGenerierenBeschreibungImport } from './routes/_auth/generieren/beschreibung'
-import { Route as AuthDesignerDesignIdRouteImport } from './routes/_auth/designer/$designId/route'
 import { Route as AuthVorschauImageIdIndexImport } from './routes/_auth/vorschau/$imageId/index'
 import { Route as AuthVorschauImageIdVerbessernImport } from './routes/_auth/vorschau/$imageId/verbessern'
-import { Route as AuthDesignerDesignIdPulloverImport } from './routes/_auth/designer/$designId/pullover'
-import { Route as AuthDesignerDesignIdImagesImport } from './routes/_auth/designer/$designId/images'
+import { Route as AuthOrderOrderIdDesignerRouteImport } from './routes/_auth/order/$orderId/designer/route'
+import { Route as AuthOrderOrderIdDesignerIndexImport } from './routes/_auth/order/$orderId/designer/index'
+import { Route as AuthOrderOrderIdDesignerDesignIdRouteImport } from './routes/_auth/order/$orderId/designer/$designId/route'
+import { Route as AuthOrderOrderIdDesignerDesignIdPulloverImport } from './routes/_auth/order/$orderId/designer/$designId/pullover'
+import { Route as AuthOrderOrderIdDesignerDesignIdImagesImport } from './routes/_auth/order/$orderId/designer/$designId/images'
 
 // Create/Update Routes
 
@@ -81,6 +85,12 @@ const AuthAccountRoute = AuthAccountImport.update({
   getParentRoute: () => AuthRouteRoute,
 } as any)
 
+const AuthOrderRouteRoute = AuthOrderRouteImport.update({
+  id: '/order',
+  path: '/order',
+  getParentRoute: () => AuthRouteRoute,
+} as any)
+
 const AuthGenerierenRouteRoute = AuthGenerierenRouteImport.update({
   id: '/generieren',
   path: '/generieren',
@@ -91,6 +101,12 @@ const AuthVorschauIndexRoute = AuthVorschauIndexImport.update({
   id: '/vorschau/',
   path: '/vorschau/',
   getParentRoute: () => AuthRouteRoute,
+} as any)
+
+const AuthOrderIndexRoute = AuthOrderIndexImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AuthOrderRouteRoute,
 } as any)
 
 const AuthHomeIndexRoute = AuthHomeIndexImport.update({
@@ -125,12 +141,6 @@ const AuthGenerierenBeschreibungRoute = AuthGenerierenBeschreibungImport.update(
   } as any,
 )
 
-const AuthDesignerDesignIdRouteRoute = AuthDesignerDesignIdRouteImport.update({
-  id: '/designer/$designId',
-  path: '/designer/$designId',
-  getParentRoute: () => AuthRouteRoute,
-} as any)
-
 const AuthVorschauImageIdIndexRoute = AuthVorschauImageIdIndexImport.update({
   id: '/vorschau/$imageId/',
   path: '/vorschau/$imageId/',
@@ -144,20 +154,40 @@ const AuthVorschauImageIdVerbessernRoute =
     getParentRoute: () => AuthRouteRoute,
   } as any)
 
-const AuthDesignerDesignIdPulloverRoute =
-  AuthDesignerDesignIdPulloverImport.update({
-    id: '/pullover',
-    path: '/pullover',
-    getParentRoute: () => AuthDesignerDesignIdRouteRoute,
+const AuthOrderOrderIdDesignerRouteRoute =
+  AuthOrderOrderIdDesignerRouteImport.update({
+    id: '/$orderId/designer',
+    path: '/$orderId/designer',
+    getParentRoute: () => AuthOrderRouteRoute,
   } as any)
 
-const AuthDesignerDesignIdImagesRoute = AuthDesignerDesignIdImagesImport.update(
-  {
+const AuthOrderOrderIdDesignerIndexRoute =
+  AuthOrderOrderIdDesignerIndexImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => AuthOrderOrderIdDesignerRouteRoute,
+  } as any)
+
+const AuthOrderOrderIdDesignerDesignIdRouteRoute =
+  AuthOrderOrderIdDesignerDesignIdRouteImport.update({
+    id: '/$designId',
+    path: '/$designId',
+    getParentRoute: () => AuthOrderOrderIdDesignerRouteRoute,
+  } as any)
+
+const AuthOrderOrderIdDesignerDesignIdPulloverRoute =
+  AuthOrderOrderIdDesignerDesignIdPulloverImport.update({
+    id: '/pullover',
+    path: '/pullover',
+    getParentRoute: () => AuthOrderOrderIdDesignerDesignIdRouteRoute,
+  } as any)
+
+const AuthOrderOrderIdDesignerDesignIdImagesRoute =
+  AuthOrderOrderIdDesignerDesignIdImagesImport.update({
     id: '/images',
     path: '/images',
-    getParentRoute: () => AuthDesignerDesignIdRouteRoute,
-  } as any,
-)
+    getParentRoute: () => AuthOrderOrderIdDesignerDesignIdRouteRoute,
+  } as any)
 
 // Populate the FileRoutesByPath interface
 
@@ -205,6 +235,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthGenerierenRouteImport
       parentRoute: typeof AuthRouteImport
     }
+    '/_auth/order': {
+      id: '/_auth/order'
+      path: '/order'
+      fullPath: '/order'
+      preLoaderRoute: typeof AuthOrderRouteImport
+      parentRoute: typeof AuthRouteImport
+    }
     '/_auth/account': {
       id: '/_auth/account'
       path: '/account'
@@ -225,13 +262,6 @@ declare module '@tanstack/react-router' {
       fullPath: '/onboarding/schule'
       preLoaderRoute: typeof OnboardingSchuleImport
       parentRoute: typeof OnboardingRouteImport
-    }
-    '/_auth/designer/$designId': {
-      id: '/_auth/designer/$designId'
-      path: '/designer/$designId'
-      fullPath: '/designer/$designId'
-      preLoaderRoute: typeof AuthDesignerDesignIdRouteImport
-      parentRoute: typeof AuthRouteImport
     }
     '/_auth/generieren/beschreibung': {
       id: '/_auth/generieren/beschreibung'
@@ -268,6 +298,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthHomeIndexImport
       parentRoute: typeof AuthRouteImport
     }
+    '/_auth/order/': {
+      id: '/_auth/order/'
+      path: '/'
+      fullPath: '/order/'
+      preLoaderRoute: typeof AuthOrderIndexImport
+      parentRoute: typeof AuthOrderRouteImport
+    }
     '/_auth/vorschau/': {
       id: '/_auth/vorschau/'
       path: '/vorschau'
@@ -275,19 +312,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthVorschauIndexImport
       parentRoute: typeof AuthRouteImport
     }
-    '/_auth/designer/$designId/images': {
-      id: '/_auth/designer/$designId/images'
-      path: '/images'
-      fullPath: '/designer/$designId/images'
-      preLoaderRoute: typeof AuthDesignerDesignIdImagesImport
-      parentRoute: typeof AuthDesignerDesignIdRouteImport
-    }
-    '/_auth/designer/$designId/pullover': {
-      id: '/_auth/designer/$designId/pullover'
-      path: '/pullover'
-      fullPath: '/designer/$designId/pullover'
-      preLoaderRoute: typeof AuthDesignerDesignIdPulloverImport
-      parentRoute: typeof AuthDesignerDesignIdRouteImport
+    '/_auth/order/$orderId/designer': {
+      id: '/_auth/order/$orderId/designer'
+      path: '/$orderId/designer'
+      fullPath: '/order/$orderId/designer'
+      preLoaderRoute: typeof AuthOrderOrderIdDesignerRouteImport
+      parentRoute: typeof AuthOrderRouteImport
     }
     '/_auth/vorschau/$imageId/verbessern': {
       id: '/_auth/vorschau/$imageId/verbessern'
@@ -302,6 +332,34 @@ declare module '@tanstack/react-router' {
       fullPath: '/vorschau/$imageId'
       preLoaderRoute: typeof AuthVorschauImageIdIndexImport
       parentRoute: typeof AuthRouteImport
+    }
+    '/_auth/order/$orderId/designer/$designId': {
+      id: '/_auth/order/$orderId/designer/$designId'
+      path: '/$designId'
+      fullPath: '/order/$orderId/designer/$designId'
+      preLoaderRoute: typeof AuthOrderOrderIdDesignerDesignIdRouteImport
+      parentRoute: typeof AuthOrderOrderIdDesignerRouteImport
+    }
+    '/_auth/order/$orderId/designer/': {
+      id: '/_auth/order/$orderId/designer/'
+      path: '/'
+      fullPath: '/order/$orderId/designer/'
+      preLoaderRoute: typeof AuthOrderOrderIdDesignerIndexImport
+      parentRoute: typeof AuthOrderOrderIdDesignerRouteImport
+    }
+    '/_auth/order/$orderId/designer/$designId/images': {
+      id: '/_auth/order/$orderId/designer/$designId/images'
+      path: '/images'
+      fullPath: '/order/$orderId/designer/$designId/images'
+      preLoaderRoute: typeof AuthOrderOrderIdDesignerDesignIdImagesImport
+      parentRoute: typeof AuthOrderOrderIdDesignerDesignIdRouteImport
+    }
+    '/_auth/order/$orderId/designer/$designId/pullover': {
+      id: '/_auth/order/$orderId/designer/$designId/pullover'
+      path: '/pullover'
+      fullPath: '/order/$orderId/designer/$designId/pullover'
+      preLoaderRoute: typeof AuthOrderOrderIdDesignerDesignIdPulloverImport
+      parentRoute: typeof AuthOrderOrderIdDesignerDesignIdRouteImport
     }
   }
 }
@@ -325,26 +383,60 @@ const AuthGenerierenRouteRouteChildren: AuthGenerierenRouteRouteChildren = {
 const AuthGenerierenRouteRouteWithChildren =
   AuthGenerierenRouteRoute._addFileChildren(AuthGenerierenRouteRouteChildren)
 
-interface AuthDesignerDesignIdRouteRouteChildren {
-  AuthDesignerDesignIdImagesRoute: typeof AuthDesignerDesignIdImagesRoute
-  AuthDesignerDesignIdPulloverRoute: typeof AuthDesignerDesignIdPulloverRoute
+interface AuthOrderOrderIdDesignerDesignIdRouteRouteChildren {
+  AuthOrderOrderIdDesignerDesignIdImagesRoute: typeof AuthOrderOrderIdDesignerDesignIdImagesRoute
+  AuthOrderOrderIdDesignerDesignIdPulloverRoute: typeof AuthOrderOrderIdDesignerDesignIdPulloverRoute
 }
 
-const AuthDesignerDesignIdRouteRouteChildren: AuthDesignerDesignIdRouteRouteChildren =
+const AuthOrderOrderIdDesignerDesignIdRouteRouteChildren: AuthOrderOrderIdDesignerDesignIdRouteRouteChildren =
   {
-    AuthDesignerDesignIdImagesRoute: AuthDesignerDesignIdImagesRoute,
-    AuthDesignerDesignIdPulloverRoute: AuthDesignerDesignIdPulloverRoute,
+    AuthOrderOrderIdDesignerDesignIdImagesRoute:
+      AuthOrderOrderIdDesignerDesignIdImagesRoute,
+    AuthOrderOrderIdDesignerDesignIdPulloverRoute:
+      AuthOrderOrderIdDesignerDesignIdPulloverRoute,
   }
 
-const AuthDesignerDesignIdRouteRouteWithChildren =
-  AuthDesignerDesignIdRouteRoute._addFileChildren(
-    AuthDesignerDesignIdRouteRouteChildren,
+const AuthOrderOrderIdDesignerDesignIdRouteRouteWithChildren =
+  AuthOrderOrderIdDesignerDesignIdRouteRoute._addFileChildren(
+    AuthOrderOrderIdDesignerDesignIdRouteRouteChildren,
   )
+
+interface AuthOrderOrderIdDesignerRouteRouteChildren {
+  AuthOrderOrderIdDesignerDesignIdRouteRoute: typeof AuthOrderOrderIdDesignerDesignIdRouteRouteWithChildren
+  AuthOrderOrderIdDesignerIndexRoute: typeof AuthOrderOrderIdDesignerIndexRoute
+}
+
+const AuthOrderOrderIdDesignerRouteRouteChildren: AuthOrderOrderIdDesignerRouteRouteChildren =
+  {
+    AuthOrderOrderIdDesignerDesignIdRouteRoute:
+      AuthOrderOrderIdDesignerDesignIdRouteRouteWithChildren,
+    AuthOrderOrderIdDesignerIndexRoute: AuthOrderOrderIdDesignerIndexRoute,
+  }
+
+const AuthOrderOrderIdDesignerRouteRouteWithChildren =
+  AuthOrderOrderIdDesignerRouteRoute._addFileChildren(
+    AuthOrderOrderIdDesignerRouteRouteChildren,
+  )
+
+interface AuthOrderRouteRouteChildren {
+  AuthOrderIndexRoute: typeof AuthOrderIndexRoute
+  AuthOrderOrderIdDesignerRouteRoute: typeof AuthOrderOrderIdDesignerRouteRouteWithChildren
+}
+
+const AuthOrderRouteRouteChildren: AuthOrderRouteRouteChildren = {
+  AuthOrderIndexRoute: AuthOrderIndexRoute,
+  AuthOrderOrderIdDesignerRouteRoute:
+    AuthOrderOrderIdDesignerRouteRouteWithChildren,
+}
+
+const AuthOrderRouteRouteWithChildren = AuthOrderRouteRoute._addFileChildren(
+  AuthOrderRouteRouteChildren,
+)
 
 interface AuthRouteRouteChildren {
   AuthGenerierenRouteRoute: typeof AuthGenerierenRouteRouteWithChildren
+  AuthOrderRouteRoute: typeof AuthOrderRouteRouteWithChildren
   AuthAccountRoute: typeof AuthAccountRoute
-  AuthDesignerDesignIdRouteRoute: typeof AuthDesignerDesignIdRouteRouteWithChildren
   AuthHomeIndexRoute: typeof AuthHomeIndexRoute
   AuthVorschauIndexRoute: typeof AuthVorschauIndexRoute
   AuthVorschauImageIdVerbessernRoute: typeof AuthVorschauImageIdVerbessernRoute
@@ -353,8 +445,8 @@ interface AuthRouteRouteChildren {
 
 const AuthRouteRouteChildren: AuthRouteRouteChildren = {
   AuthGenerierenRouteRoute: AuthGenerierenRouteRouteWithChildren,
+  AuthOrderRouteRoute: AuthOrderRouteRouteWithChildren,
   AuthAccountRoute: AuthAccountRoute,
-  AuthDesignerDesignIdRouteRoute: AuthDesignerDesignIdRouteRouteWithChildren,
   AuthHomeIndexRoute: AuthHomeIndexRoute,
   AuthVorschauIndexRoute: AuthVorschauIndexRoute,
   AuthVorschauImageIdVerbessernRoute: AuthVorschauImageIdVerbessernRoute,
@@ -386,20 +478,24 @@ export interface FileRoutesByFullPath {
   '/freischalten': typeof FreischaltenRoute
   '/login': typeof LoginRoute
   '/generieren': typeof AuthGenerierenRouteRouteWithChildren
+  '/order': typeof AuthOrderRouteRouteWithChildren
   '/account': typeof AuthAccountRoute
   '/onboarding/personal': typeof OnboardingPersonalRoute
   '/onboarding/schule': typeof OnboardingSchuleRoute
-  '/designer/$designId': typeof AuthDesignerDesignIdRouteRouteWithChildren
   '/generieren/beschreibung': typeof AuthGenerierenBeschreibungRoute
   '/generieren/motto': typeof AuthGenerierenMottoRoute
   '/generieren/referenz': typeof AuthGenerierenReferenzRoute
   '/generieren/verbessern': typeof AuthGenerierenVerbessernRoute
   '/home': typeof AuthHomeIndexRoute
+  '/order/': typeof AuthOrderIndexRoute
   '/vorschau': typeof AuthVorschauIndexRoute
-  '/designer/$designId/images': typeof AuthDesignerDesignIdImagesRoute
-  '/designer/$designId/pullover': typeof AuthDesignerDesignIdPulloverRoute
+  '/order/$orderId/designer': typeof AuthOrderOrderIdDesignerRouteRouteWithChildren
   '/vorschau/$imageId/verbessern': typeof AuthVorschauImageIdVerbessernRoute
   '/vorschau/$imageId': typeof AuthVorschauImageIdIndexRoute
+  '/order/$orderId/designer/$designId': typeof AuthOrderOrderIdDesignerDesignIdRouteRouteWithChildren
+  '/order/$orderId/designer/': typeof AuthOrderOrderIdDesignerIndexRoute
+  '/order/$orderId/designer/$designId/images': typeof AuthOrderOrderIdDesignerDesignIdImagesRoute
+  '/order/$orderId/designer/$designId/pullover': typeof AuthOrderOrderIdDesignerDesignIdPulloverRoute
 }
 
 export interface FileRoutesByTo {
@@ -412,17 +508,19 @@ export interface FileRoutesByTo {
   '/account': typeof AuthAccountRoute
   '/onboarding/personal': typeof OnboardingPersonalRoute
   '/onboarding/schule': typeof OnboardingSchuleRoute
-  '/designer/$designId': typeof AuthDesignerDesignIdRouteRouteWithChildren
   '/generieren/beschreibung': typeof AuthGenerierenBeschreibungRoute
   '/generieren/motto': typeof AuthGenerierenMottoRoute
   '/generieren/referenz': typeof AuthGenerierenReferenzRoute
   '/generieren/verbessern': typeof AuthGenerierenVerbessernRoute
   '/home': typeof AuthHomeIndexRoute
+  '/order': typeof AuthOrderIndexRoute
   '/vorschau': typeof AuthVorschauIndexRoute
-  '/designer/$designId/images': typeof AuthDesignerDesignIdImagesRoute
-  '/designer/$designId/pullover': typeof AuthDesignerDesignIdPulloverRoute
   '/vorschau/$imageId/verbessern': typeof AuthVorschauImageIdVerbessernRoute
   '/vorschau/$imageId': typeof AuthVorschauImageIdIndexRoute
+  '/order/$orderId/designer/$designId': typeof AuthOrderOrderIdDesignerDesignIdRouteRouteWithChildren
+  '/order/$orderId/designer': typeof AuthOrderOrderIdDesignerIndexRoute
+  '/order/$orderId/designer/$designId/images': typeof AuthOrderOrderIdDesignerDesignIdImagesRoute
+  '/order/$orderId/designer/$designId/pullover': typeof AuthOrderOrderIdDesignerDesignIdPulloverRoute
 }
 
 export interface FileRoutesById {
@@ -433,20 +531,24 @@ export interface FileRoutesById {
   '/freischalten': typeof FreischaltenRoute
   '/login': typeof LoginRoute
   '/_auth/generieren': typeof AuthGenerierenRouteRouteWithChildren
+  '/_auth/order': typeof AuthOrderRouteRouteWithChildren
   '/_auth/account': typeof AuthAccountRoute
   '/onboarding/personal': typeof OnboardingPersonalRoute
   '/onboarding/schule': typeof OnboardingSchuleRoute
-  '/_auth/designer/$designId': typeof AuthDesignerDesignIdRouteRouteWithChildren
   '/_auth/generieren/beschreibung': typeof AuthGenerierenBeschreibungRoute
   '/_auth/generieren/motto': typeof AuthGenerierenMottoRoute
   '/_auth/generieren/referenz': typeof AuthGenerierenReferenzRoute
   '/_auth/generieren/verbessern': typeof AuthGenerierenVerbessernRoute
   '/_auth/home/': typeof AuthHomeIndexRoute
+  '/_auth/order/': typeof AuthOrderIndexRoute
   '/_auth/vorschau/': typeof AuthVorschauIndexRoute
-  '/_auth/designer/$designId/images': typeof AuthDesignerDesignIdImagesRoute
-  '/_auth/designer/$designId/pullover': typeof AuthDesignerDesignIdPulloverRoute
+  '/_auth/order/$orderId/designer': typeof AuthOrderOrderIdDesignerRouteRouteWithChildren
   '/_auth/vorschau/$imageId/verbessern': typeof AuthVorschauImageIdVerbessernRoute
   '/_auth/vorschau/$imageId/': typeof AuthVorschauImageIdIndexRoute
+  '/_auth/order/$orderId/designer/$designId': typeof AuthOrderOrderIdDesignerDesignIdRouteRouteWithChildren
+  '/_auth/order/$orderId/designer/': typeof AuthOrderOrderIdDesignerIndexRoute
+  '/_auth/order/$orderId/designer/$designId/images': typeof AuthOrderOrderIdDesignerDesignIdImagesRoute
+  '/_auth/order/$orderId/designer/$designId/pullover': typeof AuthOrderOrderIdDesignerDesignIdPulloverRoute
 }
 
 export interface FileRouteTypes {
@@ -458,20 +560,24 @@ export interface FileRouteTypes {
     | '/freischalten'
     | '/login'
     | '/generieren'
+    | '/order'
     | '/account'
     | '/onboarding/personal'
     | '/onboarding/schule'
-    | '/designer/$designId'
     | '/generieren/beschreibung'
     | '/generieren/motto'
     | '/generieren/referenz'
     | '/generieren/verbessern'
     | '/home'
+    | '/order/'
     | '/vorschau'
-    | '/designer/$designId/images'
-    | '/designer/$designId/pullover'
+    | '/order/$orderId/designer'
     | '/vorschau/$imageId/verbessern'
     | '/vorschau/$imageId'
+    | '/order/$orderId/designer/$designId'
+    | '/order/$orderId/designer/'
+    | '/order/$orderId/designer/$designId/images'
+    | '/order/$orderId/designer/$designId/pullover'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -483,17 +589,19 @@ export interface FileRouteTypes {
     | '/account'
     | '/onboarding/personal'
     | '/onboarding/schule'
-    | '/designer/$designId'
     | '/generieren/beschreibung'
     | '/generieren/motto'
     | '/generieren/referenz'
     | '/generieren/verbessern'
     | '/home'
+    | '/order'
     | '/vorschau'
-    | '/designer/$designId/images'
-    | '/designer/$designId/pullover'
     | '/vorschau/$imageId/verbessern'
     | '/vorschau/$imageId'
+    | '/order/$orderId/designer/$designId'
+    | '/order/$orderId/designer'
+    | '/order/$orderId/designer/$designId/images'
+    | '/order/$orderId/designer/$designId/pullover'
   id:
     | '__root__'
     | '/'
@@ -502,20 +610,24 @@ export interface FileRouteTypes {
     | '/freischalten'
     | '/login'
     | '/_auth/generieren'
+    | '/_auth/order'
     | '/_auth/account'
     | '/onboarding/personal'
     | '/onboarding/schule'
-    | '/_auth/designer/$designId'
     | '/_auth/generieren/beschreibung'
     | '/_auth/generieren/motto'
     | '/_auth/generieren/referenz'
     | '/_auth/generieren/verbessern'
     | '/_auth/home/'
+    | '/_auth/order/'
     | '/_auth/vorschau/'
-    | '/_auth/designer/$designId/images'
-    | '/_auth/designer/$designId/pullover'
+    | '/_auth/order/$orderId/designer'
     | '/_auth/vorschau/$imageId/verbessern'
     | '/_auth/vorschau/$imageId/'
+    | '/_auth/order/$orderId/designer/$designId'
+    | '/_auth/order/$orderId/designer/'
+    | '/_auth/order/$orderId/designer/$designId/images'
+    | '/_auth/order/$orderId/designer/$designId/pullover'
   fileRoutesById: FileRoutesById
 }
 
@@ -559,8 +671,8 @@ export const routeTree = rootRoute
       "filePath": "_auth/route.tsx",
       "children": [
         "/_auth/generieren",
+        "/_auth/order",
         "/_auth/account",
-        "/_auth/designer/$designId",
         "/_auth/home/",
         "/_auth/vorschau/",
         "/_auth/vorschau/$imageId/verbessern",
@@ -590,6 +702,14 @@ export const routeTree = rootRoute
         "/_auth/generieren/verbessern"
       ]
     },
+    "/_auth/order": {
+      "filePath": "_auth/order/route.tsx",
+      "parent": "/_auth",
+      "children": [
+        "/_auth/order/",
+        "/_auth/order/$orderId/designer"
+      ]
+    },
     "/_auth/account": {
       "filePath": "_auth/account.tsx",
       "parent": "/_auth"
@@ -601,14 +721,6 @@ export const routeTree = rootRoute
     "/onboarding/schule": {
       "filePath": "onboarding/schule.tsx",
       "parent": "/onboarding"
-    },
-    "/_auth/designer/$designId": {
-      "filePath": "_auth/designer/$designId/route.tsx",
-      "parent": "/_auth",
-      "children": [
-        "/_auth/designer/$designId/images",
-        "/_auth/designer/$designId/pullover"
-      ]
     },
     "/_auth/generieren/beschreibung": {
       "filePath": "_auth/generieren/beschreibung.tsx",
@@ -630,17 +742,21 @@ export const routeTree = rootRoute
       "filePath": "_auth/home/index.tsx",
       "parent": "/_auth"
     },
+    "/_auth/order/": {
+      "filePath": "_auth/order/index.tsx",
+      "parent": "/_auth/order"
+    },
     "/_auth/vorschau/": {
       "filePath": "_auth/vorschau/index.tsx",
       "parent": "/_auth"
     },
-    "/_auth/designer/$designId/images": {
-      "filePath": "_auth/designer/$designId/images.tsx",
-      "parent": "/_auth/designer/$designId"
-    },
-    "/_auth/designer/$designId/pullover": {
-      "filePath": "_auth/designer/$designId/pullover.tsx",
-      "parent": "/_auth/designer/$designId"
+    "/_auth/order/$orderId/designer": {
+      "filePath": "_auth/order/$orderId/designer/route.tsx",
+      "parent": "/_auth/order",
+      "children": [
+        "/_auth/order/$orderId/designer/$designId",
+        "/_auth/order/$orderId/designer/"
+      ]
     },
     "/_auth/vorschau/$imageId/verbessern": {
       "filePath": "_auth/vorschau/$imageId/verbessern.tsx",
@@ -649,6 +765,26 @@ export const routeTree = rootRoute
     "/_auth/vorschau/$imageId/": {
       "filePath": "_auth/vorschau/$imageId/index.tsx",
       "parent": "/_auth"
+    },
+    "/_auth/order/$orderId/designer/$designId": {
+      "filePath": "_auth/order/$orderId/designer/$designId/route.tsx",
+      "parent": "/_auth/order/$orderId/designer",
+      "children": [
+        "/_auth/order/$orderId/designer/$designId/images",
+        "/_auth/order/$orderId/designer/$designId/pullover"
+      ]
+    },
+    "/_auth/order/$orderId/designer/": {
+      "filePath": "_auth/order/$orderId/designer/index.tsx",
+      "parent": "/_auth/order/$orderId/designer"
+    },
+    "/_auth/order/$orderId/designer/$designId/images": {
+      "filePath": "_auth/order/$orderId/designer/$designId/images.tsx",
+      "parent": "/_auth/order/$orderId/designer/$designId"
+    },
+    "/_auth/order/$orderId/designer/$designId/pullover": {
+      "filePath": "_auth/order/$orderId/designer/$designId/pullover.tsx",
+      "parent": "/_auth/order/$orderId/designer/$designId"
     }
   }
 }

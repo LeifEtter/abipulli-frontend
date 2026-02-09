@@ -6,7 +6,7 @@ import { PulloverOption } from "src/components/Designer/PulloverOption";
 import { Divider } from "src/components/Misc/Divider";
 import { useDesigner } from "src/hooks/useDesigner";
 
-export const Route = createFileRoute("/_auth/designer/$designId/pullover")({
+export const Route = createFileRoute("/_auth/order/$orderId/designer/$designId/pullover")({
   component: RouteComponent,
 });
 

@@ -65,7 +65,9 @@ const SIDEBAR_TABS: SidebarTab[] = [
   },
 ];
 
-export const Route = createFileRoute("/_auth/designer/$designId")({
+export const Route = createFileRoute(
+  "/_auth/order/$orderId/designer/$designId",
+)({
   component: RouteComponent,
 });
 
@@ -74,7 +76,7 @@ function RouteComponent() {
   const location = useLocation();
   const currentPath = location.href.split("/").slice(-1)[0];
   const params = useParams({ strict: false });
-  const { designId } = Route.useParams();
+  const { designId, orderId } = Route.useParams();
 
   const {
     designCanvasSize,
@@ -169,7 +171,9 @@ function RouteComponent() {
           tabs={SIDEBAR_TABS}
           tabSelected={SIDEBAR_TABS.filter((tab) => tab.url == currentPath)[0]}
           callback={(tab) =>
-            navigate({ to: `/designer/${params.designId}/${tab.url}` })
+            navigate({
+              to: `/order/${orderId}/designer/${designId}/${tab.url}`,
+            })
           }
         />
         <Outlet />
