@@ -19,7 +19,7 @@ import { AxiosResponse } from "axios";
 export const DesignApi = {
   createDesign: async (
     orderNumber: number,
-    params: DesignCreateParams
+    params: DesignCreateParams,
   ): Promise<Design> => {
     const res = await api.post(`/order/${orderNumber}/design/`, params);
     const designResponse: DesignResponse = res.data;
@@ -59,7 +59,7 @@ export const DesignApi = {
    * @returns Promise of an array of ImageWithPositionAndScale
    */
   retrieveAllImagesForDesign: async (
-    designId: number
+    designId: number,
   ): Promise<ImageWithPositionAndScale[]> => {
     const res: AxiosResponse = await api.get(`design/${designId}/image`);
     const imageResponse: ImagesForDesignResponse = res.data;
@@ -81,7 +81,7 @@ export const DesignApi = {
   }): Promise<ImageWithPositionAndScale> => {
     const res: AxiosResponse = await api.post(
       `/design/${designId}/image/${imageId}`,
-      addImageToDesignParams
+      addImageToDesignParams,
     );
     const imageResponse: AddImageToDesignResponse = res.data;
     return imageResponse.data!;
@@ -101,7 +101,7 @@ export const DesignApi = {
   }) => {
     const res: AxiosResponse = await api.patch(
       `/design/${designId}/image/${imageToDesignId}`,
-      manipulateImageParams
+      manipulateImageParams,
     );
     const manipulateImageRes: ApiResponse<object> = res.data;
     // return manipulateImageRes.data;
@@ -111,10 +111,7 @@ export const DesignApi = {
    * @param image - The image to remove
    * @param designId - Id of the design
    */
-  removeImageFromDesign: async (
-    image: ImageWithPositionAndScale,
-    designId: number
-  ) => {
-    await api.delete(`/design/${designId}/image/${image.imageToDesignId}`);
+  removeImageFromDesign: async (imageToDesignId: number, designId: number) => {
+    await api.delete(`/design/${designId}/image/${imageToDesignId}`);
   },
 };
