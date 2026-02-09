@@ -2,7 +2,7 @@ import { ReactElement, useState } from "react";
 import { DesignerContext } from "./designerContext";
 import { ViewingSide } from "src/types/ViewingSide";
 import { SizeType } from "src/types/canvas/sizeType";
-import { Image, ImageWithPositionAndScale } from "abipulli-types";
+import { Image, ImageWithPositionAndScale, Pullover } from "abipulli-types";
 
 export interface DesignerData {
   viewingSide: ViewingSide;
@@ -12,6 +12,7 @@ export interface DesignerData {
   isUploadingImage: boolean;
   generateTab?: number;
   userImage?: Image;
+  selectedPullover?: Pullover;
 }
 
 export const DesignerProvider = ({
@@ -30,6 +31,7 @@ export const DesignerProvider = ({
     isUploadingImage: false,
     generateTab: undefined,
     userImage: undefined,
+    selectedPullover: undefined,
   });
 
   const updateState = (state: Partial<DesignerData>) => {
@@ -57,6 +59,9 @@ export const DesignerProvider = ({
   const setViewingSide = (side: ViewingSide) => {
     updateState({ viewingSide: side });
   };
+  const selectPullover = (pullover?: Pullover) => {
+    updateState({ selectedPullover: pullover });
+  };
 
   return (
     <DesignerContext.Provider
@@ -68,6 +73,7 @@ export const DesignerProvider = ({
         selectImage,
         selectUserImage,
         setViewingSide,
+        selectPullover,
       }}
     >
       {children}
