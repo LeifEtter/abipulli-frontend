@@ -36,11 +36,11 @@ export const Route = createFileRoute("/_auth/designer/$designId/images")({
 });
 
 function RouteComponent() {
-  const designId = 5;
+  const { designId } = Route.useParams();
 
   const [tabSelected, setSelectedTab] = useState<TabOption>(TABS[0]);
 
-  const { addImageToDesign } = useDesignImages();
+  const { addImageToDesign } = useDesignImages(Number(designId));
 
   const {
     userImages,
@@ -68,13 +68,11 @@ function RouteComponent() {
   };
 
   const addImage = async (image: Image) => {
-    if (designId) return;
-    addImageToDesign(
+    await addImageToDesign({
       image,
       designCanvasSize,
-      designId,
-      viewingSide == ViewingSide.Back
-    );
+      isBackside: viewingSide == ViewingSide.Back,
+    });
   };
 
   const deleteImage = async (imageId: number) => {

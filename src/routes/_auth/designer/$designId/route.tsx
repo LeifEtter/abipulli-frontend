@@ -22,7 +22,7 @@ import { Design, ImageWithPositionAndScale } from "abipulli-types";
 import { ImproveImagePanel } from "src/components/NewDesigner/ImproveImagePanel";
 import { useAuth } from "src/hooks/useAuth";
 import { useDesignImages } from "src/hooks/useDesignImages";
-import { useDesigns } from "src/hooks/useDesigns";
+// import { useDesigns } from "src/hooks/useDesign";
 import { useSnackbar } from "src/hooks/useSnackbar";
 import { PositionType } from "src/types/canvas/positionType";
 import { ScaleType } from "src/types/canvas/scaleType";
@@ -33,6 +33,7 @@ import TextIcon from "src/assets/icons/text-icon.svg";
 import PulloverIcon from "src/assets/icons/pullover-icon.svg";
 import ImageIcon from "src/assets/icons/image-icon.svg";
 import { useDesigner } from "src/hooks/useDesigner";
+import { useDesign } from "src/hooks/useDesign";
 
 export interface SidebarTab {
   label: string;
@@ -73,6 +74,7 @@ function RouteComponent() {
   const location = useLocation();
   const currentPath = location.href.split("/").slice(-1)[0];
   const params = useParams({ strict: false });
+  const { designId } = Route.useParams();
 
   const {
     designCanvasSize,
@@ -81,6 +83,7 @@ function RouteComponent() {
     isDroppingImage,
     viewingSide,
     generateTab,
+    selectedPullover,
     nextGenerateTab,
     previousGenerateTab,
     selectImage,
@@ -99,19 +102,19 @@ function RouteComponent() {
   //   fontOptions[0]
   // );
 
-  const [design, setDesign] = useState<Design>();
+  // const [design, setDesign] = useState<Design>();
 
   const { user } = useAuth();
-  const { designs, designsAreLoading, designsError } = useDesigns(user?.id);
+  const { design, designsAreLoading, designsError } = useDesign(designId);
   const {
     designImages,
     designImagesAreLoading,
     designImagesError,
-    changeImagePosition,
+    changeImagePositionMutation,
     changeImageScale,
     addImageToDesign,
     removeImageFromDesign,
-  } = useDesignImages(designs[0] ? designs[0].id : undefined);
+  } = useDesignImages(Number(designId));
 
   const showSnackbar = useSnackbar();
 
@@ -121,31 +124,29 @@ function RouteComponent() {
         message: "Kein Design ausgewählt",
         type: "error",
       });
-    await removeImageFromDesign(image, design.id);
+    await removeImageFromDesign(image.imageToDesignId);
   };
 
   const onImagePositionChange = (
     pos: PositionType,
-    image: ImageWithPositionAndScale
-  ) =>
-    changeImagePosition({
-      pos,
-      imageToDesignId: image.imageToDesignId,
-    });
+    image: ImageWithPositionAndScale,
+  ) => {};
+  // changeImagePositionMutation({
+  //   pos,
+  //   imageToDesignId: image.imageToDesignId,
+  // });
 
-  const onScaleChange = (scale: ScaleType, image: ImageWithPositionAndScale) =>
-    changeImageScale({
-      scale,
-      imageToDesignId: image.imageToDesignId,
-    });
-
-  useEffect(() => {
-    if (designs && designs[0])
-      setDesign(designs.filter((design) => design.id == params["designId"])[0]);
-  }, [designs, designImages]);
+  const onScaleChange = (
+    scale: ScaleType,
+    image: ImageWithPositionAndScale,
+  ) => {};
+  // changeImageScale({
+  //   scale,
+  //   imageToDesignId: image.imageToDesignId,
+  // });
 
   return (
-    <div className="flex flex-row h-full w-full">
+    <div className="flex flex-row h-full w-full overflow-hidden">
       <section
         id="sidebar"
         className="h-full shadow-abipulli-sidebar bg-abipulli-beige flex flex-row relative"
@@ -208,7 +209,7 @@ function RouteComponent() {
               deselectUserImage={() => selectUserImage(undefined)}
             />
           </div>
-          <DesignsBar designs={[]} />
+          {/* <DesignsBar designs={[]} /> */}
           {/* <div className="absolute right-4 top-2"> */}
           <GenerateInfoProvider>
             {generateTab == 1 && (
