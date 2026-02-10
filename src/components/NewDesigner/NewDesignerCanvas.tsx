@@ -1,4 +1,4 @@
-import { ImageWithPositionAndScale } from "abipulli-types";
+import { ImageWithPositionAndScale, Pullover } from "abipulli-types";
 import { Layer, Stage } from "react-konva";
 import { SizeType } from "src/types/canvas/sizeType";
 import { ViewingSide } from "src/types/ViewingSide";
@@ -24,6 +24,8 @@ interface NewDesignerCanvasProps {
   onDeleteImage: (image: ImageWithPositionAndScale) => void;
   zoom: number;
   deselectUserImage: () => void;
+  pulloverFront: string;
+  pulloverBack: string;
 }
 
 export const NewDesignerCanvas = ({
@@ -39,6 +41,8 @@ export const NewDesignerCanvas = ({
   onDeleteImage,
   zoom,
   deselectUserImage,
+  pulloverFront,
+  pulloverBack,
 }: NewDesignerCanvasProps) => {
   const checkDeselect = (e: KonvaEventObject<MouseEvent | TouchEvent>) => {
     const clickedOnEmpty =
@@ -66,12 +70,22 @@ export const NewDesignerCanvas = ({
     >
       <Layer>
         {/* <Rect x={0} y={0} width={50} height={50} fill="red" /> */}
-        <StaticImage
-          src={ExamplePullover}
-          width={500}
-          name="pullover-image"
-          parentWidth={designCanvasSize.width}
-        />
+        {viewingSide == ViewingSide.Front ? (
+          <StaticImage
+            src={pulloverFront}
+            width={500}
+            name="pullover-image-front"
+            parentWidth={designCanvasSize.width}
+          />
+        ) : (
+          <StaticImage
+            src={pulloverBack}
+            width={500}
+            name="pullover-image-back"
+            parentWidth={designCanvasSize.width}
+          />
+        )}
+
         {!designImagesAreLoading &&
           designImages
             .filter((e) =>
