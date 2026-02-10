@@ -1,22 +1,22 @@
 import { useQuery } from "@tanstack/react-query";
 import { Design } from "abipulli-types";
 import { DesignApi } from "src/api/endpoints/design";
+import { OrderApi } from "src/api/endpoints/order";
 
-export const useDesign = (designId: number) => {
+export const useDesigns = (orderId: number) => {
   const {
-    data: design,
+    data: designs,
     isLoading,
     error,
   } = useQuery({
-    queryKey: ["design", designId],
-    queryFn: async (): Promise<Design> => {
-      console.log(designId);
-      return await DesignApi.retrieveSingleDesign(designId);
+    queryKey: ["designs", orderId],
+    queryFn: async (): Promise<Design[]> => {
+      return await DesignApi.retrieveAllDesigns(orderId);
     },
   });
 
   return {
-    design,
+    designs: designs ?? [],
     designsAreLoading: isLoading,
     designsError: error,
   };

@@ -6,6 +6,7 @@ import { SizeType } from "src/types/canvas/sizeType";
 import { useSnackbar } from "./useSnackbar";
 import { DesignApi } from "src/api/endpoints/design";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { calcImageScale } from "src/utilities/Calc/calcImageScale";
 
 export const useDesignImages = (designId: number) => {
   const queryClient = useQueryClient();
@@ -21,7 +22,7 @@ export const useDesignImages = (designId: number) => {
     queryFn: async (): Promise<ImageWithPositionAndScale[]> =>
       await DesignApi.retrieveAllImagesForDesign(designId),
     // enabled: !!designId,
-    staleTime: 1000 * 60 * 2, // Disable stale time for testing
+    // staleTime: 1000 * 60 * 2, // Disable stale time for testing
   });
 
   const addImageToDesign = useMutation({
@@ -81,17 +82,6 @@ export const useDesignImages = (designId: number) => {
     },
   });
 
-  const getDesignImageIndex = (imageToDesignId: number): number | undefined => {
-    const index: number = designImages.findIndex(
-      (image) => image.imageToDesignId == imageToDesignId,
-    );
-
-    if (index < 0) {
-      return undefined;
-    }
-    return index;
-  };
-  // Mutate for changing position - with optimistic update
   const changeImagePositionMutation = useMutation({
     mutationFn: async ({
       pos,
@@ -106,6 +96,19 @@ export const useDesignImages = (designId: number) => {
         y: Math.round(pos.y),
       };
 
+      queryClient.setQueryData<ImageWithPositionAndScale[]>(
+        ["designImages", designId],
+        (old = []) =>
+          old.map((img) =>
+            img.imageToDesignId === imageToDesignId
+              ? {
+                  ...img,
+                  positionX: roundedPos.x,
+                  positionY: roundedPos.y,
+                }
+              : img,
+          ),
+      );
       await DesignApi.manipulateImageInDesign({
         imageToDesignId,
         designId: designId!,
@@ -116,72 +119,56 @@ export const useDesignImages = (designId: number) => {
       });
       return { imageToDesignId, pos: roundedPos };
     },
-    onMutate: async ({ pos, imageToDesignId }) => {
-      // Optimistic update: Update position immediately in cache
-      await queryClient.cancelQueries({ queryKey: ["designImages", designId] });
-
-      const previousImages = queryClient.getQueryData<
-        ImageWithPositionAndScale[]
-      >(["designImages", designId]);
-
-      queryClient.setQueryData<ImageWithPositionAndScale[]>(
-        ["designImages", designId],
-        (old = []) =>
-          old.map((img) =>
-            img.imageToDesignId === imageToDesignId
-              ? {
-                  ...img,
-                  positionX: Math.round(pos.x),
-                  positionY: Math.round(pos.y),
-                }
-              : img,
-          ),
-      );
-
-      return { previousImages };
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({
+        queryKey: ["designImages", designId],
+      });
+      showSnackbar({ message: "Bild gelöscht", type: "success" });
     },
-    onError: (_err, _variables, context) => {
-      // Rollback on error
-      if (context?.previousImages) {
-        queryClient.setQueryData(
-          ["designImages", designId],
-          context.previousImages,
-        );
-      }
+    onError: (error) => {
       showSnackbar({
-        message: "Bild Platzierung fehlgeschlagen",
+        message: "Bild konnte nicht gelöscht werden",
         type: "error",
       });
     },
-  });
+    // onMutate: async ({ pos, imageToDesignId }) => {
+    //   await queryClient.invalidateQueries({
+    //     queryKey: ["designImages", designId],
+    //   });
 
-  //OLD
-  // const changeImagePosition = async ({
-  //   pos,
-  //   imageToDesignId,
-  // }: {
-  //   pos: PositionType;
-  //   imageToDesignId: number;
-  // }) => {
-  //   const index: number | undefined = getDesignImageIndex(imageToDesignId);
-  //   if (index == undefined)
-  //     return showSnackbar({ message: "Bild Platzierung fehlgeschlagen" });
-  //   const newPos: PositionType = {
-  //     x: Math.round(pos.x),
-  //     y: Math.round(pos.y),
-  //   };
-  //   designImages[index].positionX = Math.round(pos.x);
-  //   designImages[index].positionY = Math.round(pos.y);
-  //   setDesignImages(designImages);
-  //   await DesignApi.manipulateImageInDesign({
-  //     imageToDesignId,
-  //     designId: designId!,
-  //     manipulateImageParams: {
-  //       positionX: newPos.x,
-  //       positionY: newPos.y,
-  //     },
-  //   });
-  // };
+    //   const previousImages = queryClient.getQueryData<
+    //     ImageWithPositionAndScale[]
+    //   >(["designImages", designId]);
+
+    //   // queryClient.setQueryData<ImageWithPositionAndScale[]>(
+    //   //   ["designImages", designId],
+    //   //   (old = []) =>
+    //   //     old.map((img) =>
+    //   //       img.imageToDesignId === imageToDesignId
+    //   //         ? {
+    //   //             ...img,
+    //   //             positionX: Math.round(pos.x),
+    //   //             positionY: Math.round(pos.y),
+    //   //           }
+    //   //         : img,
+    //   //     ),
+    //   // );
+
+    //   return { previousImages };
+
+    // onError: (_err, _variables, context) => {
+    //   if (context?.previousImages) {
+    //     queryClient.setQueryData(
+    //       ["designImages", designId],
+    //       context.previousImages,
+    //     );
+    //   }
+    //   showSnackbar({
+    //     message: "Bild Platzierung fehlgeschlagen",
+    //     type: "error",
+    //   });
+    // },
+  });
 
   // const changeImageScale = async ({
   //   scale,
@@ -213,7 +200,7 @@ export const useDesignImages = (designId: number) => {
     designImages,
     designImagesAreLoading: isLoading,
     designImagesError: error,
-    changeImagePositionMutation,
+    changeImagePositionMutation: changeImagePositionMutation.mutateAsync,
     changeImageScale,
     addImageToDesign: addImageToDesign.mutateAsync,
     removeImageFromDesign: removeImageFromDesign.mutateAsync,
