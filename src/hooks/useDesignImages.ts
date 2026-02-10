@@ -34,20 +34,10 @@ export const useDesignImages = (designId: number) => {
       designCanvasSize: SizeType;
       isBackside: boolean;
     }) => {
-      const widthDiff = image.width - designCanvasSize.width * 0.5;
-      const heightDiff = image.height - designCanvasSize.height * 0.5;
-
-      const imageWiderThanCanvas = widthDiff > heightDiff && widthDiff > 0;
-      const imageTallerThanCanvas = heightDiff > 0;
-
-      let scale: number;
-      if (imageWiderThanCanvas) {
-        scale = (designCanvasSize.width * 0.5) / image.width;
-      } else if (imageTallerThanCanvas) {
-        scale = (designCanvasSize.height * 0.5) / image.height;
-      } else {
-        scale = 1;
-      }
+      const scale: number = calcImageScale({
+        canvasSize: designCanvasSize,
+        imageSize: { width: image.width, height: image.height },
+      });
       return await DesignApi.addImageToDesign({
         designId: designId,
         imageId: image.id,
