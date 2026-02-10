@@ -10,14 +10,10 @@ function RouteComponent() {
   const { user, isLoading } = useAuth();
   const navigate = useNavigate();
 
-  // useEffect(() => {
-  //   navigate({ to: "/newdesigner" });
-  // });
-
   useEffect(() => {
     if (!isLoading) {
       if (user) {
-        navigate({ to: "/newdesigner" });
+        navigate({ to: "/order" });
       } else {
         navigate({ to: "/login" });
       }
