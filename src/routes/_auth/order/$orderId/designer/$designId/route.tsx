@@ -33,7 +33,7 @@ import TextIcon from "src/assets/icons/text-icon.svg";
 import PulloverIcon from "src/assets/icons/pullover-icon.svg";
 import ImageIcon from "src/assets/icons/image-icon.svg";
 import { useDesigner } from "src/hooks/useDesigner";
-import { useDesign } from "src/hooks/useDesign";
+import { useDesigns } from "src/hooks/useDesign";
 
 export interface SidebarTab {
   label: string;
@@ -75,7 +75,6 @@ function RouteComponent() {
   const navigate = useNavigate();
   const location = useLocation();
   const currentPath = location.href.split("/").slice(-1)[0];
-  const params = useParams({ strict: false });
   const { designId, orderId } = Route.useParams();
 
   const {
@@ -105,9 +104,9 @@ function RouteComponent() {
   // );
 
   // const [design, setDesign] = useState<Design>();
+  const { designs, designsAreLoading, designsError } = useDesigns(orderId);
+  const selectedDesign: Design = designs.filter((d) => d.id == designId)[0];
 
-  const { user } = useAuth();
-  const { design, designsAreLoading, designsError } = useDesign(designId);
   const {
     designImages,
     designImagesAreLoading,
@@ -121,22 +120,22 @@ function RouteComponent() {
   const showSnackbar = useSnackbar();
 
   const onDeleteImage = async (image: ImageWithPositionAndScale) => {
-    if (!design)
-      return showSnackbar({
-        message: "Kein Design ausgewählt",
-        type: "error",
-      });
+    // if (!design)
+    //   return showSnackbar({
+    //     message: "Kein Design ausgewählt",
+    //     type: "error",
+    //   });
     await removeImageFromDesign(image.imageToDesignId);
   };
 
   const onImagePositionChange = (
     pos: PositionType,
     image: ImageWithPositionAndScale,
-  ) => {};
-  // changeImagePositionMutation({
-  //   pos,
-  //   imageToDesignId: image.imageToDesignId,
-  // });
+  ) =>
+    changeImagePositionMutation({
+      pos,
+      imageToDesignId: image.imageToDesignId,
+    });
 
   const onScaleChange = (
     scale: ScaleType,
@@ -146,6 +145,15 @@ function RouteComponent() {
   //   scale,
   //   imageToDesignId: image.imageToDesignId,
   // });
+
+  // Show loading state instead of early return to avoid hooks error
+  if (designsAreLoading || !selectedDesign) {
+    return (
+      <div className="flex items-center justify-center h-full w-full">
+        <p className="text-gray-600">Loading design...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-row h-full w-full overflow-hidden">
@@ -211,6 +219,8 @@ function RouteComponent() {
               designImagesAreLoading={designImagesAreLoading}
               zoom={zoom}
               deselectUserImage={() => selectUserImage(undefined)}
+              pulloverFront={selectedDesign.preferredPullover!.frontImage.url}
+              pulloverBack={selectedDesign.preferredPullover!.backImage.url}
             />
           </div>
           {/* <DesignsBar designs={[]} /> */}
