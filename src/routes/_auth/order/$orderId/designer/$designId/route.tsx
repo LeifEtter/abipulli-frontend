@@ -90,6 +90,8 @@ function RouteComponent() {
     selectImage,
     selectUserImage,
     setViewingSide,
+    setEditPanelOpen,
+    editPanelOpen,
   } = useDesigner();
 
   const [zoom, setZoom] = useState<number>(100);
@@ -104,8 +106,12 @@ function RouteComponent() {
   // );
 
   // const [design, setDesign] = useState<Design>();
-  const { designs, designsAreLoading, designsError } = useDesigns(orderId);
-  const selectedDesign: Design = designs.filter((d) => d.id == designId)[0];
+  const { designs, designsAreLoading, designsError } = useDesigns(
+    Number(orderId),
+  );
+  const selectedDesign: Design = designs.filter(
+    (d) => d.id === Number(designId),
+  )[0];
 
   const {
     designImages,
@@ -221,6 +227,7 @@ function RouteComponent() {
               deselectUserImage={() => selectUserImage(undefined)}
               pulloverFront={selectedDesign.preferredPullover!.frontImage.url}
               pulloverBack={selectedDesign.preferredPullover!.backImage.url}
+              setEditPanelOpen={setEditPanelOpen}
             />
           </div>
           {/* <DesignsBar designs={[]} /> */}
@@ -253,7 +260,9 @@ function RouteComponent() {
                 previousTab={previousGenerateTab}
               />
             )}
-            <ImproveImagePanel image={selectedImage ?? userImage} />
+            {editPanelOpen && (
+              <ImproveImagePanel image={selectedImage ?? userImage} />
+            )}
           </GenerateInfoProvider>
           {/* </div> */}
         </div>

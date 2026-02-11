@@ -13,6 +13,7 @@ export interface DesignerData {
   generateTab?: number;
   userImage?: Image;
   selectedPullover?: Pullover;
+  editPanelOpen: boolean;
 }
 
 export const DesignerProvider = ({
@@ -32,6 +33,7 @@ export const DesignerProvider = ({
     generateTab: undefined,
     userImage: undefined,
     selectedPullover: undefined,
+    editPanelOpen: false,
   });
 
   const updateState = (state: Partial<DesignerData>) => {
@@ -63,6 +65,10 @@ export const DesignerProvider = ({
     updateState({ selectedPullover: pullover });
   };
 
+  const setEditPanelOpen = (open: boolean) => {
+    updateState({ editPanelOpen: open });
+  };
+
   return (
     <DesignerContext.Provider
       value={{
@@ -74,6 +80,7 @@ export const DesignerProvider = ({
         selectUserImage,
         setViewingSide,
         selectPullover,
+        setEditPanelOpen,
       }}
     >
       {children}

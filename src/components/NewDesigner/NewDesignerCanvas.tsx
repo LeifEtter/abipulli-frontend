@@ -26,6 +26,7 @@ interface NewDesignerCanvasProps {
   deselectUserImage: () => void;
   pulloverFront: string;
   pulloverBack: string;
+  setEditPanelOpen: (open: boolean) => void;
 }
 
 export const NewDesignerCanvas = ({
@@ -43,18 +44,28 @@ export const NewDesignerCanvas = ({
   deselectUserImage,
   pulloverFront,
   pulloverBack,
+  setEditPanelOpen,
 }: NewDesignerCanvasProps) => {
+  const clickedOnPulloverImage = (target: string): boolean => {
+    return target == "pullover-image-back" || target == "pullover-image-front";
+  };
+
   const checkDeselect = (e: KonvaEventObject<MouseEvent | TouchEvent>) => {
     const clickedOnEmpty =
-      e.target === e.target.getStage() || e.target.name() == "pullover-image";
+      e.target === e.target.getStage() ||
+      clickedOnPulloverImage(e.target.name());
     if (clickedOnEmpty) {
       deselectImage();
       deselectUserImage();
+      setEditPanelOpen(false);
     }
   };
 
   const checkResetCursor = (e: KonvaEventObject<MouseEvent | TouchEvent>) => {
-    if (e.target.getStage() == e.target || e.target.name() == "pullover-image")
+    if (
+      e.target.getStage() == e.target ||
+      clickedOnPulloverImage(e.target.name())
+    )
       e.target.getStage()!.container().style.cursor = "default";
   };
 
@@ -94,6 +105,7 @@ export const NewDesignerCanvas = ({
             .map((image) => {
               return (
                 <ResizableImage
+                  setEditPanelOpen={setEditPanelOpen}
                   zoom={zoom / 100}
                   key={`design-image-${designImages.indexOf(image)}`}
                   width={image.width}

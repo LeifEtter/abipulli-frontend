@@ -12,6 +12,7 @@ export interface DesignerContextType extends DesignerData {
   selectUserImage: (image?: Image) => void;
   setViewingSide: (side: ViewingSide) => void;
   selectPullover: (pullover?: Pullover) => void;
+  setEditPanelOpen: (open: boolean) => void;
 }
 
 export const DesignerContext = createContext<DesignerContextType | null>(null);
