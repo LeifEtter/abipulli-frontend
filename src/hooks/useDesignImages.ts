@@ -123,11 +123,11 @@ export const useDesignImages = (designId: number) => {
       await queryClient.invalidateQueries({
         queryKey: ["designImages", designId],
       });
-      showSnackbar({ message: "Bild gelöscht", type: "success" });
+      // showSnackbar({ message: "Bild gelöscht", type: "success" });
     },
     onError: (error) => {
       showSnackbar({
-        message: "Bild konnte nicht gelöscht werden",
+        message: "Bild konnte nicht umplatziert werden",
         type: "error",
       });
     },
