@@ -1,5 +1,5 @@
 import { Fragment, useEffect, useRef, useState } from "react";
-import { Group, Image, Layer, Rect, Transformer } from "react-konva";
+import { Group, Image, Layer, Rect, Text, Transformer } from "react-konva";
 import useImage from "use-image";
 import { KonvaEventObject } from "konva/lib/Node";
 import { Image as KonvaImage } from "konva/lib/shapes/Image";
@@ -74,6 +74,7 @@ interface ResizableImageProps {
   onDelete: () => void;
   src: string;
   zoom: number;
+  setEditPanelOpen: (open: boolean) => void;
 }
 
 interface ViewData {
@@ -98,6 +99,7 @@ export const ResizableImage = ({
   onDelete,
   src,
   zoom,
+  setEditPanelOpen,
 }: ResizableImageProps) => {
   const [image] = useImage(src);
   const [trashImage] = useImage("/src/assets/icons/trash-icon.svg");
@@ -106,6 +108,7 @@ export const ResizableImage = ({
   const [resizeImage] = useImage(ResizeIcon);
   const imageRef = useRef<KonvaImage>(null);
   const trRef = useRef<Konva.Transformer>(null);
+  const controlsGroupRef = useRef<Konva.Group>(null);
 
   const [viewData, setViewData] = useState<ViewData | null>(null);
 
@@ -120,6 +123,31 @@ export const ResizableImage = ({
       trRef.current.nodes([imageRef.current]);
     }
   }, [isSelected, originalPos, originalScale]);
+
+  // Animation effect for controls pop-in
+  useEffect(() => {
+    if (controlsGroupRef.current && isSelected && deleteVisible) {
+      // Start from scale 0
+      controlsGroupRef.current.scale({ x: 0, y: 0 });
+      controlsGroupRef.current.opacity(0);
+
+      // Animate to scale 1 with pop effect
+      const anim = new Konva.Tween({
+        node: controlsGroupRef.current,
+        duration: 0.2,
+        scaleX: 1,
+        scaleY: 1,
+        opacity: 1,
+        easing: Konva.Easings.BackEaseOut,
+      });
+
+      anim.play();
+
+      return () => {
+        anim.destroy();
+      };
+    }
+  }, [isSelected, deleteVisible]);
 
   return viewData != null ? (
     <Group>
@@ -178,6 +206,7 @@ export const ResizableImage = ({
         {isSelected && deleteVisible && (
           <Group>
             <Rect
+              id="blue-borders"
               fillEnabled={false}
               x={viewData.pos.x - 25}
               y={viewData.pos.y - 25}
@@ -186,23 +215,74 @@ export const ResizableImage = ({
               strokeWidth={1}
               stroke={"blue"}
             />
-            <Rect
-              x={viewData.pos.x - 35}
-              y={viewData.pos.y + image!.height * viewData.scale.y + 10}
-              width={25}
-              height={25}
-              cornerRadius={3}
-              fill={"white"}
+            <Group id="copy-image-button">
+              <Rect
+                x={viewData.pos.x - 35}
+                y={viewData.pos.y + image!.height * viewData.scale.y + 10}
+                width={25}
+                height={25}
+                cornerRadius={3}
+                fill={"white"}
+                scale={{ x: 1 / zoom, y: 1 / zoom }}
+              />
+              <Image
+                image={copyImage}
+                x={viewData.pos.x - 30}
+                y={viewData.pos.y + image!.height * viewData.scale.y + 15}
+                width={15}
+                height={15}
+                scale={{ x: 1 / zoom, y: 1 / zoom }}
+              />
+            </Group>
+            <Group
+              onClick={onDelete}
+              onTap={onDelete}
+              aria-label="Bild löschen"
+              role="button"
+              tabIndex={0}
+            >
+              <Rect
+                width={25}
+                height={25}
+                cornerRadius={3}
+                fill={"white"}
+                x={viewData.pos.x - 35}
+                y={viewData.pos.y - 35}
+                scale={{ x: 1 / zoom, y: 1 / zoom }}
+              />
+              <Image
+                image={trashImage}
+                width={15}
+                height={15}
+                x={viewData.pos.x - 30}
+                y={viewData.pos.y - 30}
+                aria-label="Papierkorb Icon"
+                role="img"
+                scale={{ x: 1 / zoom, y: 1 / zoom }}
+              />
+            </Group>
+            <Group
+              ref={controlsGroupRef}
+              y={viewData.pos.y + image!.height * viewData.scale.y + 35}
+              x={viewData.pos.x}
               scale={{ x: 1 / zoom, y: 1 / zoom }}
-            />
-            <Image
-              image={copyImage}
-              x={viewData.pos.x - 30}
-              y={viewData.pos.y + image!.height * viewData.scale.y + 15}
-              width={15}
-              height={15}
-              scale={{ x: 1 / zoom, y: 1 / zoom }}
-            />
+              onMouseEnter={(e) =>
+                (e.target.getStage()!.container().style.cursor = "pointer")
+              }
+              onMouseLeave={(e) =>
+                (e.target.getStage()!.container().style.cursor = "default")
+              }
+              onClick={() => setEditPanelOpen(true)}
+            >
+              <Rect fill="white" cornerRadius={6} width={160} height={40} />
+              <Text
+                text="Bild Bearbeiten"
+                fontStyle="bold"
+                fontSize={18}
+                y={12}
+                x={15}
+              />
+            </Group>
           </Group>
         )}
         {isSelected && (
@@ -237,56 +317,27 @@ export const ResizableImage = ({
             role="group"
           />
         )}
-        {deleteVisible && isSelected && (
-          <Image
-            image={rotateImage}
-            x={viewData.pos.x + image!.width * viewData.scale.x + 15}
-            y={viewData.pos.y - 30}
-            width={15}
-            height={15}
-            fillEnabled={false}
-            scale={{ x: 1 / zoom, y: 1 / zoom }}
-          />
-        )}
-        {deleteVisible && isSelected && (
-          <Image
-            fillEnabled={false}
-            image={resizeImage}
-            x={viewData.pos.x + image!.width * viewData.scale.x + 15}
-            y={viewData.pos.y + image!.height * viewData.scale.y + 15}
-            width={15}
-            height={15}
-            scale={{ x: 1 / zoom, y: 1 / zoom }}
-          />
-        )}
-        {deleteVisible && isSelected && (
-          <Group
-            onClick={onDelete}
-            onTap={onDelete}
-            aria-label="Bild löschen"
-            role="button"
-            tabIndex={0}
-          >
-            <Rect
-              width={25}
-              height={25}
-              cornerRadius={3}
-              fill={"white"}
-              x={viewData.pos.x - 35}
-              y={viewData.pos.y - 35}
+        {isSelected && deleteVisible && (
+          <>
+            <Image
+              image={rotateImage}
+              x={viewData.pos.x + image!.width * viewData.scale.x + 15}
+              y={viewData.pos.y - 30}
+              width={15}
+              height={15}
+              fillEnabled={false}
               scale={{ x: 1 / zoom, y: 1 / zoom }}
             />
             <Image
-              image={trashImage}
+              fillEnabled={false}
+              image={resizeImage}
+              x={viewData.pos.x + image!.width * viewData.scale.x + 15}
+              y={viewData.pos.y + image!.height * viewData.scale.y + 15}
               width={15}
               height={15}
-              x={viewData.pos.x - 30}
-              y={viewData.pos.y - 30}
-              aria-label="Papierkorb Icon"
-              role="img"
               scale={{ x: 1 / zoom, y: 1 / zoom }}
             />
-          </Group>
+          </>
         )}
       </Fragment>
     </Group>
