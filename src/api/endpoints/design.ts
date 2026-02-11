@@ -114,4 +114,20 @@ export const DesignApi = {
   removeImageFromDesign: async (imageToDesignId: number, designId: number) => {
     await api.delete(`/design/${designId}/image/${imageToDesignId}`);
   },
+  /**
+   * Updates the pullover for a design
+   * @param designId - Id of the design
+   * @param pulloverId - Id of the pullover to set
+   * @returns Promise of the updated Design
+   */
+  updateDesignPullover: async (
+    designId: number,
+    pulloverId: number,
+  ): Promise<Design> => {
+    const res: AxiosResponse = await api.patch(
+      `/design/${designId}/pullover/${pulloverId}`,
+    );
+    const designResponse: DesignResponse = res.data;
+    return designResponse.data!;
+  },
 };
