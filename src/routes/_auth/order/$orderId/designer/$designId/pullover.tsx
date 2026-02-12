@@ -15,7 +15,7 @@ export const Route = createFileRoute(
 
 function RouteComponent() {
   const { designId, orderId } = Route.useParams();
-  const { selectedImage } = useDesigner();
+  const { selectedImage, editPanelOpen } = useDesigner();
 
   // Fetch all available pullovers (catalog)
   const { pullovers, pulloversAreLoading } = usePullovers();
@@ -40,7 +40,7 @@ function RouteComponent() {
 
   return (
     <div
-      className={`duration-100 h-full flex flex-col px-4 max-w-lg ${selectedImage ? "w-0 lg:w-80" : "w-30 md:w-50 lg:w-80 xl:w-100"} overflow-scroll`}
+      className={`duration-100 h-full flex flex-col px-4 max-w-lg ${editPanelOpen ? "w-0 lg:w-80" : "w-30 md:w-50 lg:w-80 xl:w-100"} overflow-scroll`}
     >
       <h2 className="font-bold mt-4 text-lg">Select Pullover Modell</h2>
       <div className="bg-gray-500" />

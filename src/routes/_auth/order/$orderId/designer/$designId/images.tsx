@@ -59,6 +59,7 @@ function RouteComponent() {
     designCanvasSize,
     generateTab,
     updateState,
+    editPanelOpen,
   } = useDesigner();
 
   const onDropAccepted = async (images: File[]) => {
@@ -84,7 +85,7 @@ function RouteComponent() {
 
   return (
     <div
-      className={`duration-100 h-full flex flex-col px-4 max-w-lg ${selectedImage ? "w-0 lg:w-80" : "w-30 md:w-50 lg:w-80 xl:w-100"}`}
+      className={`duration-100 h-full flex flex-col px-4 max-w-lg ${editPanelOpen ? "w-0 lg:w-80" : "w-30 md:w-50 lg:w-80 xl:w-100"}`}
     >
       <TabSwitcher
         className={`${selectedImage && "hidden lg:block"} mt-4`}
