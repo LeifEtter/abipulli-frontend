@@ -3,7 +3,6 @@ import { Layer, Stage } from "react-konva";
 import { SizeType } from "src/types/canvas/sizeType";
 import { ViewingSide } from "src/types/ViewingSide";
 import { ResizableImage, StaticImage } from "../Designer/CanvasImages";
-import ExamplePullover from "src/assets/pullovers/sand-front.png";
 import { PositionType } from "src/types/canvas/positionType";
 import { ScaleType } from "src/types/canvas/scaleType";
 import { KonvaEventObject } from "konva/lib/Node";
@@ -58,15 +57,14 @@ export const NewDesignerCanvas = ({
       deselectImage();
       deselectUserImage();
       setEditPanelOpen(false);
+      e.target.getStage()!.container().style.cursor = "default";
     }
   };
 
   const checkResetCursor = (e: KonvaEventObject<MouseEvent | TouchEvent>) => {
-    if (
-      e.target.getStage() == e.target ||
-      clickedOnPulloverImage(e.target.name())
-    )
+    if (e.target.getStage() == e.target) {
       e.target.getStage()!.container().style.cursor = "default";
+    }
   };
 
   return (
@@ -124,8 +122,7 @@ export const NewDesignerCanvas = ({
                   src={image.url}
                   isSelected={
                     selectedImage != null &&
-                    designImages.indexOf(image) ==
-                      designImages.indexOf(selectedImage)
+                    image.imageToDesignId === selectedImage.imageToDesignId
                   }
                   onSelect={() => selectImage(image)}
                   onPositionChange={(pos) => onImagePositionChange(pos, image)}
