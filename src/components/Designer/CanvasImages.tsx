@@ -185,7 +185,7 @@ export const ResizableImage = ({
               ...viewData,
               pos: { x: e.target.x(), y: e.target.y() },
             });
-            setDeleteVisible(true);
+            setTimeout(() => setDeleteVisible(true), 0);
           }}
           onTransformEnd={(_) => {
             if (!imageRef.current) return;
@@ -200,7 +200,7 @@ export const ResizableImage = ({
                 y: imageRef.current.scaleY(),
               },
             });
-            setDeleteVisible(true);
+            setTimeout(() => setDeleteVisible(true), 0);
           }}
         />
         {isSelected && deleteVisible && (
