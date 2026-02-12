@@ -53,6 +53,11 @@
   --shadow-abipulli-sidebar: rgba(0, 0, 0, 0.1) 0px 4px 40px 0px;
 
   --color-ap-medium-grey-half-opacity: oklch(0.32 0.0507 261.01 / 20%);
+
+  --color-abipulli-menu-red: #ffccb1;
+  --color-abipulli-menu-gray: #dfd9cf;
+  --color-abipulli-menu-green: #c7e1be;
+  --color-abipulli-menu-yellow: #f9e89e;
 }
 
 @layer components {
