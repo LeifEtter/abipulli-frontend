@@ -143,14 +143,11 @@ function RouteComponent() {
       imageToDesignId: image.imageToDesignId,
     });
 
-  const onScaleChange = (
-    scale: ScaleType,
-    image: ImageWithPositionAndScale,
-  ) => {};
-  // changeImageScale({
-  //   scale,
-  //   imageToDesignId: image.imageToDesignId,
-  // });
+  const onScaleChange = (scale: ScaleType, image: ImageWithPositionAndScale) =>
+    changeImageScale({
+      scale,
+      imageToDesignId: image.imageToDesignId,
+    });
 
   // Show loading state instead of early return to avoid hooks error
   if (designsAreLoading || !selectedDesign) {
@@ -165,7 +162,7 @@ function RouteComponent() {
     <div className="flex flex-row h-full w-full overflow-hidden">
       <section
         id="sidebar"
-        className="h-full shadow-abipulli-sidebar bg-abipulli-beige flex flex-row relative"
+        className="h-full shadow-abipulli-sidebar bg-abipulli-light-beige flex flex-row relative flex-shrink-0"
       >
         {isDroppingImage && (
           <div className="absolute w-full h-full bg-gray-400/70 z-20 p-2 pointer-events-none">
@@ -229,42 +226,41 @@ function RouteComponent() {
               pulloverBack={selectedDesign.preferredPullover!.backImage.url}
               setEditPanelOpen={setEditPanelOpen}
             />
+            {/* <DesignsBar designs={[]} /> */}
+            {/* <div className="absolute right-4 top-2"> */}
+            <GenerateInfoProvider>
+              {generateTab == 1 && (
+                <ChooseReferenceImage
+                  previousGeneratedImages={[
+                    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14,
+                  ].map((id) => ImageFactory.image({ id: id }))}
+                  previousTab={previousGenerateTab}
+                  nextTab={nextGenerateTab}
+                />
+              )}
+              {generateTab == 2 && (
+                <MainInfo
+                  nextTab={nextGenerateTab}
+                  previousTab={previousGenerateTab}
+                />
+              )}
+              {generateTab == 3 && (
+                <Description
+                  nextTab={nextGenerateTab}
+                  previousTab={previousGenerateTab}
+                />
+              )}
+              {generateTab == 4 && (
+                <ImproveDescription
+                  nextTab={nextGenerateTab}
+                  previousTab={previousGenerateTab}
+                />
+              )}
+              {editPanelOpen && (
+                <ImproveImagePanel image={selectedImage ?? userImage} />
+              )}
+            </GenerateInfoProvider>
           </div>
-          {/* <DesignsBar designs={[]} /> */}
-          {/* <div className="absolute right-4 top-2"> */}
-          <GenerateInfoProvider>
-            {generateTab == 1 && (
-              <ChooseReferenceImage
-                previousGeneratedImages={[
-                  1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14,
-                ].map((id) => ImageFactory.image({ id: id }))}
-                previousTab={previousGenerateTab}
-                nextTab={nextGenerateTab}
-              />
-            )}
-            {generateTab == 2 && (
-              <MainInfo
-                nextTab={nextGenerateTab}
-                previousTab={previousGenerateTab}
-              />
-            )}
-            {generateTab == 3 && (
-              <Description
-                nextTab={nextGenerateTab}
-                previousTab={previousGenerateTab}
-              />
-            )}
-            {generateTab == 4 && (
-              <ImproveDescription
-                nextTab={nextGenerateTab}
-                previousTab={previousGenerateTab}
-              />
-            )}
-            {editPanelOpen && (
-              <ImproveImagePanel image={selectedImage ?? userImage} />
-            )}
-          </GenerateInfoProvider>
-          {/* </div> */}
         </div>
       </section>
     </div>
