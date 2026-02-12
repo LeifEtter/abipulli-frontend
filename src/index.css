@@ -69,7 +69,7 @@
   }
 
   .dotted-background {
-    background-image: url("src/assets/background/dotted-background-2.svg");
+    background-image: url("./assets/background/dotted-background-2.svg");
   }
 }
 
