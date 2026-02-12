@@ -119,12 +119,6 @@ export const useDesignImages = (designId: number) => {
       });
       return { imageToDesignId, pos: roundedPos };
     },
-    onSuccess: async () => {
-      await queryClient.invalidateQueries({
-        queryKey: ["designImages", designId],
-      });
-      // showSnackbar({ message: "Bild gelöscht", type: "success" });
-    },
     onError: (error) => {
       showSnackbar({
         message: "Bild konnte nicht umplatziert werden",
@@ -170,38 +164,50 @@ export const useDesignImages = (designId: number) => {
     // },
   });
 
-  // const changeImageScale = async ({
-  //   scale,
-  //   imageToDesignId,
-  // }: {
-  //   scale: ScaleType;
-  //   imageToDesignId: number;
-  // }) => {
-  //   const index: number | undefined = getDesignImageIndex(imageToDesignId);
-  //   if (index == undefined)
-  //     return showSnackbar({ message: "Bild Skalierung Fehlgeschlagen" });
-
-  //   designImages[index].scaleX = scale.x;
-  //   designImages[index].scaleY = scale.y;
-  //   setDesignImages(designImages);
-  //   await DesignApi.manipulateImageInDesign({
-  //     imageToDesignId,
-  //     designId: designId!,
-  //     manipulateImageParams: {
-  //       scaleX: scale.x,
-  //       scaleY: scale.y,
-  //     },
-  //   });
-  // };
-
-  const changeImageScale = () => {};
+  const changeImageScale = useMutation({
+    mutationFn: async ({
+      scale,
+      imageToDesignId,
+    }: {
+      scale: ScaleType;
+      imageToDesignId: number;
+    }) => {
+      queryClient.setQueryData<ImageWithPositionAndScale[]>(
+        ["designImages", designId],
+        (old = []) =>
+          old.map((img) =>
+            img.imageToDesignId === imageToDesignId
+              ? {
+                  ...img,
+                  scaleX: scale.x,
+                  scaleY: scale.y,
+                }
+              : img,
+          ),
+      );
+      await DesignApi.manipulateImageInDesign({
+        imageToDesignId,
+        designId: designId!,
+        manipulateImageParams: {
+          scaleX: scale.x,
+          scaleY: scale.y,
+        },
+      });
+    },
+    onError: (error) => {
+      showSnackbar({
+        message: "Bild konnte nicht vergrössert/verkleinert werden",
+        type: "error",
+      });
+    },
+  });
 
   return {
     designImages,
     designImagesAreLoading: isLoading,
     designImagesError: error,
     changeImagePositionMutation: changeImagePositionMutation.mutateAsync,
-    changeImageScale,
+    changeImageScale: changeImageScale.mutateAsync,
     addImageToDesign: addImageToDesign.mutateAsync,
     removeImageFromDesign: removeImageFromDesign.mutateAsync,
   };
