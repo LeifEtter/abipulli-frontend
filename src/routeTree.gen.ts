@@ -13,6 +13,7 @@
 import { Route as rootRoute } from './routes/__root'
 import { Route as LoginImport } from './routes/login'
 import { Route as FreischaltenImport } from './routes/freischalten'
+import { Route as EinladungImport } from './routes/einladung'
 import { Route as OnboardingRouteImport } from './routes/onboarding/route'
 import { Route as AuthRouteImport } from './routes/_auth/route'
 import { Route as IndexImport } from './routes/index'
@@ -47,6 +48,12 @@ const LoginRoute = LoginImport.update({
 const FreischaltenRoute = FreischaltenImport.update({
   id: '/freischalten',
   path: '/freischalten',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const EinladungRoute = EinladungImport.update({
+  id: '/einladung',
+  path: '/einladung',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -212,6 +219,13 @@ declare module '@tanstack/react-router' {
       path: '/onboarding'
       fullPath: '/onboarding'
       preLoaderRoute: typeof OnboardingRouteImport
+      parentRoute: typeof rootRoute
+    }
+    '/einladung': {
+      id: '/einladung'
+      path: '/einladung'
+      fullPath: '/einladung'
+      preLoaderRoute: typeof EinladungImport
       parentRoute: typeof rootRoute
     }
     '/freischalten': {
@@ -475,6 +489,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '': typeof AuthRouteRouteWithChildren
   '/onboarding': typeof OnboardingRouteRouteWithChildren
+  '/einladung': typeof EinladungRoute
   '/freischalten': typeof FreischaltenRoute
   '/login': typeof LoginRoute
   '/generieren': typeof AuthGenerierenRouteRouteWithChildren
@@ -502,6 +517,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '': typeof AuthRouteRouteWithChildren
   '/onboarding': typeof OnboardingRouteRouteWithChildren
+  '/einladung': typeof EinladungRoute
   '/freischalten': typeof FreischaltenRoute
   '/login': typeof LoginRoute
   '/generieren': typeof AuthGenerierenRouteRouteWithChildren
@@ -528,6 +544,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_auth': typeof AuthRouteRouteWithChildren
   '/onboarding': typeof OnboardingRouteRouteWithChildren
+  '/einladung': typeof EinladungRoute
   '/freischalten': typeof FreischaltenRoute
   '/login': typeof LoginRoute
   '/_auth/generieren': typeof AuthGenerierenRouteRouteWithChildren
@@ -557,6 +574,7 @@ export interface FileRouteTypes {
     | '/'
     | ''
     | '/onboarding'
+    | '/einladung'
     | '/freischalten'
     | '/login'
     | '/generieren'
@@ -583,6 +601,7 @@ export interface FileRouteTypes {
     | '/'
     | ''
     | '/onboarding'
+    | '/einladung'
     | '/freischalten'
     | '/login'
     | '/generieren'
@@ -607,6 +626,7 @@ export interface FileRouteTypes {
     | '/'
     | '/_auth'
     | '/onboarding'
+    | '/einladung'
     | '/freischalten'
     | '/login'
     | '/_auth/generieren'
@@ -635,6 +655,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthRouteRoute: typeof AuthRouteRouteWithChildren
   OnboardingRouteRoute: typeof OnboardingRouteRouteWithChildren
+  EinladungRoute: typeof EinladungRoute
   FreischaltenRoute: typeof FreischaltenRoute
   LoginRoute: typeof LoginRoute
 }
@@ -643,6 +664,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthRouteRoute: AuthRouteRouteWithChildren,
   OnboardingRouteRoute: OnboardingRouteRouteWithChildren,
+  EinladungRoute: EinladungRoute,
   FreischaltenRoute: FreischaltenRoute,
   LoginRoute: LoginRoute,
 }
@@ -660,6 +682,7 @@ export const routeTree = rootRoute
         "/",
         "/_auth",
         "/onboarding",
+        "/einladung",
         "/freischalten",
         "/login"
       ]
@@ -685,6 +708,9 @@ export const routeTree = rootRoute
         "/onboarding/personal",
         "/onboarding/schule"
       ]
+    },
+    "/einladung": {
+      "filePath": "einladung.tsx"
     },
     "/freischalten": {
       "filePath": "freischalten.tsx"
