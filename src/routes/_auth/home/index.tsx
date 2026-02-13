@@ -15,40 +15,46 @@ export const Route = createFileRoute("/_auth/home/")({
 function RouteComponent() {
   return (
     <div className="font-[Onest] p-6">
-      <section className="w-5/7">
-        <h2 className="text-3xl font-medium">AbiPulli.com</h2>
-        <div className="grid grid-cols-2 gap-4 mt-10">
-          <MenuTile
-            className="bg-abipulli-menu-red"
-            title="Chats"
-            description="asdasdasd"
-            tiltDirection={TiltDirection.Left}
-            icon={ChatIcon}
-          />
-          <MenuTile
-            className="bg-abipulli-menu-gray"
-            title="AbiPullis"
-            description="asdasdasd"
-            tiltDirection={TiltDirection.Right}
-            icon={DesignIcon}
-          />
-          <MenuTile
-            className="bg-abipulli-menu-green"
-            title="Complete Order"
-            description="asdasdasd"
-            tiltDirection={TiltDirection.Left}
-            icon={CheckmarkIcon}
-          />
-          <MenuTile
-            className="bg-abipulli-menu-yellow"
-            title="Polls"
-            description="asdasdasd"
-            tiltDirection={TiltDirection.Right}
-            icon={PollsIcon}
-          />
-        </div>
-      </section>
-      <section></section>
+      <h2 className="text-3xl font-semibold">AbiPulli.com</h2>
+      <div className="flex gap-6">
+        <section className="w-5/7">
+          <div className="grid grid-cols-2 gap-6">
+            <MenuTile
+              className="bg-abipulli-menu-red"
+              title="Chats"
+              description="asdasdasd"
+              tiltDirection={TiltDirection.Left}
+              icon={ChatIcon}
+            />
+            <MenuTile
+              className="bg-abipulli-menu-gray"
+              title="AbiPullis"
+              description="asdasdasd"
+              tiltDirection={TiltDirection.Right}
+              icon={DesignIcon}
+            />
+            <MenuTile
+              className="bg-abipulli-menu-green"
+              title="Complete Order"
+              description="asdasdasd"
+              tiltDirection={TiltDirection.Left}
+              icon={CheckmarkIcon}
+            />
+            <MenuTile
+              className="bg-abipulli-menu-yellow"
+              title="Polls"
+              description="asdasdasd"
+              tiltDirection={TiltDirection.Right}
+              icon={PollsIcon}
+            />
+          </div>
+        </section>
+        <section className="w-2/7">
+          <div className="bg-black text-white font-bold text-xl w-full rounded-xl h-34 flex items-center">
+            <p>0% Completed</p>
+          </div>
+        </section>
+      </div>
     </div>
   );
 }
@@ -80,7 +86,7 @@ const MenuTile = ({
   >
     <div className="justify-bottom flex flex-col gap-2">
       <img src={icon} width={30} />
-      <p className="font-semibold text-xl">{title}</p>
+      <h1 className="font-semibold text-xl">{title}</h1>
       <p>{description}</p>
     </div>
   </div>
