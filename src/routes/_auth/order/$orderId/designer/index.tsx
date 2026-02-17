@@ -1,5 +1,6 @@
-import { createFileRoute, redirect } from "@tanstack/react-router";
+import { createFileRoute, redirect, useParams } from "@tanstack/react-router";
 import { DesignApi } from "src/api/endpoints/design";
+import { useDesigns } from "src/hooks/useDesign";
 
 // This route handles ONLY /order/$orderId/designer (no children)
 export const Route = createFileRoute("/_auth/order/$orderId/designer/")({
@@ -24,9 +25,17 @@ export const Route = createFileRoute("/_auth/order/$orderId/designer/")({
 });
 
 function RouteComponent() {
+  const params = Route.useParams();
+  const { designs } = useDesigns(parseInt(params.orderId));
+
   return (
-    <div className="flex items-center justify-center h-full w-full">
+    <div className="flex flex-col items-center justify-center h-full w-full">
       <h2>Deine Entwürfe</h2>
+      <div className="flex flex-row">
+        {designs.map((design) => (
+          <div>pullover</div>
+        ))}
+      </div>
       <h2>Neuen AbiPulli erstellen</h2>
     </div>
   );
