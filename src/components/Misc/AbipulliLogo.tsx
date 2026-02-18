@@ -1,9 +1,11 @@
+import { Link } from "@tanstack/react-router";
 import AbiPulli from "src/assets/icons/abipulli-logo.png";
 
 export const AbiPulliLogo: React.FC = () => (
-  <div
+  <Link
     className="flex flex-row gap-2 justify-center items-center pt-6 pl-6"
     aria-label="Abipulli Logo und Titel"
+    to={"/home"}
   >
     <img
       src={AbiPulli}
@@ -12,5 +14,5 @@ export const AbiPulliLogo: React.FC = () => (
       aria-label="Abipulli Logo"
     />
     <h2 className="text-xl font-semibold">Abipulli.com</h2>
-  </div>
+  </Link>
 );
