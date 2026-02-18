@@ -1,7 +1,7 @@
 import { Icon } from "@fortawesome/fontawesome-svg-core";
 import { fa0 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { JSX } from "react";
 import ChatIcon from "src/assets/icons/chat-icon.svg";
 import DesignIcon from "src/assets/icons/design-icon.svg";
@@ -35,6 +35,7 @@ function RouteComponent() {
               description="asdasdasd"
               tiltDirection={TiltDirection.Right}
               icon={DesignIcon}
+              to="/order"
             />
             <MenuTile
               className="bg-abipulli-menu-green"
@@ -74,6 +75,7 @@ interface MenuTileParams {
   tiltDirection: TiltDirection;
   icon?: string;
   className?: string;
+  to?: string;
 }
 
 const MenuTile = ({
@@ -83,8 +85,10 @@ const MenuTile = ({
   tiltDirection,
   icon,
   className,
+  to,
 }: MenuTileParams) => (
-  <div
+  <Link
+    to={to ?? "/"}
     className={`${tiltDirection == TiltDirection.Left ? "hover:rotate-1" : "hover:-rotate-1"} flex flex-col justify-end p-5 cursor-pointer aspect-7/5 hover:scale-105  ease-in-out duration-150 rounded-3xl ${className}`}
   >
     <div className="justify-bottom flex flex-col gap-2">
@@ -92,5 +96,5 @@ const MenuTile = ({
       <h1 className="font-semibold text-xl">{title}</h1>
       <p>{description}</p>
     </div>
-  </div>
+  </Link>
 );
