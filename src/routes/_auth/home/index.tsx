@@ -7,6 +7,7 @@ import ChatIcon from "src/assets/icons/chat-icon.svg";
 import DesignIcon from "src/assets/icons/design-icon.svg";
 import CheckmarkIcon from "src/assets/icons/checkmark-icon.svg";
 import PollsIcon from "src/assets/icons/polls-icon.svg";
+import { AbiPulliLogo } from "src/components/Misc/AbipulliLogo";
 
 export const Route = createFileRoute("/_auth/home/")({
   component: RouteComponent,
@@ -14,8 +15,10 @@ export const Route = createFileRoute("/_auth/home/")({
 
 function RouteComponent() {
   return (
-    <div className="font-[Onest] p-6">
-      <h2 className="text-3xl font-semibold">AbiPulli.com</h2>
+    <div className="font-[Onest] px-6">
+      <div className="place-self-start mb-6">
+        <AbiPulliLogo />
+      </div>
       <div className="flex gap-6">
         <section className="w-5/7">
           <div className="grid grid-cols-2 gap-6">
