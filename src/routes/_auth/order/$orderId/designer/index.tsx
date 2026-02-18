@@ -24,6 +24,18 @@ export const Route = createFileRoute("/_auth/order/$orderId/designer/")({
   component: RouteComponent,
 });
 
+const getTimeSinceEdited = (prevDate: Date): string => {
+  const diff: number = Date.now() - prevDate.getTime();
+  const dateInMinutes = Math.round(diff / 1000 / 60);
+  if (dateInMinutes < 60) return dateInMinutes + " Minuten";
+  const dateInHours = Math.round(dateInMinutes / 60);
+  if (dateInHours < 24) return dateInHours + " Stunden";
+  const dateInDays = Math.round(dateInHours / 24);
+  if (dateInMinutes < 31) return dateInDays + " Tagen";
+  const dateInMonths = Math.round(dateInDays / 30);
+  return dateInMonths + " Monaten";
+};
+
 function RouteComponent() {
   const params = Route.useParams();
   const { designs } = useDesigns(parseInt(params.orderId));
