@@ -13,9 +13,15 @@ import {
   useParams,
 } from "@tanstack/react-router";
 import { Pullover } from "abipulli-types";
+import { LoadingIndicator } from "node_modules/react-select/dist/declarations/src/components/indicators";
+import { useState } from "react";
 import { DesignApi } from "src/api/endpoints/design";
 import { AbiPulliLogo } from "src/components/Misc/AbipulliLogo";
 import { Center } from "src/components/Misc/Center";
+import {
+  LoadingSpinner,
+  LoadingSpinnerNew,
+} from "src/components/Misc/LoadingSpinner";
 import { useDesigns } from "src/hooks/useDesign";
 import { usePullovers } from "src/hooks/usePullovers";
 import { useSnackbar } from "src/hooks/useSnackbar";
@@ -62,8 +68,17 @@ function RouteComponent() {
 
   const navigate = useNavigate();
 
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
   return (
     <div className="flex flex-col items-center h-full w-full">
+      {isLoading && (
+        <div className="absolute w-full h-full bg-black/30 z-50">
+          <Center>
+            <LoadingSpinnerNew />
+          </Center>
+        </div>
+      )}
       <div className="self-start">
         <AbiPulliLogo />
       </div>
