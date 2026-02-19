@@ -109,9 +109,11 @@ function RouteComponent() {
   const { designs, designsAreLoading, designsError } = useDesigns(
     Number(orderId),
   );
-  const selectedDesign: Design = designs.filter(
-    (d) => d.id === Number(designId),
-  )[0];
+
+  const [selectedDesign, setSelectedDesign] = useState<Design>();
+  // const selectedDesign: Design = designs.filter(
+  //   (d) => d.id === Number(designId),
+  // )[0];
 
   const {
     designImages,
@@ -148,6 +150,12 @@ function RouteComponent() {
       scale,
       imageToDesignId: image.imageToDesignId,
     });
+
+  useEffect(
+    () =>
+      setSelectedDesign(designs.filter((d) => d.id === Number(designId))[0]),
+    [designs],
+  );
 
   // Show loading state instead of early return to avoid hooks error
   if (designsAreLoading || !selectedDesign) {
