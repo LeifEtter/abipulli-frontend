@@ -1,11 +1,14 @@
 import { faClockRotateLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   createFileRoute,
   Link,
   redirect,
+  useNavigate,
   useParams,
 } from "@tanstack/react-router";
+import { Pullover } from "abipulli-types";
 import { DesignApi } from "src/api/endpoints/design";
 import { AbiPulliLogo } from "src/components/Misc/AbipulliLogo";
 import { Center } from "src/components/Misc/Center";
@@ -50,6 +53,28 @@ function RouteComponent() {
   const params = Route.useParams();
   const { designs } = useDesigns(parseInt(params.orderId));
   const { pullovers } = usePullovers();
+  const queryClient = useQueryClient();
+  const navigate = useNavigate();
+
+  const createDesignMutation = useMutation({
+    mutationFn: async (preferredPullover: Pullover) => {
+      const newDesign = await DesignApi.createDesign(parseInt(params.orderId), {
+        preferredPulloverId: preferredPullover.id,
+      });
+      return newDesign;
+    },
+    onSuccess: async (data) => {
+      // Invalidate and refetch designs
+      queryClient.invalidateQueries({ queryKey: ["designs", params.orderId] });
+      setTimeout(
+        () =>
+          navigate({
+            to: `/order/${params.orderId}/designer/${data.id}`,
+          }),
+        500,
+      );
+    },
+  });
 
   return (
     <div className="flex flex-col items-center h-full w-full">
