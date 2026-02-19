@@ -140,27 +140,7 @@ function RouteComponent() {
                     Löschen
                   </button>
                 </div>
-                <img
-                  src={design.preferredPullover!.frontImage.url}
-                  className="w-5/6"
-                />
-                <div className="absolute w-full h-full">
-                  {design.images?.map((image) => {
-                    return (
-                      <img
-                        src={image.url}
-                        width={image.width * image.scaleX! * 0.4}
-                        height={image.height * image.scaleY! * 0.4}
-                        className="absolute"
-                        style={{
-                          left: image.positionX! * 0.4,
-                          top: image.positionY! * 0.4,
-                        }}
-                      />
-                    );
-                  })}
-                </div>
-              </Link>
+              </div>
             );
           })}
         </div>
@@ -169,13 +149,16 @@ function RouteComponent() {
         </h2>
         <div className="flex flex-row gap-5 flex-wrap">
           {pullovers.map((pullover) => (
-            <div>
+            <button
+              key={`create-pullover-${pullover.id}`}
+              onClick={() => createDesignMutation.mutate(pullover)}
+            >
               <div className="border-2 border-abipulli-darker-beige hover:border-abipulli-green-strong hover:rotate-1 rounded-xl w-48 h-48 flex items-center justify-center bg-white hover:scale-105 animate duration-100 cursor-pointer">
                 <img src={pullover.frontImage.url} className="h-4/5" />
               </div>
               <p className="font-semibold text-md mt-1">{pullover.name}</p>
               <p className="text-sm">{pullover.basePrice}.00€ / pro Pulli</p>
-            </div>
+            </button>
           ))}
         </div>
       </div>
