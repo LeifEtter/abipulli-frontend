@@ -1,4 +1,8 @@
-import { faClockRotateLeft } from "@fortawesome/free-solid-svg-icons";
+import {
+  faClockRotateLeft,
+  faCopy,
+  faTrash,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import {
@@ -83,24 +87,58 @@ function RouteComponent() {
       </div>
       <div className="w-10/12 mt-16">
         <h2 className="font-semibold text-3xl mb-6">Deine Entwürfe</h2>
-        <div className="flex flex-row gap-5">
+        <div className="flex flex-row flex-wrap gap-5">
           {designs.map((design) => {
             const date = new Date(design.createdAt);
             return (
-              <Link
-                to={`/order/${params.orderId}/designer/${design.id}`}
-                className="relative border-2 bg-white border-gray-400 hover:border-abipulli-green-strong hover:rotate-1 rounded-xl w-3xs flex items-center justify-center p-4 hover:scale-105 animate duration-100 cursor-pointer"
-              >
-                <div className="absolute w-full top-0 h-8 bg-abipulli-green rounded-t-lg">
-                  <Center>
-                    <p className="font-semibold text-sm text-center">
-                      Bearbeitet vor {getTimeSinceEdited(date)}
-                      <FontAwesomeIcon
-                        icon={faClockRotateLeft}
-                        className="ml-2"
-                      />
-                    </p>
-                  </Center>
+              <div className="flex flex-col">
+                <Link
+                  key={`started-design-${design.id}`}
+                  to={`/order/${params.orderId}/designer/${design.id}`}
+                  className="relative border-1 bg-white border-gray-400 hover:border-abipulli-green-strong hover:rotate-1 rounded-xl w-3xs h-86 flex items-center justify-center p-4 hover:scale-105 animate duration-100 cursor-pointer pt-10"
+                >
+                  <div className="absolute w-full top-0 h-8 bg-abipulli-green rounded-t-xl shadow-sm">
+                    <Center>
+                      <p className="font-semibold text-sm text-center">
+                        Bearbeitet vor {getTimeSinceEdited(date)}
+                        <FontAwesomeIcon
+                          icon={faClockRotateLeft}
+                          className="ml-2"
+                        />
+                      </p>
+                    </Center>
+                  </div>
+                  <img
+                    src={design.preferredPullover!.frontImage.url}
+                    className="w-5/6 mt-0"
+                  />
+                  <div className="absolute w-full h-full">
+                    {design.images?.map((image) => {
+                      return (
+                        <img
+                          key={`design-image-${image.imageToDesignId}`}
+                          src={image.url}
+                          width={image.width * image.scaleX! * 0.4}
+                          height={image.height * image.scaleY! * 0.4}
+                          className="absolute"
+                          style={{
+                            left: image.positionX! * 0.4,
+                            top: image.positionY! * 0.4,
+                          }}
+                        />
+                      );
+                    })}
+                  </div>
+                </Link>
+                <div className="mt-2 flex flex-row gap-2">
+                  <button className="flex w-1/2 gap-1 items-center bg-white border border-abipulli-gray rounded-md px-3 py-1 font-medium cursor-pointer">
+                    <FontAwesomeIcon icon={faCopy} />
+                    Duplizieren
+                  </button>
+                  <button className="flex w-1/2 gap-2 items-center bg-white border border-abipulli-gray rounded-md px-3 py-1 font-medium cursor-pointer hover:scale-105 hover:bg-red-100 hover:border-red-200 duration-75 animate">
+                    <FontAwesomeIcon icon={faTrash} />
+                    Löschen
+                  </button>
                 </div>
                 <img
                   src={design.preferredPullover!.frontImage.url}
