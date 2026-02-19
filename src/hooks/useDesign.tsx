@@ -34,10 +34,27 @@ export const useDesigns = (orderId: number) => {
       queryClient.invalidateQueries({ queryKey: ["designs", orderId] }),
   });
 
+  const deleteDesignMutation = useMutation({
+    mutationFn: async ({
+      designId,
+      orderId,
+    }: {
+      designId: number;
+      orderId: number;
+    }) => {
+      await DesignApi.deleteDesign(designId, orderId);
+      return;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["designs", orderId] });
+    },
+  });
+
   return {
     designs: designs ?? [],
     designsAreLoading: isLoading,
     designsError: error,
     createDesign: createDesignMutation.mutateAsync,
+    deleteDesign: deleteDesignMutation.mutateAsync,
   };
 };
