@@ -18,6 +18,7 @@ import { AbiPulliLogo } from "src/components/Misc/AbipulliLogo";
 import { Center } from "src/components/Misc/Center";
 import { useDesigns } from "src/hooks/useDesign";
 import { usePullovers } from "src/hooks/usePullovers";
+import { useSnackbar } from "src/hooks/useSnackbar";
 
 // This route handles ONLY /order/$orderId/designer (no children)
 export const Route = createFileRoute("/_auth/order/$orderId/designer/")({
@@ -55,30 +56,11 @@ const getTimeSinceEdited = (prevDate: Date): string => {
 
 function RouteComponent() {
   const params = Route.useParams();
-  const { designs } = useDesigns(parseInt(params.orderId));
+  const { designs, createDesign } = useDesigns(parseInt(params.orderId));
   const { pullovers } = usePullovers();
-  const queryClient = useQueryClient();
-  const navigate = useNavigate();
+  const showSnackbar = useSnackbar();
 
-  const createDesignMutation = useMutation({
-    mutationFn: async (preferredPullover: Pullover) => {
-      const newDesign = await DesignApi.createDesign(parseInt(params.orderId), {
-        preferredPulloverId: preferredPullover.id,
-      });
-      return newDesign;
-    },
-    onSuccess: async (data) => {
-      // Invalidate and refetch designs
-      queryClient.invalidateQueries({ queryKey: ["designs", params.orderId] });
-      setTimeout(
-        () =>
-          navigate({
-            to: `/order/${params.orderId}/designer/${data.id}`,
-          }),
-        500,
-      );
-    },
-  });
+  const navigate = useNavigate();
 
   return (
     <div className="flex flex-col items-center h-full w-full">
@@ -151,7 +133,22 @@ function RouteComponent() {
           {pullovers.map((pullover) => (
             <button
               key={`create-pullover-${pullover.id}`}
-              onClick={() => createDesignMutation.mutate(pullover)}
+              onClick={async () => {
+                try {
+                  const newDesign = await createDesign({
+                    orderId: parseInt(params.orderId),
+                    preferredPulloverId: pullover.id,
+                  });
+                  navigate({
+                    to: `/order/${parseInt(params.orderId)}/designer/${newDesign.id}`,
+                  });
+                } catch (error) {
+                  showSnackbar({
+                    type: "error",
+                    message: "Pullover konnte nicht erstellt werden",
+                  });
+                }
+              }}
             >
               <div className="border-2 border-abipulli-darker-beige hover:border-abipulli-green-strong hover:rotate-1 rounded-xl w-48 h-48 flex items-center justify-center bg-white hover:scale-105 animate duration-100 cursor-pointer">
                 <img src={pullover.frontImage.url} className="h-4/5" />
