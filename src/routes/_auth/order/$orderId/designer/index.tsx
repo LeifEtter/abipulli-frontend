@@ -62,7 +62,9 @@ const getTimeSinceEdited = (prevDate: Date): string => {
 
 function RouteComponent() {
   const params = Route.useParams();
-  const { designs, createDesign } = useDesigns(parseInt(params.orderId));
+  const { designs, createDesign, deleteDesign } = useDesigns(
+    parseInt(params.orderId),
+  );
   const { pullovers } = usePullovers();
   const showSnackbar = useSnackbar();
 
@@ -132,7 +134,22 @@ function RouteComponent() {
                     <FontAwesomeIcon icon={faCopy} />
                     Duplizieren
                   </button>
-                  <button className="flex w-1/2 gap-2 items-center bg-white border border-abipulli-gray rounded-md px-3 py-1 font-medium cursor-pointer hover:scale-105 hover:bg-red-100 hover:border-red-200 duration-75 animate">
+                  <button
+                    onClick={async () => {
+                      try {
+                        await deleteDesign({
+                          orderId: Number(params.orderId),
+                          designId: design.id,
+                        });
+                      } catch (error) {
+                        showSnackbar({
+                          message: "Design konnte nicht gelöscht werden",
+                          type: "error",
+                        });
+                      }
+                    }}
+                    className="flex w-1/2 gap-2 items-center bg-white border border-abipulli-gray rounded-md px-3 py-1 font-medium cursor-pointer hover:scale-105 hover:bg-red-100 hover:border-red-200 duration-75 animate"
+                  >
                     <FontAwesomeIcon icon={faTrash} />
                     Löschen
                   </button>
