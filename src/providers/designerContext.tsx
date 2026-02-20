@@ -13,6 +13,7 @@ export interface DesignerContextType extends DesignerData {
   setViewingSide: (side: ViewingSide) => void;
   selectPullover: (pullover?: Pullover) => void;
   setEditPanelOpen: (open: boolean) => void;
+  setShowingGenerationModal: (showing: boolean) => void;
 }
 
 export const DesignerContext = createContext<DesignerContextType | null>(null);
