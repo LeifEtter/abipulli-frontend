@@ -4,24 +4,12 @@ import {
   faTrash,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import {
-  createFileRoute,
-  Link,
-  redirect,
-  useNavigate,
-  useParams,
-} from "@tanstack/react-router";
-import { Pullover } from "abipulli-types";
-import { LoadingIndicator } from "node_modules/react-select/dist/declarations/src/components/indicators";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { DesignApi } from "src/api/endpoints/design";
 import { AbiPulliLogo } from "src/components/Misc/AbipulliLogo";
 import { Center } from "src/components/Misc/Center";
-import {
-  LoadingSpinner,
-  LoadingSpinnerNew,
-} from "src/components/Misc/LoadingSpinner";
+import { LoadingSpinnerNew } from "src/components/Misc/LoadingSpinner";
 import { useDesigns } from "src/hooks/useDesign";
 import { usePullovers } from "src/hooks/usePullovers";
 import { useSnackbar } from "src/hooks/useSnackbar";
@@ -96,9 +84,9 @@ function RouteComponent() {
                   to={`/order/${params.orderId}/designer/${design.id}`}
                   className="relative border-1 bg-white border-gray-400 hover:border-abipulli-green-strong hover:rotate-1 rounded-xl w-3xs h-86 flex items-center justify-center p-4 hover:scale-105 animate duration-100 cursor-pointer pt-10"
                 >
-                  <div className="absolute w-full top-0 h-8 bg-abipulli-green rounded-t-xl shadow-sm">
+                  <div className="absolute w-full top-0 h-8 bg-abipulli-green rounded-t-xl">
                     <Center>
-                      <p className="font-semibold text-sm text-center">
+                      <p className="font-semibold text-md text-center">
                         Bearbeitet vor {getTimeSinceEdited(date)}
                         <FontAwesomeIcon
                           icon={faClockRotateLeft}
@@ -130,17 +118,22 @@ function RouteComponent() {
                   </div>
                 </Link>
                 <div className="mt-2 flex flex-row gap-2">
-                  <button className="flex w-1/2 gap-1 items-center bg-white border border-abipulli-gray rounded-md px-3 py-1 font-medium cursor-pointer">
+                  <button className="flex w-1/2 gap-1 items-center bg-white border border-abipulli-gray rounded-md px-3 py-1 font-medium cursor-pointer hover:scale-105 hover:bg-blue-200 hover:border-blue-300 duration-75 animate">
                     <FontAwesomeIcon icon={faCopy} />
                     Duplizieren
                   </button>
                   <button
                     onClick={async () => {
                       try {
+                        setIsLoading(true);
                         await deleteDesign({
                           orderId: Number(params.orderId),
                           designId: design.id,
                         });
+
+                        setTimeout(() => {
+                          setIsLoading(false);
+                        }, 500);
                       } catch (error) {
                         showSnackbar({
                           message: "Design konnte nicht gelöscht werden",
