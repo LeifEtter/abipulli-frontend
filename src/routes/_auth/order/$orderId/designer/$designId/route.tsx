@@ -34,6 +34,8 @@ import PulloverIcon from "src/assets/icons/pullover-icon.svg";
 import ImageIcon from "src/assets/icons/image-icon.svg";
 import { useDesigner } from "src/hooks/useDesigner";
 import { useDesigns } from "src/hooks/useDesign";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCancel, faClose, faCross } from "@fortawesome/free-solid-svg-icons";
 
 export interface SidebarTab {
   label: string;
@@ -92,6 +94,8 @@ function RouteComponent() {
     setViewingSide,
     setEditPanelOpen,
     editPanelOpen,
+    showingGenerationModal,
+    setShowingGenerationModal,
   } = useDesigner();
 
   const [zoom, setZoom] = useState<number>(100);
@@ -168,6 +172,26 @@ function RouteComponent() {
 
   return (
     <div className="flex flex-row h-full w-full overflow-hidden">
+      {showingGenerationModal && (
+        <div
+          className="absolute w-full h-full bg-black/20 z-20 flex justify-center"
+          onClick={() => setShowingGenerationModal(false)}
+        >
+          <div
+            className="w-6/12 min-w-3xl h-160 top-1/5 absolute rounded-md duration-75 bg-abipulli-dark-beige shadow-lg"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              className="absolute right-6 top-4 cursor-pointer"
+              onClick={(e) => {
+                setShowingGenerationModal(false);
+              }}
+            >
+              <FontAwesomeIcon icon={faClose} size={"xl"} />
+            </button>
+          </div>
+        </div>
+      )}
       <section
         id="sidebar"
         className="h-full shadow-abipulli-sidebar bg-abipulli-light-beige flex flex-row relative flex-shrink-0"
