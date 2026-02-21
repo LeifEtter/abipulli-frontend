@@ -50,11 +50,22 @@ export const useDesigns = (orderId: number) => {
     },
   });
 
+  const duplicateDesignMutation = useMutation({
+    mutationFn: async ({ designId }: { designId: number }) => {
+      await DesignApi.duplicateDesign(designId);
+      return;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["designs", orderId] });
+    },
+  });
+
   return {
     designs: designs ?? [],
     designsAreLoading: isLoading,
     designsError: error,
     createDesign: createDesignMutation.mutateAsync,
     deleteDesign: deleteDesignMutation.mutateAsync,
+    duplicateDesign: duplicateDesignMutation.mutateAsync,
   };
 };
