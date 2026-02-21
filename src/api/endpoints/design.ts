@@ -130,4 +130,11 @@ export const DesignApi = {
     const designResponse: DesignResponse = res.data;
     return designResponse.data!;
   },
+  duplicateDesign: async (designId: number) => {
+        const res: AxiosResponse = await api.post(
+      `/design/${designId}/duplicate`,
+    );
+    const designResponse: DesignResponse = res.data;
+    return designResponse.data!;
+  }
 };
