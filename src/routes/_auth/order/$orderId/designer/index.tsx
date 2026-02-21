@@ -50,7 +50,7 @@ const getTimeSinceEdited = (prevDate: Date): string => {
 
 function RouteComponent() {
   const params = Route.useParams();
-  const { designs, createDesign, deleteDesign } = useDesigns(
+  const { designs, createDesign, deleteDesign, duplicateDesign } = useDesigns(
     parseInt(params.orderId),
   );
   const { pullovers } = usePullovers();
@@ -118,7 +118,25 @@ function RouteComponent() {
                   </div>
                 </Link>
                 <div className="mt-2 flex flex-row gap-2">
-                  <button className="flex w-1/2 gap-1 items-center bg-white border border-abipulli-gray rounded-md px-3 py-1 font-medium cursor-pointer hover:scale-105 hover:bg-blue-200 hover:border-blue-300 duration-75 animate">
+                  <button
+                    onClick={async () => {
+                      try {
+                        setIsLoading(true);
+                        await duplicateDesign({
+                          designId: design.id,
+                        });
+                        setTimeout(() => {
+                          setIsLoading(false);
+                        }, 500);
+                      } catch (error) {
+                        showSnackbar({
+                          message: "Design konnte nicht dupliziert werden",
+                          type: "error",
+                        });
+                      }
+                    }}
+                    className="flex w-1/2 gap-1 items-center bg-white border border-abipulli-gray rounded-md px-3 py-1 font-medium cursor-pointer hover:scale-105 hover:bg-blue-200 hover:border-blue-300 duration-75 animate"
+                  >
                     <FontAwesomeIcon icon={faCopy} />
                     Duplizieren
                   </button>
