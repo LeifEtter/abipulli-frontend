@@ -8,6 +8,10 @@ import DesignIcon from "src/assets/icons/design-icon.svg";
 import CheckmarkIcon from "src/assets/icons/checkmark-icon.svg";
 import PollsIcon from "src/assets/icons/polls-icon.svg";
 import { AbiPulliLogo } from "src/components/Misc/AbipulliLogo";
+import DesignerImage from "src/assets/misc/abipulli-designer.png";
+import MascotImage from "src/assets/misc/abipulli-mascot.png";
+import PaintedImage from "src/assets/misc/abipulli-painted.png";
+import PollsImage from "src/assets/misc/polls.png";
 
 export const Route = createFileRoute("/_auth/home/")({
   component: RouteComponent,
