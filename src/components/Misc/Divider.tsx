@@ -3,5 +3,7 @@ interface DividerProps {
 }
 
 export const Divider = ({ className }: DividerProps) => (
-  <div className={`h-0.5 bg-gray-200 w-full ${className ?? "my-10"}`} />
+  <div
+    className={`h-0.5 ${!className?.includes("bg-") && "bg-gray-200"} w-full ${className ?? "my-10"}`}
+  />
 );

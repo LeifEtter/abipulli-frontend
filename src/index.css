@@ -22,6 +22,15 @@
   --color-abipulli-grey-border: #d5d7da;
   --color-abipulli-offblack: #1e1e1e;
 
+  --color-abipulli-gray: #dfd9cf;
+
+  --color-abipulli-dark-beige: #edeae4;
+  --color-abipulli-darker-beige: #dfd9cf;
+  --color-abipulli-light-beige: #f6f4f0;
+  /* --color-abipulli-beige-darker-beige: #f0eae0; */
+
+  --color-abipulli-black: #1a1919;
+
   --color-ap-new-green: #c7e2be;
   --color-ap-new-beige: #f0eae0;
   --color-ap-new-dark-beige: #dfd6c9;
@@ -41,8 +50,14 @@
   --shadow-abipulli: #1a1919 0px 10px 0px 0px;
   --shadow-abipulli-sm: #1a1919 0px 4px 0px 0px;
   --shadow-abipulli-xs: #1a1919 0px 2px 0px 0px;
+  --shadow-abipulli-sidebar: rgba(0, 0, 0, 0.1) 0px 4px 40px 0px;
 
   --color-ap-medium-grey-half-opacity: oklch(0.32 0.0507 261.01 / 20%);
+
+  --color-abipulli-menu-red: #ffccb1;
+  --color-abipulli-menu-gray: #dfd9cf;
+  --color-abipulli-menu-green: #c7e1be;
+  --color-abipulli-menu-yellow: #f9e89e;
 }
 
 @layer components {
@@ -51,6 +66,15 @@
     border-radius: 16px;
     box-shadow: var(--shadow-ap-special-shadow);
     padding: calc(var(--spacing) * 12);
+  }
+
+  .separator {
+    height: 2px;
+    background-color: var(--color-abipulli-gray);
+  }
+
+  .dotted-background {
+    background-image: url("./assets/background/dotted-background-2.svg");
   }
 }
 
@@ -93,5 +117,6 @@ body,
 #root {
   height: 100%;
   margin: 0;
-  background-color: var(--color-abipulli-green-light);
+  /* background-color: var(--color-abipulli-green-light); */
+  background-color: var(--color-abipulli-dark-beige);
 }

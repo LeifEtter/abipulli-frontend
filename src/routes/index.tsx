@@ -13,9 +13,9 @@ function RouteComponent() {
   useEffect(() => {
     if (!isLoading) {
       if (user) {
-        navigate({ to: "/designer" });
+        navigate({ to: "/order" });
       } else {
-        navigate({ to: "/onboarding" });
+        navigate({ to: "/login" });
       }
     }
   }, [user, isLoading]);

@@ -7,9 +7,13 @@ export const Route = createFileRoute("/login")({
 });
 
 function RouteComponent() {
-  const [email, setEmail] = useState<string | null>(null);
+  const [email, setEmail] = useState<string | null>(
+    import.meta.env.VITE_TEST_EMAIL ?? ""
+  );
   const [emailError, setEmailError] = useState<string | null>();
-  const [password, setPassword] = useState<string | null>(null);
+  const [password, setPassword] = useState<string | null>(
+    import.meta.env.VITE_TEST_PASS ?? ""
+  );
   const [passwordError, setPasswordError] = useState<string | null>(null);
 
   const { login, isLoading, user } = useAuth();

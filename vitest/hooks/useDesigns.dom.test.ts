@@ -5,7 +5,7 @@ import { setTestUserId } from "vitest/testState";
 import { ApiError } from "src/api/ApiError";
 import { DesignApi } from "src/api/endpoints/design";
 import { MockDesignApi } from "vitest/mocks/api/mock.design";
-import { useDesigns } from "src/hooks/useDesigns";
+import { useDesigns } from "src/hooks/useDesign";
 
 vi.mock("src/api/endpoints/design", () => ({
   DesignApi: {
@@ -47,7 +47,7 @@ describe("useDesigns", () => {
   it("should test failed api request", async () => {
     const orderNumber = 10;
     vi.mocked(DesignApi).retrieveOrderDesigns.mockRejectedValue(
-      new ApiError({ code: 400, info: "Some error during design retrieval" })
+      new ApiError({ code: 400, info: "Some error during design retrieval" }),
     );
 
     const { result } = renderHook(() => useDesigns(orderNumber));

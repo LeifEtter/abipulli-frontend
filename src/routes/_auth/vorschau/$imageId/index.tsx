@@ -113,6 +113,7 @@ function RouteComponent() {
           aria-label="Ansicht wechseln"
         >
           <FrontBackButton
+            className=""
             switchViewingSide={(side: ViewingSide) => {
               setViewingSide(side);
             }}
