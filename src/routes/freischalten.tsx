@@ -5,7 +5,7 @@ import { BasicButton } from "src/components/Buttons/BasicButton";
 import { InputField } from "src/components/Inputs/InputField";
 import { PageDescription } from "src/components/Texts/PageDescription";
 import { PageTitle } from "src/components/Texts/PageTitle";
-import { useAuth } from "src/hooks/useAuth";
+import { useAuth } from "src/providers/authProvider";
 import { ButtonType } from "src/types/ButtonType";
 
 export const Route = createFileRoute("/freischalten")({

@@ -1,15 +1,53 @@
-import { ReactElement, useEffect, useState } from "react";
-import {
-  GenerateErrors,
-  GenerateInfo,
-  GenerateInfoContext,
-} from "./generateContext";
+import { createContext, ReactElement, useContext, useState } from "react";
 import { ImageApi } from "src/api/endpoints/image";
 import {
+  AspectRatio,
   GenerateImageParams,
   Image,
   ImproveImageQueryParams,
 } from "abipulli-types";
+
+export interface GenerateInfo {
+  motto?: string;
+  graduationYear?: string;
+  description?: string;
+  generatedDescription?: string;
+  comment?: string;
+  aspectRatio: AspectRatio;
+  styleTags: string[];
+  referenceFile?: File;
+  referenceImage?: Image;
+  schoolName?: string;
+}
+
+export type GenerateErrors = {
+  [K in keyof GenerateInfo]?: string | null;
+};
+
+export interface GenerateInfoContextType extends GenerateInfo {
+  errorState: GenerateErrors;
+  clearError: (key: keyof GenerateErrors) => void;
+  setError: ([k, v]: [k: keyof GenerateErrors, v: string]) => void;
+  saveProgressLocally: (state: Partial<GenerateInfo>) => void;
+  generateImage: () => Promise<number>;
+  saveToLocalStorage: () => void;
+  retrieveFromLocalStorage: () => void;
+  submitComment: () => Promise<void>;
+  generateDescription: () => Promise<void>;
+}
+
+const GenerateInfoContext =
+  createContext<GenerateInfoContextType | null>(null);
+
+export function useGenerateInfo() {
+  const context = useContext(GenerateInfoContext);
+  if (!context) {
+    throw new Error(
+      "useGenerateInfo must be used within an GenerateInfoProvider"
+    );
+  }
+  return context;
+}
 
 export const GenerateInfoProvider = ({
   children,
@@ -30,17 +68,6 @@ export const GenerateInfoProvider = ({
   });
 
   const [errorState, setErrorState] = useState<GenerateErrors>({});
-
-  const validate = () => {
-    let newErrorState: GenerateErrors = {};
-    for (const [key, value] of Object.entries(state)) {
-      newErrorState = {
-        ...newErrorState,
-        [key]: "Bitte fülle dieses Feld aus",
-      };
-    }
-    setErrorState(newErrorState);
-  };
 
   const clearError = (key: keyof GenerateErrors) => {
     setErrorState((prev) => ({ ...prev, [key]: undefined }));
@@ -142,9 +169,6 @@ export const GenerateInfoProvider = ({
     const parsed = JSON.parse(raw);
     setState((prev) => ({ ...prev, ...parsed.data }));
   };
-  useEffect(() => {
-    // TODO initialize stuff
-  }, []);
 
   return (
     <GenerateInfoContext.Provider

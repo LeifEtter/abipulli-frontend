@@ -1,17 +1,38 @@
-import { useState, useEffect, ReactElement, useCallback } from "react";
+import {
+  useState,
+  useEffect,
+  useCallback,
+  useContext,
+  createContext,
+  ReactElement,
+} from "react";
 import { errorMessages, User, UserLoginParams } from "abipulli-types";
-import { AuthContext } from "./authContext";
 import { UserApi } from "src/api/endpoints/user";
 import { ApiError } from "src/api/ApiError";
-
-interface AuthProviderProps {
-  children: React.ReactNode;
-}
 
 export interface AuthState {
   user: Partial<User> | null;
   error: ApiError | null;
   isLoading: boolean;
+}
+
+export interface AuthContextType extends AuthState {
+  login: (creds: UserLoginParams) => Promise<void>;
+  logout: () => Promise<void>;
+}
+
+const AuthContext = createContext<AuthContextType | null>(null);
+
+export function useAuth() {
+  const context = useContext(AuthContext);
+  if (!context) {
+    throw new Error("useAuth must be used within an AuthProvider");
+  }
+  return context;
+}
+
+interface AuthProviderProps {
+  children: React.ReactNode;
 }
 
 export const AuthProvider = ({ children }: AuthProviderProps): ReactElement => {

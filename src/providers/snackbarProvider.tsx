@@ -1,8 +1,29 @@
-import { useCallback, useState } from "react";
-import { Snackbar, SnackbarContext } from "./snackbarContext";
+import { createContext, useCallback, useContext, useState } from "react";
 import { ReactNode } from "@tanstack/react-router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faExclamationTriangle } from "@fortawesome/free-solid-svg-icons";
+
+type SnackbarType = "success" | "error" | "info" | "warning";
+
+export interface Snackbar {
+  message: string;
+  type?: SnackbarType;
+  duration?: number;
+}
+
+interface SnackbarContextType {
+  showSnackbar: (snackbar: Snackbar) => void;
+}
+
+const SnackbarContext = createContext<SnackbarContextType | null>(null);
+
+export const useSnackbar = () => {
+  const context = useContext(SnackbarContext);
+  if (!context) {
+    throw new Error("useSnackbar must be used within a SnackbarProvider");
+  }
+  return context.showSnackbar;
+};
 
 // Add animation later
 export const SnackbarProvider = ({ children }: { children: ReactNode }) => {

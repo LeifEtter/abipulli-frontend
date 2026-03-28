@@ -1,5 +1,5 @@
 import { router } from "src/RouterContextWrapper";
-import { useAuth } from "./useAuth";
+import { useAuth } from "src/providers/authProvider";
 
 export const useRouterContext = () => {
   const auth = useAuth();

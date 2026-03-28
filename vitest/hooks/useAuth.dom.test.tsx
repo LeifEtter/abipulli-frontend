@@ -1,7 +1,7 @@
 import { faker } from "@faker-js/faker";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { UserApi } from "src/api/endpoints/user";
-import { useAuth } from "src/hooks/useAuth";
+import { useAuth } from "src/providers/authProvider";
 import { AuthProvider } from "src/providers/authProvider";
 import { afterEach, describe, expect, it, vi } from "vitest";
 

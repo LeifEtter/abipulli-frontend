@@ -1,20 +1,16 @@
 import { Image } from "abipulli-types";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { ImageApi } from "src/api/endpoints/image";
+import { useSnackbar } from "src/providers/snackbarProvider";
 
-interface UseUserImagesReturn {
-  userImages: Image[];
-  userImagesAreLoading: boolean;
-  userImagesError: string | null;
-  refetch: () => Promise<void>;
-}
+export const useUserImages = () => {
+  const queryClient = useQueryClient();
+  const showSnackbar = useSnackbar();
 
-export const useUserImages = (): UseUserImagesReturn => {
   const {
     data: userImages = [],
     isLoading,
     error,
-    refetch,
   } = useQuery({
     queryKey: ["userImages"],
     queryFn: async () => {
@@ -26,12 +22,47 @@ export const useUserImages = (): UseUserImagesReturn => {
     },
   });
 
+  const uploadImage = useMutation({
+    mutationFn: async (file: File) => {
+      return await ImageApi.upload(file);
+    },
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ["userImages"] });
+    },
+    onError: () => {
+      showSnackbar({ message: "Bild hochladen fehlgeschlagen", type: "error" });
+    },
+  });
+
+  const deleteImage = useMutation({
+    mutationFn: async (imageId: number) => {
+      await ImageApi.delete(imageId);
+    },
+    onMutate: async (imageId) => {
+      await queryClient.cancelQueries({ queryKey: ["userImages"] });
+      const previous = queryClient.getQueryData<Image[]>(["userImages"]);
+      queryClient.setQueryData<Image[]>(["userImages"], (old = []) =>
+        old.filter((img) => img.id !== imageId),
+      );
+      return { previous };
+    },
+    onError: (_err, _imageId, context) => {
+      if (context?.previous) {
+        queryClient.setQueryData(["userImages"], context.previous);
+      }
+      showSnackbar({ message: "Bild löschen fehlgeschlagen", type: "error" });
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ["userImages"] });
+    },
+  });
+
   return {
     userImages,
     userImagesAreLoading: isLoading,
     userImagesError: error ? "Couldn't fetch User Images" : null,
-    refetch: async () => {
-      await refetch();
-    },
+    uploadImage: uploadImage.mutateAsync,
+    isUploadingImage: uploadImage.isPending,
+    deleteImage: deleteImage.mutateAsync,
   };
 };

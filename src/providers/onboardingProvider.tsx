@@ -1,5 +1,4 @@
-import { ReactElement, useEffect, useState } from "react";
-import { OnboardingContext } from "./onboardingContext";
+import { createContext, ReactElement, useContext, useEffect, useState } from "react";
 import {
   Order,
   OrderCreateParams,
@@ -10,8 +9,40 @@ import {
 } from "abipulli-types";
 import { UserApi } from "src/api/endpoints/user";
 import { OrderApi } from "src/api/endpoints/order";
+
 export type UserErrors = { [K in keyof Partial<User>]?: string };
 export type OrderErrors = { [K in keyof Partial<Order>]?: string };
+
+export interface OnboardingContextType {
+  userInfo: Partial<User>;
+  setUserInfo: (e: Partial<User>) => void;
+  userErrors: UserErrors;
+
+  orderInfo: Partial<Order>;
+  setOrderInfo: (e: Partial<Order>) => void;
+  orderErrors: OrderErrors;
+
+  validateUserInfo: () => boolean;
+  validateOrderInfo: () => boolean;
+
+  submitRegister: () => Promise<void>;
+  submitOrder: () => Promise<void>;
+
+  saveOrderInfoToLocalStorage: () => void;
+  retrieveOrderInfoFromLocalStorage: () => void;
+}
+
+const OnboardingContext = createContext<OnboardingContextType | null>(null);
+
+export function useOnboardingInfo() {
+  const context = useContext(OnboardingContext);
+  if (!context) {
+    throw new Error(
+      "useOnboardingInfo must be used within an OnboardingProvider"
+    );
+  }
+  return context;
+}
 
 export const OnboardingProvider = ({
   children,

@@ -1,8 +1,27 @@
-import { useCallback, useState } from "react";
+import { createContext, useCallback, useContext, useState } from "react";
 import { ReactNode } from "@tanstack/react-router";
-import { Popup, PopupContext } from "./popupContext";
 import { BasicButton } from "src/components/Buttons/BasicButton";
 import { SmallLabel } from "src/components/Texts/SmallLabel";
+
+export interface Popup {
+  message: string;
+  description?: string;
+  onClickConfirm: () => void;
+}
+
+interface PopupContextType {
+  showPopup: (popup: Popup) => void;
+}
+
+const PopupContext = createContext<PopupContextType | null>(null);
+
+export const usePopup = () => {
+  const context = useContext(PopupContext);
+  if (!context) {
+    throw new Error("usePopup must be used within a PopupProvider");
+  }
+  return context.showPopup;
+};
 
 // Add animation later
 export const PopupProvider = ({ children }: { children: ReactNode }) => {

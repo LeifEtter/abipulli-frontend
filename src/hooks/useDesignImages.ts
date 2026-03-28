@@ -1,9 +1,8 @@
 import { Image, ImageWithPositionAndScale } from "abipulli-types";
-import { useEffect, useState } from "react";
 import { PositionType } from "src/types/canvas/positionType";
 import { ScaleType } from "src/types/canvas/scaleType";
 import { SizeType } from "src/types/canvas/sizeType";
-import { useSnackbar } from "./useSnackbar";
+import { useSnackbar } from "src/providers/snackbarProvider";
 import { DesignApi } from "src/api/endpoints/design";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { calcImageScale } from "src/utilities/Calc/calcImageScale";
@@ -16,13 +15,11 @@ export const useDesignImages = (designId: number) => {
     data: designImages = [],
     isLoading,
     error,
-    refetch,
   } = useQuery({
     queryKey: ["designImages", designId],
     queryFn: async (): Promise<ImageWithPositionAndScale[]> =>
       await DesignApi.retrieveAllImagesForDesign(designId),
-    // enabled: !!designId,
-    // staleTime: 1000 * 60 * 2, // Disable stale time for testing
+    enabled: !!designId,
   });
 
   const addImageToDesign = useMutation({
@@ -57,28 +54,47 @@ export const useDesignImages = (designId: number) => {
       });
       showSnackbar({ message: "Bild hinzugefügt", type: "success" });
     },
-    onError: (error) => {
+    onError: () => {
       showSnackbar({
         message: "Bild hinzufügen fehlgeschlagen",
         type: "error",
       });
     },
   });
+
   const removeImageFromDesign = useMutation({
     mutationFn: async (imageToDesignId: number) => {
       await DesignApi.removeImageFromDesign(imageToDesignId, designId);
     },
-    onSuccess: async () => {
-      await queryClient.invalidateQueries({
+    onMutate: async (imageToDesignId) => {
+      await queryClient.cancelQueries({
         queryKey: ["designImages", designId],
       });
-      showSnackbar({ message: "Bild gelöscht", type: "success" });
+      const previous = queryClient.getQueryData<ImageWithPositionAndScale[]>([
+        "designImages",
+        designId,
+      ]);
+      queryClient.setQueryData<ImageWithPositionAndScale[]>(
+        ["designImages", designId],
+        (old = []) =>
+          old.filter((img) => img.imageToDesignId !== imageToDesignId),
+      );
+      return { previous };
     },
-    onError: (error) => {
+    onError: (_err, _variables, context) => {
+      if (context?.previous) {
+        queryClient.setQueryData(
+          ["designImages", designId],
+          context.previous,
+        );
+      }
       showSnackbar({
         message: "Bild konnte nicht gelöscht werden",
         type: "error",
       });
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ["designImages", designId] });
     },
   });
 
@@ -90,28 +106,13 @@ export const useDesignImages = (designId: number) => {
       pos: PositionType;
       imageToDesignId: number;
     }) => {
-      if (!designId) throw new Error("Keine Design ID gegeben");
       const roundedPos: PositionType = {
         x: Math.round(pos.x),
         y: Math.round(pos.y),
       };
-
-      queryClient.setQueryData<ImageWithPositionAndScale[]>(
-        ["designImages", designId],
-        (old = []) =>
-          old.map((img) =>
-            img.imageToDesignId === imageToDesignId
-              ? {
-                  ...img,
-                  positionX: roundedPos.x,
-                  positionY: roundedPos.y,
-                }
-              : img,
-          ),
-      );
       await DesignApi.manipulateImageInDesign({
         imageToDesignId,
-        designId: designId!,
+        designId,
         manipulateImageParams: {
           positionX: roundedPos.x,
           positionY: roundedPos.y,
@@ -119,49 +120,41 @@ export const useDesignImages = (designId: number) => {
       });
       return { imageToDesignId, pos: roundedPos };
     },
-    onError: (error) => {
+    onMutate: async ({ pos, imageToDesignId }) => {
+      await queryClient.cancelQueries({
+        queryKey: ["designImages", designId],
+      });
+      const previous = queryClient.getQueryData<ImageWithPositionAndScale[]>([
+        "designImages",
+        designId,
+      ]);
+      queryClient.setQueryData<ImageWithPositionAndScale[]>(
+        ["designImages", designId],
+        (old = []) =>
+          old.map((img) =>
+            img.imageToDesignId === imageToDesignId
+              ? {
+                  ...img,
+                  positionX: Math.round(pos.x),
+                  positionY: Math.round(pos.y),
+                }
+              : img,
+          ),
+      );
+      return { previous };
+    },
+    onError: (_err, _variables, context) => {
+      if (context?.previous) {
+        queryClient.setQueryData(
+          ["designImages", designId],
+          context.previous,
+        );
+      }
       showSnackbar({
         message: "Bild konnte nicht umplatziert werden",
         type: "error",
       });
     },
-    // onMutate: async ({ pos, imageToDesignId }) => {
-    //   await queryClient.invalidateQueries({
-    //     queryKey: ["designImages", designId],
-    //   });
-
-    //   const previousImages = queryClient.getQueryData<
-    //     ImageWithPositionAndScale[]
-    //   >(["designImages", designId]);
-
-    //   // queryClient.setQueryData<ImageWithPositionAndScale[]>(
-    //   //   ["designImages", designId],
-    //   //   (old = []) =>
-    //   //     old.map((img) =>
-    //   //       img.imageToDesignId === imageToDesignId
-    //   //         ? {
-    //   //             ...img,
-    //   //             positionX: Math.round(pos.x),
-    //   //             positionY: Math.round(pos.y),
-    //   //           }
-    //   //         : img,
-    //   //     ),
-    //   // );
-
-    //   return { previousImages };
-
-    // onError: (_err, _variables, context) => {
-    //   if (context?.previousImages) {
-    //     queryClient.setQueryData(
-    //       ["designImages", designId],
-    //       context.previousImages,
-    //     );
-    //   }
-    //   showSnackbar({
-    //     message: "Bild Platzierung fehlgeschlagen",
-    //     type: "error",
-    //   });
-    // },
   });
 
   const changeImageScale = useMutation({
@@ -172,6 +165,23 @@ export const useDesignImages = (designId: number) => {
       scale: ScaleType;
       imageToDesignId: number;
     }) => {
+      await DesignApi.manipulateImageInDesign({
+        imageToDesignId,
+        designId,
+        manipulateImageParams: {
+          scaleX: scale.x,
+          scaleY: scale.y,
+        },
+      });
+    },
+    onMutate: async ({ scale, imageToDesignId }) => {
+      await queryClient.cancelQueries({
+        queryKey: ["designImages", designId],
+      });
+      const previous = queryClient.getQueryData<ImageWithPositionAndScale[]>([
+        "designImages",
+        designId,
+      ]);
       queryClient.setQueryData<ImageWithPositionAndScale[]>(
         ["designImages", designId],
         (old = []) =>
@@ -185,16 +195,15 @@ export const useDesignImages = (designId: number) => {
               : img,
           ),
       );
-      await DesignApi.manipulateImageInDesign({
-        imageToDesignId,
-        designId: designId!,
-        manipulateImageParams: {
-          scaleX: scale.x,
-          scaleY: scale.y,
-        },
-      });
+      return { previous };
     },
-    onError: (error) => {
+    onError: (_err, _variables, context) => {
+      if (context?.previous) {
+        queryClient.setQueryData(
+          ["designImages", designId],
+          context.previous,
+        );
+      }
       showSnackbar({
         message: "Bild konnte nicht vergrössert/verkleinert werden",
         type: "error",

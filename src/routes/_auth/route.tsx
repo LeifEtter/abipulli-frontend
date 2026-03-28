@@ -1,8 +1,8 @@
 import { createFileRoute, Outlet, useNavigate } from "@tanstack/react-router";
 import { errorMessages } from "abipulli-types";
 import { useEffect } from "react";
-import { useAuth } from "src/hooks/useAuth";
-import { useSnackbar } from "src/hooks/useSnackbar";
+import { useAuth } from "src/providers/authProvider";
+import { useSnackbar } from "src/providers/snackbarProvider";
 
 export const Route = createFileRoute("/_auth")({
   component: RouteComponent,

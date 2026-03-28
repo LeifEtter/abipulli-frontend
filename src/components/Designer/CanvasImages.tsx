@@ -1,5 +1,5 @@
 import { Fragment, useEffect, useRef, useState } from "react";
-import { Group, Image, Layer, Rect, Text, Transformer } from "react-konva";
+import { Group, Image, Rect, Text, Transformer } from "react-konva";
 import useImage from "use-image";
 import { KonvaEventObject } from "konva/lib/Node";
 import { Image as KonvaImage } from "konva/lib/shapes/Image";
@@ -7,6 +7,7 @@ import Konva from "konva";
 import { PositionType } from "src/types/canvas/positionType";
 import { ScaleType } from "src/types/canvas/scaleType";
 import { SizeType } from "src/types/canvas/sizeType";
+import TrashIcon from "src/assets/icons/trash-icon.svg";
 import ResizeIcon from "src/assets/icons/resize-icon.svg";
 import RotateIcon from "src/assets/icons/rotate-icon.svg";
 import CopyIcon from "src/assets/icons/copy-icon.svg";
@@ -102,7 +103,7 @@ export const ResizableImage = ({
   setEditPanelOpen,
 }: ResizableImageProps) => {
   const [image] = useImage(src);
-  const [trashImage] = useImage("/src/assets/icons/trash-icon.svg");
+  const [trashImage] = useImage(TrashIcon);
   const [copyImage] = useImage(CopyIcon);
   const [rotateImage] = useImage(RotateIcon);
   const [resizeImage] = useImage(ResizeIcon);
@@ -121,6 +122,10 @@ export const ResizableImage = ({
     });
     if (isSelected && trRef.current && imageRef.current) {
       trRef.current.nodes([imageRef.current]);
+      const parentGroup = imageRef.current.getParent();
+      if (parentGroup) {
+        parentGroup.moveToTop();
+      }
     }
   }, [isSelected, originalPos, originalScale]);
 
@@ -287,7 +292,6 @@ export const ResizableImage = ({
         )}
         {isSelected && (
           <Transformer
-            //! Implement Rotation
             ref={trRef}
             flipEnabled={false}
             anchorStyleFunc={(anchor) => {

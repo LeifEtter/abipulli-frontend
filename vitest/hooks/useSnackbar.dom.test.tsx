@@ -1,5 +1,5 @@
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
-import { useSnackbar } from "src/hooks/useSnackbar";
+import { useSnackbar } from "src/providers/snackbarProvider";
 import { SnackbarProvider } from "src/providers/snackbarProvider";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import "@testing-library/jest-dom";

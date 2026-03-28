@@ -1,6 +1,6 @@
 import { createRouter, RouterProvider } from "@tanstack/react-router";
 import { routeTree } from "./routeTree.gen";
-import { useAuth } from "./hooks/useAuth";
+import { useAuth } from "./providers/authProvider";
 import { useMemo } from "react";
 
 export const router = createRouter({

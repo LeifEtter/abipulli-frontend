@@ -9,8 +9,8 @@ import { SelectField, SelectOption } from "src/components/Inputs/SelectField";
 import { ClickToLogin } from "src/components/Onboarding/ClickToLogin";
 import { PageDescription } from "src/components/Texts/PageDescription";
 import { PageTitle } from "src/components/Texts/PageTitle";
-import { useOnboardingInfo } from "src/hooks/useOnboardingInfo";
-import { useSnackbar } from "src/hooks/useSnackbar";
+import { useOnboardingInfo } from "src/providers/onboardingProvider";
+import { useSnackbar } from "src/providers/snackbarProvider";
 import { ButtonType } from "src/types/ButtonType";
 import { convertToDateValue } from "src/utilities/date";
 

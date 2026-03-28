@@ -8,9 +8,9 @@ import { InputField } from "src/components/Inputs/InputField";
 import { Divider } from "src/components/Misc/Divider";
 import { PageDescription } from "src/components/Texts/PageDescription";
 import { PageTitle } from "src/components/Texts/PageTitle";
-import { useAuth } from "src/hooks/useAuth";
-import { usePopup } from "src/hooks/usePopup";
-import { useSnackbar } from "src/hooks/useSnackbar";
+import { useAuth } from "src/providers/authProvider";
+import { usePopup } from "src/providers/popupProvider";
+import { useSnackbar } from "src/providers/snackbarProvider";
 
 export const Route = createFileRoute("/_auth/account")({
   component: RouteComponent,

@@ -1,7 +1,7 @@
 import { Pullover } from "abipulli-types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { DesignApi } from "src/api/endpoints/design";
-import { useSnackbar } from "./useSnackbar";
+import { useSnackbar } from "src/providers/snackbarProvider";
 
 interface UseDesignPulloverReturn {
   updatePullover: (pullover: Pullover) => Promise<void>;
